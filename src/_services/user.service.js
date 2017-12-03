@@ -45,9 +45,10 @@ function getById(id) {
 }
 
 function register(user) {
-  console.log('registering....');
-  let data = {body: JSON.stringify(user)}
-  return instance.post('/users', data)
+  console.log('registering....')
+  console.log(user)
+  // let data = {body: JSON.stringify(user)}
+  return instance.post('/users', user)
     .then(handleResponse)
     .catch(handleError)
 }
@@ -75,10 +76,12 @@ function handleLoginResponse(response) {
 }
 
 function handleResponse(response) {
-  if(!response.ok) {
+  console.log('handling Reponses...')
+  console.log(response)
+  if(!response.data) {
     return Promise.reject(response.statusText)
   }
-  return response.json()
+  return response.data
 }
 function handleError(error) {
   return Promise.reject(error)

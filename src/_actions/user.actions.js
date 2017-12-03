@@ -12,6 +12,7 @@ export const userActions = {
 }
 
 function login(username, password) {
+
   return dispatch => {
     dispatch(request({ username }))
 
@@ -24,8 +25,9 @@ function login(username, password) {
         },
         error => {
           console.log('Moh: Error!!...')
-          dispatch(failure(error))
-          dispatch(alertActions.error(error))
+          console.log(error.response)
+          dispatch(failure(error.response))
+          dispatch(alertActions.error(error.response.statusText))
         }
       )
   }
@@ -53,7 +55,7 @@ function register(user) {
         },
         error => {
           dispatch(failure(error))
-          dispatch(alertActions.error(error))
+          dispatch(alertActions.error(error.response))
         }
       )
   }
