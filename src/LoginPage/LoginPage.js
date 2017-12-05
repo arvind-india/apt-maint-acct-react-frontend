@@ -5,11 +5,11 @@ import {
           Form,
           Button,
           FormGroup,
-          FormControl,
-          HelpBlock,
-          ControlLabel,
+          FormFeedback,
+          Input,
+          Label,
           Col
-        } from 'react-bootstrap'
+        } from 'reactstrap'
 
 import { userActions } from '../_actions'
 
@@ -48,12 +48,12 @@ class LoginPage extends React.Component {
     return (
       <div className="col-md-6 col-md-offset-3">
         <h2>Login</h2>
-        <Form inline onSubmit={this.handleSubmit}>
+        <Form onSubmit={this.handleSubmit}>
 
-          <FormGroup controlId="emailIden" validationState={submitted && !email ? 'error' : null}>
-            <Col componentClass={ControlLabel} sm={2}>emailId</Col>
+          <FormGroup>
+            <Label for="email" sm={2}>Email_Id</Label>
             <Col sm={10}>
-              <FormControl
+              <Input
                 type="email"
                 name="email"
                 placeholder="email id here"
@@ -62,30 +62,30 @@ class LoginPage extends React.Component {
               />
             </Col>
             <Col smOffset={2} sm={10}>
-              {submitted && !email && <HelpBlock>Email-id is required</HelpBlock>}
+              {submitted && !email && <FormFeedback>Email-id is required</FormFeedback>}
             </Col>
           </FormGroup>
 
-          <FormGroup controlId="pass" validationState={submitted && !password ? 'error' : null}>
-            <Col componentClass={ControlLabel} sm={2}>Password</Col>
+          <FormGroup>
+            <Label sm={2}>Password</Label>
             <Col sm={10}>
-              <FormControl
+              <Input
                 type="password"
                 name="password"
-                placeholder="email id here"
+                placeholder="password here"
                 defaultValue={password}
                 onChange={this.handleChange.bind(this)}
               />
             </Col>
             <Col smOffset={2} sm={10}>
-              {submitted && !email && <HelpBlock>Password is required</HelpBlock>}
+              {submitted && !password && <FormFeedback>Password is required</FormFeedback>}
             </Col>
           </FormGroup>
 
           <FormGroup>
             <Col smOffset={2} sm={10}>
-              <Button type="submit" bsStyle="primary" bsSize="large">Login</Button>
-              <Button bsStyle="link">
+              <Button type="submit" color="primary" bsSize="large">Login</Button>
+              <Button color="link">
                 <Link to="/register">Register</Link>
               </Button>
             </Col>

@@ -1,6 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import {
+          Form,
+          Button,
+          FormGroup,
+          FormFeedback,
+          Input,
+          Label,
+          Col
+        } from 'reactstrap'
 
 import { userActions } from '../_actions'
 
@@ -14,8 +23,9 @@ class RegisterPage extends React.Component {
         last_name: '',
         email: '',
         password: '',
-        infos: [] 
+        infos: []
       },
+      confirmPassword: '',
       submitted: false
     }
     this.handleChange = this.handleChange.bind(this)
@@ -31,62 +41,148 @@ class RegisterPage extends React.Component {
       }
     })
   }
+  handleConfirmPasswordChange(event) {
+    this.setState({
+      confirmPassword: event.target
+    })
+  }
   handleSubmit(event) {
     event.preventDefault()
     this.setState({ submitted: true })
 
-    const { user } = this.state
+    const { user, confirmPassword } = this.state
     const { dispatch } = this.props
     if(user.name &&
         user.first_name &&
         user.last_name &&
         user.email &&
-        user.password) {
+        user.password &&
+        confirmPassword &&
+        user.password === confirmPassword
+      ) {
           dispatch(userActions.register(user))
         }
   }
   render() {
-    const { user, submitted } = this.state
+
+    const { user, submitted, confirmPassword } = this.state
+
     return (
-      <div className="col-md-6 col-md-offset-3">
+
+      <div>
+
         <h2>Register</h2>
-        <form name="form" onSubmit={this.handleSubmit}>
 
-          <div className={'form-group' + (submitted && !user.name ? ' has-error' : '')}>
-            <label htmlFor="name">Username</label>
-            <input type="text" className="form-control" name="name" value={user.name} onChange={this.handleChange} />
-            {submitted && !user.name && <div className="help-block">Username is required</div>}
-          </div>
+        <Form onSubmit={this.handleSubmit}>
 
-          <div className={'form-group' + (submitted && !user.first_name ? ' has-error': '')}>
-            <label htmlFor="first_name">First Name</label>
-            <input type="text" className="form-control" name="first_name" value={user.first_name} onChange={this.handleChange} />
-            {submitted && !user.first_name && <div className="help-block">First name is required</div>}
-          </div>
+          <FormGroup row>
+            <Label sm={3}>UserName</Label>
+            <Col sm={9}>
+              <Input
+                type="text"
+                name="name"
+                placeholder="User name here"
+                defaultValue={user.name}
+                onChange={this.handleChange}
+              />
+            </Col>
+            <Col smOffset={3} sm={9}>
+              {submitted && !user.name && <FormFeedback>User Name is required</FormFeedback>}
+            </Col>
+          </FormGroup>
 
-          <div className={'form-group' + (submitted && !user.last_name ? ' has-error' : '')}>
-            <label htmlFor="last_name">Last Name</label>
-            <input type="text" className="form-control" name="last_name" value={user.last_name} onChange={this.handleChange} />
-            {submitted && !user.last_name && <div className="help-block">Last Name is required</div>}
-          </div>
+          <FormGroup row>
+            <Label sm={3}>FirstName</Label>
+            <Col sm={9}>
+              <Input
+                type="text"
+                name="first_name"
+                placeholder="First name here"
+                defaultValue={user.first_name}
+                onChange={this.handleChange}
+              />
+            </Col>
+            <Col smOffset={3} sm={9}>
+              {submitted && !user.first_name && <FormFeedback>First Name is required</FormFeedback>}
+            </Col>
+          </FormGroup>
 
-          <div className={'form-group' + (submitted && !user.email ? ' has-error' : '')}>
-            <label htmlFor="email">Email</label>
-            <input type="text" className="form-control" name="email" value={user.email} onChange={this.handleChange} />
-            {submitted && !user.email && <div className="help-block">Email is required</div>}
-          </div>
+          <FormGroup row>
+            <Label sm={3}>LastName</Label>
+            <Col sm={9}>
+              <Input
+                type="text"
+                name="last_name"
+                placeholder="Last name here"
+                defaultValue={user.last_name}
+                onChange={this.handleChange}
+              />
+            </Col>
+            <Col smOffset={3} sm={9}>
+              {submitted && !user.last_name && <FormFeedback>Last Name is required</FormFeedback>}
+            </Col>
+          </FormGroup>
 
-          <div className={'form-group' + (submitted && !user.password ? ' has-error' : '')}>
-            <label htmlFor="password">Password</label>
-            <input type="password" className="form-control" name="password" value={user.password} onChange={this.handleChange} />
-            {submitted && !user.password && <div className="help-block">Password is required</div>}
-          </div>
+          <FormGroup row>
+            <Label sm={3}>Email_Id</Label>
+            <Col sm={9}>
+              <Input
+                type="email"
+                name="email"
+                placeholder="email id here"
+                defaultValue={user.email}
+                onChange={this.handleChange.bind(this)}
+              />
+            </Col>
+            <Col smOffset={3} sm={9}>
+              {submitted && !user.email && <FormFeedback>Email-id is required</FormFeedback>}
+            </Col>
+          </FormGroup>
 
-          <div className="form-group">
-            <button className="btn btn-primary">Register</button>
-            <Link to="/login" className="btn btn-link">Cancel</Link>
-          </div>
-        </form>
+          <FormGroup row>
+            <Label sm={3}>Password</Label>
+            <Col sm={9}>
+              <Input
+                type="password"
+                name="password"
+                placeholder="password here"
+                defaultValue={user.password}
+                onChange={this.handleChange.bind(this)}
+              />
+            </Col>
+            <Col smOffset={3} sm={9}>
+              {submitted && !user.password && <FormFeedback>Password is required</FormFeedback>}
+            </Col>
+          </FormGroup>
+
+          <FormGroup row>
+            <Label sm={3}>Repeat_Password</Label>
+            <Col sm={9}>
+              <Input
+                type="password"
+                name="confirmPassword"
+                placeholder="Repeat password here"
+                defaultValue={confirmPassword}
+                onChange={this.handleConfirmPasswordChange.bind(this)}
+              />
+            </Col>
+            <Col smOffset={3} sm={9}>
+              {submitted && !confirmPassword && <FormFeedback>Repeat Password is required</FormFeedback>}
+              {user.password && confirmPassword && user.password !== confirmPassword && <FormFeedback>Passwords are NOT MATCHING</FormFeedback>}
+            </Col>
+          </FormGroup>
+
+          <FormGroup row>
+            <Col smOffset={3} sm={9}>
+              <Button type="submit" color="primary">Register</Button>
+              <Button color="link">
+                <Link to="/register">Cancel</Link>
+              </Button>
+            </Col>
+          </FormGroup>
+
+        </Form>
+
       </div>
     )
   }
