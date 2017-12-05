@@ -46,7 +46,7 @@ class LoginPage extends React.Component {
   render() {
     const { email, password, submitted } = this.state
     return (
-      <div className="col-md-6 col-md-offset-3">
+      <div>
         <h2 align="center">Login</h2>
         <Form onSubmit={this.handleSubmit}>
 

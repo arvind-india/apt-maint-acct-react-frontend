@@ -24,9 +24,9 @@ class App extends Component {
   render() {
     const { alert } = this.props
     return (
-      <div className="jumbotron">
-        <div className="container">
-          <div className="col-sm-8 col-sm-offset-2">
+      <div>
+        <div>
+          <div>
             {alert.message &&
               <div className={`alert ${alert.type}`}>{alert.message}</div>
             }
