@@ -71,7 +71,7 @@ class RegisterPage extends React.Component {
 
       <div>
 
-        <h2>Register</h2>
+        <h2 align="center">Register</h2>
 
         <Form onSubmit={this.handleSubmit}>
 
@@ -173,10 +173,11 @@ class RegisterPage extends React.Component {
           </FormGroup>
 
           <FormGroup row>
+            <Label sm={3}></Label>
             <Col smOffset={3} sm={9}>
               <Button type="submit" color="primary">Register</Button>
               <Button color="link">
-                <Link to="/register">Cancel</Link>
+                <Link to="/login">Cancel</Link>
               </Button>
             </Col>
           </FormGroup>

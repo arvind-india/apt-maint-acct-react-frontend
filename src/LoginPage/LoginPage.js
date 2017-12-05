@@ -47,12 +47,12 @@ class LoginPage extends React.Component {
     const { email, password, submitted } = this.state
     return (
       <div className="col-md-6 col-md-offset-3">
-        <h2>Login</h2>
+        <h2 align="center">Login</h2>
         <Form onSubmit={this.handleSubmit}>
 
-          <FormGroup>
-            <Label for="email" sm={2}>Email_Id</Label>
-            <Col sm={10}>
+          <FormGroup row>
+            <Label for="email" sm={3}>Email_Id</Label>
+            <Col sm={9}>
               <Input
                 type="email"
                 name="email"
@@ -61,14 +61,14 @@ class LoginPage extends React.Component {
                 onChange={this.handleChange.bind(this)}
               />
             </Col>
-            <Col smOffset={2} sm={10}>
+            <Col smOffset={3} sm={9}>
               {submitted && !email && <FormFeedback>Email-id is required</FormFeedback>}
             </Col>
           </FormGroup>
 
-          <FormGroup>
-            <Label sm={2}>Password</Label>
-            <Col sm={10}>
+          <FormGroup row>
+            <Label sm={3}>Password</Label>
+            <Col sm={9}>
               <Input
                 type="password"
                 name="password"
@@ -77,13 +77,14 @@ class LoginPage extends React.Component {
                 onChange={this.handleChange.bind(this)}
               />
             </Col>
-            <Col smOffset={2} sm={10}>
+            <Col smOffset={3} sm={9}>
               {submitted && !password && <FormFeedback>Password is required</FormFeedback>}
             </Col>
           </FormGroup>
 
-          <FormGroup>
-            <Col smOffset={2} sm={10}>
+          <FormGroup row>
+            <Label sm={3}></Label>
+            <Col smOffset={3} sm={9}>
               <Button type="submit" color="primary" bsSize="large">Login</Button>
               <Button color="link">
                 <Link to="/register">Register</Link>
