@@ -1,4 +1,5 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import {
   Collapse,
   Navbar,
@@ -13,13 +14,13 @@ import {
   DropdownItem
 } from 'reactstrap'
 
-export default class AppNavbar extends React.Component {
+class AppNavbar extends React.Component {
   constructor(props) {
     super(props)
-
     this.toggle = this.toggle.bind(this)
     this.state = {
-      isOpen: false
+      isOpen: false,
+      isLoggedIn: false
     }
   }
   toggle() {
@@ -28,9 +29,11 @@ export default class AppNavbar extends React.Component {
     })
   }
   render() {
+    const { user } = this.props
     return (
       <div>
-        <Navbar color="primary" light expand="md">
+        User has {user?"LoggedIn":"LoggedOut"}
+        <Navbar color="light" light expand="md">
           <NavbarBrand href="/home">Apt Maint</NavbarBrand>
           <NavbarToggler onClick={this.toggle}/>
           <Collapse isOpen={this.state.isOpen} navbar>
@@ -52,6 +55,9 @@ export default class AppNavbar extends React.Component {
                   <DropdownItem>Reset</DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
+              <NavItem>
+                <NavLink href="/login">{user?"Logout":"Login"}</NavLink>
+              </NavItem>
             </Nav>
           </Collapse>
         </Navbar>
@@ -59,3 +65,13 @@ export default class AppNavbar extends React.Component {
     )
   }
 }
+
+function mapStateToProps(state) {
+  const { authentication } = state
+  const { user } = authentication
+  return {
+    user
+  }
+}
+const connectedAppNavbar = connect(mapStateToProps)(AppNavbar)
+export { connectedAppNavbar as AppNavbar}
