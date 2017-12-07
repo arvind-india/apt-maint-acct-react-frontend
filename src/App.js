@@ -24,20 +24,20 @@ class App extends Component {
     })
   }
   render() {
-    const { alert, user } = this.props
+    const { alert } = this.props
     return (
       <div>
         <AppNavbar/>
         {alert.message &&
           <div className={`alert ${alert.type}`}>{alert.message}</div>
         }
-        User has {user && <i>LoggedIn</i>}
         <Router history={history}>
           <div>
             <Route exact path="/" component={HomePage} />
-            <PrivateRoute path="/users" component={UsersPage} />
+            <Route path="/home" component={HomePage} />
             <Route path="/login" component={LoginPage} />
             <Route path="/register" component={RegisterPage} />
+            <PrivateRoute path="/users" component={UsersPage} />
           </div>
         </Router>
       </div>
@@ -46,11 +46,9 @@ class App extends Component {
 }
 
 function mapStateToProps(state) {
-  const { alert, authentication } = state
-  const { user } = authentication
+  const { alert } = state
   return {
-    alert,
-    user
+    alert
   }
 }
 const connectedApp = connect(mapStateToProps)(App)

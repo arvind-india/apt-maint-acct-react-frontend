@@ -13,6 +13,10 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap'
+import { Button } from 'reactstrap'
+
+import { userActions } from './_actions'
+
 
 class AppNavbar extends React.Component {
   constructor(props) {
@@ -22,6 +26,10 @@ class AppNavbar extends React.Component {
       isOpen: false,
       isLoggedIn: false
     }
+    this.handleLogout = this.handleLogout.bind(this)
+  }
+  handleLogout() {
+    this.props.dispatch(userActions.logout())
   }
   toggle() {
     this.setState({
@@ -32,7 +40,6 @@ class AppNavbar extends React.Component {
     const { user } = this.props
     return (
       <div>
-        User has {user?"LoggedIn":"LoggedOut"}
         <Navbar color="light" light expand="md">
           <NavbarBrand href="/home">Apt Maint</NavbarBrand>
           <NavbarToggler onClick={this.toggle}/>
@@ -56,7 +63,9 @@ class AppNavbar extends React.Component {
                 </DropdownMenu>
               </UncontrolledDropdown>
               <NavItem>
-                <NavLink href="/login">{user?"Logout":"Login"}</NavLink>
+                {user
+                  ?<Button color="link" onClick={this.handleLogout}>Logout</Button>
+                  :<NavLink href="/login">Login</NavLink>}
               </NavItem>
             </Nav>
           </Collapse>

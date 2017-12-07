@@ -1,25 +1,28 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-
+import { Button } from 'reactstrap'
 import { userActions } from '../_actions'
 
 
 class HomePage extends React.Component {
-  componentDidMount() {
-    this.props.dispatch(userActions.getAll())
+  constructor(props) {
+    super(props)
+    this.handleLogout = this.handleLogout.bind(this)
   }
-  handleDeleteUser(id) {
-    return (e) => this.props.dispatch(userActions.delete(id))
+  handleLogout() {
+    this.props.dispatch(userActions.logout())
   }
   render() {
-    const { user, users } = this.props
+    const { user } = this.props
     return (
       <div>
         <h1>{user && <div>Logged In</div>}</h1>
         <p>Welcome to Apartment Maintenance Tracking site</p>
         <p>
-          <Link to="/login">Logout</Link>
+          {user
+            ?<Button color="danger" onClick={this.handleLogout}>Logout</Button>
+            :<Link to="/login">Login</Link>}
         </p>
       </div>
     )
@@ -27,11 +30,10 @@ class HomePage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { users, authentication } = state
+  const { authentication } = state
   const { user } = authentication
   return {
-    user,
-    users
+    user
   }
 }
 
