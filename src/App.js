@@ -7,7 +7,6 @@ import { connect } from 'react-redux'
 
 import { history } from './_helpers'
 import { alertActions } from './_actions'
-import { alertConstants } from './_constants'
 import { PrivateRoute } from './_components'
 import { HomePage } from './HomePage'
 import { LoginPage } from './LoginPage'
@@ -23,17 +22,6 @@ class App extends Component {
       // clear alert on location change
       dispatch(alertActions.clear())
     })
-    this.getColorFor = this.getColorFor.bind(this)
-  }
-  getColorFor(alert) {
-    switch(alert.type) {
-      case alertConstants.SUCCESS:
-        return "success";
-      case alertConstants.ERROR:
-        return "error";
-      default:
-        return "info"
-    }
   }
   render() {
     return (

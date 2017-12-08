@@ -51,7 +51,7 @@ class AppNavbar extends React.Component {
               <NavItem>
                 <NavLink href="https://github.com/mohankumaranna">Github</NavLink>
               </NavItem>
-              <UncontrolledDropdown nav inNavbar>
+              <UncontrolledDropdown nav>
                 <DropdownToggle nav caret>
                   Options
                 </DropdownToggle>
