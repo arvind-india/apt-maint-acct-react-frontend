@@ -86,7 +86,7 @@ class RegisterPage extends React.Component {
                 onChange={this.handleChange}
               />
             </Col>
-            <Col smOffset={3} sm={9}>
+            <Col smoffset={3} sm={9}>
               {submitted && !user.name && <FormFeedback>User Name is required</FormFeedback>}
             </Col>
           </FormGroup>
@@ -102,7 +102,7 @@ class RegisterPage extends React.Component {
                 onChange={this.handleChange}
               />
             </Col>
-            <Col smOffset={3} sm={9}>
+            <Col smoffset={3} sm={9}>
               {submitted && !user.first_name && <FormFeedback>First Name is required</FormFeedback>}
             </Col>
           </FormGroup>
@@ -118,7 +118,7 @@ class RegisterPage extends React.Component {
                 onChange={this.handleChange}
               />
             </Col>
-            <Col smOffset={3} sm={9}>
+            <Col smoffset={3} sm={9}>
               {submitted && !user.last_name && <FormFeedback>Last Name is required</FormFeedback>}
             </Col>
           </FormGroup>
@@ -134,7 +134,7 @@ class RegisterPage extends React.Component {
                 onChange={this.handleChange.bind(this)}
               />
             </Col>
-            <Col smOffset={3} sm={9}>
+            <Col smoffset={3} sm={9}>
               {submitted && !user.email && <FormFeedback>Email-id is required</FormFeedback>}
             </Col>
           </FormGroup>
@@ -150,7 +150,7 @@ class RegisterPage extends React.Component {
                 onChange={this.handleChange.bind(this)}
               />
             </Col>
-            <Col smOffset={3} sm={9}>
+            <Col smoffset={3} sm={9}>
               {submitted && !user.password && <FormFeedback>Password is required</FormFeedback>}
             </Col>
           </FormGroup>
@@ -166,7 +166,7 @@ class RegisterPage extends React.Component {
                 onChange={this.handleConfirmPasswordChange.bind(this)}
               />
             </Col>
-            <Col smOffset={3} sm={9}>
+            <Col smoffset={3} sm={9}>
               {submitted && !confirmPassword && <FormFeedback>Repeat Password is required</FormFeedback>}
               {user.password && confirmPassword && user.password !== confirmPassword && <FormFeedback>Passwords are NOT MATCHING</FormFeedback>}
             </Col>
@@ -174,7 +174,7 @@ class RegisterPage extends React.Component {
 
           <FormGroup row>
             <Label sm={3}></Label>
-            <Col smOffset={3} sm={9}>
+            <Col smoffset={3} sm={9}>
               <Button type="submit" color="primary">Register</Button>
               <Button color="link">
                 <Link to="/login">Cancel</Link>

@@ -13,7 +13,7 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap'
-import { Button } from 'reactstrap'
+import jwtDecode from 'jwt-decode'
 
 import { userActions } from './_actions'
 
@@ -36,8 +36,31 @@ class AppNavbar extends React.Component {
       isOpen: !this.state.isOpen
     })
   }
+  decode(user) {
+    return user.id_token
+      ? jwtDecode(user.id_token)
+      : {name: 'Guest!'}
+  }
+  showLogin() {
+    return <NavItem>
+              <NavLink href="/login">Login</NavLink>
+           </NavItem>
+  }
+  showLogout(user) {
+    return <UncontrolledDropdown nav>
+                    <DropdownToggle nav caret>
+                      {this.decode(user).name}
+                    </DropdownToggle>
+                    <DropdownMenu>
+                      <DropdownItem>
+                        <NavLink onClick={this.handleLogout}>Logout</NavLink>
+                      </DropdownItem>
+                    </DropdownMenu>
+                  </UncontrolledDropdown>
+  }
   render() {
     const { user } = this.props
+    console.log('User: ', user)
     return (
       <div>
         <Navbar color="light" light expand="md">
@@ -62,11 +85,9 @@ class AppNavbar extends React.Component {
                   <DropdownItem>Reset</DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>
-              <NavItem>
-                {user
-                  ?<Button color="link" onClick={this.handleLogout}>Logout</Button>
-                  :<NavLink href="/login">Login</NavLink>}
-              </NavItem>
+              {user
+                ? this.showLogout(user)
+                : this.showLogin()}
             </Nav>
           </Collapse>
         </Navbar>
