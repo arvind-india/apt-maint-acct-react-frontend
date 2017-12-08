@@ -19,12 +19,11 @@ function login(username, password) {
     userService.login(username, password)
       .then(
         user => {
-          console.log('Moh: Success!!...');
           dispatch(success(user))
           history.push('/')
+          dispatch(alertActions.success('Welcome to Apartment Maintenance Tracking Application'))
         },
         error => {
-          console.log('Moh: Error!!...')
           console.log(error.response)
           dispatch(failure(error.response))
           dispatch(alertActions.error(error.response.statusText))
