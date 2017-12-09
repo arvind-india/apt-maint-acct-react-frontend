@@ -43,8 +43,7 @@ class HomePage extends React.Component {
       <div>
         <AlertContainer ref={a => this.msg = a} {...this.alertOptions}/>
         {alert.message ? this.show(alert.message) : null}
-        <h1>{user && <div>Logged In</div>}</h1>
-        <p>Welcome to Apartment Maintenance Tracking site</p>
+        <h2>Welcome to Account Tracking Website</h2>
         <p>
           {user
             ?<Button color="danger" onClick={this.handleLogout}>Logout</Button>

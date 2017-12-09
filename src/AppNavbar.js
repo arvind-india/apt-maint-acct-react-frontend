@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import jwtDecode from 'jwt-decode'
 import {
   Collapse,
   Navbar,
@@ -13,7 +14,18 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap'
-import jwtDecode from 'jwt-decode'
+import {
+  FaBuildingO
+} from 'react-icons/lib/fa' // font-awesome icons
+import {
+  MdHome,
+  MdPerson,
+  MdGroup,
+  MdExitToApp,
+  MdSettingsApplications,
+  MdVpnKey,
+  MdInfoOutline
+} from 'react-icons/lib/md' // material design icons
 
 import { userActions } from './_actions'
 
@@ -48,15 +60,28 @@ class AppNavbar extends React.Component {
   }
   showLogout(user) {
     return <UncontrolledDropdown nav>
-                    <DropdownToggle nav caret>
-                      {this.decode(user).name}
-                    </DropdownToggle>
-                    <DropdownMenu>
-                      <DropdownItem>
-                        <NavLink onClick={this.handleLogout}>Logout</NavLink>
-                      </DropdownItem>
-                    </DropdownMenu>
-                  </UncontrolledDropdown>
+            <DropdownToggle nav caret>
+              <MdPerson /> {this.decode(user).name}
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem>
+                <NavLink onClick={this.handleLogout}><MdExitToApp/> Logout</NavLink>
+              </DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
+  }
+  showSettings() {
+    return  <UncontrolledDropdown nav>
+              <DropdownToggle nav caret>
+                <MdSettingsApplications/> Settings
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem><MdVpnKey/> Roles</DropdownItem>
+                <DropdownItem><MdGroup /> Users</DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem>Reset</DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
   }
   render() {
     const { user } = this.props
@@ -64,27 +89,17 @@ class AppNavbar extends React.Component {
     return (
       <div>
         <Navbar color="light" light expand="md">
-          <NavbarBrand href="/home">Apt Maint</NavbarBrand>
+          <NavbarBrand href="/home"><FaBuildingO /> Apartment Maintenance</NavbarBrand>
           <NavbarToggler onClick={this.toggle}/>
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/users">Users</NavLink>
+                <NavLink href="/home"><MdHome/> Home</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="https://github.com/mohankumaranna">Github</NavLink>
+                <NavLink href="/about"><MdInfoOutline/> About</NavLink>
               </NavItem>
-              <UncontrolledDropdown nav>
-                <DropdownToggle nav caret>
-                  Options
-                </DropdownToggle>
-                <DropdownMenu>
-                  <DropdownItem>Option 1</DropdownItem>
-                  <DropdownItem>Option 2</DropdownItem>
-                  <DropdownItem divider />
-                  <DropdownItem>Reset</DropdownItem>
-                </DropdownMenu>
-              </UncontrolledDropdown>
+              {this.showSettings()}
               {user
                 ? this.showLogout(user)
                 : this.showLogin()}
