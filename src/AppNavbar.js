@@ -15,7 +15,9 @@ import {
   DropdownItem
 } from 'reactstrap'
 import {
-  FaBuildingO
+  FaBuildingO,
+  FaSignIn,
+  FaSignOut
 } from 'react-icons/lib/fa' // font-awesome icons
 import {
   MdHome,
@@ -24,7 +26,8 @@ import {
   MdExitToApp,
   MdSettingsApplications,
   MdVpnKey,
-  MdInfoOutline
+  MdInfoOutline,
+  MdPersonAdd
 } from 'react-icons/lib/md' // material design icons
 
 import { userActions } from './_actions'
@@ -55,7 +58,12 @@ class AppNavbar extends React.Component {
   }
   showLogin() {
     return <NavItem>
-              <NavLink href="/login">Login</NavLink>
+              <NavLink href="/login"><FaSignIn/> Login</NavLink>
+           </NavItem>
+  }
+  showRegister() {
+    return <NavItem>
+              <NavLink href="/register"><MdPersonAdd/> Register</NavLink>
            </NavItem>
   }
   showLogout(user) {
@@ -65,7 +73,7 @@ class AppNavbar extends React.Component {
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem>
-                <NavLink onClick={this.handleLogout}><MdExitToApp/> Logout</NavLink>
+                <NavLink onClick={this.handleLogout}><FaSignOut/> Logout</NavLink>
               </DropdownItem>
             </DropdownMenu>
           </UncontrolledDropdown>
@@ -103,6 +111,7 @@ class AppNavbar extends React.Component {
               {user
                 ? this.showLogout(user)
                 : this.showLogin()}
+              {this.showRegister()}
             </Nav>
           </Collapse>
         </Navbar>
