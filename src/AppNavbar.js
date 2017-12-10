@@ -23,7 +23,6 @@ import {
   MdHome,
   MdPerson,
   MdGroup,
-  MdExitToApp,
   MdSettingsApplications,
   MdVpnKey,
   MdInfoOutline,
@@ -85,7 +84,9 @@ class AppNavbar extends React.Component {
               </DropdownToggle>
               <DropdownMenu>
                 <DropdownItem><MdVpnKey/> Roles</DropdownItem>
-                <DropdownItem><MdGroup /> Users</DropdownItem>
+                <DropdownItem>
+                  <NavLink href="/users"><MdGroup /> Users</NavLink>
+                </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem>Reset</DropdownItem>
               </DropdownMenu>
@@ -107,11 +108,11 @@ class AppNavbar extends React.Component {
               <NavItem>
                 <NavLink href="/about"><MdInfoOutline/> About</NavLink>
               </NavItem>
-              {this.showSettings()}
+              {user && this.showSettings()}
               {user
                 ? this.showLogout(user)
                 : this.showLogin()}
-              {this.showRegister()}
+              {!user && this.showRegister()}
             </Nav>
           </Collapse>
         </Navbar>

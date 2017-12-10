@@ -17,7 +17,8 @@ let instance = axios.create({
 })
 // if jwt token is available, set it for authorization
 if(user && user.id_token) {
-  instance.defaults.headers.common['Authorization'] = user.id_token
+  // instance.defaults.headers.common['Authorization'] = user.id_token
+  instance.defaults.headers.common['x-access-token'] = user.id_token
 }
 
 function login(username, password) {
