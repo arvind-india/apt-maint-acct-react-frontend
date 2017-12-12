@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 //import logo from './logo.svg';
 import './App.css';
 
-import { Router, Route } from 'react-router-dom'
+import { Router, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { history } from './_helpers'
@@ -11,7 +11,7 @@ import { PrivateRoute } from './_components'
 import { HomePage } from './HomePage'
 import { LoginPage } from './LoginPage'
 import { RegisterPage } from './RegisterPage'
-import { UsersPage } from './UsersPage'
+import { UsersPage, UserDetailsPage } from './UsersPage'
 import { AppNavbar } from './AppNavbar'
 
 class App extends Component {
@@ -33,7 +33,10 @@ class App extends Component {
             <Route path="/home" component={HomePage} />
             <Route path="/login" component={LoginPage} />
             <Route path="/register" component={RegisterPage} />
-            <PrivateRoute path="/users" component={UsersPage} />
+            <Switch>
+              <PrivateRoute path="/users/:id" component={UserDetailsPage} />
+              <PrivateRoute path="/users" component={UsersPage} />
+            </Switch>
           </div>
         </Router>
       </div>

@@ -8,7 +8,8 @@ export const userActions = {
   logout,
   register,
   getAll,
-  delete: _delete
+  delete: _delete,
+  getById
 }
 
 function login(username, password) {
@@ -95,4 +96,19 @@ function _delete(id) {
   function request(id) { return { type: userConstants.DELETE_REQUEST, id } }
   function success(id) { return { type: userConstants.DELETE_SUCCESS, id } }
   function failure(id, error) { return { type: userConstants.DELETE_FAILURE, id, error } }
+}
+
+
+function getById(id) {
+  return dispatch => {
+    dispatch(request(id))
+    userService.getById(id)
+      .then(
+        userDetails => dispatch(success(userDetails)),
+        error => dispatch(failure(error+' in get user by id: '+id))
+      )
+  }
+  function request(id) { return { type: userConstants.GETBYID_REQUEST, id } }
+  function success(userDetails) { return { type: userConstants.GETBYID_SUCCESS, userDetails } }
+  function failure(id, error) { return { type: userConstants.GETBYID_FAILURE, id, error } }
 }
