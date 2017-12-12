@@ -7,8 +7,9 @@ export function userDetails(state = {}, action) {
         loading: true
       }
     case userConstants.GETBYID_SUCCESS:
+      console.log('Get By ID success: ', action)
       return {
-        items: action.userDetails
+        data: action.userDetails
       }
     case userConstants.GETBYID_FAILURE:
       return {

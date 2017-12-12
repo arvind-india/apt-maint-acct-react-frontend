@@ -6,30 +6,45 @@ import { Table } from 'reactstrap'
 import { userActions } from '../_actions'
 
 class UserDetailsPage extends React.Component {
-  constructor(props) {
-    super(props)
-  }
+
   componentDidMount() {
     this.props.dispatch(userActions.getById(this.props.match.params.id))
   }
   render() {
-    const { userDetail, match } = this.props
-    console.log('UserDetail: ', this.props)
+    const { userDetails, user, match } = this.props
     return (
       <div>
         <h3>User Details of {match.params.id}</h3>
+        {userDetails.loading && <em>Loading user details...}</em>}
+        {userDetails.error && <span className="text-danger">ERROR: {userDetails.error}</span>}
+        {userDetails.data &&
+          <p>User email: {userDetails.data.email}</p>
+        }
       </div>
     )
   }
 }
 
+/*
+
+return (
+  <div>
+    <h3>Users List</h3>
+    {users.loading && <em>Loading users...}</em>}
+    {users.error && <span className="text-danger">ERROR: {users.error}</span>}
+    {users.items &&
+      <Table>
+
+
+*/
+
 
 function mapStateToProps(state) {
-  const { userDetail, authentication } = state
+  const { userDetails, authentication } = state
   const { user } = authentication
   return {
     user,
-    userDetail
+    userDetails
   }
 }
 

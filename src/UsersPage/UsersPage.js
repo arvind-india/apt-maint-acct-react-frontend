@@ -18,7 +18,6 @@ class UsersPage extends React.Component {
   }
   render() {
     const { user, users } = this.props
-    console.log('USERS:', users);
     return (
       <div>
         <h3>Users List</h3>

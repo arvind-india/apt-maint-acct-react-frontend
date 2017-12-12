@@ -109,6 +109,8 @@ function getById(id) {
       )
   }
   function request(id) { return { type: userConstants.GETBYID_REQUEST, id } }
-  function success(userDetails) { return { type: userConstants.GETBYID_SUCCESS, userDetails } }
+  function success(userDetails) {
+    console.log('user details in action file: ', userDetails)
+    return { type: userConstants.GETBYID_SUCCESS, userDetails } }
   function failure(id, error) { return { type: userConstants.GETBYID_FAILURE, id, error } }
 }
