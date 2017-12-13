@@ -79,6 +79,7 @@ class HomePage extends React.Component {
             {validity.remainingMinutes} minutes,
             {validity.remainingSeconds} seconds </p>
           {user && this.isJWTExpired(user) && this.exitApp()}
+          JWT Token: {user && user.id_token}
         </p>
 
       </div>
