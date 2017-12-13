@@ -3,22 +3,14 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Button } from 'reactstrap'
 import AlertContainer from 'react-alert'
+import jwtDecode from 'jwt-decode'
 
-// App specific
 import { userActions, alertActions } from '../_actions'
 
 class HomePage extends React.Component {
-/*  alertOptions = {
-    offset: 14,
-    position: 'bottom left',
-    theme: 'dark',
-    time: 5000,
-    transition: 'scale'
-  }
-*/
+
   constructor(props) {
     super(props)
-    // const { dispatch } = this.props
     this.handleLogout = this.handleLogout.bind(this)
   }
   handleLogout() {
@@ -35,8 +27,6 @@ class HomePage extends React.Component {
   show(message) {
     this.msg.show(message)
   }
-
-  //         {alert.message && this.msg.show(alert.message)}
   render() {
     const { user, alert } = this.props
     return (
@@ -49,7 +39,6 @@ class HomePage extends React.Component {
             ?<Button color="danger" onClick={this.handleLogout}>Logout</Button>
             :<Link to="/login">Login</Link>}
         </p>
-
       </div>
     )
   }

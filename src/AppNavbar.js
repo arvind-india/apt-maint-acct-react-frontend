@@ -51,6 +51,7 @@ class AppNavbar extends React.Component {
     })
   }
   decode(user) {
+    if(user.id_token) console.log('JWT Token: ', jwtDecode(user.id_token))
     return user.id_token
       ? jwtDecode(user.id_token)
       : {name: 'Guest!'}
