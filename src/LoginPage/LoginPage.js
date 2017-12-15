@@ -5,7 +5,7 @@ import {
           Form,
           Button,
           FormGroup,
-          FormFeedback,
+          FormText,
           Input,
           Label,
           Col
@@ -44,10 +44,15 @@ class LoginPage extends React.Component {
     }
   }
   render() {
+
     const { email, password, submitted } = this.state
+    const { alert } = this.props
+
     return (
       <div>
         <h2 align="center">Login</h2>
+        {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
+
         <Form onSubmit={this.handleSubmit}>
 
           <FormGroup row>
@@ -60,9 +65,7 @@ class LoginPage extends React.Component {
                 defaultValue={email}
                 onChange={this.handleChange.bind(this)}
               />
-            </Col>
-            <Col smoffset={3} sm={9}>
-              {submitted && !email && <FormFeedback>Email-id is required</FormFeedback>}
+              {submitted && !email && <FormText color="danger">Email-id is required</FormText>}
             </Col>
           </FormGroup>
 
@@ -76,9 +79,7 @@ class LoginPage extends React.Component {
                 defaultValue={password}
                 onChange={this.handleChange.bind(this)}
               />
-            </Col>
-            <Col smoffset={3} sm={9}>
-              {submitted && !password && <FormFeedback>Password is required</FormFeedback>}
+              {submitted && !password && <FormText color="danger">Password is required</FormText>}
             </Col>
           </FormGroup>
 
@@ -99,8 +100,10 @@ class LoginPage extends React.Component {
 }
 
 function mapStateToProps(state) {
+  const { alert } = state
   const { loggingIn } = state.authentication
   return {
+    alert,
     loggingIn
   }
 }
