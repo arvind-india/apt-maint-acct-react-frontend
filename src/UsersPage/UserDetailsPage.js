@@ -29,10 +29,12 @@ class UserDetailsPage extends React.Component {
       password: '',
       confirmPassword: '',
       submitted: false,
-      passwordChanged: false
+      passwordChanged: false,
+      passwordMatches: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.handlePasswordChange= this.handlePasswordChange.bind(this)
+    this.handleConfirmPasswordChange= this.handleConfirmPasswordChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
   componentDidMount() {
@@ -54,11 +56,8 @@ class UserDetailsPage extends React.Component {
   }
   handlePasswordChange(event) {
     const { name, value } = event.target
-    this.setState({
-      [name]: value
-    })
-    console.log('Password now: ', this.password)
-    if(this.password !== '') {
+    this.setState({ [name]: value  })
+    if(value) {
       console.log('Password is changed!')
       this.setState({ passwordChanged: true })
     } else {
@@ -66,6 +65,22 @@ class UserDetailsPage extends React.Component {
       this.setState({ passwordChanged: false})
     }
   }
+  handleConfirmPasswordChange(event) {
+    const { name, value } = event.target
+    console.log('Name: ', name)
+    console.log('Value: ', value)
+    this.setState({ [name]: value })
+
+    if(value && value === this.state.password) {
+      console.log('Password matches!')
+      this.setState({ passwordMatches: true })
+    } else {
+      console.log('Password do not match')
+      this.setState({ passwordMatches: false })
+    }
+
+  }
+
   handleChange(event) {
     const { name, value } = event.target
     const { user } = this.state
@@ -174,21 +189,21 @@ class UserDetailsPage extends React.Component {
         name="password"
         placeholder="<enter password here>"
         title="Password is required"
-        defaultValue={this.password}
+        defaultValue={this.state.password}
         onChange={this.handlePasswordChange}
       />
-      {!this.password && <FormFeedback>Password is required</FormFeedback>}
-      {this.passwordChanged &&
+      {this.state.passwordChanged &&
         <div data-field-span="1">
           <Label>Confirm Password</Label>
           <Input
-          type="password"
-          name="confirmpassword"
-          placeholder="<repeat password here>"
-          title="Confirm Password is required"
-          defaultValue={this.confirmPassword}
-          onChange={this.handlePasswordChange}
+            type="password"
+            name="confirmpassword"
+            placeholder="<repeat password here>"
+            title="Confirm Password is required"
+            defaultValue={this.state.confirmPassword}
+            onChange={this.handleConfirmPasswordChange}
           />
+          <FormFeedback>Password do NOT match</FormFeedback>
         </div>
       }
     </div>

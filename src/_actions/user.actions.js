@@ -54,8 +54,18 @@ function register(user) {
           dispatch(alertActions.success('Registration successful'))
         },
         error => {
-          dispatch(failure(error))
-          dispatch(alertActions.error(error.response))
+          let data = error.response.data
+          console.log('error response...')
+          console.log(error.response.data)
+          let appData;
+          if(data.error) { // check if there is a application specific error data enclosed
+            appData = data.data
+            dispatch(failure(appData.message))
+            dispatch(alertActions.error(appData.message))
+          } else {
+            dispatch(failure(error.response))
+            dispatch(alertActions.error(error.response.statusText))
+          }
         }
       )
   }

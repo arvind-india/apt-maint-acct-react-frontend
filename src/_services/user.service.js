@@ -85,5 +85,7 @@ function handleResponse(response) {
   return response.data
 }
 function handleError(error) {
+  console.log('error occurred...')
+  console.log(error)
   return Promise.reject(error)
 }
