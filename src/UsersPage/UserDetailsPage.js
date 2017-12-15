@@ -26,10 +26,13 @@ class UserDetailsPage extends React.Component {
         password: '',
         infos: []
       },
+      password: '',
       confirmPassword: '',
-      submitted: false
+      submitted: false,
+      passwordChanged: false
     }
     this.handleChange = this.handleChange.bind(this)
+    this.handlePasswordChange= this.handlePasswordChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
   componentDidMount() {
@@ -44,17 +47,29 @@ class UserDetailsPage extends React.Component {
     if(user.name &&
         user.first_name &&
         user.last_name &&
-        user.email &&
-        user.password &&
-        confirmPassword &&
-        user.password === confirmPassword
+        user.email
       ) {
           dispatch(userActions.saveChanges(user))
         }
   }
+  handlePasswordChange(event) {
+    const { name, value } = event.target
+    this.setState({
+      [name]: value
+    })
+    console.log('Password now: ', this.password)
+    if(this.password !== '') {
+      console.log('Password is changed!')
+      this.setState({ passwordChanged: true })
+    } else {
+      console.log('Password is NOT changed')
+      this.setState({ passwordChanged: false})
+    }
+  }
   handleChange(event) {
     const { name, value } = event.target
     const { user } = this.state
+    console.log('CHANGED: ', name); console.log('NEW VALUE: ', value);
     this.setState({
       user: {
         ...user,
@@ -76,6 +91,7 @@ class UserDetailsPage extends React.Component {
   }
 
   show(user){
+    this.originalPassword = user.password  // keep original password for comparison purpose
     return <Form onSubmit={this.handleSubmit} className="grid-form">
       <fieldset>
   			<legend>View or Edit</legend>
@@ -88,7 +104,7 @@ class UserDetailsPage extends React.Component {
         </div>
         <div data-row-span="2">
           {this.showEmail(user)}
-          {this.showPassword(user)}
+          {this.showPassword()}
         </div>
       </fieldset>
       <br/>
@@ -99,7 +115,7 @@ class UserDetailsPage extends React.Component {
 
   showUsername(user) {
     return <div data-field-span="1">
-				<label for="userName">Username</label>
+				<Label>Username</Label>
         <Input
           type="text"
           name="name"
@@ -112,7 +128,7 @@ class UserDetailsPage extends React.Component {
   }
   showFirstName(user) {
     return <div data-field-span="1">
-        <label for="firstName">FirstName</label>
+        <Label>FirstName</Label>
         <Input
           type="text"
           name="first_name"
@@ -125,7 +141,7 @@ class UserDetailsPage extends React.Component {
   }
   showLastName(user) {
     return <div data-field-span="1">
-        <label for="lastName">LastName</label>
+        <Label>LastName</Label>
         <Input
           type="text"
           name="last_name"
@@ -138,8 +154,8 @@ class UserDetailsPage extends React.Component {
   }
   showEmail(user){
     return <div data-field-span="1">
-        <label for="eMail">email</label>
-        <input
+        <Label>email</Label>
+        <Input
           type="email"
           name="eMail"
           placeholder="<email id here>"
@@ -150,20 +166,31 @@ class UserDetailsPage extends React.Component {
         {!user.email && <FormFeedback>Email-id is required</FormFeedback>}
       </div>
   }
-  showPassword(user){
+  showPassword(){
     return <div data-field-span="1">
-      <label for="passWord">Password</label>
-      <input
+      <Label>Password</Label>
+      <Input
         type="password"
-        id="passWord"
-        required
-        name="passWord"
+        name="password"
         placeholder="<enter password here>"
         title="Password is required"
-        defaultValue={user.password}
-        onChange={this.handleChange}
+        defaultValue={this.password}
+        onChange={this.handlePasswordChange}
       />
-      {!user.password && <FormFeedback>Password is required</FormFeedback>}
+      {!this.password && <FormFeedback>Password is required</FormFeedback>}
+      {this.passwordChanged &&
+        <div data-field-span="1">
+          <Label>Confirm Password</Label>
+          <Input
+          type="password"
+          name="confirmpassword"
+          placeholder="<repeat password here>"
+          title="Confirm Password is required"
+          defaultValue={this.confirmPassword}
+          onChange={this.handlePasswordChange}
+          />
+        </div>
+      }
     </div>
   }
 
