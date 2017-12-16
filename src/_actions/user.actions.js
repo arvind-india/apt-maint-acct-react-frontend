@@ -9,7 +9,8 @@ export const userActions = {
   register,
   getAll,
   delete: _delete,
-  getById
+  getById,
+  saveChanges
 }
 
 function login(username, password) {

@@ -55,8 +55,8 @@ function register(user) {
 }
 
 function update(user) {
-  let data = {body: JSON.stringify(user)}
-  return instance.put('/users/' + user.id, data)
+  // let data = {body: JSON.stringify(user)}
+  return instance.put('/users/' + user.id, user)
     .then(handleResponse)
     .catch(handleError)
 }

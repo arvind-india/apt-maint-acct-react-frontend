@@ -39,27 +39,59 @@ class UserDetailsPage extends React.Component {
   componentDidMount() {
     this.props.dispatch(userActions.getById(this.props.match.params.id))
   }
+  hasChanges(mUser) {
+    for(const prop in mUser){
+      return true
+    }
+    return false
+  }
+  changedProps(mUser) {
+    let props = []
+    for(const prop in mUser) {
+      props.push(prop)
+    }
+    return props
+  }
+  canSave(mUser) {
+    let result = false
+    for(const prop in mUser) {
+        if(mUser[prop]) { // check every property for null or empty string
+          result = true
+        } else {
+          result = false
+        }
+    }
+    return result
+  }
   handleSubmit(event) {
     event.preventDefault()
-    this.setState({ submitted: true }, () => console.log('submitted 2: ', this.state.submitted))
+    this.setState({ submitted: true })
 
     const { mUser, submitted, confirmPassword } = this.state
     const { dispatch, userDetails } = this.props
-    const { oUser } = userDetails.data  // original user data or user before changes
 
     console.log('Current state: ', this.state)
     console.log('submitted 1: ', this.state.submitted)
 
-    let canSave = false
-    let hasChanges = false
-
+    let canSave = this.canSave(mUser)
+    let cProps = this.changedProps(mUser)
+    let hasChanges = cProps.length > 0
+    let hasEmailChange = cProps.includes('email')
+/*
     for(const prop in mUser) {
         hasChanges = true
         if(mUser[prop]) {
           canSave = true
           console.log(prop + ' is modified to: ' + mUser[prop])
         }
-        mUser.id = oUser.id
+        mUser.id = userDetails.data.id
+    }  */
+
+    if(canSave) {
+      mUser.id = userDetails.data.id
+    }
+    if(!hasEmailChange) {
+      mUser.email = userDetails.data.email
     }
     console.log('User to be updated: ', mUser)
     if (!hasChanges) {
