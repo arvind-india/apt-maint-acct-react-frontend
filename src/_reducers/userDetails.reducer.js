@@ -15,6 +15,19 @@ export function userDetails(state = {}, action) {
       return {
         error: action.error
       }
+    case userConstants.CHANGE_REQUEST:
+      return {
+        loading: true
+      }
+    case userConstants.CHANGE_SUCCESS:
+      console.log('User Change Request success: ', action)
+      return {
+        data: action.userDetails
+      }
+    case userConstants.CHANGE_FAILURE:
+      return {
+        error: action.error
+      }
     default:
       return state
   }

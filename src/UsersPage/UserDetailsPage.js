@@ -47,7 +47,6 @@ class UserDetailsPage extends React.Component {
     const { dispatch, userDetails } = this.props
     const { oUser } = userDetails.data  // original user data or user before changes
 
-    console.log('User to be updated: ', mUser)
     console.log('Current state: ', this.state)
     console.log('submitted 1: ', this.state.submitted)
 
@@ -60,7 +59,9 @@ class UserDetailsPage extends React.Component {
           canSave = true
           console.log(prop + ' is modified to: ' + mUser[prop])
         }
+        mUser.id = oUser.id
     }
+    console.log('User to be updated: ', mUser)
     if (!hasChanges) {
       dispatch(alertActions.error('No changes found...'))
     } else if (canSave) {

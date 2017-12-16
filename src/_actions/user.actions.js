@@ -124,3 +124,35 @@ function getById(id) {
     return { type: userConstants.GETBYID_SUCCESS, userDetails } }
   function failure(id, error) { return { type: userConstants.GETBYID_FAILURE, id, error } }
 }
+
+function saveChanges(user) {
+  return dispatch => {
+    dispatch(request(user))
+
+    userService.update(user)
+      .then(
+        user => {
+          dispatch(success())
+          history.push('/login')
+          dispatch(alertActions.success('Changes Saved Successfully'))
+        },
+        error => {
+          let data = error.response.data
+          console.log('error response...')
+          console.log(error.response.data)
+          let appData;
+          if(data.error) { // check if there is a application specific error data enclosed
+            appData = data.data
+            dispatch(failure(appData.message))
+            dispatch(alertActions.error(appData.message))
+          } else {
+            dispatch(failure(error.response))
+            dispatch(alertActions.error(error.response.statusText))
+          }
+        }
+      )
+  }
+  function request(user) { return { type: userConstants.CHANGE_REQUEST, user } }
+  function success(user) { return { type: userConstants.CHANGE_SUCCESS, user } }
+  function failure(error) { return { type: userConstants.CHANGE_FAILURE, error } }
+}
