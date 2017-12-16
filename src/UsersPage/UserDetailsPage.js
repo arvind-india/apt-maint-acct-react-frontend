@@ -6,26 +6,27 @@ import {
           Form,
           Button,
           FormGroup,
-          FormFeedback,
+          FormText,
           Input,
           Label,
           Col
 } from 'reactstrap'
 
-import { userActions } from '../_actions'
+import { userActions, alertActions } from '../_actions'
 
 class UserDetailsPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      user: {
-        name: '',
-        first_name: '',
-        last_name: '',
-        email: '',
-        password: '',
+        user: {},
+/*      user: {
+        name: null,
+        first_name: null,
+        last_name: null,
+        email: null,
+        password: null,
         infos: []
-      },
+      },  */
       password: '',
       confirmPassword: '',
       submitted: false,
@@ -46,36 +47,41 @@ class UserDetailsPage extends React.Component {
 
     const { user, confirmPassword } = this.state
     const { dispatch } = this.props
+
+    console.log('User to be updated: ', user)
+
     if(user.name &&
         user.first_name &&
         user.last_name &&
         user.email
       ) {
           dispatch(userActions.saveChanges(user))
+        } else {
+          dispatch(alertActions.error('Missing data...'))
         }
   }
   handlePasswordChange(event) {
     const { name, value } = event.target
     this.setState({ [name]: value  })
     if(value) {
-      console.log('Password is changed!')
+      // console.log('Password is changed!')
       this.setState({ passwordChanged: true })
     } else {
-      console.log('Password is NOT changed')
+      // console.log('Password is NOT changed')
       this.setState({ passwordChanged: false})
     }
   }
   handleConfirmPasswordChange(event) {
     const { name, value } = event.target
-    console.log('Name: ', name)
-    console.log('Value: ', value)
+    // console.log('Name: ', name)
+    // console.log('Value: ', value)
     this.setState({ [name]: value })
 
     if(value && value === this.state.password) {
-      console.log('Password matches!')
+      // console.log('Password matches!')
       this.setState({ passwordMatches: true })
     } else {
-      console.log('Password do not match')
+      // console.log('Password do not match')
       this.setState({ passwordMatches: false })
     }
 
@@ -84,7 +90,7 @@ class UserDetailsPage extends React.Component {
   handleChange(event) {
     const { name, value } = event.target
     const { user } = this.state
-    console.log('CHANGED: ', name); console.log('NEW VALUE: ', value);
+
     this.setState({
       user: {
         ...user,
@@ -94,10 +100,11 @@ class UserDetailsPage extends React.Component {
   }
 
   render() {
-    const { userDetails, user, match } = this.props
+    const { userDetails, user, match, alert } = this.props
     return (
       <div>
         <h2>User Details</h2>
+        {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
         {userDetails.loading && <em>Loading user details...}</em>}
         {userDetails.error && <span className="text-danger">ERROR: {userDetails.error}</span>}
         {userDetails.data && this.show(userDetails.data)}
@@ -138,7 +145,7 @@ class UserDetailsPage extends React.Component {
           defaultValue={user.name}
           onChange={this.handleChange}
         />
-        { !user.name && <FormFeedback>User Name is required</FormFeedback>}
+        {!this.user.name && <FormText color="danger">User Name is required</FormText>}
 			</div>
   }
   showFirstName(user) {
@@ -151,7 +158,7 @@ class UserDetailsPage extends React.Component {
           defaultValue={user.first_name}
           onChange={this.handleChange}
         />
-        {!user.first_name && <FormFeedback>First Name is required</FormFeedback>}
+        {this.submitted && !user.first_name && <FormText color="danger">First Name is required</FormText>}
       </div>
   }
   showLastName(user) {
@@ -164,7 +171,7 @@ class UserDetailsPage extends React.Component {
           defaultValue={user.last_name}
           onChange={this.handleChange}
         />
-        {!user.last_name && <FormFeedback>Last Name is required</FormFeedback>}
+        {this.submitted && !user.last_name && <FormText color="danger">Last Name is required</FormText>}
       </div>
   }
   showEmail(user){
@@ -178,7 +185,7 @@ class UserDetailsPage extends React.Component {
           defaultValue={user.email}
           onChange={this.handleChange}
         />
-        {!user.email && <FormFeedback>Email-id is required</FormFeedback>}
+        {this.submitted && !user.email && <FormText color="danger">Email-id is required</FormText>}
       </div>
   }
   showPassword(){
@@ -203,20 +210,20 @@ class UserDetailsPage extends React.Component {
             defaultValue={this.state.confirmPassword}
             onChange={this.handleConfirmPasswordChange}
           />
-          <FormFeedback>Password do NOT match</FormFeedback>
+          <FormText color="danger">Password do NOT match</FormText>
         </div>
       }
     </div>
   }
-
 }
 
 function mapStateToProps(state) {
-  const { userDetails, authentication } = state
+  const { userDetails, authentication, alert } = state
   const { user } = authentication
   return {
     user,
-    userDetails
+    userDetails,
+    alert
   }
 }
 
