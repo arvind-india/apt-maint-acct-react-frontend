@@ -18,15 +18,13 @@ class UserDetailsPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-        user: {},
-/*      user: {
+      mUser: {},
+/*      mUser: {
         name: null,
         first_name: null,
         last_name: null,
-        email: null,
-        password: null,
-        infos: []
-      },  */
+        email: null
+      }, */
       password: '',
       confirmPassword: '',
       submitted: false,
@@ -43,22 +41,33 @@ class UserDetailsPage extends React.Component {
   }
   handleSubmit(event) {
     event.preventDefault()
-    this.setState({ submitted: true })
+    this.setState({ submitted: true }, () => console.log('submitted 2: ', this.state.submitted))
 
-    const { user, confirmPassword } = this.state
-    const { dispatch } = this.props
+    const { mUser, submitted, confirmPassword } = this.state
+    const { dispatch, userDetails } = this.props
+    const { oUser } = userDetails.data  // original user data or user before changes
 
-    console.log('User to be updated: ', user)
+    console.log('User to be updated: ', mUser)
+    console.log('Current state: ', this.state)
+    console.log('submitted 1: ', this.state.submitted)
 
-    if(user.name &&
-        user.first_name &&
-        user.last_name &&
-        user.email
-      ) {
-          dispatch(userActions.saveChanges(user))
-        } else {
-          dispatch(alertActions.error('Missing data...'))
+    let canSave = false
+    let hasChanges = false
+
+    for(const prop in mUser) {
+        hasChanges = true
+        if(mUser[prop]) {
+          canSave = true
+          console.log(prop + ' is modified to: ' + mUser[prop])
         }
+    }
+    if (!hasChanges) {
+      dispatch(alertActions.error('No changes found...'))
+    } else if (canSave) {
+      dispatch(userActions.saveChanges(mUser))
+    } else {
+      dispatch(alertActions.error('Missing Data...'))
+    }
   }
   handlePasswordChange(event) {
     const { name, value } = event.target
@@ -89,11 +98,11 @@ class UserDetailsPage extends React.Component {
 
   handleChange(event) {
     const { name, value } = event.target
-    const { user } = this.state
+    const { mUser } = this.state
 
     this.setState({
-      user: {
-        ...user,
+      mUser: {
+        ...mUser,
         [name]: value
       }
     })
@@ -112,20 +121,19 @@ class UserDetailsPage extends React.Component {
     )
   }
 
-  show(user){
-    this.originalPassword = user.password  // keep original password for comparison purpose
+  show(data){
     return <Form onSubmit={this.handleSubmit} className="grid-form">
       <fieldset>
   			<legend>View or Edit</legend>
         <div data-row-span="1">
-          {this.showUsername(user)}
+          {this.showUsername(data)}
         </div>
         <div data-row-span="2">
-          {this.showFirstName(user)}
-          {this.showLastName(user)}
+          {this.showFirstName(data)}
+          {this.showLastName(data)}
         </div>
         <div data-row-span="2">
-          {this.showEmail(user)}
+          {this.showEmail(data)}
           {this.showPassword()}
         </div>
       </fieldset>
@@ -135,46 +143,51 @@ class UserDetailsPage extends React.Component {
     </Form>
   }
 
-  showUsername(user) {
+  showUsername(data) {
+    const {submitted, mUser} = this.state
+    const { userDetails } = this.props
+    const { oUser } = userDetails.data
+
     return <div data-field-span="1">
 				<Label>Username</Label>
         <Input
           type="text"
           name="name"
           placeholder="User name here"
-          defaultValue={user.name}
+          defaultValue={data.name}
           onChange={this.handleChange}
         />
-        {!this.user.name && <FormText color="danger">User Name is required</FormText>}
+        {submitted && mUser.name != null && mUser.name == ""
+        && <FormText color="danger">User Name is required</FormText>}
 			</div>
   }
-  showFirstName(user) {
+  showFirstName(data) {
     return <div data-field-span="1">
         <Label>FirstName</Label>
         <Input
           type="text"
           name="first_name"
           placeholder="First name here"
-          defaultValue={user.first_name}
+          defaultValue={data.first_name}
           onChange={this.handleChange}
         />
-        {this.submitted && !user.first_name && <FormText color="danger">First Name is required</FormText>}
+        {this.submitted && <FormText color="danger">First Name is required</FormText>}
       </div>
   }
-  showLastName(user) {
+  showLastName(data) {
     return <div data-field-span="1">
         <Label>LastName</Label>
         <Input
           type="text"
           name="last_name"
           placeholder="Last name here"
-          defaultValue={user.last_name}
+          defaultValue={data.last_name}
           onChange={this.handleChange}
         />
-        {this.submitted && !user.last_name && <FormText color="danger">Last Name is required</FormText>}
+        {this.submitted && <FormText color="danger">Last Name is required</FormText>}
       </div>
   }
-  showEmail(user){
+  showEmail(data){
     return <div data-field-span="1">
         <Label>email</Label>
         <Input
@@ -182,10 +195,10 @@ class UserDetailsPage extends React.Component {
           name="eMail"
           placeholder="<email id here>"
           title="eMail ID of the User"
-          defaultValue={user.email}
+          defaultValue={data.email}
           onChange={this.handleChange}
         />
-        {this.submitted && !user.email && <FormText color="danger">Email-id is required</FormText>}
+        {this.submitted && <FormText color="danger">Email-id is required</FormText>}
       </div>
   }
   showPassword(){
