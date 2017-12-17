@@ -1,4 +1,5 @@
 import React from 'react'
+import { Redirect } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Table } from 'reactstrap'
@@ -142,7 +143,7 @@ class UserDetailsPage extends React.Component {
   }
 
   render() {
-    const { userDetails, user, match, alert } = this.props
+    const { userDetails, user, match, alert, submitted } = this.props
     return (
       <div>
         <h2>User Details</h2>
@@ -150,6 +151,7 @@ class UserDetailsPage extends React.Component {
         {userDetails.loading && <em>Loading user details...}</em>}
         {userDetails.error && <span className="text-danger">ERROR: {userDetails.error}</span>}
         {userDetails.data && this.show(userDetails.data)}
+        {submitted && <Redirect to='/users'/>}
       </div>
     )
   }
