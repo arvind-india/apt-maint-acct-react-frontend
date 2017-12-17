@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 //import logo from './logo.svg';
 import './App.css';
 
-import { Router, Route, Switch } from 'react-router-dom'
+import { Router, Route, Switch, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { history } from './_helpers'
@@ -14,6 +14,9 @@ import { RegisterPage } from './RegisterPage'
 import { UsersPage, UserDetailsPage } from './UsersPage'
 import { AppNavbar } from './AppNavbar'
 
+import { AuthenticatedRoute } from './AuthenticatedRoute'
+import { UnauthenticatedLayout, PrimaryLayout } from './_layouts'
+
 class App extends Component {
   constructor(props) {
     super(props)
@@ -23,7 +26,8 @@ class App extends Component {
       dispatch(alertActions.clear())
     })
   }
-  render() {
+
+/*  render() {
     return (
       <div>
         <AppNavbar/>
@@ -41,6 +45,21 @@ class App extends Component {
         </Router>
       </div>
     );
+  }  */
+
+  render() {
+    return (
+      <div>
+        <AppNavbar />
+        <Router history={history}>
+          <Switch>
+            <Route path="/login" component={UnauthenticatedLayout} />
+            <AuthenticatedRoute path="/app" component={PrimaryLayout} />
+            <Redirect to="/login" />
+          </Switch>
+        </Router>
+      </div>
+    )
   }
 }
 
