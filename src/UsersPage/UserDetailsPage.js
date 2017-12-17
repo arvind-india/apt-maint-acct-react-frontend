@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Table } from 'reactstrap'
+import AlertContainer from 'react-alert'
 import {
           Form,
           Button,
@@ -142,16 +143,21 @@ class UserDetailsPage extends React.Component {
     })
   }
 
+  showMsg(message) {
+    this.msg.show(message, {time: 5000})
+  }
+
   render() {
     const { userDetails, user, match, alert, submitted } = this.props
     return (
       <div>
         <h2>User Details</h2>
         {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
+        <AlertContainer ref={a => this.msg = a} {...this.alertOptions}/>
+        {alert.message ? this.showMsg(alert.message) : null}
         {userDetails.loading && <em>Loading user details...}</em>}
         {userDetails.error && <span className="text-danger">ERROR: {userDetails.error}</span>}
         {userDetails.data && this.show(userDetails.data)}
-        {submitted && <Redirect to='/users'/>}
       </div>
     )
   }

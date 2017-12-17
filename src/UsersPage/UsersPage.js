@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Table } from 'reactstrap'
 import { Router, Route } from 'react-router-dom'
+import AlertContainer from 'react-alert'
 
 import { history } from '../_helpers'
 import { PrivateRoute } from '../_components'
@@ -10,17 +11,32 @@ import { userActions, alertActions } from '../_actions'
 import { UserDetailsPage } from './UserDetailsPage'
 
 class UsersPage extends React.Component {
+
+  alertOptions = {
+    offset: 14,
+    position: 'top left',
+    theme: 'dark',
+    time: 2000,
+    transition: 'scale'
+  }
+
   componentDidMount() {
     this.props.dispatch(userActions.getAll())
   }
   handleDeleteUser(id) {
     return (e) => this.props.dispatch(userActions.delete(id))
   }
+  show(message) {
+    this.msg.show(message, {time: 5000})
+  }
   render() {
     const { user, users } = this.props
     return (
       <div>
         <h3>Users List</h3>
+        {users.items && alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
+        <AlertContainer ref={a => this.msg = a} {...this.alertOptions}/>
+        {alert.message ? this.show(alert.message) : null}
         {users.loading && <em>Loading users...}</em>}
         {users.error && <span className="text-danger">ERROR: {users.error}</span>}
         {users.items &&
@@ -57,11 +73,12 @@ class UsersPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { users, authentication } = state
+  const { users, authentication, alert } = state
   const { user } = authentication
   return {
     user,
-    users
+    users,
+    alert
   }
 }
 

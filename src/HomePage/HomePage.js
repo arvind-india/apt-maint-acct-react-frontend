@@ -14,7 +14,7 @@ class HomePage extends React.Component {
     offset: 14,
     position: 'top right',
     theme: 'dark',
-    time: 3000,
+    time: 2000,
     transition: 'scale'
   }
 
@@ -31,7 +31,7 @@ class HomePage extends React.Component {
     this.props.dispatch(alertActions.error('JWT Expired, re-login the Application!'))
   }
   show(message) {
-    this.msg.show(message)
+    this.msg.show(message, {time: 1000})
   }
   isJWTExpired(token) {
       let tokenExpiration = jwtDecode(token).exp
