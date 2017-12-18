@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Button } from 'reactstrap'
-import AlertContainer from 'react-alert'
 import jwtDecode from 'jwt-decode'
 import moment from 'moment'
 
@@ -30,9 +29,6 @@ class HomePage extends React.Component {
     this.props.dispatch(userActions.logout())
     this.props.dispatch(alertActions.error('JWT Expired, re-login the Application!'))
   }
-  show(message) {
-    this.msg.show(message, {time: 1000})
-  }
   isJWTExpired(token) {
       let tokenExpiration = jwtDecode(token).exp
       // if token is about to expire in the next 30 seconds...
@@ -42,9 +38,8 @@ class HomePage extends React.Component {
     const { user, alert } = this.props
     return (
       <div>
-        <AlertContainer ref={a => this.msg = a} {...this.alertOptions}/>
-        {alert.message ? this.show(alert.message) : null}
         <h2>Welcome to Account Tracking Website</h2>
+        {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
         <p>
           {user
             ?<Button color="danger" onClick={this.handleLogout}>Logout</Button>

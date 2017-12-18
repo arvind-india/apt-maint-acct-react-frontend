@@ -134,9 +134,10 @@ function saveChanges(user) {
       .then(
         user => {
           dispatch(success())
-          //history.push('/users')
+          history.push('/users')
+          //history.goBack()  // after successful update, go back to /users page
           dispatch(alertActions.success('Changes Saved Successfully'))
-          setTimeout(history.goBack(), 5000)  // after successful update, go back to /users page
+
         },
         error => {
           let data = error.response.data
