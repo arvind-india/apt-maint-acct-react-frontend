@@ -9,14 +9,6 @@ import { userActions, alertActions } from '../_actions'
 
 class HomePage extends React.Component {
 
-  alertOptions = {
-    offset: 14,
-    position: 'top right',
-    theme: 'dark',
-    time: 2000,
-    transition: 'scale'
-  }
-
   constructor(props) {
     super(props)
     this.handleLogout = this.handleLogout.bind(this)

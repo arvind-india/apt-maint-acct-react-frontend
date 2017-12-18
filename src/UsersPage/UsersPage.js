@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Table } from 'reactstrap'
+import { Table, UncontrolledAlert } from 'reactstrap'
 import { Router, Route } from 'react-router-dom'
 
 import { history } from '../_helpers'
@@ -10,14 +10,6 @@ import { userActions, alertActions } from '../_actions'
 import { UserDetailsPage } from './UserDetailsPage'
 
 class UsersPage extends React.Component {
-
-  alertOptions = {
-    offset: 14,
-    position: 'top left',
-    theme: 'dark',
-    time: 2000,
-    transition: 'scale'
-  }
 
   componentDidMount() {
     this.props.dispatch(userActions.getAll())
@@ -54,6 +46,7 @@ class UsersPage extends React.Component {
     return (
       <div>
         <h3>Users List</h3>
+        {alert.message && <UncontrolledAlert color={alert.color}>{alert.message}</UncontrolledAlert>}
         {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
         {users.loading && <em>Loading users...}</em>}
         {users.error && <span className="text-danger">ERROR: {users.error}</span>}

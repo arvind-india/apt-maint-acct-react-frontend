@@ -2,8 +2,6 @@ import React from 'react'
 import { Redirect } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Table } from 'reactstrap'
-
 import {
           Form,
           Button,
@@ -21,12 +19,6 @@ class UserDetailsPage extends React.Component {
     super(props)
     this.state = {
       mUser: {},
-/*      mUser: {
-        name: null,
-        first_name: null,
-        last_name: null,
-        email: null
-      }, */
       password: '',
       confirmPassword: '',
       submitted: false,
