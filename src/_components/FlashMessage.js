@@ -16,6 +16,7 @@ class FlashMessage extends React.Component {
     this.onDismiss = this.onDismiss.bind(this)
   }
   onDismiss() {
+    console.log('onDismiss is called!')
     this.setState({ visible: false })
     this.timer = null
   }
@@ -39,14 +40,17 @@ class FlashMessage extends React.Component {
   isOpen={this.state.visible}
   toggle={this.onDismiss}
 >Flash Alert Message: alert.message</Alert>
+
+<Alert color="info" isOpen={visible} toggle={this.onDismiss}>{alert.message}</Alert>
+
 */
 
   render() {
     const { alert, visible } = this.props
     return (
-      <div>
+      <div onClick={this.onDismiss}>
         <UncontrolledAlert color="info">Flash Alert Message: alert.message</UncontrolledAlert>
-        <Alert color="info" isOpen={visible} toggle={this.onDismiss}>{alert.message}</Alert>
+        <Alert color="info" isOpen={visible}>{alert.message}</Alert>
       </div>
     )
   }
