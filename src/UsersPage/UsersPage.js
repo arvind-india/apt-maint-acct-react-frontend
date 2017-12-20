@@ -82,7 +82,7 @@ class UsersPage extends React.Component {
     return (
       <div>
         <h3>Users List</h3>
-        {alert.message && <FlashMessage alert={alert} />}
+        {alert.message && <FlashMessage message={alert.message} delay={5000}/>}
         {users.loading && <em>Loading users...}</em>}
         {users.error && <span className="text-danger">ERROR: {users.error}</span>}
         {users.items && this.showList(users) }

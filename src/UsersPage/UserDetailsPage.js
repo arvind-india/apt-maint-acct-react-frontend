@@ -17,6 +17,7 @@ import { userActions, alertActions } from '../_actions'
 class UserDetailsPage extends React.Component {
   constructor(props) {
     super(props)
+    const { dispatch } = props
     this.state = {
       mUser: {},
       password: '',
@@ -29,6 +30,8 @@ class UserDetailsPage extends React.Component {
     this.handlePasswordChange= this.handlePasswordChange.bind(this)
     this.handleConfirmPasswordChange= this.handleConfirmPasswordChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+
+    dispatch(alertActions.clear())  // clear alert messages from other pages
   }
   componentDidMount() {
     this.props.dispatch(userActions.getById(this.props.match.params.id))

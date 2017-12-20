@@ -1,37 +1,33 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Alert, UncontrolledAlert } from 'reactstrap'
+import { Alert } from 'reactstrap'
 
 import { alertActions } from '../_actions'
 
-class FlashMessage extends React.Component {
+/*
+ * This class is intended to add Auto Closure of Alert message from reactstrap.
+ * For that, it wraps <Alert...> component in a timer so as to hide the 'message'
+ * after a 'delay' in milliseconds ( a default value of 1000 milliseconds is set)
+ * Usage: <FlashMessage message={aString} delay={aNumber} />
+ */
+export class FlashMessage extends React.Component {
   constructor(props) {
     super(props)
-    let delay = 3000  // milliseconds
     this.state = {
       visible: true
     }
-    console.log('props', props)
-    console.log('state', this.state)
     this.onDismiss = this.onDismiss.bind(this)
-    this.closeAlertMsg = this.closeAlertMsg.bind(this)
   }
   onDismiss() {
-    console.log('onDismiss is called!')
     this.setState({ visible: false })
     this.timer = null
-  }
-  closeAlertMsg() {
-    this.setState({ visible: false })
-    this.timer = null
-    console.log('closeAlertMsg is called!')
   }
   setTimer() {
     // clear any existing timer
     this.timer != null ? clearTimeout(this.timer) : null
 
     // hide after 'delay' milliseconds
-    this.timer = setTimeout(this.onDismiss, 5000)
+    this.timer = setTimeout(this.onDismiss, this.props.delay)
   }
   componentDidMount() {
     this.setTimer()
@@ -40,34 +36,19 @@ class FlashMessage extends React.Component {
     clearTimeout(this.timer)
   }
 
-/*
-<Alert
-  color="info"
-  isOpen={this.state.visible}
-  toggle={this.onDismiss}
->Flash Alert Message: alert.message</Alert>
-
-<Alert color="info" isOpen={visible} toggle={this.onDismiss}>{alert.message}</Alert>
-        <UncontrolledAlert color="info">Flash Alert Message: alert.message</UncontrolledAlert>
-
-*/
-
   render() {
-    const { alert } = this.props
     return (
-      <div onClick={this.closeAlertMsg}>
-        <Alert color="info" isOpen={this.state.visible} toggle={this.onDismiss}>{alert.message}</Alert>
+      <div>
+        <Alert
+          color="info"
+          isOpen={this.state.visible}
+          toggle={this.onDismiss}
+          >{this.props.message}</Alert>
       </div>
     )
   }
 }
 
-function mapStateToProps(state) {
-  const { alert } = state
-  return {
-    alert
-  }
+FlashMessage.defaultProps = {
+  delay: 1000  // in milliseconds
 }
-
-const connectedFlashMessage = connect(mapStateToProps)(FlashMessage)
-export { connectedFlashMessage as FlashMessage }
