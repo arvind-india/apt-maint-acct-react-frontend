@@ -14,18 +14,24 @@ class FlashMessage extends React.Component {
     console.log('props', props)
     console.log('state', this.state)
     this.onDismiss = this.onDismiss.bind(this)
+    this.closeAlertMsg = this.closeAlertMsg.bind(this)
   }
   onDismiss() {
     console.log('onDismiss is called!')
     this.setState({ visible: false })
     this.timer = null
   }
+  closeAlertMsg() {
+    this.setState({ visible: false })
+    this.timer = null
+    console.log('closeAlertMsg is called!')
+  }
   setTimer() {
     // clear any existing timer
     this.timer != null ? clearTimeout(this.timer) : null
 
     // hide after 'delay' milliseconds
-    this.timer = setTimeout(this.onDismiss, 2000)
+    this.timer = setTimeout(this.onDismiss, 5000)
   }
   componentDidMount() {
     this.setTimer()
@@ -42,25 +48,24 @@ class FlashMessage extends React.Component {
 >Flash Alert Message: alert.message</Alert>
 
 <Alert color="info" isOpen={visible} toggle={this.onDismiss}>{alert.message}</Alert>
+        <UncontrolledAlert color="info">Flash Alert Message: alert.message</UncontrolledAlert>
 
 */
 
   render() {
-    const { alert, visible } = this.props
+    const { alert } = this.props
     return (
-      <div onClick={this.onDismiss}>
-        <UncontrolledAlert color="info">Flash Alert Message: alert.message</UncontrolledAlert>
-        <Alert color="info" isOpen={visible}>{alert.message}</Alert>
+      <div onClick={this.closeAlertMsg}>
+        <Alert color="info" isOpen={this.state.visible} toggle={this.onDismiss}>{alert.message}</Alert>
       </div>
     )
   }
 }
 
 function mapStateToProps(state) {
-  const { alert, visible } = state
+  const { alert } = state
   return {
-    alert,
-    visible
+    alert
   }
 }
 

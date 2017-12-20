@@ -11,7 +11,7 @@ import { UserDetailsPage } from './UserDetailsPage'
 
 
 class UsersPage extends React.Component {
-
+/*
   constructor(props) {
     super(props)
 
@@ -31,15 +31,16 @@ class UsersPage extends React.Component {
     this.timer != null ? clearTimeout(this.timer) : null
 
     // hide after 'delay' milliseconds
-    this.timer = setTimeout(this.onDismiss, 3000)
+    this.timer = setTimeout(this.onDismiss, 5000)
   }
+  */
   componentDidMount() {
     this.props.dispatch(userActions.getAll())
-    this.setTimer()
+//    this.setTimer()
   }
-  componentWillUnmount() {
+/*  componentWillUnmount() {
     clearTimeout(this.timer)
-  }
+  } */
   handleDeleteUser(id) {
     return (e) => this.props.dispatch(userActions.delete(id))
   }
