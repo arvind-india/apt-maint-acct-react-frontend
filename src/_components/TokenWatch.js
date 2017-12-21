@@ -1,41 +1,37 @@
 import React from 'react'
-// import { Link } from 'react-router-dom'
- import { connect } from 'react-redux'
-// import { Button } from 'reactstrap'
+import { connect } from 'react-redux'
 import jwtDecode from 'jwt-decode'
 import moment from 'moment'
 
 import { userActions, alertActions } from '../_actions'
 
-class TokenWatch extends React.Component {
+export class TokenWatch extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.start()
+  }
+
+  start() {
+    console.log('TokenWatch is started...')
+    this.timer = setInterval(this.watch, 1000)
+  }
 
   exitApp() {
     this.props.dispatch(userActions.logout())
     this.props.dispatch(alertActions.error('JWT Expired, re-login the Application!'))
+    clearInterval(this.timer)
+    console.log('TokenWatch is ended')
   }
   isJWTExpired(token) {
       let tokenExpiration = jwtDecode(token).exp
       // if token is about to expire in the next 30 seconds...
       return moment.unix(tokenExpiration) - moment(Date.now()) < 30
   }
-  render() {
-    const { user, alert } = this.props
-    return (
-      <div>
-          {user && this.isJWTExpired(user.id_token) && this.exitApp()}
-      </div>
-    )
+  watch() {
+    if( this.isJWTExpired(this.props.user.id_token) ) {
+        this.exitApp()
+    }
   }
-}
 
-function mapStateToProps(state) {
-  const { alert, authentication } = state
-  const { user } = authentication
-  return {
-    alert,
-    user
-  }
 }
-
-const connectedTokenWatch = connect(mapStateToProps)(TokenWatch)
-export { connectedTokenWatch as TokenWatch }

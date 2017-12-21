@@ -2,6 +2,7 @@ import { userConstants } from '../_constants'
 import { userService } from '../_services'
 import { alertActions } from './'
 import { history } from '../_helpers'
+import { TokenWatch } from '../_components'
 
 export const userActions = {
   login,
@@ -23,6 +24,7 @@ function login(username, password) {
         user => {
           dispatch(success(user))
           history.push('/')
+          TokenWatch()
           dispatch(alertActions.success('Welcome to Apartment Maintenance Tracking Application'))
         },
         error => {
