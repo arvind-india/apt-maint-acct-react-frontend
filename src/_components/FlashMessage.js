@@ -6,9 +6,11 @@ import { alertActions } from '../_actions'
 
 /*
  * This class is intended to add Auto Closure of Alert message from reactstrap.
- * For that, it wraps <Alert...> component in a timer so as to hide the 'message'
+ * For that, it wraps <Alert...> component in a timer so as to hide the 'text'
  * after a 'delay' in milliseconds ( a default value of 1000 milliseconds is set)
- * Usage: <FlashMessage message={aString} delay={aNumber} />
+ *
+ * Usage: <FlashMessage text={aString} delay={aNumber} />
+ *
  */
 export class FlashMessage extends React.Component {
   constructor(props) {
@@ -43,7 +45,7 @@ export class FlashMessage extends React.Component {
           color="info"
           isOpen={this.state.visible}
           toggle={this.onDismiss}
-          >{this.props.message}</Alert>
+          >{this.props.text}</Alert>
       </div>
     )
   }

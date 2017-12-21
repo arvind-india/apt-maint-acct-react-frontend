@@ -11,36 +11,10 @@ import { UserDetailsPage } from './UserDetailsPage'
 
 
 class UsersPage extends React.Component {
-/*
-  constructor(props) {
-    super(props)
 
-    this.state = {
-      visible: true
-    }
-
-    this.onDismiss = this.onDismiss.bind(this)
-  }
-
-  onDismiss() {
-    this.setState({ visible: false })
-    this.timer = null
-  }
-  setTimer() {
-    // clear any existing timer
-    this.timer != null ? clearTimeout(this.timer) : null
-
-    // hide after 'delay' milliseconds
-    this.timer = setTimeout(this.onDismiss, 5000)
-  }
-  */
   componentDidMount() {
     this.props.dispatch(userActions.getAll())
-//    this.setTimer()
   }
-/*  componentWillUnmount() {
-    clearTimeout(this.timer)
-  } */
   handleDeleteUser(id) {
     return (e) => this.props.dispatch(userActions.delete(id))
   }
@@ -67,22 +41,13 @@ class UsersPage extends React.Component {
       </tbody>
     </Table>
   }
-//  {alert.message && <UncontrolledAlert color={alert.color}>{alert.message}</UncontrolledAlert>}
-//  {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
-/*
-{alert.message
-  && <Alert
-        color={alert.color}
-        isOpen={this.state.visible}
-        toggle={this.onDismiss}
-      >Controlled Alert Message: {alert.message}</Alert>}
-*/
+
   render() {
     const { user, users, alert } = this.props
     return (
       <div>
         <h3>Users List</h3>
-        {alert.message && <FlashMessage message={alert.message} delay={5000}/>}
+        {alert.message && <FlashMessage text={alert.message} delay={5000}/>}
         {users.loading && <em>Loading users...}</em>}
         {users.error && <span className="text-danger">ERROR: {users.error}</span>}
         {users.items && this.showList(users) }
