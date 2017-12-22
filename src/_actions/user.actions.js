@@ -24,7 +24,9 @@ function login(username, password) {
         user => {
           dispatch(success(user))
           history.push('/')
-          new TokenWatch(user)
+          console.log('Logged User: ', user)
+          let watcher = new TokenWatch(user)
+          //watcher.start()
           dispatch(alertActions.success('Welcome to Apartment Maintenance Tracking Application'))
         },
         error => {

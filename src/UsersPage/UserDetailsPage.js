@@ -50,15 +50,16 @@ class UserDetailsPage extends React.Component {
     return props
   }
   canSave(mUser) {
-    let result = false
+    // let result = true
     for(const prop in mUser) {
-        if(mUser[prop]) { // check every property for null or empty string
+/*        if(mUser[prop]) { // check every property for null or empty string
           result = true
         } else {
-          result = false
-        }
+          return false  // if false, exit the loop
+        } */
+        if( !mUser[prop] ) return false
     }
-    return result
+    return true
   }
   handleSubmit(event) {
     event.preventDefault()

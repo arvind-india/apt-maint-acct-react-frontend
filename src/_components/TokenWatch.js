@@ -3,11 +3,12 @@ import jwtDecode from 'jwt-decode'
 import moment from 'moment'
 
 import { userActions, alertActions } from '../_actions'
+import { store } from '../_helpers'
 
 export class TokenWatch {
 
   constructor(user) {
-    this.user = user
+    this.timer = setInterval(this.watch(user.id_token), 1000)
   }
 
   start() {
@@ -18,6 +19,8 @@ export class TokenWatch {
   exitApp() {
     // this.props.dispatch(userActions.logout())
     // this.props.dispatch(alertActions.error('JWT Expired, re-login the Application!'))
+    store.dispatch(userActions.logout())
+    store.dispatch(alertActions.error('JWT Expired, re-login the Application!'))
     clearInterval(this.timer)
     console.log('TokenWatch is ended')
   }
@@ -26,8 +29,8 @@ export class TokenWatch {
       // if token is about to expire in the next 30 seconds...
       return moment.unix(tokenExpiration) - moment(Date.now()) < 30
   }
-  watch() {
-    if( this.isJWTExpired(this.user.id_token) ) {
+  watch(token) {
+    if( this.isJWTExpired(token) ) {
         this.exitApp()
     }
   }

@@ -11,7 +11,7 @@ import {
           Col
         } from 'reactstrap'
 
-import { userActions } from '../_actions'
+import { userActions, alertActions } from '../_actions'
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -19,6 +19,7 @@ class LoginPage extends React.Component {
 
     // reset login status
     this.props.dispatch(userActions.logout())
+    this.props.dispatch(alertActions.clear())  // clear alert messages from other pages
 
     this.state = {
       email: 'guest@eastgate.in',
