@@ -24,7 +24,7 @@ function login(username, password) {
         user => {
           dispatch(success(user))
           history.push('/')
-          TokenWatch()
+          new TokenWatch(user)
           dispatch(alertActions.success('Welcome to Apartment Maintenance Tracking Application'))
         },
         error => {

@@ -1,15 +1,13 @@
-import React from 'react'
 import { connect } from 'react-redux'
 import jwtDecode from 'jwt-decode'
 import moment from 'moment'
 
 import { userActions, alertActions } from '../_actions'
 
-export class TokenWatch extends React.Component {
+export class TokenWatch {
 
-  constructor(props) {
-    super(props)
-    this.start()
+  constructor(user) {
+    this.user = user
   }
 
   start() {
@@ -18,8 +16,8 @@ export class TokenWatch extends React.Component {
   }
 
   exitApp() {
-    this.props.dispatch(userActions.logout())
-    this.props.dispatch(alertActions.error('JWT Expired, re-login the Application!'))
+    // this.props.dispatch(userActions.logout())
+    // this.props.dispatch(alertActions.error('JWT Expired, re-login the Application!'))
     clearInterval(this.timer)
     console.log('TokenWatch is ended')
   }
@@ -29,7 +27,7 @@ export class TokenWatch extends React.Component {
       return moment.unix(tokenExpiration) - moment(Date.now()) < 30
   }
   watch() {
-    if( this.isJWTExpired(this.props.user.id_token) ) {
+    if( this.isJWTExpired(this.user.id_token) ) {
         this.exitApp()
     }
   }
