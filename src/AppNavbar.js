@@ -30,7 +30,7 @@ import {
 } from 'react-icons/lib/md' // material design icons
 
 import { userActions } from './_actions'
-
+import { history } from './_helpers'
 
 class AppNavbar extends React.Component {
   constructor(props) {
@@ -44,6 +44,7 @@ class AppNavbar extends React.Component {
   }
   handleLogout() {
     this.props.dispatch(userActions.logout())
+    history.push('/home')
   }
   toggle() {
     this.setState({
