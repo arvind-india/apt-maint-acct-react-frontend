@@ -15,7 +15,6 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
 
 
 export const PrivateRoute = ({ component: Component, ...rest }) => (
-
   <Route {...rest} render={props => (
     validToken()
       ? <Component {...props} />
@@ -24,13 +23,16 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
 )
 
 function validToken() {
+  console.log('Inside PrivateRoute >> validToken()')
   let user = localStorage.getItem('user')
-  if(!user) {
+  let userp = JSON.parse(user)
+  console.log('User: ', userp)
+  if(!userp) {
     console.log('@PrivateRoute: No logged user')
     return false; // no user in local storage, so return false
   }
 
-  let token = user.id_token
+  let token = userp.id_token
   let tokenExpiration = jwtDecode(token).exp
   // if token has more than 30 seconds before its expiration, it is taken as valid token...
   let isValid = moment.unix(tokenExpiration) - moment(Date.now()) > 30
