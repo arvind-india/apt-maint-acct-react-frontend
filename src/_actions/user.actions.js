@@ -23,13 +23,9 @@ function login(username, password) {
         user => {
           dispatch(success(user))
           history.push('/')
-          //console.log('Logged User: ', user)
-          //let watcher = new TokenWatch(user)
-          //watcher.start()
           dispatch(alertActions.success('Welcome to Apartment Maintenance Tracking Application'))
         },
         error => {
-          console.log(error.response)
           dispatch(failure(error.response))
           dispatch(alertActions.error(error.response.statusText))
         }
@@ -59,8 +55,6 @@ function register(user) {
         },
         error => {
           let data = error.response.data
-          console.log('error response...')
-          console.log(error.response.data)
           let appData;
           if(data.error) { // check if there is a application specific error data enclosed
             appData = data.data
@@ -138,7 +132,6 @@ function saveChanges(user) {
         user => {
           dispatch(success())
           history.push('/users')
-          //history.goBack()  // after successful update, go back to /users page
           dispatch(alertActions.success('Changes Saved Successfully'))
 
         },

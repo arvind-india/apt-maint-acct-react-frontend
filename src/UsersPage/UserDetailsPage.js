@@ -50,13 +50,8 @@ class UserDetailsPage extends React.Component {
     return props
   }
   canSave(mUser) {
-    // let result = true
+
     for(const prop in mUser) {
-/*        if(mUser[prop]) { // check every property for null or empty string
-          result = true
-        } else {
-          return false  // if false, exit the loop
-        } */
         if( !mUser[prop] ) return false
     }
     return true
@@ -68,22 +63,10 @@ class UserDetailsPage extends React.Component {
     const { mUser, submitted, confirmPassword } = this.state
     const { dispatch, userDetails } = this.props
 
-    console.log('Current state: ', this.state)
-    console.log('submitted 1: ', this.state.submitted)
-
     let canSave = this.canSave(mUser)
     let cProps = this.changedProps(mUser)
     let hasChanges = cProps.length > 0
     let hasEmailChange = cProps.includes('email')
-/*
-    for(const prop in mUser) {
-        hasChanges = true
-        if(mUser[prop]) {
-          canSave = true
-          console.log(prop + ' is modified to: ' + mUser[prop])
-        }
-        mUser.id = userDetails.data.id
-    }  */
 
     if(canSave) {
       mUser.id = userDetails.data.id
@@ -104,24 +87,18 @@ class UserDetailsPage extends React.Component {
     const { name, value } = event.target
     this.setState({ [name]: value  })
     if(value) {
-      // console.log('Password is changed!')
       this.setState({ passwordChanged: true })
     } else {
-      // console.log('Password is NOT changed')
       this.setState({ passwordChanged: false})
     }
   }
   handleConfirmPasswordChange(event) {
     const { name, value } = event.target
-    // console.log('Name: ', name)
-    // console.log('Value: ', value)
     this.setState({ [name]: value })
 
     if(value && value === this.state.password) {
-      // console.log('Password matches!')
       this.setState({ passwordMatches: true })
     } else {
-      // console.log('Password do not match')
       this.setState({ passwordMatches: false })
     }
 

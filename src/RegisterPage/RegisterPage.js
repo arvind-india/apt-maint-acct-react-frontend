@@ -52,7 +52,6 @@ class RegisterPage extends React.Component {
     this.setState({ submitted: true })
     const { user, confirmPassword } = this.state
     const { dispatch } = this.props
-console.log('Registering user: ', user)
     if(user.name &&
         user.first_name &&
         user.last_name &&
