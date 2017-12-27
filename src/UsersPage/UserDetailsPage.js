@@ -115,7 +115,21 @@ class UserDetailsPage extends React.Component {
       }
     })
   }
+  handleInfosChange(event) {
+    const { name, value } = event.target
+    const { mUser } = this.state
 
+    this.setState({
+      mUser: {
+        ...mUser,
+        infos: {
+          ...mUser.infos,
+          [name]: value
+        }
+
+      }
+    })
+  }
   render() {
     const { userDetails, user, match, alert, submitted } = this.props
     return (
@@ -137,6 +151,10 @@ class UserDetailsPage extends React.Component {
           {this.showUsername(data)}
         </div>
         <div data-row-span="2">
+          {this.showFlatNumber(data)}
+          {this.showResidentType(data)}
+        </div>
+        <div data-row-span="2">
           {this.showFirstName(data)}
           {this.showLastName(data)}
         </div>
@@ -152,9 +170,9 @@ class UserDetailsPage extends React.Component {
   }
 
   showUsername(data) {
-    const {submitted, mUser} = this.state
+    const {submitted, mUser} = this.state // mUser is modified user
     const { userDetails } = this.props
-    const { oUser } = userDetails.data
+    const { oUser } = userDetails.data // oUser is original user
 
     return <div data-field-span="1">
 				<Label>Username</Label>
@@ -168,6 +186,31 @@ class UserDetailsPage extends React.Component {
         {submitted && mUser.name != null && mUser.name == ""
         && <FormText color="danger">User Name is required</FormText>}
 			</div>
+  }
+  showFlatNumber(data) {
+console.log('data: ', data)
+    return <div data-field-span="1">
+        <Label>Flat/Apartment Number</Label>
+        <Input
+          type="text"
+          name="flat-number"
+          placeholder="Enter Flat Number if applicablee"
+          defaultValue={data.infos.flatNumber}
+          onChange={this.handleInfosChange}
+        />
+      </div>
+  }
+  showResidentType(data) {
+console.log('data: ', data)
+    return <div data-field-span="1">
+        <Label>Resident Type</Label>
+        <input
+          type="radio"
+          name="resident-type"
+          defaultValue={data.infos.residentType}
+          onChange={this.handleInfosChange}
+        /> Owner
+      </div>
   }
   showFirstName(data) {
     return <div data-field-span="1">
