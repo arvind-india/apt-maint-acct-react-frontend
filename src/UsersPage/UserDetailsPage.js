@@ -27,6 +27,7 @@ class UserDetailsPage extends React.Component {
       passwordMatches: false
     }
     this.handleChange = this.handleChange.bind(this)
+    this.handleInfosChange = this.handleInfosChange.bind(this)
     this.handlePasswordChange= this.handlePasswordChange.bind(this)
     this.handleConfirmPasswordChange= this.handleConfirmPasswordChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -118,7 +119,7 @@ class UserDetailsPage extends React.Component {
   handleInfosChange(event) {
     const { name, value } = event.target
     const { mUser } = this.state
-
+// console.log('Name: ', name); console.log('Value: ', value);
     this.setState({
       mUser: {
         ...mUser,
@@ -132,6 +133,7 @@ class UserDetailsPage extends React.Component {
   }
   render() {
     const { userDetails, user, match, alert, submitted } = this.props
+console.log('UserDetails: ', userDetails)    
     return (
       <div>
         <h2>User Details</h2>
@@ -188,7 +190,6 @@ class UserDetailsPage extends React.Component {
 			</div>
   }
   showFlatNumber(data) {
-console.log('data: ', data)
     return <div data-field-span="1">
         <Label>Flat/Apartment Number</Label>
         <Input
@@ -201,7 +202,6 @@ console.log('data: ', data)
       </div>
   }
   showResidentType(data) {
-console.log('data: ', data)
     return <div data-field-span="1">
         <Label>Resident Type</Label>
         <input
@@ -210,6 +210,18 @@ console.log('data: ', data)
           defaultValue={data.infos.residentType}
           onChange={this.handleInfosChange}
         /> Owner
+        <input
+          type="radio"
+          name="resident-type"
+          defaultValue={data.infos.residentType}
+          onChange={this.handleInfosChange}
+        /> Tenant
+        <input
+          type="radio"
+          name="resident-type"
+          defaultValue={data.infos.residentType}
+          onChange={this.handleInfosChange}
+        /> Not Applicable
       </div>
   }
   showFirstName(data) {
