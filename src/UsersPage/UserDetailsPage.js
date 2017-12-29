@@ -24,7 +24,8 @@ class UserDetailsPage extends React.Component {
       confirmPassword: '',
       submitted: false,
       passwordChanged: false,
-      passwordMatches: false
+      passwordMatches: false,
+      mInfos: {}  // infos modified in the UI
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleInfosChange = this.handleInfosChange.bind(this)
@@ -43,15 +44,16 @@ class UserDetailsPage extends React.Component {
     }
     return false
   }
-  changedProps(mUser) {
+  changedProps() {
+    const { mUser } = this.state
     let props = []
     for(const prop in mUser) {
       props.push(prop)
     }
     return props
   }
-  canSave(mUser) {
-
+  canSave() { // check for changes in mUser, if present, it can save
+    const { mUser } = this.state
     for(const prop in mUser) {
         if( !mUser[prop] ) return false
     }
@@ -64,8 +66,8 @@ class UserDetailsPage extends React.Component {
     const { mUser, submitted, confirmPassword } = this.state
     const { dispatch, userDetails } = this.props
 
-    let canSave = this.canSave(mUser)
-    let cProps = this.changedProps(mUser)
+    let canSave = this.canSave()
+    let cProps = this.changedProps()
     let hasChanges = cProps.length > 0
     let hasEmailChange = cProps.includes('email')
 
@@ -118,22 +120,18 @@ class UserDetailsPage extends React.Component {
   }
   handleInfosChange(event) {
     const { name, value } = event.target
-    const { mUser } = this.state
+    const { mInfos } = this.state
 // console.log('Name: ', name); console.log('Value: ', value);
     this.setState({
-      mUser: {
-        ...mUser,
-        infos: {
-          ...mUser.infos,
-          [name]: value
-        }
-
+      mInfos: {
+        ...mInfos,
+        [name]: value
       }
     })
   }
   render() {
     const { userDetails, user, match, alert, submitted } = this.props
-console.log('UserDetails: ', userDetails)    
+console.log('UserDetails: ', userDetails)
     return (
       <div>
         <h2>User Details</h2>
@@ -144,8 +142,23 @@ console.log('UserDetails: ', userDetails)
       </div>
     )
   }
-
+  /**
+   * Converts Array into object
+   */
+  infosObjFrom(infosArray) {
+    let obj = {}
+    if(!infosArray || infosArray.length == 0) {
+      return obj
+    }
+    infosArray.forEach(eachInfo => {
+      obj[eachInfo.key] = eachInfo.value
+    })
+    return obj
+  }
   show(data){
+    let infosArray = data.infos
+    let infosObj = this.infosObjFrom(infosArray)
+console.log('infosObj: '); console.log(infosObj)    
     return <Form onSubmit={this.handleSubmit} className="grid-form">
       <fieldset>
   			<legend>View or Edit</legend>
@@ -153,8 +166,8 @@ console.log('UserDetails: ', userDetails)
           {this.showUsername(data)}
         </div>
         <div data-row-span="2">
-          {this.showFlatNumber(data)}
-          {this.showResidentType(data)}
+          {this.showFlatNumber(infosObj)}
+          {this.showResidentType(infosObj)}
         </div>
         <div data-row-span="2">
           {this.showFirstName(data)}
@@ -189,37 +202,37 @@ console.log('UserDetails: ', userDetails)
         && <FormText color="danger">User Name is required</FormText>}
 			</div>
   }
-  showFlatNumber(data) {
+  showFlatNumber(infosObj) {
     return <div data-field-span="1">
         <Label>Flat/Apartment Number</Label>
         <Input
           type="text"
           name="flat-number"
           placeholder="Enter Flat Number if applicablee"
-          defaultValue={data.infos.flatNumber}
+          defaultValue={infosObj.flatNumber}
           onChange={this.handleInfosChange}
         />
       </div>
   }
-  showResidentType(data) {
+  showResidentType(infosObj) {
     return <div data-field-span="1">
         <Label>Resident Type</Label>
         <input
           type="radio"
           name="resident-type"
-          defaultValue={data.infos.residentType}
+          defaultValue={infosObj.residentType}
           onChange={this.handleInfosChange}
         /> Owner
         <input
           type="radio"
           name="resident-type"
-          defaultValue={data.infos.residentType}
+          defaultValue={infosObj.residentType}
           onChange={this.handleInfosChange}
         /> Tenant
         <input
           type="radio"
           name="resident-type"
-          defaultValue={data.infos.residentType}
+          defaultValue={infosObj.residentType}
           onChange={this.handleInfosChange}
         /> Not Applicable
       </div>
