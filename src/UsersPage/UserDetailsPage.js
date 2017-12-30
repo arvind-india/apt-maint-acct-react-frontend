@@ -121,6 +121,7 @@ class UserDetailsPage extends React.Component {
   handleInfosChange(event) {
     const { name, value } = event.target
     const { mInfos, mUser } = this.state
+
  console.log('Name: ', name); console.log('Value: ', value);
     this.setState({
       mInfos: {
@@ -132,6 +133,7 @@ class UserDetailsPage extends React.Component {
         infos: this.objToArr(mInfos)
       }
     })
+
   }
   render() {
     const { userDetails, user, match, alert, submitted } = this.props
@@ -224,6 +226,7 @@ console.log('infosObj: '); console.log(infosObj)
           type="text"
           name="name"
           placeholder="User name here"
+          className="inputField"
           defaultValue={data.name}
           onChange={this.handleChange}
         />
@@ -236,8 +239,9 @@ console.log('infosObj: '); console.log(infosObj)
         <Label>Flat/Apartment Number</Label>
         <Input
           type="text"
-          name="flat-number"
+          name="flatNumber"
           placeholder="Enter Flat Number if applicablee"
+          className="inputField"
           defaultValue={infosObj.flatNumber}
           onChange={this.handleInfosChange}
         />
@@ -250,7 +254,7 @@ console.log('infosObj: '); console.log(infosObj)
           <Label check>
             <Input
               type="radio"
-              name="resident-type"
+              name="residenType"
               defaultValue={infosObj.residentType}
               onChange={this.handleInfosChange}
             /> Owner
@@ -260,7 +264,7 @@ console.log('infosObj: '); console.log(infosObj)
           <Label check>
             <Input
               type="radio"
-              name="resident-type"
+              name="residenType"
               defaultValue={infosObj.residentType}
               onChange={this.handleInfosChange}
             /> Tenant
@@ -270,7 +274,7 @@ console.log('infosObj: '); console.log(infosObj)
           <Label check>
             <Input
               type="radio"
-              name="resident-type"
+              name="residenType"
               defaultValue={infosObj.residentType}
               onChange={this.handleInfosChange}
             /> Not Applicable
@@ -313,7 +317,7 @@ console.log('infosObj: '); console.log(infosObj)
         <Label>email</Label>
         <Input
           type="email"
-          name="eMail"
+          name="email"
           placeholder="<email id here>"
           title="eMail ID of the User"
           className="inputField"
@@ -357,7 +361,7 @@ console.log('infosObj: '); console.log(infosObj)
         <Label>Other email-ids</Label>
         <Input
           type="textarea"
-          name="oEmails"
+          name="otherEmails"
           placeholder="example1@email.id, example2@email.id"
           title="Other eMail IDs of the User"
           className="inputField"
@@ -372,7 +376,7 @@ console.log('infosObj: '); console.log(infosObj)
       <Label>Cell/Mobile/Landline Numbers</Label>
       <Input
         type="textarea"
-        name="cells"
+        name="cellNumbers"
         placeholder="eg: 9797097970, 044-27273030"
         title="Mobile or Landline Phone numbers of the User"
         className="inputField"
@@ -387,7 +391,7 @@ console.log('infosObj: '); console.log(infosObj)
       <Label>Regn No. of 2-wheeler(s) parked</Label>
       <Input
         type="textarea"
-        name="twowheelers"
+        name="twoWheelers"
         placeholder="eg: TN 11 CY 1234, TN 01 AZ 9876"
         title="Registration Number of Two Wheelers parked by the User"
         className="inputField"
@@ -402,7 +406,7 @@ console.log('infosObj: '); console.log(infosObj)
       <Label>Regn No. of 4-wheeler(s) parked</Label>
       <Input
         type="textarea"
-        name="fourwheelers"
+        name="fourWheelers"
         placeholder="eg: TN 22 A 4567, TN 02 BD 789"
         title="Registration Number of Four Wheelers parked by the User"
         className="inputField"
@@ -417,11 +421,11 @@ console.log('infosObj: '); console.log(infosObj)
       <Label>Emergency Contact Details</Label>
       <Input
         type="textarea"
-        name="emergency"
+        name="emergencyContacts"
         placeholder="In case of emergency, whom to approach (such as relatives, friends), enter their name, address, or phone numbers here"
         title="Contact phone numbers in case of emergencies"
         className="inputField"
-        defaultValue={infosObj.emergencyContact}
+        defaultValue={infosObj.emergencyContacts}
         onChange={this.handleInfosChange}
         rows="1"
       />
