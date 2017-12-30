@@ -145,20 +145,41 @@ console.log('UserDetails: ', userDetails)
   /**
    * Converts Array into object
    */
-  infosObjFrom(infosArray) {
+  arrToObj(array) {
     let obj = {}
-    if(!infosArray || infosArray.length == 0) {
+    if(!array || array.length == 0) {
       return obj
     }
-    infosArray.forEach(eachInfo => {
+    array.forEach(eachInfo => {
       obj[eachInfo.key] = eachInfo.value
     })
     return obj
   }
+
+/*
+
+function arrayToObj (array, fn) {
+    var obj = {};
+    var len = array.length;
+    for (var i = 0; i < len; i++) {
+        var item = fn(array[i], i, array);
+        obj[item.key] = item.value;
+    }
+    return obj;
+};
+
+//calling example:
+var arrayOfObjects=[{name:'banana',color:'yellow'},{name:'apple',color:'green'}];
+var objectMap = arrayToObj(arrayOfObjects,function (item) {
+                           return {key:item.name,value:item.color};
+                        });
+
+*/
+
+
   show(data){
-    let infosArray = data.infos
-    let infosObj = this.infosObjFrom(infosArray)
-console.log('infosObj: '); console.log(infosObj)    
+    let infosObj = this.arrToObj(data.infos)
+console.log('infosObj: '); console.log(infosObj)
     return <Form onSubmit={this.handleSubmit} className="grid-form">
       <fieldset>
   			<legend>View or Edit</legend>
