@@ -17,7 +17,8 @@ import { userActions, alertActions } from '../_actions'
 class UserDetailsPage extends React.Component {
   constructor(props) {
     super(props)
-    const { dispatch } = props
+    const { dispatch, userDetails } = props
+    let infosDB = userDetails.data ? this.arrToObj(userDetails.data.infos) : {}
     this.state = {
       mUser: {},
       password: '',
@@ -25,7 +26,7 @@ class UserDetailsPage extends React.Component {
       submitted: false,
       passwordChanged: false,
       passwordMatches: false,
-      mInfos: {}  // infos modified in the UI
+      mInfos: infosDB  // copy of infos for modification
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleInfosChange = this.handleInfosChange.bind(this)
@@ -77,6 +78,18 @@ class UserDetailsPage extends React.Component {
     if(!hasEmailChange) {
       mUser.email = userDetails.data.email
     }
+    if(mInfos) {
+      console.log('Modified mInfos: ', mInfos)
+      let arr = this.objToArr(mInfos)
+      console.log('Info Array to be saved: ', arr)
+      this.setState({
+        mUser: {
+          ...mUser,
+          infos: arr
+        }
+      })
+      if(!hasChanges) hasChanges = true
+    }
     console.log('User to be updated: ', mUser)
     if (!hasChanges) {
       dispatch(alertActions.error('No changes found...'))
@@ -120,20 +133,15 @@ class UserDetailsPage extends React.Component {
   }
   handleInfosChange(event) {
     const { name, value } = event.target
-    const { mInfos, mUser } = this.state
-
- console.log('Name: ', name); console.log('Value: ', value);
+    const { mInfos } = this.state
+    let val = value ? value : null
+ console.log('Name: ', name); console.log('Value: ', val);
     this.setState({
       mInfos: {
         ...mInfos,
-        [name]: value
-      },
-      mUser: {
-        ...mUser,
-        infos: this.objToArr(mInfos)
+        [name]: val
       }
     })
-
   }
   render() {
     const { userDetails, user, match, alert, submitted } = this.props
@@ -143,7 +151,7 @@ class UserDetailsPage extends React.Component {
         <h2>User Details</h2>
         {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
         {userDetails.loading && <em>Loading user details...}</em>}
-        {userDetails.error && <span className="text-danger">ERROR: {userDetails.error}</span>}
+        {userDetails.error && <span className="text-danger">{userDetails.error}</span>}
         {userDetails.data && this.show(userDetails.data)}
       </div>
     )
@@ -169,7 +177,7 @@ class UserDetailsPage extends React.Component {
      let val;
      Object.keys(obj).forEach(key => {
        val = obj[key]
-       if(val) arr.push({key: key, value: val})
+       arr.push({key: key, value: val})
      })
      console.log('Infos Arr: ', arr)
      return arr
