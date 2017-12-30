@@ -63,7 +63,7 @@ class UserDetailsPage extends React.Component {
     event.preventDefault()
     this.setState({ submitted: true })
 
-    const { mUser, submitted, confirmPassword } = this.state
+    const { mUser, mInfos, submitted, confirmPassword } = this.state
     const { dispatch, userDetails } = this.props
 
     let canSave = this.canSave()
@@ -120,18 +120,22 @@ class UserDetailsPage extends React.Component {
   }
   handleInfosChange(event) {
     const { name, value } = event.target
-    const { mInfos } = this.state
-// console.log('Name: ', name); console.log('Value: ', value);
+    const { mInfos, mUser } = this.state
+ console.log('Name: ', name); console.log('Value: ', value);
     this.setState({
       mInfos: {
         ...mInfos,
         [name]: value
+      },
+      mUser: {
+        ...mUser,
+        infos: this.objToArr(mInfos)
       }
     })
   }
   render() {
     const { userDetails, user, match, alert, submitted } = this.props
-console.log('UserDetails: ', userDetails)
+// console.log('UserDetails: ', userDetails)
     return (
       <div>
         <h2>User Details</h2>
@@ -155,26 +159,19 @@ console.log('UserDetails: ', userDetails)
     })
     return obj
   }
-
-/*
-
-function arrayToObj (array, fn) {
-    var obj = {};
-    var len = array.length;
-    for (var i = 0; i < len; i++) {
-        var item = fn(array[i], i, array);
-        obj[item.key] = item.value;
-    }
-    return obj;
-};
-
-//calling example:
-var arrayOfObjects=[{name:'banana',color:'yellow'},{name:'apple',color:'green'}];
-var objectMap = arrayToObj(arrayOfObjects,function (item) {
-                           return {key:item.name,value:item.color};
-                        });
-
-*/
+  /**
+   * Converts Object to Array
+   */
+   objToArr(obj) {
+     let arr = []
+     let val;
+     Object.keys(obj).forEach(key => {
+       val = obj[key]
+       if(val) arr.push({key: key, value: val})
+     })
+     console.log('Infos Arr: ', arr)
+     return arr
+   }
 
 
   show(data){
@@ -249,24 +246,36 @@ console.log('infosObj: '); console.log(infosObj)
   showResidentType(infosObj) {
     return <div data-field-span="1">
         <Label>Resident Type</Label>
-        <input
-          type="radio"
-          name="resident-type"
-          defaultValue={infosObj.residentType}
-          onChange={this.handleInfosChange}
-        /> Owner
-        <input
-          type="radio"
-          name="resident-type"
-          defaultValue={infosObj.residentType}
-          onChange={this.handleInfosChange}
-        /> Tenant
-        <input
-          type="radio"
-          name="resident-type"
-          defaultValue={infosObj.residentType}
-          onChange={this.handleInfosChange}
-        /> Not Applicable
+        <FormGroup check inline>
+          <Label check>
+            <Input
+              type="radio"
+              name="resident-type"
+              defaultValue={infosObj.residentType}
+              onChange={this.handleInfosChange}
+            /> Owner
+          </Label>
+        </FormGroup>
+        <FormGroup check inline>
+          <Label check>
+            <Input
+              type="radio"
+              name="resident-type"
+              defaultValue={infosObj.residentType}
+              onChange={this.handleInfosChange}
+            /> Tenant
+          </Label>
+        </FormGroup>
+        <FormGroup check inline>
+          <Label check>
+            <Input
+              type="radio"
+              name="resident-type"
+              defaultValue={infosObj.residentType}
+              onChange={this.handleInfosChange}
+            /> Not Applicable
+          </Label>
+        </FormGroup>
       </div>
   }
   showFirstName(data) {
@@ -276,6 +285,8 @@ console.log('infosObj: '); console.log(infosObj)
           type="text"
           name="first_name"
           placeholder="First name here"
+          title="First Name of the user"
+          className="inputField"
           defaultValue={data.first_name}
           onChange={this.handleChange}
         />
@@ -289,6 +300,8 @@ console.log('infosObj: '); console.log(infosObj)
           type="text"
           name="last_name"
           placeholder="Last name here"
+          title="Last name of the user"
+          className="inputField"
           defaultValue={data.last_name}
           onChange={this.handleChange}
         />
@@ -303,6 +316,7 @@ console.log('infosObj: '); console.log(infosObj)
           name="eMail"
           placeholder="<email id here>"
           title="eMail ID of the User"
+          className="inputField"
           defaultValue={data.email}
           onChange={this.handleChange}
         />
@@ -317,6 +331,7 @@ console.log('infosObj: '); console.log(infosObj)
         name="password"
         placeholder="<enter password here>"
         title="Password is required"
+        className="inputField"
         defaultValue={this.state.password}
         onChange={this.handlePasswordChange}
       />
@@ -328,6 +343,7 @@ console.log('infosObj: '); console.log(infosObj)
             name="confirmpassword"
             placeholder="<repeat password here>"
             title="Confirm Password is required"
+            className="inputField"
             defaultValue={this.state.confirmPassword}
             onChange={this.handleConfirmPasswordChange}
           />
@@ -339,65 +355,75 @@ console.log('infosObj: '); console.log(infosObj)
   showOtherEmails(infosObj){
     return <div data-field-span="1">
         <Label>Other email-ids</Label>
-        <textarea
-          rows="2"
+        <Input
+          type="textarea"
           name="oEmails"
-          defaultValue={infosObj.otherEmails}
-          onChange={this.handleInfosChange}
           placeholder="example1@email.id, example2@email.id"
           title="Other eMail IDs of the User"
+          className="inputField"
+          defaultValue={infosObj.otherEmails}
+          onChange={this.handleInfosChange}
+          rows="2"
         />
       </div>
   }
   showMobileNumbers(infosObj) {
     return <div data-field-span="1">
       <Label>Cell/Mobile/Landline Numbers</Label>
-      <textarea
-        rows="2"
+      <Input
+        type="textarea"
         name="cells"
-        defaultValue={infosObj.cellNumbers}
-        onChange={this.handleInfosChange}
         placeholder="eg: 9797097970, 044-27273030"
         title="Mobile or Landline Phone numbers of the User"
+        className="inputField"
+        defaultValue={infosObj.cellNumbers}
+        onChange={this.handleInfosChange}
+        rows="2"
       />
     </div>
   }
   show2WheelerNumbers(infosObj) {
     return <div data-field-span="1">
       <Label>Regn No. of 2-wheeler(s) parked</Label>
-      <textarea
-        rows="2"
+      <Input
+        type="textarea"
         name="twowheelers"
-        defaultValue={infosObj.twoWheelers}
-        onChange={this.handleInfosChange}
         placeholder="eg: TN 11 CY 1234, TN 01 AZ 9876"
         title="Registration Number of Two Wheelers parked by the User"
+        className="inputField"
+        defaultValue={infosObj.twoWheelers}
+        onChange={this.handleInfosChange}
+        rows="2"
       />
     </div>
   }
   show4WheelerNumbers(infosObj) {
     return <div data-field-span="1">
       <Label>Regn No. of 4-wheeler(s) parked</Label>
-      <textarea
-        rows="2"
+      <Input
+        type="textarea"
         name="fourwheelers"
-        defaultValue={infosObj.fourWheelers}
-        onChange={this.handleInfosChange}
         placeholder="eg: TN 22 A 4567, TN 02 BD 789"
         title="Registration Number of Four Wheelers parked by the User"
+        className="inputField"
+        defaultValue={infosObj.fourWheelers}
+        onChange={this.handleInfosChange}
+        rows="2"
       />
     </div>
   }
   showEmergencyContacts(infosObj) {
     return <div data-field-span="1">
       <Label>Emergency Contact Details</Label>
-      <textarea
-        rows="1"
+      <Input
+        type="textarea"
         name="emergency"
-        defaultValue={infosObj.emergencyContact}
-        onChange={this.handleInfosChange}
         placeholder="In case of emergency, whom to approach (such as relatives, friends), enter their name, address, or phone numbers here"
         title="Contact phone numbers in case of emergencies"
+        className="inputField"
+        defaultValue={infosObj.emergencyContact}
+        onChange={this.handleInfosChange}
+        rows="1"
       />
     </div>
   }
