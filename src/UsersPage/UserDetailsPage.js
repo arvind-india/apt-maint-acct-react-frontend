@@ -198,6 +198,17 @@ console.log('infosObj: '); console.log(infosObj)
           {this.showEmail(data)}
           {this.showPassword()}
         </div>
+        <div data-row-span="2">
+          {this.showOtherEmails(infosObj)}
+          {this.showMobileNumbers(infosObj)}
+        </div>
+        <div data-row-span="2">
+          {this.show2WheelerNumbers(infosObj)}
+          {this.show4WheelerNumbers(infosObj)}
+        </div>
+        <div data-row-span="1">
+          {this.showEmergencyContacts(infosObj)}
+        </div>
       </fieldset>
       <br/>
       <Button type="submit" color="primary">Save</Button>
@@ -325,6 +336,72 @@ console.log('infosObj: '); console.log(infosObj)
       }
     </div>
   }
+  showOtherEmails(infosObj){
+    return <div data-field-span="1">
+        <Label>Other email-ids</Label>
+        <textarea
+          rows="2"
+          name="oEmails"
+          defaultValue={infosObj.otherEmails}
+          onChange={this.handleInfosChange}
+          placeholder="example1@email.id, example2@email.id"
+          title="Other eMail IDs of the User"
+        />
+      </div>
+  }
+  showMobileNumbers(infosObj) {
+    return <div data-field-span="1">
+      <Label>Cell/Mobile/Landline Numbers</Label>
+      <textarea
+        rows="2"
+        name="cells"
+        defaultValue={infosObj.cellNumbers}
+        onChange={this.handleInfosChange}
+        placeholder="eg: 9797097970, 044-27273030"
+        title="Mobile or Landline Phone numbers of the User"
+      />
+    </div>
+  }
+  show2WheelerNumbers(infosObj) {
+    return <div data-field-span="1">
+      <Label>Regn No. of 2-wheeler(s) parked</Label>
+      <textarea
+        rows="2"
+        name="twowheelers"
+        defaultValue={infosObj.twoWheelers}
+        onChange={this.handleInfosChange}
+        placeholder="eg: TN 11 CY 1234, TN 01 AZ 9876"
+        title="Registration Number of Two Wheelers parked by the User"
+      />
+    </div>
+  }
+  show4WheelerNumbers(infosObj) {
+    return <div data-field-span="1">
+      <Label>Regn No. of 4-wheeler(s) parked</Label>
+      <textarea
+        rows="2"
+        name="fourwheelers"
+        defaultValue={infosObj.fourWheelers}
+        onChange={this.handleInfosChange}
+        placeholder="eg: TN 22 A 4567, TN 02 BD 789"
+        title="Registration Number of Four Wheelers parked by the User"
+      />
+    </div>
+  }
+  showEmergencyContacts(infosObj) {
+    return <div data-field-span="1">
+      <Label>Emergency Contact Details</Label>
+      <textarea
+        rows="1"
+        name="emergency"
+        defaultValue={infosObj.emergencyContact}
+        onChange={this.handleInfosChange}
+        placeholder="In case of emergency, whom to approach (such as relatives, friends), enter their name, address, or phone numbers here"
+        title="Contact phone numbers in case of emergencies"
+      />
+    </div>
+  }
+
 }
 
 function mapStateToProps(state) {
