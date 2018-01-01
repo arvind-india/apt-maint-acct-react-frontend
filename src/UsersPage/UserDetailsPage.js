@@ -3,36 +3,51 @@ import { Redirect } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {
-          Form,
-          Button,
-          FormGroup,
-          FormText,
-          Input,
-          Label,
-          Col
+    Form,
+    Button,
+    FormGroup,
+    FormText,
+    Input,
+    Label,
+    Col
 } from 'reactstrap'
 
 import { userActions, alertActions } from '../_actions'
 
+
 class UserDetailsPage extends React.Component {
+
   constructor(props) {
+
     super(props)
+
     const { dispatch, userDetails } = props
-    let infosDB = userDetails.data ? this.arrToObj(userDetails.data.infos) : {}
+
+    //let infosObj = null
+    this.userDB = null
+    this.infosDB = null
+
+    if(userDetails.data) {
+      // infosObj = this.arrToObj(userDetails.data.infos)
+      this.userDB = userDetails.data  // user as in database
+      this.infosDB = this.arrToObj(this.userDB.infos) // infos as in database
+    }
+
     this.state = {
-      mUser: {
-        infos: infosDB
-      },
+      mUser: {},
+      mInfos: {},
+      mResidentType: this.infosDB ? this.infosDB.residentType : '',
       password: '',
       confirmPassword: '',
-      submitted: false,
       passwordChanged: false,
       passwordMatches: false,
-      mInfos: {}
-    //  mInfos: infosDB  // copy of infos for modification
+      submitted: false,
+      changed: false
     }
+
     this.handleChange = this.handleChange.bind(this)
     this.handleInfosChange = this.handleInfosChange.bind(this)
+    this.handleResidentTypeChange = this.handleResidentTypeChange.bind(this)
     this.handlePasswordChange= this.handlePasswordChange.bind(this)
     this.handleConfirmPasswordChange= this.handleConfirmPasswordChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -41,12 +56,6 @@ class UserDetailsPage extends React.Component {
   }
   componentDidMount() {
     this.props.dispatch(userActions.getById(this.props.match.params.id))
-  }
-  hasChanges(mUser) {
-    for(const prop in mUser){
-      return true
-    }
-    return false
   }
   changedProps() {
     const { mUser } = this.state
@@ -67,7 +76,7 @@ class UserDetailsPage extends React.Component {
     event.preventDefault()
     this.setState({ submitted: true })
 
-    const { mUser, mInfos, submitted, confirmPassword } = this.state
+    const { mUser, mInfos, mResidentType, submitted, confirmPassword } = this.state
     const { dispatch, userDetails } = this.props
 
     let canSave = this.canSave()
@@ -81,18 +90,18 @@ class UserDetailsPage extends React.Component {
     if(!hasEmailChange) {
       mUser.email = userDetails.data.email
     }
-/*    if(mInfos) {
-      console.log('Modified mInfos: ', mInfos)
-      let arr = this.objToArr(mInfos)
-      console.log('Info Array to be saved: ', arr)
-      this.setState({
-        mUser: {
-          ...mUser,
-          infos: arr
-        }
-      })
-      if(!hasChanges) hasChanges = true
-    } */
+    // check for changes in mInfos and include those changes after conversion into an array
+    let mInfosArray = this.objToArr(mInfos)
+
+    if(mInfosArray.length > 0) {
+      mUser.infos = mInfosArray
+      hasChanges = true
+    }
+    if(userDetails.data.infos.residentType != mResidentType) {
+      if(!mUser.infos) { mUser.infos = [] }
+      mUser.infos.push({key: 'residentType', value: mResidentType})
+      hasChanges = true
+    }
     console.log('User to be updated: ', mUser)
     if (!hasChanges) {
       dispatch(alertActions.error('No changes found...'))
@@ -113,6 +122,7 @@ class UserDetailsPage extends React.Component {
   }
   handleConfirmPasswordChange(event) {
     const { name, value } = event.target
+
     this.setState({ [name]: value })
 
     if(value && value === this.state.password) {
@@ -120,9 +130,7 @@ class UserDetailsPage extends React.Component {
     } else {
       this.setState({ passwordMatches: false })
     }
-
   }
-
   handleChange(event) {
     const { name, value } = event.target
     const { mUser } = this.state
@@ -136,22 +144,28 @@ class UserDetailsPage extends React.Component {
   }
   handleInfosChange(event) {
     const { name, value } = event.target
-    const { mInfos, mUser } = this.state
+    const { mInfos } = this.state
+
     let val = value ? value : null
- console.log('Name: ', name); console.log('Value: ', val);
+
     this.setState({
-      mUser: {
-        ...mUser,
-        infos: {
-          ...mUser.infos,
-          [name]: val
-        }
+      mInfos: {
+        ...mInfos,
+        [name]: val
       }
-    });
+    })
+  }
+  handleResidentTypeChange(event) {
+    const { name, value } = event.target
+    const { mInfos } = this.state
+console.log('ResidentType changed - name: ', name); console.log('value: ', value)
+    this.setState({
+      mResidentType: value
+    })
   }
   render() {
     const { userDetails, user, match, alert, submitted } = this.props
-// console.log('UserDetails: ', userDetails)
+
     return (
       <div>
         <h2>User Details</h2>
@@ -185,14 +199,12 @@ class UserDetailsPage extends React.Component {
        val = obj[key]
        arr.push({key: key, value: val})
      })
-     console.log('Infos Arr: ', arr)
      return arr
    }
 
-
   show(data){
     let infosObj = this.arrToObj(data.infos)
-console.log('infosObj: '); console.log(infosObj)
+
     return <Form onSubmit={this.handleSubmit} className="grid-form">
       <fieldset>
   			<legend>View or Edit</legend>
@@ -230,7 +242,7 @@ console.log('infosObj: '); console.log(infosObj)
   }
 
   showUsername(data) {
-    const {submitted, mUser} = this.state // mUser is modified user
+    const { submitted, mUser } = this.state // mUser is modified user
     const { userDetails } = this.props
     const { oUser } = userDetails.data // oUser is original user
 
@@ -248,7 +260,7 @@ console.log('infosObj: '); console.log(infosObj)
         && <FormText color="danger">User Name is required</FormText>}
 			</div>
   }
-  showFlatNumber(infosObj) {
+  showFlatNumber(infos) {
     return <div data-field-span="1">
         <Label>Flat/Apartment Number</Label>
         <Input
@@ -256,21 +268,25 @@ console.log('infosObj: '); console.log(infosObj)
           name="flatNumber"
           placeholder="Enter Flat Number if applicablee"
           className="inputField"
-          defaultValue={infosObj.flatNumber}
+          defaultValue={infos.flatNumber}
           onChange={this.handleInfosChange}
         />
       </div>
   }
-  showResidentType(infosObj) {
+  showResidentType(infos) {
+
+    const { mResidentType } = this.state
+
     return <div data-field-span="1">
         <Label>Resident Type</Label>
         <FormGroup check inline>
           <Label check>
             <Input
               type="radio"
-              name="residenType"
-              defaultValue={infosObj.residentType}
-              onChange={this.handleInfosChange}
+              name="residentType"
+              value="owner"
+              checked={mResidentType === "owner"}
+              onChange={this.handleResidentTypeChange}
             /> Owner
           </Label>
         </FormGroup>
@@ -278,9 +294,10 @@ console.log('infosObj: '); console.log(infosObj)
           <Label check>
             <Input
               type="radio"
-              name="residenType"
-              defaultValue={infosObj.residentType}
-              onChange={this.handleInfosChange}
+              name="residentType"
+              value="tenant"
+              checked={mResidentType === "tenant"}
+              onChange={this.handleResidentTypeChange}
             /> Tenant
           </Label>
         </FormGroup>
@@ -288,9 +305,10 @@ console.log('infosObj: '); console.log(infosObj)
           <Label check>
             <Input
               type="radio"
-              name="residenType"
-              defaultValue={infosObj.residentType}
-              onChange={this.handleInfosChange}
+              name="residentType"
+              value="NA"
+              checked={mResidentType === "NA"}
+              onChange={this.handleResidentTypeChange}
             /> Not Applicable
           </Label>
         </FormGroup>
@@ -370,7 +388,7 @@ console.log('infosObj: '); console.log(infosObj)
       }
     </div>
   }
-  showOtherEmails(infosObj){
+  showOtherEmails(infos){
     return <div data-field-span="1">
         <Label>Other email-ids</Label>
         <Input
@@ -379,13 +397,13 @@ console.log('infosObj: '); console.log(infosObj)
           placeholder="example1@email.id, example2@email.id"
           title="Other eMail IDs of the User"
           className="inputField"
-          defaultValue={infosObj.otherEmails}
+          defaultValue={infos.otherEmails}
           onChange={this.handleInfosChange}
           rows="2"
         />
       </div>
   }
-  showMobileNumbers(infosObj) {
+  showMobileNumbers(infos) {
     return <div data-field-span="1">
       <Label>Cell/Mobile/Landline Numbers</Label>
       <Input
@@ -394,13 +412,13 @@ console.log('infosObj: '); console.log(infosObj)
         placeholder="eg: 9797097970, 044-27273030"
         title="Mobile or Landline Phone numbers of the User"
         className="inputField"
-        defaultValue={infosObj.cellNumbers}
+        defaultValue={infos.cellNumbers}
         onChange={this.handleInfosChange}
         rows="2"
       />
     </div>
   }
-  show2WheelerNumbers(infosObj) {
+  show2WheelerNumbers(infos) {
     return <div data-field-span="1">
       <Label>Regn No. of 2-wheeler(s) parked</Label>
       <Input
@@ -409,13 +427,13 @@ console.log('infosObj: '); console.log(infosObj)
         placeholder="eg: TN 11 CY 1234, TN 01 AZ 9876"
         title="Registration Number of Two Wheelers parked by the User"
         className="inputField"
-        defaultValue={infosObj.twoWheelers}
+        defaultValue={infos.twoWheelers}
         onChange={this.handleInfosChange}
         rows="2"
       />
     </div>
   }
-  show4WheelerNumbers(infosObj) {
+  show4WheelerNumbers(infos) {
     return <div data-field-span="1">
       <Label>Regn No. of 4-wheeler(s) parked</Label>
       <Input
@@ -424,13 +442,13 @@ console.log('infosObj: '); console.log(infosObj)
         placeholder="eg: TN 22 A 4567, TN 02 BD 789"
         title="Registration Number of Four Wheelers parked by the User"
         className="inputField"
-        defaultValue={infosObj.fourWheelers}
+        defaultValue={infos.fourWheelers}
         onChange={this.handleInfosChange}
         rows="2"
       />
     </div>
   }
-  showEmergencyContacts(infosObj) {
+  showEmergencyContacts(infos) {
     return <div data-field-span="1">
       <Label>Emergency Contact Details</Label>
       <Input
@@ -439,7 +457,7 @@ console.log('infosObj: '); console.log(infosObj)
         placeholder="In case of emergency, whom to approach (such as relatives, friends), enter their name, address, or phone numbers here"
         title="Contact phone numbers in case of emergencies"
         className="inputField"
-        defaultValue={infosObj.emergencyContacts}
+        defaultValue={infos.emergencyContacts}
         onChange={this.handleInfosChange}
         rows="1"
       />
