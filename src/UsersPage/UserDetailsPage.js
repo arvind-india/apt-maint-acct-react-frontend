@@ -23,26 +23,15 @@ class UserDetailsPage extends React.Component {
 
     const { dispatch, userDetails } = props
 
-    //let infosObj = null
-    this.userDB = null
-    this.infosDB = null
-
-    if(userDetails.data) {
-      // infosObj = this.arrToObj(userDetails.data.infos)
-      this.userDB = userDetails.data  // user as in database
-      this.infosDB = this.arrToObj(this.userDB.infos) // infos as in database
-    }
-
     this.state = {
       mUser: {},
       mInfos: {},
-      mResidentType: this.infosDB ? this.infosDB.residentType : '',
+      mResidentType: null,
       password: '',
       confirmPassword: '',
       passwordChanged: false,
       passwordMatches: false,
-      submitted: false,
-      changed: false
+      submitted: false
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -58,17 +47,39 @@ class UserDetailsPage extends React.Component {
     this.props.dispatch(userActions.getById(this.props.match.params.id))
   }
   changedProps() {
-    const { mUser } = this.state
+    const { mUser, mInfos, mResidentType } = this.state
+    const { userDetails } = this.props
+    let userDB = userDetails.data
+    let infosDB = this.arrToObj(userDB.infos)
     let props = []
+    // check for changes in mUser
     for(const prop in mUser) {
-      props.push(prop)
+      if(userDB[prop] != mUser[prop]) { // if data is changed wrt data in database
+        props.push(prop)
+      } else {
+        delete mUser[prop]  // remove unchanged property
+      }
+    }
+    // check for changes in mInfos
+    for (const prop in mInfos) {
+      if(infosDB[prop] && infosDB[prop] != mInfos[prop]) {
+        props.push(prop)
+      } else {
+        delete mInfos[props]
+      }
+    }
+    // check for changes in mResidentType
+    let prop = 'residentType'
+    if(mResidentType && infosDB[prop] && infosDB[prop] != mResidentType) {
+      props.push('residentType')
     }
     return props
   }
-  canSave() { // check for changes in mUser, if present, it can save
+  canSave() { // check for changes in mUser, if changes present, it can save
     const { mUser } = this.state
     for(const prop in mUser) {
-        if( !mUser[prop] ) return false
+      if( !mUser[prop] )
+        return false
     }
     return true
   }
@@ -78,29 +89,30 @@ class UserDetailsPage extends React.Component {
 
     const { mUser, mInfos, mResidentType, submitted, confirmPassword } = this.state
     const { dispatch, userDetails } = this.props
-
+    let userDB = userDetails.data
     let canSave = this.canSave()
+
+    if(canSave) {
+      mUser.id = userDB.id
+    }
     let cProps = this.changedProps()
     let hasChanges = cProps.length > 0
     let hasEmailChange = cProps.includes('email')
 
-    if(canSave) {
-      mUser.id = userDetails.data.id
-    }
     if(!hasEmailChange) {
-      mUser.email = userDetails.data.email
+      mUser.email = userDB.email
     }
     // check for changes in mInfos and include those changes after conversion into an array
     let mInfosArray = this.objToArr(mInfos)
 
     if(mInfosArray.length > 0) {
       mUser.infos = mInfosArray
-      hasChanges = true
+      // hasChanges = true
     }
-    if(userDetails.data.infos.residentType != mResidentType) {
+    if(mResidentType && userDB.infos.residentType != mResidentType) {
       if(!mUser.infos) { mUser.infos = [] }
       mUser.infos.push({key: 'residentType', value: mResidentType})
-      hasChanges = true
+      // hasChanges = true
     }
     console.log('User to be updated: ', mUser)
     if (!hasChanges) {
@@ -276,6 +288,7 @@ console.log('ResidentType changed - name: ', name); console.log('value: ', value
   showResidentType(infos) {
 
     const { mResidentType } = this.state
+    let rtype = mResidentType ? mResidentType : infos.residentType
 
     return <div data-field-span="1">
         <Label>Resident Type</Label>
@@ -285,7 +298,7 @@ console.log('ResidentType changed - name: ', name); console.log('value: ', value
               type="radio"
               name="residentType"
               value="owner"
-              checked={mResidentType === "owner"}
+              checked={rtype === "owner"}
               onChange={this.handleResidentTypeChange}
             /> Owner
           </Label>
@@ -296,7 +309,7 @@ console.log('ResidentType changed - name: ', name); console.log('value: ', value
               type="radio"
               name="residentType"
               value="tenant"
-              checked={mResidentType === "tenant"}
+              checked={rtype === "tenant"}
               onChange={this.handleResidentTypeChange}
             /> Tenant
           </Label>
@@ -307,7 +320,7 @@ console.log('ResidentType changed - name: ', name); console.log('value: ', value
               type="radio"
               name="residentType"
               value="NA"
-              checked={mResidentType === "NA"}
+              checked={rtype === "NA"}
               onChange={this.handleResidentTypeChange}
             /> Not Applicable
           </Label>
