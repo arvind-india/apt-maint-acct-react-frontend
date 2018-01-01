@@ -20,13 +20,16 @@ class UserDetailsPage extends React.Component {
     const { dispatch, userDetails } = props
     let infosDB = userDetails.data ? this.arrToObj(userDetails.data.infos) : {}
     this.state = {
-      mUser: {},
+      mUser: {
+        infos: infosDB
+      },
       password: '',
       confirmPassword: '',
       submitted: false,
       passwordChanged: false,
       passwordMatches: false,
-      mInfos: infosDB  // copy of infos for modification
+      mInfos: {}
+    //  mInfos: infosDB  // copy of infos for modification
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleInfosChange = this.handleInfosChange.bind(this)
@@ -78,7 +81,7 @@ class UserDetailsPage extends React.Component {
     if(!hasEmailChange) {
       mUser.email = userDetails.data.email
     }
-    if(mInfos) {
+/*    if(mInfos) {
       console.log('Modified mInfos: ', mInfos)
       let arr = this.objToArr(mInfos)
       console.log('Info Array to be saved: ', arr)
@@ -89,7 +92,7 @@ class UserDetailsPage extends React.Component {
         }
       })
       if(!hasChanges) hasChanges = true
-    }
+    } */
     console.log('User to be updated: ', mUser)
     if (!hasChanges) {
       dispatch(alertActions.error('No changes found...'))
@@ -133,15 +136,18 @@ class UserDetailsPage extends React.Component {
   }
   handleInfosChange(event) {
     const { name, value } = event.target
-    const { mInfos } = this.state
+    const { mInfos, mUser } = this.state
     let val = value ? value : null
  console.log('Name: ', name); console.log('Value: ', val);
     this.setState({
-      mInfos: {
-        ...mInfos,
-        [name]: val
+      mUser: {
+        ...mUser,
+        infos: {
+          ...mUser.infos,
+          [name]: val
+        }
       }
-    })
+    });
   }
   render() {
     const { userDetails, user, match, alert, submitted } = this.props
