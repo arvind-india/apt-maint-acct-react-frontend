@@ -9,7 +9,8 @@ import {
     FormText,
     Input,
     Label,
-    Col
+    Col,
+    FormFeedback
 } from 'reactstrap'
 
 import { userActions, alertActions } from '../_actions'
@@ -31,14 +32,17 @@ class UserDetailsPage extends React.Component {
       confirmPassword: '',
       passwordChanged: false,
       passwordMatches: false,
-      submitted: false
+      submitted: false,
+      touched: false
     }
 
     this.handleChange = this.handleChange.bind(this)
     this.handleInfosChange = this.handleInfosChange.bind(this)
     this.handleResidentTypeChange = this.handleResidentTypeChange.bind(this)
-    this.handlePasswordChange= this.handlePasswordChange.bind(this)
-    this.handleConfirmPasswordChange= this.handleConfirmPasswordChange.bind(this)
+    this.handlePasswordChange = this.handlePasswordChange.bind(this)
+    this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this)
+    this.handlePasswordMatch = this.handlePasswordMatch.bind(this)
+    this.handleConfirmPasswordMatch = this.handleConfirmPasswordMatch.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
 
     dispatch(alertActions.clear())  // clear alert messages from other pages
@@ -88,7 +92,7 @@ class UserDetailsPage extends React.Component {
     event.preventDefault()
     this.setState({ submitted: true })
 
-    const { mUser, mInfos, mResidentType, submitted, confirmPassword } = this.state
+    const { mUser, mInfos, mResidentType, submitted, password, confirmPassword } = this.state
     const { dispatch, userDetails } = this.props
     let userDB = userDetails.data
     let canSave = this.canSave()
@@ -115,6 +119,8 @@ class UserDetailsPage extends React.Component {
     console.log('User to be updated: ', mUser)
     if ( cProps.length == 0 ) {
       dispatch(alertActions.error('No changes found...'))
+    } else if (password != confirmPassword) {
+      dispatch(alertActions.error('Passwords Do Not Match'))
     } else if (canSave) {
       dispatch(userActions.saveChanges(mUser))
     } else {
@@ -123,27 +129,42 @@ class UserDetailsPage extends React.Component {
   }
   handlePasswordChange(event) {
     const { name, value } = event.target
-    this.setState({ [name]: value  })
-    if(value) {
-      this.setState({ passwordChanged: true })
-    } else {
-      this.setState({ passwordChanged: false})
-    }
-  }
-  handleConfirmPasswordChange(event) {
-    const { name, value } = event.target
     const { mUser } = this.state
-    if(value && value === this.state.password) {
+    this.setState({
+      [name]: value,
+      passwordChanged: value ? true : false
+    })
+    if(value) { // if value exists, set it to mUser
       this.setState({
-        passwordMatches: true,
         mUser: {
           ...mUser,
           password: value
         }
       })
-    } else {
-      this.setState({ passwordMatches: false })
+    } else { // remove password prop from mUser
+      delete mUser.password
     }
+  }
+  handleConfirmPasswordChange(event) {
+    const { name, value } = event.target
+    this.setState({
+      [name]: value
+    })
+  }
+  handlePasswordMatch(event) {
+    const { name, value } = event.target
+    const { touched, confirmPassword } = this.state
+    this.setState({
+      passwordMatches: value && touched && value === confirmPassword
+    })
+  }
+  handleConfirmPasswordMatch(event) {
+    const { name, value } = event.target
+    const { password } = this.state
+    this.setState({
+      touched: true,
+      passwordMatches: value && value === password
+    })
   }
   handleChange(event) {
     const { name, value } = event.target
@@ -158,17 +179,15 @@ class UserDetailsPage extends React.Component {
   handleInfosChange(event) {
     const { name, value } = event.target
     const { mInfos } = this.state
-    let val = value ? value : null
     this.setState({
       mInfos: {
         ...mInfos,
-        [name]: val
+        [name]: value ? value : null
       }
     })
   }
   handleResidentTypeChange(event) {
     const { name, value } = event.target
-    const { mInfos } = this.state
     this.setState({
       mResidentType: value
     })
@@ -252,9 +271,6 @@ class UserDetailsPage extends React.Component {
 
   showUsername(data) {
     const { submitted, mUser } = this.state // mUser is modified user
-    const { userDetails } = this.props
-    const { oUser } = userDetails.data // oUser is original user
-
     return <div data-field-span="1">
 				<Label>Username</Label>
         <Input
@@ -283,10 +299,8 @@ class UserDetailsPage extends React.Component {
       </div>
   }
   showResidentType(infos) {
-
     const { mResidentType } = this.state
     let rtype = mResidentType ? mResidentType : infos.residentType
-
     return <div data-field-span="1">
         <Label>Resident Type</Label>
         <FormGroup check inline>
@@ -325,6 +339,7 @@ class UserDetailsPage extends React.Component {
       </div>
   }
   showFirstName(data) {
+    const { submitted, mUser } = this.state // mser is modified user
     return <div data-field-span="1">
         <Label>FirstName</Label>
         <Input
@@ -336,10 +351,12 @@ class UserDetailsPage extends React.Component {
           defaultValue={data.first_name}
           onChange={this.handleChange}
         />
-        {this.submitted && <FormText color="danger">First Name is required</FormText>}
+        {submitted && mUser.first_name != null && mUser.first_name === ""
+        && <FormText color="danger">First Name is required</FormText>}
       </div>
   }
   showLastName(data) {
+    const { submitted, mUser } = this.state // mser is modified user
     return <div data-field-span="1">
         <Label>LastName</Label>
         <Input
@@ -351,10 +368,12 @@ class UserDetailsPage extends React.Component {
           defaultValue={data.last_name}
           onChange={this.handleChange}
         />
-        {this.submitted && <FormText color="danger">Last Name is required</FormText>}
+        {submitted && mUser.last_name != null && mUser.last_name === ""
+        && <FormText color="danger">Last Name is required</FormText>}
       </div>
   }
   showEmail(data){
+    const { submitted, mUser } = this.state // mser is modified user
     return <div data-field-span="1">
         <Label>email</Label>
         <Input
@@ -366,10 +385,12 @@ class UserDetailsPage extends React.Component {
           defaultValue={data.email}
           onChange={this.handleChange}
         />
-        {this.submitted && <FormText color="danger">Email-id is required</FormText>}
+        {submitted && mUser.email != null && mUser.email === ""
+        && <FormText color="danger">Email-id is required</FormText>}
       </div>
   }
   showPassword(){
+    const { touched, passwordMatches } = this.state
     return <div data-field-span="1">
       <Label>Password</Label>
       <Input
@@ -379,19 +400,21 @@ class UserDetailsPage extends React.Component {
         title="Password is required"
         className="inputField"
         onChange={this.handlePasswordChange}
+        onBlur={this.handlePasswordMatch}
       />
       {this.state.passwordChanged &&
         <div data-field-span="1">
           <Label>Confirm Password</Label>
           <Input
             type="password"
-            name="confirmpassword"
+            name="confirmPassword"
             placeholder="<repeat password here>"
             title="Confirm Password is required"
             className="inputField"
             onChange={this.handleConfirmPasswordChange}
+            onBlur={this.handleConfirmPasswordMatch}
           />
-          <FormText color="danger">Password do NOT match</FormText>
+          {touched && !passwordMatches && <FormText color="danger">Password do NOT match</FormText>}
         </div>
       }
     </div>
