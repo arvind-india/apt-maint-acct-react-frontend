@@ -85,7 +85,9 @@ class AppNavbar extends React.Component {
                 <MdSettingsApplications/> Settings
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem><MdVpnKey/> Roles</DropdownItem>
+                <DropdownItem>
+                  <NavLink href="/roles"><MdVpnKey/> Roles</NavLink>
+                </DropdownItem>
                 <DropdownItem>
                   <NavLink href="/users"><MdGroup /> Users</NavLink>
                 </DropdownItem>
@@ -96,7 +98,7 @@ class AppNavbar extends React.Component {
   }
   render() {
     const { user } = this.props
-    console.log('User: ', user)
+    console.log('AppNavBar User: ', user)
     return (
       <div>
         <Navbar color="light" light expand="md">
