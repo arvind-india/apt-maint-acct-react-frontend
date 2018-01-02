@@ -78,8 +78,9 @@ class UserDetailsPage extends React.Component {
   canSave() { // check for changes in mUser, if changes present, it can save
     const { mUser } = this.state
     for(const prop in mUser) {
-      if( !mUser[prop] )
+      if( !mUser[prop] ) {
         return false
+      }
     }
     return true
   }
@@ -91,15 +92,12 @@ class UserDetailsPage extends React.Component {
     const { dispatch, userDetails } = this.props
     let userDB = userDetails.data
     let canSave = this.canSave()
+    let cProps = this.changedProps()
 
     if(canSave) {
       mUser.id = userDB.id
     }
-    let cProps = this.changedProps()
-    let hasChanges = cProps.length > 0
-    let hasEmailChange = cProps.includes('email')
-
-    if(!hasEmailChange) {
+    if( !cProps.includes('email') ) {
       mUser.email = userDB.email
     }
     // check for changes in mInfos and include those changes after conversion into an array
@@ -107,15 +105,15 @@ class UserDetailsPage extends React.Component {
 
     if(mInfosArray.length > 0) {
       mUser.infos = mInfosArray
-      // hasChanges = true
     }
     if(mResidentType && userDB.infos.residentType != mResidentType) {
-      if(!mUser.infos) { mUser.infos = [] }
+      if(!mUser.infos) {
+        mUser.infos = []
+      }
       mUser.infos.push({key: 'residentType', value: mResidentType})
-      // hasChanges = true
     }
     console.log('User to be updated: ', mUser)
-    if (!hasChanges) {
+    if ( cProps.length == 0 ) {
       dispatch(alertActions.error('No changes found...'))
     } else if (canSave) {
       dispatch(userActions.saveChanges(mUser))
@@ -134,11 +132,15 @@ class UserDetailsPage extends React.Component {
   }
   handleConfirmPasswordChange(event) {
     const { name, value } = event.target
-
-    this.setState({ [name]: value })
-
+    const { mUser } = this.state
     if(value && value === this.state.password) {
-      this.setState({ passwordMatches: true })
+      this.setState({
+        passwordMatches: true,
+        mUser: {
+          ...mUser,
+          password: value
+        }
+      })
     } else {
       this.setState({ passwordMatches: false })
     }
@@ -146,7 +148,6 @@ class UserDetailsPage extends React.Component {
   handleChange(event) {
     const { name, value } = event.target
     const { mUser } = this.state
-
     this.setState({
       mUser: {
         ...mUser,
@@ -157,9 +158,7 @@ class UserDetailsPage extends React.Component {
   handleInfosChange(event) {
     const { name, value } = event.target
     const { mInfos } = this.state
-
     let val = value ? value : null
-
     this.setState({
       mInfos: {
         ...mInfos,
@@ -170,14 +169,12 @@ class UserDetailsPage extends React.Component {
   handleResidentTypeChange(event) {
     const { name, value } = event.target
     const { mInfos } = this.state
-console.log('ResidentType changed - name: ', name); console.log('value: ', value)
     this.setState({
       mResidentType: value
     })
   }
   render() {
     const { userDetails, user, match, alert, submitted } = this.props
-
     return (
       <div>
         <h2>User Details</h2>
@@ -381,7 +378,6 @@ console.log('ResidentType changed - name: ', name); console.log('value: ', value
         placeholder="<enter password here>"
         title="Password is required"
         className="inputField"
-        defaultValue={this.state.password}
         onChange={this.handlePasswordChange}
       />
       {this.state.passwordChanged &&
@@ -393,7 +389,6 @@ console.log('ResidentType changed - name: ', name); console.log('value: ', value
             placeholder="<repeat password here>"
             title="Confirm Password is required"
             className="inputField"
-            defaultValue={this.state.confirmPassword}
             onChange={this.handleConfirmPasswordChange}
           />
           <FormText color="danger">Password do NOT match</FormText>
