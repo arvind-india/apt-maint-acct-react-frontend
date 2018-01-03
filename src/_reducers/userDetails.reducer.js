@@ -1,30 +1,30 @@
-import { userConstants } from '../_constants'
+import { userConstants as constants } from '../_constants'
 
 export function userDetails(state = {}, action) {
   switch (action.type) {
-    case userConstants.GETBYID_REQUEST:
+    case constants.GETBYID_REQUEST:
       return {
         loading: true
       }
-    case userConstants.GETBYID_SUCCESS:
+    case constants.GETBYID_SUCCESS:
       console.log('Get By ID success: ', action)
       return {
-        data: action.userDetails
+        data: action.models
       }
-    case userConstants.GETBYID_FAILURE:
+    case constants.GETBYID_FAILURE:
       return {
         error: action.error
       }
-    case userConstants.CHANGE_REQUEST:
+    case constants.CHANGE_REQUEST:
       return {
         loading: true
       }
-    case userConstants.CHANGE_SUCCESS:
+    case constants.CHANGE_SUCCESS:
       console.log('User Change Request success: ', action)
       return {
-        data: action.userDetails
+        data: action.models
       }
-    case userConstants.CHANGE_FAILURE:
+    case constants.CHANGE_FAILURE:
       return {
         error: action.error
       }

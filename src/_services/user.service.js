@@ -10,6 +10,7 @@ export const userService = {
   delete: _delete
 }
 let user = JSON.parse(localStorage.getItem('user'))
+let url = '/users'
 let instance = axios.create({
   baseURL: process.env.REACT_APP_API_URL+'/api',
   timeout: 1000,
@@ -34,36 +35,32 @@ function logout() {
 }
 
 function getAll() {
-  return instance.get('/users')
+  return instance.get(url)
     .then(handleResponse)
     .catch(handleError)
 }
 
 function getById(id) {
-  return instance.get('/users/' + id)
+  return instance.get(url+'/' + id)
     .then(handleResponse)
     .catch(handleError)
 }
 
-function register(user) {
-  console.log('registering....')
-  console.log(user)
-  // let data = {body: JSON.stringify(user)}
-  return instance.post('/users', user)
+function register(model) {
+  return instance.post(url, model)
     .then(handleResponse)
     .catch(handleError)
 }
 
-function update(user) {
-  // let data = {body: JSON.stringify(user)}
-  return instance.put('/users/' + user.id, user)
+function update(model) {
+  return instance.put(url+'/'+model.id, model)
     .then(handleResponse)
     .catch(handleError)
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
 function _delete(id) {
-  return instance.delete('/users/' + id)
+  return instance.delete(url+'/'+id)
     .then(handleResponse)
     .catch(handleError)
 }

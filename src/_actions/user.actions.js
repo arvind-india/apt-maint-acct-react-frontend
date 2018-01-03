@@ -1,5 +1,5 @@
-import { userConstants } from '../_constants'
-import { userService } from '../_services'
+import { userConstants as constants } from '../_constants'
+import { userService as service } from '../_services'
 import { alertActions } from './'
 import { history } from '../_helpers'
 
@@ -18,10 +18,10 @@ function login(username, password) {
   return dispatch => {
     dispatch(request({ username }))
 
-    userService.login(username, password)
+    service.login(username, password)
       .then(
-        user => {
-          dispatch(success(user))
+        model => {
+          dispatch(success(model))
           history.push('/')
           dispatch(alertActions.success('Welcome to Apartment Maintenance Tracking Application'))
         },
@@ -32,23 +32,23 @@ function login(username, password) {
       )
   }
 
-  function request(user) { return { type: userConstants.LOGIN_REQUEST, user } }
-  function success(user) { return { type: userConstants.LOGIN_SUCCESS, user } }
-  function failure(error) { return { type: userConstants.LOGIN_FAILURE, error } }
+  function request(model) { return { type: constants.LOGIN_REQUEST, model } }
+  function success(model) { return { type: constants.LOGIN_SUCCESS, model } }
+  function failure(error) { return { type: constants.LOGIN_FAILURE, error } }
 }
 
 function logout() {
-  userService.logout()
-  return { type: userConstants.LOGOUT }
+  service.logout()
+  return { type: constants.LOGOUT }
 }
 
-function register(user) {
+function register(model) {
   return dispatch => {
-    dispatch(request(user))
+    dispatch(request(model))
 
-    userService.register(user)
+    service.register(model)
       .then(
-        user => {
+        model => {
           dispatch(success())
           history.push('/login')
           dispatch(alertActions.success('Registration successful'))
@@ -67,33 +67,33 @@ function register(user) {
         }
       )
   }
-  function request(user) { return { type: userConstants.REGISTER_REQUEST, user } }
-  function success(user) { return { type: userConstants.REGISTER_SUCCESS, user } }
-  function failure(error) { return { type: userConstants.REGISTER_FAILURE, error } }
+  function request(model) { return { type: constants.REGISTER_REQUEST, model } }
+  function success(model) { return { type: constants.REGISTER_SUCCESS, model } }
+  function failure(error) { return { type: constants.REGISTER_FAILURE, error } }
 }
 
 function getAll() {
   return dispatch => {
     dispatch(request())
 
-    userService.getAll()
+    service.getAll()
       .then(
-        users => dispatch(success(users)),
-        error => dispatch(failure(error+' getting all users'))
+        models => dispatch(success(models)),
+        error => dispatch(failure(error+' getting all models'))
       )
   }
-  function request() { return { type: userConstants.GETALL_REQUEST } }
-  function success(users) { return { type: userConstants.GETALL_SUCCESS, users } }
-  function failure(error) { return { type: userConstants.GETALL_FAILURE, error } }
+  function request() { return { type: constants.GETALL_REQUEST } }
+  function success(models) { return { type: constants.GETALL_SUCCESS, models } }
+  function failure(error) { return { type: constants.GETALL_FAILURE, error } }
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
 function _delete(id) {
   return dispatch => {
     dispatch(request(id))
-    userService.delete(id)
+    service.delete(id)
       .then(
-        user => {
+        model => {
           dispatch(success(id))
         },
         error => {
@@ -101,35 +101,35 @@ function _delete(id) {
         }
       )
   }
-  function request(id) { return { type: userConstants.DELETE_REQUEST, id } }
-  function success(id) { return { type: userConstants.DELETE_SUCCESS, id } }
-  function failure(id, error) { return { type: userConstants.DELETE_FAILURE, id, error } }
+  function request(id) { return { type: constants.DELETE_REQUEST, id } }
+  function success(id) { return { type: constants.DELETE_SUCCESS, id } }
+  function failure(id, error) { return { type: constants.DELETE_FAILURE, id, error } }
 }
 
 
 function getById(id) {
   return dispatch => {
     dispatch(request(id))
-    userService.getById(id)
+    service.getById(id)
       .then(
-        userDetails => dispatch(success(userDetails)),
-        error => dispatch(failure(error+' in get user by id: '+id))
+        models => dispatch(success(models)),
+        error => dispatch(failure(error+' in getting model by id: '+id))
       )
   }
-  function request(id) { return { type: userConstants.GETBYID_REQUEST, id } }
-  function success(userDetails) {
-    console.log('user details in action file: ', userDetails)
-    return { type: userConstants.GETBYID_SUCCESS, userDetails } }
-  function failure(id, error) { return { type: userConstants.GETBYID_FAILURE, id, error } }
+  function request(id) { return { type: constants.GETBYID_REQUEST, id } }
+  function success(models) {
+    console.log('user details in action file: ', models)
+    return { type: constants.GETBYID_SUCCESS, models } }
+  function failure(id, error) { return { type: constants.GETBYID_FAILURE, id, error } }
 }
 
-function saveChanges(user) {
+function saveChanges(model) {
   return dispatch => {
-    dispatch(request(user))
+    dispatch(request(model))
 
-    userService.update(user)
+    service.update(model)
       .then(
-        user => {
+        model => {
           dispatch(success())
           history.push('/users')
           dispatch(alertActions.success('Changes Saved Successfully'))
@@ -151,7 +151,7 @@ function saveChanges(user) {
         }
       )
   }
-  function request(user) { return { type: userConstants.CHANGE_REQUEST, user } }
-  function success(user) { return { type: userConstants.CHANGE_SUCCESS, user } }
-  function failure(error) { return { type: userConstants.CHANGE_FAILURE, error } }
+  function request(model) { return { type: constants.CHANGE_REQUEST, model } }
+  function success(model) { return { type: constants.CHANGE_SUCCESS, model } }
+  function failure(error) { return { type: constants.CHANGE_FAILURE, error } }
 }
