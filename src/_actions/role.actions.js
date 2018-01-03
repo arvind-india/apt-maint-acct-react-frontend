@@ -1,5 +1,5 @@
-import { roleConstants } from '../_constants'
-import { roleService } from '../_services'
+import { roleConstants as constants } from '../_constants'
+import { roleService as service } from '../_services'
 import { alertActions } from './'
 import { history } from '../_helpers'
 
@@ -13,23 +13,22 @@ export const roleActions = {
 function getAll() {
   return dispatch => {
     dispatch(request())
-console.log('role action: getAll()')
-    roleService.getAll()
+    service.getAll()
       .then(
-        roles => dispatch(success(roles)),
-        error => dispatch(failure(error+' getting all roles'))
+        models => dispatch(success(models)),
+        error => dispatch(failure(error+' getting all role models'))
       )
   }
-  function request() { return { type: roleConstants.GETALL_REQUEST } }
-  function success(models) { return { type: roleConstants.GETALL_SUCCESS, models } }
-  function failure(error) { return { type: roleConstants.GETALL_FAILURE, error } }
+  function request() { return { type: constants.GETALL_REQUEST } }
+  function success(models) { return { type: constants.GETALL_SUCCESS, models } }
+  function failure(error) { return { type: constants.GETALL_FAILURE, error } }
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
 function _delete(id) {
   return dispatch => {
     dispatch(request(id))
-    roleService.delete(id)
+    service.delete(id)
       .then(
         model => {
           dispatch(success(id))
@@ -39,33 +38,31 @@ function _delete(id) {
         }
       )
   }
-  function request(id) { return { type: roleConstants.DELETE_REQUEST, id } }
-  function success(id) { return { type: roleConstants.DELETE_SUCCESS, id } }
-  function failure(id, error) { return { type: roleConstants.DELETE_FAILURE, id, error } }
+  function request(id) { return { type: constants.DELETE_REQUEST, id } }
+  function success(id) { return { type: constants.DELETE_SUCCESS, id } }
+  function failure(id, error) { return { type: constants.DELETE_FAILURE, id, error } }
 }
 
 
 function getById(id) {
   return dispatch => {
     dispatch(request(id))
-    roleService.getById(id)
+    service.getById(id)
       .then(
         model => dispatch(success(model)),
         error => dispatch(failure(error+' in get role model by id: '+id))
       )
   }
-  function request(id) { return { type: roleConstants.GETBYID_REQUEST, id } }
-  function success(model) {
-    console.log('Role model in action file: ', model)
-    return { type: roleConstants.GETBYID_SUCCESS, model } }
-  function failure(id, error) { return { type: roleConstants.GETBYID_FAILURE, id, error } }
+  function request(id) { return { type: constants.GETBYID_REQUEST, id } }
+  function success(model) { return { type: constants.GETBYID_SUCCESS, model } }
+  function failure(id, error) { return { type: constants.GETBYID_FAILURE, id, error } }
 }
 
 function saveChanges(model) {
   return dispatch => {
     dispatch(request(model))
 
-    roleService.update(model)
+    service.update(model)
       .then(
         model => {
           dispatch(success())
@@ -89,7 +86,7 @@ function saveChanges(model) {
         }
       )
   }
-  function request(model) { return { type: roleConstants.CHANGE_REQUEST, model } }
-  function success(model) { return { type: roleConstants.CHANGE_SUCCESS, model } }
-  function failure(error) { return { type: roleConstants.CHANGE_FAILURE, error } }
+  function request(model) { return { type: constants.CHANGE_REQUEST, model } }
+  function success(model) { return { type: constants.CHANGE_SUCCESS, model } }
+  function failure(error) { return { type: constants.CHANGE_FAILURE, error } }
 }
