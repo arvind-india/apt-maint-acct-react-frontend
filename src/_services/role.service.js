@@ -7,6 +7,7 @@ export const roleService = {
   delete: _delete
 }
 let user = JSON.parse(localStorage.getItem('user'))
+let url = '/roles'
 let instance = axios.create({
   baseURL: process.env.REACT_APP_API_URL+'/api',
   timeout: 1000,
@@ -20,26 +21,26 @@ if(user && user.id_token) {
 
 function getAll() {
   console.log('role service getAll()')
-  return instance.get('/roles')
+  return instance.get(url)
     .then(handleResponse)
     .catch(handleError)
 }
 
 function getById(id) {
-  return instance.get('/roles/' + id)
+  return instance.get(url + '/' + id)
     .then(handleResponse)
     .catch(handleError)
 }
 
-function update(role) {
-  return instance.put('/roles/' + role.id, role)
+function update(model) {
+  return instance.put(url + '/' + model.id, model)
     .then(handleResponse)
     .catch(handleError)
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
 function _delete(id) {
-  return instance.delete('/roles/' + id)
+  return instance.delete(url + '/' + id)
     .then(handleResponse)
     .catch(handleError)
 }

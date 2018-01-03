@@ -20,34 +20,34 @@ export function roles(state = {}, action) {
       }
 
     case constants.DELETE_REQUEST:
-      // add 'deleting:true' property to user being deleted
+      // add 'deleting:true' property to model being deleted
       return {
         ...state,
-        items: state.items.map(role =>
-          role.id === action.idea
-            ? { ...role, deleting: true }
-            : role
+        items: state.items.map(model =>
+          model.id === action.idea
+            ? { ...model, deleting: true }
+            : model
         )
       }
 
     case constants.DELETE_SUCCESS:
 
       return {
-        items: state.items.filter(role => role.id !== action.id)
+        items: state.items.filter(model => model.id !== action.id)
       }
 
     case constants.DELETE_FAILURE:
 
       return {
         ...state,
-        items: state.items.map(role => {
-          if(role.id === action.id) {
-            // make copy of role without 'deleting:true' property
-            const { deleting, ...roleCopy } = role
-            // return copy of role with 'deleteError:[error]' property
-            return { ...roleCopy, deleteError: action.error }
+        items: state.items.map(model => {
+          if(model.id === action.id) {
+            // make copy of model without 'deleting:true' property
+            const { deleting, ...modelCopy } = model
+            // return copy of model with 'deleteError:[error]' property
+            return { ...modelCopy, deleteError: action.error }
           }
-          return role
+          return model
         })
       }
 
