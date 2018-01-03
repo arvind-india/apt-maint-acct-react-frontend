@@ -21,7 +21,7 @@ console.log('role action: getAll()')
       )
   }
   function request() { return { type: roleConstants.GETALL_REQUEST } }
-  function success(roles) { return { type: roleConstants.GETALL_SUCCESS, roles } }
+  function success(models) { return { type: roleConstants.GETALL_SUCCESS, models } }
   function failure(error) { return { type: roleConstants.GETALL_FAILURE, error } }
 }
 

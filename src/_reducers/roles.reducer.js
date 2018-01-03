@@ -11,7 +11,7 @@ export function roles(state = {}, action) {
 
     case constants.GETALL_SUCCESS:
       return {
-        items: action.roles
+        items: action.models
       }
 
     case constants.GETALL_FAILURE:
