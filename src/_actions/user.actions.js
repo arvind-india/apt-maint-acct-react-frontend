@@ -112,14 +112,14 @@ function getById(id) {
     dispatch(request(id))
     service.getById(id)
       .then(
-        models => dispatch(success(models)),
+        model => dispatch(success(model)),
         error => dispatch(failure(error+' in getting model by id: '+id))
       )
   }
   function request(id) { return { type: constants.GETBYID_REQUEST, id } }
-  function success(models) {
-    console.log('user details in action file: ', models)
-    return { type: constants.GETBYID_SUCCESS, models } }
+  function success(model) {
+    console.log('user details in action file: ', model)
+    return { type: constants.GETBYID_SUCCESS, model } }
   function failure(id, error) { return { type: constants.GETBYID_FAILURE, id, error } }
 }
 

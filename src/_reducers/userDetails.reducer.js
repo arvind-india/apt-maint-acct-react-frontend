@@ -9,7 +9,7 @@ export function userDetails(state = {}, action) {
     case constants.GETBYID_SUCCESS:
       console.log('Get By ID success: ', action)
       return {
-        data: action.models
+        data: action.model
       }
     case constants.GETBYID_FAILURE:
       return {
@@ -22,7 +22,7 @@ export function userDetails(state = {}, action) {
     case constants.CHANGE_SUCCESS:
       console.log('User Change Request success: ', action)
       return {
-        data: action.models
+        data: action.model
       }
     case constants.CHANGE_FAILURE:
       return {
