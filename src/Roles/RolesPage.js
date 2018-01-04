@@ -6,17 +6,18 @@ import { Router, Route } from 'react-router-dom'
 
 import { history } from '../_helpers'
 import { PrivateRoute, FlashMessage } from '../_components'
-import { roleActions, alertActions } from '../_actions'
-import { RoleDetailsPage } from './RoleDetailsPage'
+import { roleActions as actions, alertActions } from '../_actions'
+import { RoleDetailsPage as detailsPage } from './RoleDetailsPage'
 
+let url = '/roles'
 
 class RolesPage extends React.Component {
 
   componentDidMount() {
-    this.props.dispatch(roleActions.getAll())
+    this.props.dispatch(actions.getAll())
   }
   handleDeleteModel(id) {
-    return (e) => this.props.dispatch(roleActions.delete(id))
+    return (e) => this.props.dispatch(actions.delete(id))
   }
   showList(models){
     return <Table>
@@ -36,7 +37,7 @@ class RolesPage extends React.Component {
             <td>{model.name}</td>
             <td>{model.description}</td>
             <td>{model.inherits}</td>
-            <td><Link to={`/roles/${model.id}`}>View/Edit</Link></td>
+            <td><Link to={`${url}/${model.id}`}>View/Edit</Link></td>
           </tr>)}
       </tbody>
     </Table>
@@ -45,16 +46,17 @@ class RolesPage extends React.Component {
   render() {
     console.log('Props in RolesPage: ', this.props)
     const { user, roles, alert } = this.props
+    let models = roles
     return (
       <div>
         <h3>Roles List</h3>
         {alert.message && <FlashMessage text={alert.message} delay={5000}/>}
-        {roles.loading && <em>Loading roles...}</em>}
-        {roles.error && <span className="text-danger">ERROR: {roles.error}</span>}
-        {roles.items && this.showList(roles) }
+        {models.loading && <em>Loading models...}</em>}
+        {models.error && <span className="text-danger">ERROR: {models.error}</span>}
+        {models.items && this.showList(models) }
         <Router history={history}>
           <div>
-            <PrivateRoute path="/roles/:id" component={RoleDetailsPage} />
+            <PrivateRoute path={`${url}/:id`} component={detailsPage} />
           </div>
         </Router>
       </div>
