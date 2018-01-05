@@ -26,7 +26,7 @@ class RoleDetailsPage extends React.Component {
     console.log('RoleDetails in constructor: ', roleDetails)
     this.state = {
       mModel: {}, // model being modified
-      selectedOption: null,
+      selectedOption: '',
       submitted: false,
       touched: false
     }
@@ -35,21 +35,20 @@ class RoleDetailsPage extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleMultiSelectChange = this.handleMultiSelectChange.bind(this)
 
+    dispatch(actions.getAll())
     dispatch(alertActions.clear())  // clear alert messages from other pages
   }
   componentDidMount() {
     this.props.dispatch(actions.getById(this.props.match.params.id))
-    this.props.dispatch(actions.getAll())
+    //this.props.dispatch(actions.getAll())
   }
   handleSubmit(event) {
     event.preventDefault()
     this.setState({ submitted: true })
-
   }
   handleChange(event) {
     const { name, value } = event.target
     const { mModel } = this.state
-
     this.setState({
       [name]: value
     })
@@ -148,10 +147,12 @@ class RoleDetailsPage extends React.Component {
   showMultiSelect(data) {
     const { selectedOption } = this.state;
     const { roles } = this.props
+/*
     console.log('Roles: ', roles.items)
     if(selectedOption == null) {
       this.setState({ selectedOption: data.inherits })
     }
+*/
   	//const value = selectedOption && selectedOption.value;
     //const value = selectedOption
     return (
@@ -163,6 +164,7 @@ class RoleDetailsPage extends React.Component {
         simpleValue={true}
         placeholder="Select Inherits..."
         onChange={this.handleMultiSelectChange}
+        defaultValue="guest"
         valueKey="name"
         labelKey="name"
         options={roles.items}
