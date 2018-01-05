@@ -21,25 +21,25 @@ import { roleActions as actions, alertActions } from '../_actions'
 class RoleDetailsPage extends React.Component {
 
   constructor(props) {
-
     super(props)
-console.log('Role Details Page constructor: ', props)
     const { dispatch, roleDetails } = props
-
+    console.log('RoleDetails in constructor: ', roleDetails)
     this.state = {
       mModel: {}, // model being modified
-      selectedOption: '',
+      selectedOption: null,
       submitted: false,
       touched: false
     }
 
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleMultiSelectChange = this.handleMultiSelectChange.bind(this)
 
     dispatch(alertActions.clear())  // clear alert messages from other pages
   }
   componentDidMount() {
     this.props.dispatch(actions.getById(this.props.match.params.id))
+    this.props.dispatch(actions.getAll())
   }
   handleSubmit(event) {
     event.preventDefault()
@@ -54,6 +54,7 @@ console.log('Role Details Page constructor: ', props)
       [name]: value
     })
   }
+
   render() {
     const { roleDetails, user, match, alert, submitted } = this.props
     console.log('Role Details render props: ', this.props)
@@ -69,6 +70,7 @@ console.log('Role Details Page constructor: ', props)
     )
   }
   show(data){
+
     return <Form onSubmit={this.handleSubmit} className="grid-form">
       <fieldset>
   			<legend>View or Edit</legend>
@@ -109,7 +111,7 @@ console.log('Role Details Page constructor: ', props)
   showInherits(data) {
     const { submitted, mModel } = this.state
     return <div data-field-span="1">
-				<Label>Role Name</Label>
+				<Label>Inherits</Label>
         <Input
           type="text"
           name="inherits"
@@ -139,30 +141,42 @@ console.log('Role Details Page constructor: ', props)
         && <FormText color="danger">Role-Description is required</FormText>}
 			</div>
   }
-
+  handleMultiSelectChange(selectedOption) {
+    console.log('Selected Option: ', selectedOption)
+    this.setState({ selectedOption })
+  }
   showMultiSelect(data) {
     const { selectedOption } = this.state;
-  	const value = selectedOption && selectedOption.value;
-
+    const { roles } = this.props
+    console.log('Roles: ', roles.items)
+    if(selectedOption == null) {
+      this.setState({ selectedOption: data.inherits })
+    }
+  	//const value = selectedOption && selectedOption.value;
+    //const value = selectedOption
     return (
       <Select
         name="form-field-name"
-        value={value}
-        onChange={this.handleChange}
-        options={[
-          { value: 'one', label: 'One' },
-          { value: 'two', label: 'Two' },
-        ]}
+        value={selectedOption}
+        multi={true}
+        joinValues={true}
+        simpleValue={true}
+        placeholder="Select Inherits..."
+        onChange={this.handleMultiSelectChange}
+        valueKey="name"
+        labelKey="name"
+        options={roles.items}
       />
-    );    
+    );
   }
 }
 
 function mapStateToProps(state) {
-  const { roleDetails, authentication, alert } = state
+  const { roles, roleDetails, authentication, alert } = state
   const { user } = authentication
   return {
     user,
+    roles,
     roleDetails,
     alert
   }
