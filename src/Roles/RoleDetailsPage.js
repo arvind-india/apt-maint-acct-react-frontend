@@ -158,7 +158,7 @@ class RoleDetailsPage extends React.Component {
     return (
       <Select
         name="form-field-name"
-        value={selectedOption}
+        value={data.inherits}
         multi={true}
         joinValues={true}
         simpleValue={true}
