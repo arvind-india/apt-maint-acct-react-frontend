@@ -44,10 +44,14 @@ class RoleDetailsPage extends React.Component {
     this.props.dispatch(actions.getById(this.props.match.params.id))
   }
   handleSubmit(event) {
+    const { mModel } = this.state
     event.preventDefault()
     this.setState({ submitted: true })
 
     const { dispatch, roleDetails } = this.props
+    let modelDB = roleDetails.data
+    let canSave = mModel.name && mModel.description?true:false
+    dispatch(actions.saveChanges(mModel))
   }
   handleChange(event) {
     const { name, value } = event.target
