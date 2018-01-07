@@ -64,7 +64,7 @@ class RoleDetailsPage extends React.Component {
     }
 
   }
-  canSave() { // check for changes in mUser, if changes present, it can save
+  canSave() { // check for changes in mModel, if changes present, it can save
     const { mModel } = this.state
     if(mModel.inherits == null){ // no changes in inherits, then remove this attribute
       delete mModel.inherits
@@ -83,7 +83,7 @@ class RoleDetailsPage extends React.Component {
     const { roleDetails } = this.props
     let modelDB = roleDetails.data
     let props = []
-    // check for changes in mUser
+    // check for changes in mModel props
     for(const prop in mModel) {
       if(modelDB[prop] != mModel[prop]) { // if data is changed wrt data in database
         props.push(prop)
@@ -119,7 +119,7 @@ class RoleDetailsPage extends React.Component {
       <div>
         <h2>Role Details</h2>
         {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
-        {model.loading && <em>Loading user details...}</em>}
+        {model.loading && <em>Loading model details...}</em>}
         {model.error && <span className="text-danger">{model.error}</span>}
         {model.data && this.show(model.data)}
       </div>

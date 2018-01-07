@@ -13,7 +13,7 @@ import {
     FormFeedback
 } from 'reactstrap'
 
-import { userActions, alertActions } from '../_actions'
+import { userActions as actions, alertActions } from '../_actions'
 
 
 class UserDetailsPage extends React.Component {
@@ -25,7 +25,7 @@ class UserDetailsPage extends React.Component {
     const { dispatch, userDetails } = props
 
     this.state = {
-      mUser: {},
+      mModel: {},
       mInfos: {},
       mResidentType: null,
       password: '',
@@ -48,20 +48,20 @@ class UserDetailsPage extends React.Component {
     dispatch(alertActions.clear())  // clear alert messages from other pages
   }
   componentDidMount() {
-    this.props.dispatch(userActions.getById(this.props.match.params.id))
+    this.props.dispatch(actions.getById(this.props.match.params.id))
   }
   changedProps() {
-    const { mUser, mInfos, mResidentType } = this.state
+    const { mModel, mInfos, mResidentType } = this.state
     const { userDetails } = this.props
-    let userDB = userDetails.data
-    let infosDB = this.arrToObj(userDB.infos)
+    let modelDB = userDetails.data
+    let infosDB = this.arrToObj(modelDB.infos)
     let props = []
-    // check for changes in mUser
-    for(const prop in mUser) {
-      if(userDB[prop] != mUser[prop]) { // if data is changed wrt data in database
+    // check for changes in mModel
+    for(const prop in mModel) {
+      if(modelDB[prop] != mModel[prop]) { // if data is changed wrt data in database
         props.push(prop)
       } else {
-        delete mUser[prop]  // remove unchanged property
+        delete mModel[prop]  // remove unchanged property
       }
     }
     // check for changes in mInfos
@@ -79,10 +79,10 @@ class UserDetailsPage extends React.Component {
     }
     return props
   }
-  canSave() { // check for changes in mUser, if changes present, it can save
-    const { mUser } = this.state
-    for(const prop in mUser) {
-      if( !mUser[prop] ) {
+  canSave() { // check for changes in mModel, if changes present, it can save
+    const { mModel } = this.state
+    for(const prop in mModel) {
+      if( !mModel[prop] ) {
         return false
       }
     }
@@ -92,57 +92,57 @@ class UserDetailsPage extends React.Component {
     event.preventDefault()
     this.setState({ submitted: true })
 
-    const { mUser, mInfos, mResidentType, submitted, password, confirmPassword } = this.state
+    const { mModel, mInfos, mResidentType, submitted, password, confirmPassword } = this.state
     const { dispatch, userDetails } = this.props
-    let userDB = userDetails.data
+    let modelDB = userDetails.data
     let canSave = this.canSave()
     let cProps = this.changedProps()
 
     if(canSave) {
-      mUser.id = userDB.id
+      mModel.id = modelDB.id
     }
     if( !cProps.includes('email') ) {
-      mUser.email = userDB.email
+      mModel.email = modelDB.email
     }
     // check for changes in mInfos and include those changes after conversion into an array
     let mInfosArray = this.objToArr(mInfos)
 
     if(mInfosArray.length > 0) {
-      mUser.infos = mInfosArray
+      mModel.infos = mInfosArray
     }
-    if(mResidentType && userDB.infos.residentType != mResidentType) {
-      if(!mUser.infos) {
-        mUser.infos = []
+    if(mResidentType && modelDB.infos.residentType != mResidentType) {
+      if(!mModel.infos) {
+        mModel.infos = []
       }
-      mUser.infos.push({key: 'residentType', value: mResidentType})
+      mModel.infos.push({key: 'residentType', value: mResidentType})
     }
-    console.log('User to be updated: ', mUser)
+    console.log('User to be updated: ', mModel)
     if ( cProps.length == 0 ) {
       dispatch(alertActions.error('No changes found...'))
     } else if (password != confirmPassword) {
       dispatch(alertActions.error('Passwords Do Not Match'))
     } else if (canSave) {
-      dispatch(userActions.saveChanges(mUser))
+      dispatch(actions.saveChanges(mModel))
     } else {
       dispatch(alertActions.error('Missing Data...'))
     }
   }
   handlePasswordChange(event) {
     const { name, value } = event.target
-    const { mUser } = this.state
+    const { mModel } = this.state
     this.setState({
       [name]: value,
       passwordChanged: value ? true : false
     })
-    if(value) { // if value exists, set it to mUser
+    if(value) { // if value exists, set it to mModel
       this.setState({
-        mUser: {
-          ...mUser,
+        mModel: {
+          ...mModel,
           password: value
         }
       })
-    } else { // remove password prop from mUser
-      delete mUser.password
+    } else { // remove password prop from mModel
+      delete mModel.password
     }
   }
   handleConfirmPasswordChange(event) {
@@ -168,10 +168,10 @@ class UserDetailsPage extends React.Component {
   }
   handleChange(event) {
     const { name, value } = event.target
-    const { mUser } = this.state
+    const { mModel } = this.state
     this.setState({
-      mUser: {
-        ...mUser,
+      mModel: {
+        ...mModel,
         [name]: value
       }
     })
@@ -270,7 +270,7 @@ class UserDetailsPage extends React.Component {
   }
 
   showUsername(data) {
-    const { submitted, mUser } = this.state // mUser is modified user
+    const { submitted, mModel } = this.state // mModel is modified user
     return <div data-field-span="1">
 				<Label>Username</Label>
         <Input
@@ -281,7 +281,7 @@ class UserDetailsPage extends React.Component {
           defaultValue={data.name}
           onChange={this.handleChange}
         />
-        {submitted && mUser.name != null && mUser.name == ""
+        {submitted && mModel.name != null && mModel.name == ""
         && <FormText color="danger">User Name is required</FormText>}
 			</div>
   }
@@ -339,7 +339,7 @@ class UserDetailsPage extends React.Component {
       </div>
   }
   showFirstName(data) {
-    const { submitted, mUser } = this.state // mser is modified user
+    const { submitted, mModel } = this.state // mser is modified user
     return <div data-field-span="1">
         <Label>FirstName</Label>
         <Input
@@ -351,12 +351,12 @@ class UserDetailsPage extends React.Component {
           defaultValue={data.first_name}
           onChange={this.handleChange}
         />
-        {submitted && mUser.first_name != null && mUser.first_name === ""
+        {submitted && mModel.first_name != null && mModel.first_name === ""
         && <FormText color="danger">First Name is required</FormText>}
       </div>
   }
   showLastName(data) {
-    const { submitted, mUser } = this.state // mser is modified user
+    const { submitted, mModel } = this.state // mser is modified user
     return <div data-field-span="1">
         <Label>LastName</Label>
         <Input
@@ -368,12 +368,12 @@ class UserDetailsPage extends React.Component {
           defaultValue={data.last_name}
           onChange={this.handleChange}
         />
-        {submitted && mUser.last_name != null && mUser.last_name === ""
+        {submitted && mModel.last_name != null && mModel.last_name === ""
         && <FormText color="danger">Last Name is required</FormText>}
       </div>
   }
   showEmail(data){
-    const { submitted, mUser } = this.state // mser is modified user
+    const { submitted, mModel } = this.state // mser is modified user
     return <div data-field-span="1">
         <Label>email</Label>
         <Input
@@ -385,7 +385,7 @@ class UserDetailsPage extends React.Component {
           defaultValue={data.email}
           onChange={this.handleChange}
         />
-        {submitted && mUser.email != null && mUser.email === ""
+        {submitted && mModel.email != null && mModel.email === ""
         && <FormText color="danger">Email-id is required</FormText>}
       </div>
   }
