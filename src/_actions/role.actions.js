@@ -68,7 +68,6 @@ function saveChanges(model) {
           dispatch(success())
           history.push('/roles')
           dispatch(alertActions.success('Changes Saved Successfully'))
-
         },
         error => {
           let data = error.response.data

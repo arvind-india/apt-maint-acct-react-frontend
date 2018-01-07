@@ -45,19 +45,59 @@ class RoleDetailsPage extends React.Component {
   }
   handleSubmit(event) {
     const { mModel } = this.state
-    event.preventDefault()
-    this.setState({ submitted: true })
-
     const { dispatch, roleDetails } = this.props
     let modelDB = roleDetails.data
-    let canSave = mModel.name && mModel.description?true:false
-    dispatch(actions.saveChanges(mModel))
+    let canSave = this.canSave()
+    let cProps = this.changedProps()
+
+    event.preventDefault()
+    this.setState({ submitted: true })
+    console.log('Role Model to be saved: ', mModel)
+    if ( cProps.length == 0 ) {
+      dispatch(alertActions.error('No changes found...'))
+    } else if(canSave){
+      dispatch(actions.saveChanges(mModel))
+    } else {
+      dispatch(alertActions.error('Missing data'))
+    }
+
+  }
+  canSave() { // check for changes in mUser, if changes present, it can save
+    const { mModel } = this.state
+    if(mModel.inherits == null){ // no changes in inherits, then remove this attribute
+      delete mModel.inherits
+    }
+    for(const prop in mModel) {
+      if( !mModel[prop] ) {
+        return false
+      }
+    }
+    return true
+  }
+  changedProps() {
+    const { mModel } = this.state
+    const { roleDetails } = this.props
+    let modelDB = roleDetails.data
+    let props = []
+    // check for changes in mUser
+    for(const prop in mModel) {
+      console.log('modelDB: ', modelDB[prop]); console.log('mModel: ', mModel[prop])
+      if(modelDB[prop] != mModel[prop]) { // if data is changed wrt data in database
+        props.push(prop)
+      } else {
+        delete mModel[prop]  // remove unchanged property
+      }
+    }
+    return props;
   }
   handleChange(event) {
     const { name, value } = event.target
     const { mModel } = this.state
     this.setState({
-      [name]: value
+      mModel: {
+        ...mModel,
+        [name]: value
+      }
     })
   }
 
@@ -105,7 +145,7 @@ class RoleDetailsPage extends React.Component {
           onChange={this.handleChange}
         />
         {submitted && mModel.name != null && mModel.name == ""
-          && <FormText color="danger">Role-Name is required</FormText>}
+          && <FormText color="danger">Role name is required</FormText>}
 			</div>
   }
   handleInheritsChange(selectedOption) {
@@ -148,7 +188,7 @@ class RoleDetailsPage extends React.Component {
           onChange={this.handleChange}
         />
         {submitted && mModel.description != null && mModel.description == ""
-        && <FormText color="danger">Role-Description is required</FormText>}
+          && <FormText color="danger">Role description is required</FormText>}
 			</div>
   }
 }
