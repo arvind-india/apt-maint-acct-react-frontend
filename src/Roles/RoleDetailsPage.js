@@ -23,7 +23,6 @@ class RoleDetailsPage extends React.Component {
   constructor(props) {
     super(props)
     const { dispatch, roleDetails } = props
-    console.log('RoleDetails in constructor: ', roleDetails)
     this.state = {
       mModel: {   // model being modified
         inherits: null
@@ -44,15 +43,18 @@ class RoleDetailsPage extends React.Component {
     this.props.dispatch(actions.getById(this.props.match.params.id))
   }
   handleSubmit(event) {
+    event.preventDefault()
+    this.setState({ submitted: true })
+
     const { mModel } = this.state
     const { dispatch, roleDetails } = this.props
     let modelDB = roleDetails.data
     let canSave = this.canSave()
     let cProps = this.changedProps()
 
-    event.preventDefault()
-    this.setState({ submitted: true })
-    console.log('Role Model to be saved: ', mModel)
+    if(canSave) {
+      mModel.id = modelDB.id
+    }
     if ( cProps.length == 0 ) {
       dispatch(alertActions.error('No changes found...'))
     } else if(canSave){
@@ -68,6 +70,8 @@ class RoleDetailsPage extends React.Component {
       delete mModel.inherits
     }
     for(const prop in mModel) {
+      if(prop == 'inherits' && mModel.inherits == '')
+        return true; // empty inherits is valid
       if( !mModel[prop] ) {
         return false
       }
@@ -81,7 +85,6 @@ class RoleDetailsPage extends React.Component {
     let props = []
     // check for changes in mUser
     for(const prop in mModel) {
-      console.log('modelDB: ', modelDB[prop]); console.log('mModel: ', mModel[prop])
       if(modelDB[prop] != mModel[prop]) { // if data is changed wrt data in database
         props.push(prop)
       } else {
@@ -100,10 +103,17 @@ class RoleDetailsPage extends React.Component {
       }
     })
   }
-
+  handleInheritsChange(selectedOption) {
+    const { mModel } = this.state
+    this.setState({
+      mModel: {
+        ...mModel,
+        inherits: selectedOption
+      }
+    })
+  }
   render() {
     const { roleDetails, user, match, alert, submitted } = this.props
-    console.log('Role Details render props: ', this.props)
     let model = roleDetails
     return (
       <div>
@@ -147,13 +157,6 @@ class RoleDetailsPage extends React.Component {
         {submitted && mModel.name != null && mModel.name == ""
           && <FormText color="danger">Role name is required</FormText>}
 			</div>
-  }
-  handleInheritsChange(selectedOption) {
-    this.setState({
-      mModel: {
-        inherits: selectedOption
-      }
-    })
   }
   showInherits(data) {
     const { mModel } = this.state
