@@ -33,6 +33,7 @@ function getById(id) {
 }
 
 function update(model) {
+  console.log('role service update model: ', model)
   return instance.put(url + '/' + model.id, model)
     .then(handleResponse)
     .catch(handleError)

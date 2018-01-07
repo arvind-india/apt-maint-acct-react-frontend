@@ -158,6 +158,10 @@ class RoleDetailsPage extends React.Component {
   showInherits(data) {
     const { mModel } = this.state
     const { roles } = this.props
+    let options = []
+    if(roles.items) {
+      options = roles.items.filter(each => each.name != data.name)
+    }
     return <div data-field-span="1">
       <Label>Inherits</Label>
       <Select
@@ -171,7 +175,7 @@ class RoleDetailsPage extends React.Component {
         defaultValue="guest"
         valueKey="name"
         labelKey="name"
-        options={roles.items.filter(each => each.name != data.name)}
+        options={options}
       />
      </div>
   }

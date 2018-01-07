@@ -20,7 +20,7 @@ export function roleDetails(state = {}, action) {
         loading: true
       }
     case constants.CHANGE_SUCCESS:
-      console.log('User Change Request success: ', action)
+      console.log('Role Change Request success: ', action)
       return {
         data: action.model
       }
