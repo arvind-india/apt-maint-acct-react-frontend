@@ -22,14 +22,15 @@ class RoleDetailsPage extends React.Component {
 
   constructor(props) {
     super(props)
-    const { dispatch, roleDetails } = props
+    const { dispatch, roleDetails, match } = props
     this.state = {
       mModel: {   // model being modified
         inherits: null
       },
       selectedOption: null,
       submitted: false,
-      touched: false
+      touched: false,
+      adding: match.params.id==="0"
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -46,12 +47,14 @@ class RoleDetailsPage extends React.Component {
     event.preventDefault()
     this.setState({ submitted: true })
 
-    const { mModel } = this.state
+    const { mModel, adding } = this.state
     const { dispatch, roleDetails } = this.props
     let modelDB = roleDetails.data
     let canSave = this.canSave()
     let cProps = this.changedProps()
-
+    if(adding) {
+      modelDB.id = 0
+    }
     if(canSave) {
       mModel.id = modelDB.id
     }
@@ -126,9 +129,10 @@ class RoleDetailsPage extends React.Component {
     )
   }
   show(data){
+    let title = this.state.adding?'Add':'View or Edit'
     return <Form onSubmit={this.handleSubmit} className="grid-form">
       <fieldset>
-  			<legend>View or Edit</legend>
+  			<legend>{title}</legend>
         <div data-row-span="2">
           {this.showRolename(data)}
           {this.showInherits(data)}

@@ -4,6 +4,14 @@ import { connect } from 'react-redux'
 import { Table, Alert, UncontrolledAlert } from 'reactstrap'
 import { Router, Route } from 'react-router-dom'
 
+import {
+  MdAdd
+} from 'react-icons/lib/md' // material design icons
+
+import {
+  Button
+} from 'reactstrap'
+
 import { history } from '../_helpers'
 import { PrivateRoute, FlashMessage } from '../_components'
 import { roleActions as actions, alertActions } from '../_actions'
@@ -27,7 +35,7 @@ class RolesPage extends React.Component {
           <th>Role Name</th>
           <th>Description</th>
           <th>Inherits</th>
-          <th>Actions</th>
+          <th>Actions <Link to={`${url}/0`}><MdAdd/></Link></th>
         </tr>
       </thead>
       <tbody>
