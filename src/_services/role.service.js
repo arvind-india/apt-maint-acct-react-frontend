@@ -4,6 +4,7 @@ export const roleService = {
   getAll,
   getById,
   update,
+  add,
   delete: _delete
 }
 let user = JSON.parse(localStorage.getItem('user'))
@@ -38,6 +39,14 @@ function update(model) {
     .then(handleResponse)
     .catch(handleError)
 }
+
+function add(model) {
+  console.log('role service add model: ', model)
+  return instance.post(url, model)
+    .then(handleResponse)
+    .catch(handleError)
+}
+
 
 // prefixed function name with underscore because delete is a reserved word in javascript
 function _delete(id) {

@@ -5,7 +5,9 @@ import { Table, Alert, UncontrolledAlert } from 'reactstrap'
 import { Router, Route } from 'react-router-dom'
 
 import {
-  MdAdd
+  MdAdd,
+  MdVisibility,
+  MdDelete
 } from 'react-icons/lib/md' // material design icons
 
 import {
@@ -45,7 +47,9 @@ class RolesPage extends React.Component {
             <td>{model.name}</td>
             <td>{model.description}</td>
             <td>{model.inherits}</td>
-            <td><Link to={`${url}/${model.id}`}>View/Edit</Link></td>
+            <td>
+              <Link to={`${url}/${model.id}`} title="View or Edit"><MdVisibility/></Link>
+            </td>
           </tr>)}
       </tbody>
     </Table>

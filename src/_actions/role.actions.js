@@ -59,33 +59,74 @@ function getById(id) {
 }
 
 function saveChanges(model) {
-  return dispatch => {
-    dispatch(request(model))
-
-    service.update(model)
-      .then(
-        model => {
-          dispatch(success())
-          history.push('/roles')
-          dispatch(alertActions.success('Changes Saved Successfully'))
-        },
-        error => {
-          let data = error.response.data
-          console.log('error response...')
-          console.log(error.response.data)
-          let appData;
-          if(data.error) { // check if there is a application specific error data enclosed
-            appData = data.data
-            dispatch(failure(appData.message))
-            dispatch(alertActions.error(appData.message))
-          } else {
-            dispatch(failure(error.response))
-            dispatch(alertActions.error(error.response.statusText))
-          }
-        }
-      )
+  if(model.id == 0) {
+    return add(model)
+  } else {
+    return update(model)
   }
-  function request(model) { return { type: constants.CHANGE_REQUEST, model } }
-  function success(model) { return { type: constants.CHANGE_SUCCESS, model } }
-  function failure(error) { return { type: constants.CHANGE_FAILURE, error } }
-}
+
+  function update(model) {
+    return dispatch => {
+      dispatch(request(model))
+
+      service.update(model)
+        .then(
+          model => {
+            dispatch(success())
+            history.push('/roles')
+            dispatch(alertActions.success('Updated Successfully'))
+          },
+          error => {
+            let data = error.response.data
+            console.log('error response...')
+            console.log(error.response.data)
+            let appData;
+            if(data.error) { // check if there is a application specific error data enclosed
+              appData = data.data
+              dispatch(failure(appData.message))
+              dispatch(alertActions.error(appData.message))
+            } else {
+              dispatch(failure(error.response))
+              dispatch(alertActions.error(error.response.statusText))
+            }
+          }
+        )
+    }
+    function request(model) { return { type: constants.UPDATE_REQUEST, model } }
+    function success(model) { return { type: constants.UPDATE_SUCCESS, model } }
+    function failure(error) { return { type: constants.UPDATE_FAILURE, error } }
+  }
+
+  function add(model) {
+    return dispatch => {
+      dispatch(request(model))
+
+      service.add(model)
+        .then(
+          model => {
+            dispatch(success())
+            history.push('/roles')
+            dispatch(alertActions.success('Added new Role Successfully'))
+          },
+          error => {
+            let data = error.response.data
+            console.log('error response...')
+            console.log(error.response.data)
+            let appData;
+            if(data.error) { // check if there is a application specific error data enclosed
+              appData = data.data
+              dispatch(failure(appData.message))
+              dispatch(alertActions.error(appData.message))
+            } else {
+              dispatch(failure(error.response))
+              dispatch(alertActions.error(error.response.statusText))
+            }
+          }
+        )
+    }
+    function request(model) { return { type: constants.ADD_REQUEST, model } }
+    function success(model) { return { type: constants.ADD_SUCCESS, model } }
+    function failure(error) { return { type: constants.ADD_FAILURE, error } }
+  }
+
+} // end of saveChanges()

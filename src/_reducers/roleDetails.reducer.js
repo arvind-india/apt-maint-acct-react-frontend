@@ -15,16 +15,29 @@ export function roleDetails(state = {}, action) {
       return {
         error: action.error
       }
-    case constants.CHANGE_REQUEST:
+    case constants.UPDATE_REQUEST:
       return {
         loading: true
       }
-    case constants.CHANGE_SUCCESS:
-      console.log('Role Change Request success: ', action)
+    case constants.UPDATE_SUCCESS:
+      console.log('Role Update Request success: ', action)
       return {
         data: action.model
       }
-    case constants.CHANGE_FAILURE:
+    case constants.UPDATE_FAILURE:
+      return {
+        error: action.error
+      }
+    case constants.ADD_REQUEST:
+      return {
+        loading: true
+      }
+    case constants.ADD_SUCCESS:
+      console.log('Role Add Request success: ', action)
+      return {
+        data: action.model
+      }
+    case constants.ADD_FAILURE:
       return {
         error: action.error
       }
