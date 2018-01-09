@@ -23,11 +23,19 @@ let url = '/roles'
 
 class RolesPage extends React.Component {
 
+  constructor(props) {
+    super(props)
+    this.handleDeleteModel = this.handleDeleteModel.bind(this)
+  }
+
   componentDidMount() {
     this.props.dispatch(actions.getAll())
   }
   handleDeleteModel(id) {
-    return (e) => this.props.dispatch(actions.delete(id))
+    console.log('Deleting Role with id: ', id)
+    //return (e) => this.props.dispatch(actions.delete(id))
+    this.props.dispatch(actions.delete(id))
+    this.props.dispatch(actions.getAll()) // get list after deletion of a model
   }
   showList(models){
     return <Table>
@@ -48,7 +56,15 @@ class RolesPage extends React.Component {
             <td>{model.description}</td>
             <td>{model.inherits}</td>
             <td>
-              <Link to={`${url}/${model.id}`} title="View or Edit"><MdVisibility/></Link>
+              <Link
+                to={`${url}/${model.id}`}
+                title="View or Edit"
+              ><MdVisibility/></Link>
+              <Button
+                color="link"
+                title="Delete"
+                onClick={() => this.handleDeleteModel(model.id)}
+              ><MdDelete/></Button>
             </td>
           </tr>)}
       </tbody>

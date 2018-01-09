@@ -28,6 +28,7 @@ function getAll() {
 function _delete(id) {
   return dispatch => {
     dispatch(request(id))
+    console.log('delete request in progress...')
     service.delete(id)
       .then(
         model => {
