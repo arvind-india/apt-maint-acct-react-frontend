@@ -7,6 +7,7 @@ export const userService = {
   getAll,
   getById,
   update,
+  add,
   delete: _delete
 }
 let user = JSON.parse(localStorage.getItem('user'))
@@ -54,6 +55,13 @@ function register(model) {
 
 function update(model) {
   return instance.put(url+'/'+model.id, model)
+    .then(handleResponse)
+    .catch(handleError)
+}
+
+function add(model) {
+  console.log('user service add model: ', model)
+  return instance.post(url, model)
     .then(handleResponse)
     .catch(handleError)
 }

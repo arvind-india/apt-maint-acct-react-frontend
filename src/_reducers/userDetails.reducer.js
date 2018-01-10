@@ -15,16 +15,16 @@ export function userDetails(state = {}, action) {
       return {
         error: action.error
       }
-    case constants.CHANGE_REQUEST:
+    case constants.UPDATE_REQUEST:
       return {
         loading: true
       }
-    case constants.CHANGE_SUCCESS:
+    case constants.UPDATE_SUCCESS:
       console.log('User Change Request success: ', action)
       return {
         data: action.model
       }
-    case constants.CHANGE_FAILURE:
+    case constants.UPDATE_FAILURE:
       return {
         error: action.error
       }

@@ -113,11 +113,19 @@ class UserDetailsPage extends React.Component {
     if(mInfosArray.length > 0) {
       mModel.infos = mInfosArray
     }
-    if(mResidentType && modelDB.infos.residentType != mResidentType) {
+/*    if(mResidentType && modelDB.infos.residentType != mResidentType) {
       if(!mModel.infos) {
         mModel.infos = []
       }
       mModel.infos.push({key: 'residentType', value: mResidentType})
+    } */
+    if(mResidentType){
+      if(adding || modelDB.infos.residentType != mResidentType) {
+        if(!mModel.infos) {
+          mModel.infos = []
+        }
+        mModel.infos.push({key: 'residentType', value: mResidentType})
+      }
     }
     console.log('User to be updated: ', mModel)
     if ( cProps.length == 0 ) {
