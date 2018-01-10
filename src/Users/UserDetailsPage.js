@@ -22,7 +22,7 @@ class UserDetailsPage extends React.Component {
 
     super(props)
 
-    const { dispatch, userDetails } = props
+    const { dispatch, userDetails, match } = props
 
     this.state = {
       mModel: {},
@@ -33,7 +33,8 @@ class UserDetailsPage extends React.Component {
       passwordChanged: false,
       passwordMatches: false,
       submitted: false,
-      touched: false
+      touched: false,
+      adding: match.params.id==="0"
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -92,12 +93,14 @@ class UserDetailsPage extends React.Component {
     event.preventDefault()
     this.setState({ submitted: true })
 
-    const { mModel, mInfos, mResidentType, submitted, password, confirmPassword } = this.state
+    const { mModel, mInfos, mResidentType, submitted, password, confirmPassword, adding } = this.state
     const { dispatch, userDetails } = this.props
     let modelDB = userDetails.data
     let canSave = this.canSave()
     let cProps = this.changedProps()
-
+    if(adding) {
+      modelDB.id = 0
+    }
     if(canSave) {
       mModel.id = modelDB.id
     }
@@ -231,11 +234,11 @@ class UserDetailsPage extends React.Component {
    }
 
   show(data){
+    let title = this.state.adding?'Add':'View or Edit'
     let infosObj = this.arrToObj(data.infos)
-
     return <Form onSubmit={this.handleSubmit} className="grid-form">
       <fieldset>
-  			<legend>View or Edit</legend>
+  			<legend>{title}</legend>
         <div data-row-span="1">
           {this.showUsername(data)}
         </div>

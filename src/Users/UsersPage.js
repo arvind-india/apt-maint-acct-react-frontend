@@ -4,6 +4,16 @@ import { connect } from 'react-redux'
 import { Table, Alert, UncontrolledAlert } from 'reactstrap'
 import { Router, Route } from 'react-router-dom'
 
+import {
+  MdAdd,
+  MdVisibility,
+  MdDelete
+} from 'react-icons/lib/md' // material design icons
+
+import {
+  Button
+} from 'reactstrap'
+
 import { history } from '../_helpers'
 import { PrivateRoute, FlashMessage } from '../_components'
 import { userActions as actions, alertActions } from '../_actions'
@@ -13,11 +23,19 @@ let url = '/users'
 
 class UsersPage extends React.Component {
 
+  constructor(props) {
+    super(props)
+    this.handleDeleteModel = this.handleDeleteModel.bind(this)
+  }
+
   componentDidMount() {
     this.props.dispatch(actions.getAll())
   }
-  handleDeleteUser(id) {
-    return (e) => this.props.dispatch(actions.delete(id))
+  handleDeleteModel(id) {
+    console.log('Deleting User with id: ', id)
+    //return (e) => this.props.dispatch(actions.delete(id))
+    this.props.dispatch(actions.delete(id))
+    this.props.dispatch(actions.getAll()) // get list after deletion of a model
   }
   showList(models){
     return <Table>
@@ -27,7 +45,7 @@ class UsersPage extends React.Component {
           <th>Username</th>
           <th>First Name</th>
           <th>Email</th>
-          <th>Actions</th>
+          <th>Actions <Link to={`${url}/0`} title="Add"><MdAdd/></Link></th>
         </tr>
       </thead>
       <tbody>
@@ -37,7 +55,17 @@ class UsersPage extends React.Component {
             <td>{model.name}</td>
             <td>{model.first_name}</td>
             <td>{model.email}</td>
-            <td><Link to={`${url}/${model.id}`}>View/Edit</Link></td>
+            <td>
+              <Link
+                to={`${url}/${model.id}`}
+                title="View or Edit"
+              ><MdVisibility/></Link>
+              <Button
+                color="link"
+                title="Delete"
+                onClick={() => this.handleDeleteModel(model.id)}
+              ><MdDelete color="red"/></Button>
+            </td>
           </tr>)}
       </tbody>
     </Table>
