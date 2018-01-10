@@ -45,7 +45,7 @@ class RolesPage extends React.Component {
           <th>Role Name</th>
           <th>Description</th>
           <th>Inherits</th>
-          <th>Actions <Link to={`${url}/0`}><MdAdd/></Link></th>
+          <th>Actions <Link to={`${url}/0`} title="Add"><MdAdd/></Link></th>
         </tr>
       </thead>
       <tbody>
@@ -64,7 +64,7 @@ class RolesPage extends React.Component {
                 color="link"
                 title="Delete"
                 onClick={() => this.handleDeleteModel(model.id)}
-              ><MdDelete/></Button>
+              ><MdDelete color="red"/></Button>
             </td>
           </tr>)}
       </tbody>

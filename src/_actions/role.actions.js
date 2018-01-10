@@ -31,12 +31,8 @@ function _delete(id) {
     console.log('delete request in progress...')
     service.delete(id)
       .then(
-        model => {
-          dispatch(success(id))
-        },
-        error => {
-          dispatch(failure(id, error))
-        }
+        model => dispatch(success(id)),
+        error => dispatch(failure(id, error))
       )
   }
   function request(id) { return { type: constants.DELETE_REQUEST, id } }
