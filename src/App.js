@@ -12,6 +12,7 @@ import { HomePage } from './Home'
 import { LoginPage } from './Login'
 import { RegisterPage } from './Register'
 import { RolesPage, RoleDetailsPage } from './Roles'
+import { PermissionsPage, PermissionDetailsPage } from './Permissions'
 import { UsersPage, UserDetailsPage } from './Users'
 import { AppNavbar } from './AppNavbar'
 
@@ -38,6 +39,10 @@ class App extends Component {
             <Switch>
               <PrivateRoute path="/roles/:id" component={RoleDetailsPage} />
               <PrivateRoute path="/roles" component={RolesPage} />
+            </Switch>
+            <Switch>
+              <PrivateRoute path="/permissions/:id" component={PermissionDetailsPage} />
+              <PrivateRoute path="/permissions" component={PermissionsPage} />
             </Switch>
             <Switch>
               <PrivateRoute path="/users/:id" component={UserDetailsPage} />
