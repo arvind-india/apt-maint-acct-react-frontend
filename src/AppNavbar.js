@@ -90,7 +90,7 @@ class AppNavbar extends React.Component {
                   <NavLink href="/roles"><MdVpnKey/> Roles</NavLink>
                 </DropdownItem>
                 <DropdownItem>
-                  <NavLink href="/permissions"><MdLock/> permissions</NavLink>
+                  <NavLink href="/permissions"><MdLock/> Permissions</NavLink>
                 </DropdownItem>
                 <DropdownItem>
                   <NavLink href="/users"><MdGroup /> Users</NavLink>

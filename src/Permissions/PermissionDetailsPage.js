@@ -16,7 +16,7 @@ import {
 } from 'reactstrap'
 
 import { permissionActions as actions, alertActions } from '../_actions'
-
+import { MODULE } from '../_constants'
 
 class PermissionDetailsPage extends React.Component {
 
@@ -25,7 +25,7 @@ class PermissionDetailsPage extends React.Component {
     const { dispatch, permissionDetails, match } = props
     this.state = {
       mModel: {   // model being modified
-        inherits: null
+        resource: null
       },
       selectedOption: null,
       submitted: false,
@@ -34,7 +34,8 @@ class PermissionDetailsPage extends React.Component {
     }
 
     this.handleChange = this.handleChange.bind(this)
-    this.handleInheritsChange = this.handleInheritsChange.bind(this)
+    this.handleOperationsChange = this.handleOperationsChange.bind(this)
+    this.handleResourceChange = this.handleResourceChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
 
     dispatch(actions.getAll())
@@ -69,12 +70,12 @@ class PermissionDetailsPage extends React.Component {
   }
   canSave() { // check for changes in mModel, if changes present, it can save
     const { mModel } = this.state
-    if(mModel.inherits == null){ // no changes in inherits, then remove this attribute
-      delete mModel.inherits
+    if(mModel.resource == null){ // no changes in resource, then remove this attribute
+      delete mModel.resource
     }
     for(const prop in mModel) {
-      if(prop == 'inherits' && mModel.inherits == '')
-        return true; // empty inherits is valid
+      if(prop == 'resource' && mModel.resource == '')
+        return true; // empty resource is valid
       if( !mModel[prop] ) {
         return false
       }
@@ -109,7 +110,7 @@ class PermissionDetailsPage extends React.Component {
   handleOperationsChange(event) {
     const { name, value } = event.target
     const { mModel } = this.state
-console.log('name: ', name)    
+console.log('name: ', name)
 console.log('value: ', value)
     this.setState({
       mModel: {
@@ -124,7 +125,7 @@ console.log('selectedOption: ', selectedOption)
     this.setState({
       mModel: {
         ...mModel,
-        operations: selectedOption
+        resource: selectedOption
       }
     })
   }
@@ -218,7 +219,11 @@ console.log('mModel: ', mModel)
   showResource(data) {
     const { mModel } = this.state
     const { permissions } = this.props
-    let options = []
+    let moduleKeys = Object.keys(MODULE);
+    let options = moduleKeys.map( // collect MODULE values
+      (key) => MODULE[key].name
+    );
+    
     if(permissions.items) {
       options = permissions.items.filter(each => each.name != data.name)
     }
@@ -226,7 +231,7 @@ console.log('mModel: ', mModel)
       <Label>Resource</Label>
       <Select
         name="form-field-name"
-        value={mModel.inherits!==null?mModel.inherits:data.inherits}
+        value={mModel.resource!==null?mModel.resource:data.resource}
         multi={false}
         joinValues={false}
         simpleValue={true}
