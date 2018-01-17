@@ -46,7 +46,7 @@ class PermissionsPage extends React.Component {
           <th>Resource</th>
           <th>Conditions</th>
           <th>Description</th>
-          <th>Actions <Link to={`${url}/0`} title="Add"><MdAdd/></Link></th>
+          <th>Actions <Link to={{ pathname: `${url}/0`, state:{moh: 'testByMoh'} }} title="Add"><MdAdd/></Link></th>
         </tr>
       </thead>
       <tbody>

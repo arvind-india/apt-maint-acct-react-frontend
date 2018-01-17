@@ -16,21 +16,28 @@ import {
 } from 'reactstrap'
 
 import { permissionActions as actions, alertActions } from '../_actions'
-import { MODULE } from '../_constants'
+import { MODULES } from '../_constants'
 
 class PermissionDetailsPage extends React.Component {
 
   constructor(props) {
     super(props)
+console.log('props in constructor: ', props)
     const { dispatch, permissionDetails, match } = props
+console.log('permissionDetails in constructor: ', permissionDetails)
     this.state = {
       mModel: {   // model being modified
+        operations: '',
         resource: null
       },
       selectedOption: null,
       submitted: false,
       touched: false,
-      adding: match.params.id==="0"
+      adding: match.params.id==="0",
+      cPerm: false, // create permission
+      rPerm: false, // read permission
+      uPerm: false, // update permission
+      dPerm: false  // delete permission
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -38,11 +45,18 @@ class PermissionDetailsPage extends React.Component {
     this.handleResourceChange = this.handleResourceChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
 
-    dispatch(actions.getAll())
+    // dispatch(actions.getAll())
     dispatch(alertActions.clear())  // clear alert messages from other pages
   }
   componentDidMount() {
     this.props.dispatch(actions.getById(this.props.match.params.id))
+  }
+  componentWillMount() {
+    this.initParams()
+  }
+  initParams() {
+    const { permissionDetails } = this.props
+    console.log('permissionDetails in initParams: ', permissionDetails)
   }
   handleSubmit(event) {
     event.preventDefault()
@@ -94,6 +108,7 @@ class PermissionDetailsPage extends React.Component {
       } else {
         delete mModel[prop]  // remove unchanged property
       }
+
     }
     return props;
   }
@@ -109,15 +124,32 @@ class PermissionDetailsPage extends React.Component {
   }
   handleOperationsChange(event) {
     const { name, value } = event.target
-    const { mModel } = this.state
+    const { mModel, cPerm, rPerm, uPerm, dPerm } = this.state
 console.log('name: ', name)
 console.log('value: ', value)
-    this.setState({
-      mModel: {
-        ...mModel,
-        operations: value
-      }
-    })
+    // toggle value in mModel operations
+    mModel.operations.includes(value) ? remove(value) : add(value)
+
+    function remove(op) {
+      let newOps = mModel.operations.filter((char) => char == op);
+console.log('newops after remove: ', newOps)
+      this.setState({
+        mModel: {
+          ...mModel,
+          operations: newOps
+        }
+      })
+    }
+    function add(op) {
+      let newOps = mModel.operations + op
+console.log('newops after addition: ', newOps)
+      this.setState({
+        mModel: {
+          ...mModel,
+          operations: newOps
+        }
+      })
+    }
   }
   handleResourceChange(selectedOption) {
     const { mModel } = this.state
@@ -164,10 +196,18 @@ console.log('selectedOption: ', selectedOption)
     </Form>
   }
   showOperations(data) {
-    const { submitted, mModel } = this.state
-console.log('Data is: ', data)
+    const { submitted, mModel, adding, cPerm, rPerm, uPerm, dPerm } = this.state
+/* console.log('Data is: ', data)
 console.log('mModel: ', mModel)
-    let ops = mModel.operations ? mModel.operations : data.operations
+    let ops = null
+    if(adding) {
+      ops = mModel.operations ? mModel.operations : ""
+    } else {
+      ops = mModel.operations ? mModel.operations : data.operations
+    } */
+    // let ops = adding ? "" : mModel.operations ? mModel.operations : data.operations
+    // let ops = mModel.operations ? mModel.operations : data.operations
+//console.log('ops: ', ops)
     return <div data-field-span="1">
         <Label>Operations</Label>
         <FormGroup check inline>
@@ -176,7 +216,7 @@ console.log('mModel: ', mModel)
               type="checkbox"
               name="operations"
               value="C"
-              checked={ops.includes('C')}
+              checked={cPerm}
               onChange={this.handleOperationsChange}
             /> Create
           </Label>
@@ -187,7 +227,7 @@ console.log('mModel: ', mModel)
               type="checkbox"
               name="operations"
               value="R"
-              checked={ops.includes('R')}
+              checked={rPerm}
               onChange={this.handleOperationsChange}
             /> Read
           </Label>
@@ -198,7 +238,7 @@ console.log('mModel: ', mModel)
               type="checkbox"
               name="operations"
               value="U"
-              checked={ops.includes('U')}
+              checked={uPerm}
               onChange={this.handleOperationsChange}
             /> Update
           </Label>
@@ -209,7 +249,7 @@ console.log('mModel: ', mModel)
               type="checkbox"
               name="operations"
               value="D"
-              checked={ops.includes('D')}
+              checked={dPerm}
               onChange={this.handleOperationsChange}
             /> Delete
           </Label>
@@ -219,14 +259,6 @@ console.log('mModel: ', mModel)
   showResource(data) {
     const { mModel } = this.state
     const { permissions } = this.props
-    let moduleKeys = Object.keys(MODULE);
-    let options = moduleKeys.map( // collect MODULE values
-      (key) => MODULE[key].name
-    );
-    
-    if(permissions.items) {
-      options = permissions.items.filter(each => each.name != data.name)
-    }
     return <div data-field-span="1">
       <Label>Resource</Label>
       <Select
@@ -239,25 +271,24 @@ console.log('mModel: ', mModel)
         onChange={this.handleResourceChange}
         defaultValue="guest"
         valueKey="name"
-        labelKey="name"
-        options={options}
+        labelKey="label"
+        options={MODULES}
       />
      </div>
   }
   showCondition(data) {
     const { submitted, mModel } = this.state
     return <div data-field-span="1">
-				<Label>Description</Label>
+				<Label>Conditions</Label>
         <Input
           type="text"
-          name="description"
-          placeholder="Description here"
+          name="condition"
+          placeholder="<conditional script here>"
+          title="Short condition on Permission"
           className="inputField"
-          defaultValue={data.description}
+          defaultValue={data.condition}
           onChange={this.handleChange}
         />
-        {submitted && mModel.description != null && mModel.description == ""
-          && <FormText color="danger">Permission description is required</FormText>}
 			</div>
   }
   showDescription(data) {
