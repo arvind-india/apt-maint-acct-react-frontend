@@ -23,21 +23,18 @@ class PermissionDetailsPage extends React.Component {
   constructor(props) {
     super(props)
 console.log('props in constructor: ', props)
-    const { dispatch, permissionDetails, match } = props
-console.log('permissionDetails in constructor: ', permissionDetails)
+    const { dispatch, permissionDetails, match, location } = props
+    let iModel = location.state.model // initial model
     this.state = {
-      mModel: {   // model being modified
-        operations: '',
-        resource: null
-      },
-      selectedOption: null,
+      mModel: {},   // modified model
+      selectedOption: iModel.resource,
       submitted: false,
       touched: false,
-      adding: match.params.id==="0",
-      cPerm: false, // create permission
-      rPerm: false, // read permission
-      uPerm: false, // update permission
-      dPerm: false  // delete permission
+      adding: match.params.id === "0",
+      cPerm: iModel.operations.includes('C'), // create permission
+      rPerm: iModel.operations.includes('R'), // read permission
+      uPerm: iModel.operations.includes('U'), // update permission
+      dPerm: iModel.operations.includes('D')  // delete permission
     }
 
     this.handleChange = this.handleChange.bind(this)
@@ -50,13 +47,7 @@ console.log('permissionDetails in constructor: ', permissionDetails)
   }
   componentDidMount() {
     this.props.dispatch(actions.getById(this.props.match.params.id))
-  }
-  componentWillMount() {
-    this.initParams()
-  }
-  initParams() {
-    const { permissionDetails } = this.props
-    console.log('permissionDetails in initParams: ', permissionDetails)
+    console.log('props on componentDidMount: ', this.props)
   }
   handleSubmit(event) {
     event.preventDefault()
@@ -124,31 +115,13 @@ console.log('permissionDetails in constructor: ', permissionDetails)
   }
   handleOperationsChange(event) {
     const { name, value } = event.target
-    const { mModel, cPerm, rPerm, uPerm, dPerm } = this.state
-console.log('name: ', name)
-console.log('value: ', value)
-    // toggle value in mModel operations
-    mModel.operations.includes(value) ? remove(value) : add(value)
-
-    function remove(op) {
-      let newOps = mModel.operations.filter((char) => char == op);
-console.log('newops after remove: ', newOps)
-      this.setState({
-        mModel: {
-          ...mModel,
-          operations: newOps
-        }
-      })
-    }
-    function add(op) {
-      let newOps = mModel.operations + op
-console.log('newops after addition: ', newOps)
-      this.setState({
-        mModel: {
-          ...mModel,
-          operations: newOps
-        }
-      })
+    const { cPerm, rPerm, uPerm, dPerm } = this.state
+    // toggle state value
+    switch(value) {
+      case 'C': this.setState({ cPerm: !cPerm }); break
+      case 'R': this.setState({ rPerm: !rPerm }); break
+      case 'U': this.setState({ uPerm: !uPerm }); break
+      case 'D': this.setState({ dPerm: !dPerm }); break
     }
   }
   handleResourceChange(selectedOption) {
@@ -196,18 +169,8 @@ console.log('selectedOption: ', selectedOption)
     </Form>
   }
   showOperations(data) {
-    const { submitted, mModel, adding, cPerm, rPerm, uPerm, dPerm } = this.state
-/* console.log('Data is: ', data)
-console.log('mModel: ', mModel)
-    let ops = null
-    if(adding) {
-      ops = mModel.operations ? mModel.operations : ""
-    } else {
-      ops = mModel.operations ? mModel.operations : data.operations
-    } */
-    // let ops = adding ? "" : mModel.operations ? mModel.operations : data.operations
-    // let ops = mModel.operations ? mModel.operations : data.operations
-//console.log('ops: ', ops)
+    const { cPerm, rPerm, uPerm, dPerm } = this.state
+
     return <div data-field-span="1">
         <Label>Operations</Label>
         <FormGroup check inline>
@@ -257,13 +220,12 @@ console.log('mModel: ', mModel)
       </div>
   }
   showResource(data) {
-    const { mModel } = this.state
-    const { permissions } = this.props
+    const { selectedOption } = this.state
     return <div data-field-span="1">
       <Label>Resource</Label>
       <Select
         name="form-field-name"
-        value={mModel.resource!==null?mModel.resource:data.resource}
+        value={selectedOption}
         multi={false}
         joinValues={false}
         simpleValue={true}
@@ -310,11 +272,10 @@ console.log('mModel: ', mModel)
 }
 
 function mapStateToProps(state) {
-  const { permissions, permissionDetails, authentication, alert } = state
+  const { permissionDetails, authentication, alert } = state
   const { user } = authentication
   return {
     user,
-    permissions,
     permissionDetails,
     alert
   }

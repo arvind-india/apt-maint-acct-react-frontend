@@ -46,7 +46,7 @@ class PermissionsPage extends React.Component {
           <th>Resource</th>
           <th>Conditions</th>
           <th>Description</th>
-          <th>Actions <Link to={{ pathname: `${url}/0`, state:{moh: 'testByMoh'} }} title="Add"><MdAdd/></Link></th>
+          <th>Actions <Link to={{ pathname: `${url}/0`, state:{model: {}} }} title="Add"><MdAdd/></Link></th>
         </tr>
       </thead>
       <tbody>
@@ -59,7 +59,7 @@ class PermissionsPage extends React.Component {
             <td>{model.description}</td>
             <td>
               <Link
-                to={`${url}/${model.id}`}
+                to={{ pathname: `${url}/${model.id}`, state:{model: model} }}
                 title="View or Edit"
               ><MdVisibility/></Link>
               <Button
