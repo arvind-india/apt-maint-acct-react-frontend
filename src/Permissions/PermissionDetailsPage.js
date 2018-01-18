@@ -25,21 +25,21 @@ class PermissionDetailsPage extends React.Component {
 console.log('props in constructor: ', props)
     const { dispatch, permissionDetails, match, location } = props
     let iModel = location.state.model // initial model
+    let operations = iModel.operations?iModel.operations:''
     this.state = {
-      mModel: {},   // modified model
-      selectedOption: iModel.resource,
+      ...iModel,
       submitted: false,
       touched: false,
       adding: match.params.id === "0",
-      cPerm: iModel.operations.includes('C'), // create permission
-      rPerm: iModel.operations.includes('R'), // read permission
-      uPerm: iModel.operations.includes('U'), // update permission
-      dPerm: iModel.operations.includes('D')  // delete permission
+      cPerm: operations.includes('C'), // create permission
+      rPerm: operations.includes('R'), // read permission
+      uPerm: operations.includes('U'), // update permission
+      dPerm: operations.includes('D')  // delete permission
     }
 
     this.handleChange = this.handleChange.bind(this)
     this.handleOperationsChange = this.handleOperationsChange.bind(this)
-    this.handleResourceChange = this.handleResourceChange.bind(this)
+//    this.handleResourceChange = this.handleResourceChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
 
     // dispatch(actions.getAll())
@@ -105,12 +105,8 @@ console.log('props in constructor: ', props)
   }
   handleChange(event) {
     const { name, value } = event.target
-    const { mModel } = this.state
     this.setState({
-      mModel: {
-        ...mModel,
         [name]: value
-      }
     })
   }
   handleOperationsChange(event) {
@@ -124,16 +120,13 @@ console.log('props in constructor: ', props)
       case 'D': this.setState({ dPerm: !dPerm }); break
     }
   }
-  handleResourceChange(selectedOption) {
-    const { mModel } = this.state
-console.log('selectedOption: ', selectedOption)
+/*  handleResourceChange(resource) {
+    // const { mModel } = this.state
+console.log('resource: ', resource)
     this.setState({
-      mModel: {
-        ...mModel,
-        resource: selectedOption
-      }
+      resource: resource
     })
-  }
+  } */
   render() {
     const { permissionDetails, user, match, alert, submitted } = this.props
     let model = permissionDetails
@@ -169,7 +162,7 @@ console.log('selectedOption: ', selectedOption)
     </Form>
   }
   showOperations(data) {
-    const { cPerm, rPerm, uPerm, dPerm } = this.state
+    const { submitted, cPerm, rPerm, uPerm, dPerm } = this.state
 
     return <div data-field-span="1">
         <Label>Operations</Label>
@@ -217,55 +210,56 @@ console.log('selectedOption: ', selectedOption)
             /> Delete
           </Label>
         </FormGroup>
+        {submitted && (cPerm || rPerm || uPerm || dPerm)
+          && <FormText color="danger">Permission operations is required</FormText>}
       </div>
   }
   showResource(data) {
-    const { selectedOption } = this.state
+    const { submitted, resource } = this.state
     return <div data-field-span="1">
       <Label>Resource</Label>
       <Select
         name="form-field-name"
-        value={selectedOption}
-        multi={false}
-        joinValues={false}
+        value={resource}
         simpleValue={true}
         placeholder="Select Inherits..."
-        onChange={this.handleResourceChange}
-        defaultValue="guest"
+        onChange={this.handleChange}
         valueKey="name"
         labelKey="label"
         options={MODULES}
       />
+      {submitted && resource != null && resource == ""
+        && <FormText color="danger">Permission resource is required</FormText>}
      </div>
   }
   showCondition(data) {
-    const { submitted, mModel } = this.state
+    const { condition } = this.state
     return <div data-field-span="1">
 				<Label>Conditions</Label>
         <Input
           type="text"
           name="condition"
+          value={condition}
           placeholder="<conditional script here>"
           title="Short condition on Permission"
           className="inputField"
-          defaultValue={data.condition}
           onChange={this.handleChange}
         />
 			</div>
   }
   showDescription(data) {
-    const { submitted, mModel } = this.state
+    const { submitted, description } = this.state
     return <div data-field-span="1">
 				<Label>Description</Label>
         <Input
           type="text"
           name="description"
+          value={description}
           placeholder="Description here"
           className="inputField"
-          defaultValue={data.description}
           onChange={this.handleChange}
         />
-        {submitted && mModel.description != null && mModel.description == ""
+        {submitted && description != null && description == ""
           && <FormText color="danger">Permission description is required</FormText>}
 			</div>
   }
