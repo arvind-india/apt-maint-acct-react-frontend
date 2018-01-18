@@ -23,13 +23,12 @@ class PermissionDetailsPage extends React.Component {
   constructor(props) {
     super(props)
 console.log('props in constructor: ', props)
-    const { dispatch, permissionDetails, match, location } = props
-    let iModel = location.state.model // initial model
-    let operations = iModel.operations?iModel.operations:''
+    const { dispatch, match, location } = props
+    let model = location.state.model // model supplied from list page
+    let operations = model.operations?model.operations:''
     this.state = {
-      ...iModel,
+      ...model,
       submitted: false,
-      touched: false,
       adding: match.params.id === "0",
       cPerm: operations.includes('C'), // create permission
       rPerm: operations.includes('R'), // read permission
@@ -39,13 +38,13 @@ console.log('props in constructor: ', props)
 
     this.handleChange = this.handleChange.bind(this)
     this.handleOperationsChange = this.handleOperationsChange.bind(this)
-//    this.handleResourceChange = this.handleResourceChange.bind(this)
+    this.handleResourceChange = this.handleResourceChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
 
     // dispatch(actions.getAll())
     dispatch(alertActions.clear())  // clear alert messages from other pages
   }
-  componentDidMount() {
+/*  componentDidMount() {
     this.props.dispatch(actions.getById(this.props.match.params.id))
     console.log('props on componentDidMount: ', this.props)
   }
@@ -99,7 +98,72 @@ console.log('props in constructor: ', props)
       } else {
         delete mModel[prop]  // remove unchanged property
       }
+    }
+    return props;
+  }
+*/
+  handleSubmit(event) {
+    event.preventDefault()
+    this.setState({ submitted: true })
 
+    const { adding } = this.state
+    const { dispatch, location } = this.props
+    let modelDB = location.state.model
+    let canSave = this.canSave()
+    let cProps = this.changedProps()
+    if(adding) {
+      this.setState({ id: 0 })
+    }
+    if ( cProps.length == 0 ) {
+      dispatch(alertActions.error('No changes found...'))
+    } else if(canSave){
+      let mModel = this.modifiedModel();
+      console.log('ModelToSave: ', mModel)
+      dispatch(actions.saveChanges(mModel))
+    } else {
+      dispatch(alertActions.error('Missing data'))
+    }
+  }
+  modifiedModel() {
+    const { id, operations, resource, condition, description } = this.state
+    return {
+      id,
+      operations,
+      resource,
+      condition,
+      description
+    }
+  }
+  canSave() { // check for changes in mModel, if changes present, it can save
+    const { cPerm, rPerm, uPerm, dPerm, resource, description, condition } = this.state
+
+    let operations = ''
+    if (cPerm) operations += 'C'
+    if (rPerm) operations += 'R'
+    if (uPerm) operations += 'U'
+    if (dPerm) operations += 'D'
+
+    if (!operations) return false // no operations selected, if so, cannot save changes
+    else this.setState({ operations })
+
+    if (!resource) return false // no resource selected, if so, cannot save changes
+    if (!description) return false // no description entered, if so, cannot save changes
+
+    return true // can save changes
+  }
+  changedProps() {
+    const { id, operations, resource, condition, description } = this.state
+    const { location } = this.props
+    let modelDB = location.state.model
+    let mModel = { id, operations, resource, condition, description }
+console.log('modelDB: ', modelDB)
+console.log('mModel: ', mModel)
+    let props = []
+    // check for changes in mModel props
+    for(const prop in mModel) {
+      if(modelDB[prop] != mModel[prop]) { // if data is changed wrt data in database
+        props.push(prop)
+      }
     }
     return props;
   }
@@ -120,15 +184,15 @@ console.log('props in constructor: ', props)
       case 'D': this.setState({ dPerm: !dPerm }); break
     }
   }
-/*  handleResourceChange(resource) {
+  handleResourceChange(resource) {
     // const { mModel } = this.state
 console.log('resource: ', resource)
     this.setState({
       resource: resource
     })
-  } */
+  }
   render() {
-    const { permissionDetails, user, match, alert, submitted } = this.props
+/*    const { permissionDetails, user, match, alert, submitted } = this.props
     let model = permissionDetails
     return (
       <div>
@@ -136,24 +200,32 @@ console.log('resource: ', resource)
         {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
         {model.loading && <em>Loading model details...}</em>}
         {model.error && <span className="text-danger">{model.error}</span>}
-        {model.data && this.show(model.data)}
+        {model.data && this.show()}
+      </div>
+    ) */
+    const { alert } = this.props
+    return (
+      <div>
+        <h2>Permission Details</h2>
+        {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
+        {this.show()}
       </div>
     )
   }
-  show(data){
+  show(){
     let title = this.state.adding?'Add':'View or Edit'
     return <Form onSubmit={this.handleSubmit} className="grid-form">
       <fieldset>
   			<legend>{title}</legend>
         <div data-row-span="2">
-          {this.showOperations(data)}
-          {this.showResource(data)}
+          {this.showOperations()}
+          {this.showResource()}
         </div>
         <div data-row-span="1">
-          {this.showCondition(data)}
+          {this.showCondition()}
         </div>
         <div data-row-span="1">
-          {this.showDescription(data)}
+          {this.showDescription()}
         </div>
       </fieldset>
       <br/>
@@ -161,7 +233,7 @@ console.log('resource: ', resource)
       <Button color="link"><Link to="/permissions">Cancel</Link></Button>
     </Form>
   }
-  showOperations(data) {
+  showOperations() {
     const { submitted, cPerm, rPerm, uPerm, dPerm } = this.state
 
     return <div data-field-span="1">
@@ -214,7 +286,7 @@ console.log('resource: ', resource)
           && <FormText color="danger">Permission operations is required</FormText>}
       </div>
   }
-  showResource(data) {
+  showResource() {
     const { submitted, resource } = this.state
     return <div data-field-span="1">
       <Label>Resource</Label>
@@ -223,7 +295,7 @@ console.log('resource: ', resource)
         value={resource}
         simpleValue={true}
         placeholder="Select Inherits..."
-        onChange={this.handleChange}
+        onChange={this.handleResourceChange}
         valueKey="name"
         labelKey="label"
         options={MODULES}
@@ -232,7 +304,7 @@ console.log('resource: ', resource)
         && <FormText color="danger">Permission resource is required</FormText>}
      </div>
   }
-  showCondition(data) {
+  showCondition() {
     const { condition } = this.state
     return <div data-field-span="1">
 				<Label>Conditions</Label>
@@ -247,7 +319,7 @@ console.log('resource: ', resource)
         />
 			</div>
   }
-  showDescription(data) {
+  showDescription() {
     const { submitted, description } = this.state
     return <div data-field-span="1">
 				<Label>Description</Label>
