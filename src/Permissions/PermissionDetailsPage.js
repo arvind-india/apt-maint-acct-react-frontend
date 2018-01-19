@@ -27,7 +27,7 @@ console.log('props in constructor: ', props)
     let model = location.state.model // model supplied from list page
     let operations = model.operations?model.operations:''
     this.state = {
-      cModel: { ...model },           // changing model
+      model: { ...model },           // model to edit
       submitted: false,
       adding: match.params.id === "0",
       cPerm: operations.includes('C'), // create permission
@@ -106,20 +106,19 @@ console.log('props in constructor: ', props)
     event.preventDefault()
     this.setState({ submitted: true })
 
-    const { adding, id, operations, resource, condition, description } = this.state
+    const { model } = this.state
     const { dispatch, location } = this.props
-    let modelDB = location.state.model
-    let canSave = this.canSave()
-    let cProps = this.changedProps()
-    if(adding) {
+    //let modelDB = location.state.model
+    //let canSave = this.canSave()
+    //let cProps = this.changedProps()
+/*    if(adding) {
       this.setState({ id: 0 })
-    }
-    if ( cProps.length == 0 ) {
+    } */
+    if ( this.changedProps().length == 0 ) {
       dispatch(alertActions.error('No changes found...'))
-    } else if(canSave){
-      let mModel = { id, operations, resource, condition, description }
-      console.log('ModelToSave: ', mModel)
-      dispatch(actions.saveChanges(mModel))
+    } else if(this.canBeSaved()){
+      console.log('Model to be saved: ', model)
+      dispatch(actions.saveChanges(model))
     } else {
       dispatch(alertActions.error('Missing data'))
     }
@@ -135,44 +134,59 @@ console.log('props in constructor: ', props)
       description
     }
   } */
-  canSave() { // check for changes in mModel, if changes present, it can save
-    const { cPerm, rPerm, uPerm, dPerm, resource, description, condition } = this.state
+  canBeSaved() { // check for changes in mModel, if changes present, it can save
+    const { cPerm, rPerm, uPerm, dPerm, model } = this.state
 
-    let operations = ''
-    if (cPerm) operations += 'C'
-    if (rPerm) operations += 'R'
-    if (uPerm) operations += 'U'
-    if (dPerm) operations += 'D'
+/*    let ops = ''
+    ops += cPerm?'C':''
+    ops += rPerm?'R'
+    if (cPerm) ops += 'C'
+    if (rPerm) ops += 'R'
+    if (uPerm) ops += 'U'
+    if (dPerm) ops += 'D' */
 console.log('cPerm: '+cPerm+', rPerm: '+rPerm+', uPerm: '+uPerm+', dPerm: '+dPerm)
-console.log('rebuilt operations: ', operations)
-    if (!operations) return false // no operations selected, if so, cannot save changes
-    else this.setState({ operations: operations })
-
-    if (!resource) return false // no resource selected, if so, cannot save changes
-    if (!description) return false // no description entered, if so, cannot save changes
+//console.log('rebuilt operations: ', ops)
+//    if (!model.operations) return false // no operations selected, if so, cannot save changes
+//    else model.operations = ops
+    if (! (cPerm || rPerm || uPerm || dPerm) ) return false; // no operations selected, if so, cannot save changes
+    if (!model.resource) return false // no resource selected, if so, cannot save changes
+    if (!model.description) return false // no description entered, if so, cannot save changes
 
     return true // can save changes
   }
   changedProps() {
-    const { id, operations, resource, condition, description } = this.state
+    const { model, cPerm, rPerm, uPerm, dPerm } = this.state
     const { location } = this.props
     let modelDB = location.state.model
-    let mModel = { id, operations, resource, condition, description }
 console.log('modelDB: ', modelDB)
-console.log('mModel: ', mModel)
+console.log('mModel: ', model)
     let props = []
+    let ops = ''
+    ops += cPerm?'C':''
+    ops += rPerm?'R':''
+    ops += uPerm?'U':''
+    ops += dPerm?'D':''
+    model.operations = ops
+
     // check for changes in mModel props
-    for(const prop in mModel) {
-      if(modelDB[prop] != mModel[prop]) { // if data is changed wrt data in database
+    for(const prop in model) {
+      if( prop == 'id') continue
+      if(modelDB[prop] != model[prop]) { // if data is changed wrt data in database
         props.push(prop)
+      } else {
+        delete model[prop]
       }
     }
     return props;
   }
   handleChange(event) {
     const { name, value } = event.target
+    const { model } = this.state
     this.setState({
-        [name]: value
+        model: {
+          ...model,
+          [name]: value
+        }
     })
   }
   handleOperationsChange(event) {
@@ -188,10 +202,13 @@ console.log('operations change: ', value)
     }
   }
   handleResourceChange(resource) {
-    // const { mModel } = this.state
+    const { model } = this.state
 console.log('resource: ', resource)
     this.setState({
-      resource: resource
+      model: {
+        ...model,
+        resource: resource
+      }
     })
   }
   render() {
@@ -290,12 +307,12 @@ console.log('resource: ', resource)
       </div>
   }
   showResource() {
-    const { submitted, resource } = this.state
+    const { submitted, model } = this.state
     return <div data-field-span="1">
       <Label>Resource</Label>
       <Select
         name="form-field-name"
-        value={resource}
+        value={model.resource}
         simpleValue={true}
         placeholder="Select Inherits..."
         onChange={this.handleResourceChange}
@@ -303,18 +320,18 @@ console.log('resource: ', resource)
         labelKey="label"
         options={MODULES}
       />
-      {submitted && resource != null && resource == ""
+      {submitted && model.resource != null && model.resource == ""
         && <FormText color="danger">Resource is required</FormText>}
      </div>
   }
   showCondition() {
-    const { condition } = this.state
+    const { model } = this.state
     return <div data-field-span="1">
 				<Label>Conditions</Label>
         <Input
           type="text"
           name="condition"
-          value={condition}
+          value={model.condition}
           placeholder="<conditional script here>"
           title="Short condition on Permission"
           className="inputField"
@@ -323,29 +340,28 @@ console.log('resource: ', resource)
 			</div>
   }
   showDescription() {
-    const { submitted, description } = this.state
+    const { submitted, model } = this.state
     return <div data-field-span="1">
 				<Label>Description</Label>
         <Input
           type="text"
           name="description"
-          value={description}
+          value={model.description}
           placeholder="Description here"
           className="inputField"
           onChange={this.handleChange}
         />
-        {submitted && description != null && description == ""
+        {submitted && model.description != null && model.description == ""
           && <FormText color="danger">Description is required</FormText>}
 			</div>
   }
 }
 
 function mapStateToProps(state) {
-  const { permissionDetails, authentication, alert } = state
+  const { authentication, alert } = state
   const { user } = authentication
   return {
     user,
-    permissionDetails,
     alert
   }
 }
