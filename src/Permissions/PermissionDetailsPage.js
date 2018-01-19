@@ -27,7 +27,7 @@ console.log('props in constructor: ', props)
     let model = location.state.model // model supplied from list page
     let operations = model.operations?model.operations:''
     this.state = {
-      ...model,
+      cModel: { ...model },           // changing model
       submitted: false,
       adding: match.params.id === "0",
       cPerm: operations.includes('C'), // create permission
@@ -106,7 +106,7 @@ console.log('props in constructor: ', props)
     event.preventDefault()
     this.setState({ submitted: true })
 
-    const { adding } = this.state
+    const { adding, id, operations, resource, condition, description } = this.state
     const { dispatch, location } = this.props
     let modelDB = location.state.model
     let canSave = this.canSave()
@@ -117,14 +117,15 @@ console.log('props in constructor: ', props)
     if ( cProps.length == 0 ) {
       dispatch(alertActions.error('No changes found...'))
     } else if(canSave){
-      let mModel = this.modifiedModel();
+      let mModel = { id, operations, resource, condition, description }
       console.log('ModelToSave: ', mModel)
       dispatch(actions.saveChanges(mModel))
     } else {
       dispatch(alertActions.error('Missing data'))
     }
   }
-  modifiedModel() {
+
+/*  modifiedModel() {
     const { id, operations, resource, condition, description } = this.state
     return {
       id,
@@ -133,7 +134,7 @@ console.log('props in constructor: ', props)
       condition,
       description
     }
-  }
+  } */
   canSave() { // check for changes in mModel, if changes present, it can save
     const { cPerm, rPerm, uPerm, dPerm, resource, description, condition } = this.state
 
@@ -142,9 +143,10 @@ console.log('props in constructor: ', props)
     if (rPerm) operations += 'R'
     if (uPerm) operations += 'U'
     if (dPerm) operations += 'D'
-
+console.log('cPerm: '+cPerm+', rPerm: '+rPerm+', uPerm: '+uPerm+', dPerm: '+dPerm)
+console.log('rebuilt operations: ', operations)
     if (!operations) return false // no operations selected, if so, cannot save changes
-    else this.setState({ operations })
+    else this.setState({ operations: operations })
 
     if (!resource) return false // no resource selected, if so, cannot save changes
     if (!description) return false // no description entered, if so, cannot save changes
@@ -176,6 +178,7 @@ console.log('mModel: ', mModel)
   handleOperationsChange(event) {
     const { name, value } = event.target
     const { cPerm, rPerm, uPerm, dPerm } = this.state
+console.log('operations change: ', value)
     // toggle state value
     switch(value) {
       case 'C': this.setState({ cPerm: !cPerm }); break
@@ -282,8 +285,8 @@ console.log('resource: ', resource)
             /> Delete
           </Label>
         </FormGroup>
-        {submitted && (cPerm || rPerm || uPerm || dPerm)
-          && <FormText color="danger">Permission operations is required</FormText>}
+        {submitted && (!cPerm && !rPerm && !uPerm && !dPerm)
+          && <FormText color="danger">Operations is required</FormText>}
       </div>
   }
   showResource() {
@@ -301,7 +304,7 @@ console.log('resource: ', resource)
         options={MODULES}
       />
       {submitted && resource != null && resource == ""
-        && <FormText color="danger">Permission resource is required</FormText>}
+        && <FormText color="danger">Resource is required</FormText>}
      </div>
   }
   showCondition() {
@@ -332,7 +335,7 @@ console.log('resource: ', resource)
           onChange={this.handleChange}
         />
         {submitted && description != null && description == ""
-          && <FormText color="danger">Permission description is required</FormText>}
+          && <FormText color="danger">Description is required</FormText>}
 			</div>
   }
 }
