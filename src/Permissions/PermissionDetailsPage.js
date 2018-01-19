@@ -43,7 +43,7 @@ class PermissionDetailsPage extends React.Component {
   }
   handleSubmit(event) {
     const { model } = this.state
-    const { dispatch, location } = this.props
+    const { dispatch } = this.props
 
     event.preventDefault()
     this.setState({ submitted: true })
@@ -78,7 +78,7 @@ class PermissionDetailsPage extends React.Component {
 
     // check for changes in mModel props
     for(const prop in model) {
-      if( prop == 'id') continue
+      if( prop == 'id') continue // exclude 'id' from comparision
       if(modelDB[prop] != model[prop]) { // if data is changed wrt data in database
         props.push(prop)
       } else {

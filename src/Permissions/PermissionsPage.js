@@ -38,6 +38,13 @@ class PermissionsPage extends React.Component {
     this.props.dispatch(actions.getAll()) // get list after deletion of a model
   }
   showList(models){
+    let newModel = {
+      model: {
+        id: 0,
+        condition:'',
+        description: ''
+      }
+    }
     return <Table>
       <thead>
         <tr>
@@ -46,7 +53,11 @@ class PermissionsPage extends React.Component {
           <th>Resource</th>
           <th>Conditions</th>
           <th>Description</th>
-          <th>Actions <Link to={{ pathname: `${url}/0`, state:{model: {id: 0, condition:'', description: ''}} }} title="Add"><MdAdd/></Link></th>
+          <th>Actions <Link
+                        to={{ pathname: `${url}/0`, state: newModel }}
+                        title="Add"
+                        ><MdAdd/></Link>
+          </th>
         </tr>
       </thead>
       <tbody>

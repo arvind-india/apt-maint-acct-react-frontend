@@ -22,123 +22,41 @@ class RoleDetailsPage extends React.Component {
 
   constructor(props) {
     super(props)
-    const { dispatch, roleDetails, match } = props
+    const { dispatch, match, location } = props
+    let model = location.state.model // model supplied from list page
     this.state = {
-      mModel: {   // model being modified
-        inherits: null
-      },
-      selectedOption: null,
+      model: { ...model },           // model to edit
       submitted: false,
-      touched: false,
       adding: match.params.id==="0"
     }
-
     this.handleChange = this.handleChange.bind(this)
     this.handleInheritsChange = this.handleInheritsChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
 
-    dispatch(actions.getAll())
     dispatch(alertActions.clear())  // clear alert messages from other pages
   }
-  componentDidMount() {
-    this.props.dispatch(actions.getById(this.props.match.params.id))
-  }
-  handleSubmit(event) {
-    event.preventDefault()
-    this.setState({ submitted: true })
 
-    const { mModel, adding } = this.state
-    const { dispatch, roleDetails } = this.props
-    let modelDB = roleDetails.data
-    let canSave = this.canSave()
-    let cProps = this.changedProps()
-    if(adding) {
-      modelDB.id = 0
-    }
-    if(canSave) {
-      mModel.id = modelDB.id
-    }
-    if ( cProps.length == 0 ) {
-      dispatch(alertActions.error('No changes found...'))
-    } else if(canSave){
-      dispatch(actions.saveChanges(mModel))
-    } else {
-      dispatch(alertActions.error('Missing data'))
-    }
-
-  }
-  canSave() { // check for changes in mModel, if changes present, it can save
-    const { mModel } = this.state
-    if(mModel.inherits == null){ // no changes in inherits, then remove this attribute
-      delete mModel.inherits
-    }
-    for(const prop in mModel) {
-      if(prop == 'inherits' && mModel.inherits == '')
-        return true; // empty inherits is valid
-      if( !mModel[prop] ) {
-        return false
-      }
-    }
-    return true
-  }
-  changedProps() {
-    const { mModel } = this.state
-    const { roleDetails } = this.props
-    let modelDB = roleDetails.data
-    let props = []
-    // check for changes in mModel props
-    for(const prop in mModel) {
-      if(modelDB[prop] != mModel[prop]) { // if data is changed wrt data in database
-        props.push(prop)
-      } else {
-        delete mModel[prop]  // remove unchanged property
-      }
-    }
-    return props;
-  }
-  handleChange(event) {
-    const { name, value } = event.target
-    const { mModel } = this.state
-    this.setState({
-      mModel: {
-        ...mModel,
-        [name]: value
-      }
-    })
-  }
-  handleInheritsChange(selectedOption) {
-    const { mModel } = this.state
-    this.setState({
-      mModel: {
-        ...mModel,
-        inherits: selectedOption
-      }
-    })
-  }
   render() {
-    const { roleDetails, user, match, alert, submitted } = this.props
-    let model = roleDetails
+    const { alert } = this.props
     return (
       <div>
         <h2>Role Details</h2>
         {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
-        {model.loading && <em>Loading model details...}</em>}
-        {model.error && <span className="text-danger">{model.error}</span>}
-        {model.data && this.show(model.data)}
+        {this.show()}
       </div>
     )
   }
-  show(data){
+  show(){
     let title = this.state.adding?'Add':'View or Edit'
     return <Form onSubmit={this.handleSubmit} className="grid-form">
       <fieldset>
   			<legend>{title}</legend>
         <div data-row-span="2">
-          {this.showRolename(data)}
-          {this.showInherits(data)}
+          {this.showRolename()}
+          {this.showInherits()}
         </div>
         <div data-row-span="1">
-          {this.showDescription(data)}
+          {this.showDescription()}
         </div>
       </fieldset>
       <br/>
@@ -146,34 +64,46 @@ class RoleDetailsPage extends React.Component {
       <Button color="link"><Link to="/roles">Cancel</Link></Button>
     </Form>
   }
-  showRolename(data) {
-    const { submitted, mModel } = this.state
+  showRolename() {
+    const { submitted, model } = this.state
     return <div data-field-span="1">
 				<Label>Role Name</Label>
         <Input
           type="text"
           name="name"
+          value={model.name}
           placeholder="Role name here"
           className="inputField"
-          defaultValue={data.name}
           onChange={this.handleChange}
         />
-        {submitted && mModel.name != null && mModel.name == ""
-          && <FormText color="danger">Role name is required</FormText>}
+        {submitted && !model.name &&
+          <FormText color="danger">Role name is required</FormText>}
 			</div>
   }
-  showInherits(data) {
-    const { mModel } = this.state
+
+  handleChange(event) {
+    const { name, value } = event.target
+    const { model } = this.state
+    this.setState({
+      model: {
+        ...model,
+        [name]: value
+      }
+    })
+  }
+
+  showInherits() {
+    const { model } = this.state
     const { roles } = this.props
     let options = []
     if(roles.items) {
-      options = roles.items.filter(each => each.name != data.name)
+      options = roles.items.filter(each => each.name != model.name)
     }
     return <div data-field-span="1">
       <Label>Inherits</Label>
       <Select
         name="form-field-name"
-        value={mModel.inherits!==null?mModel.inherits:data.inherits}
+        value={model.inherits}
         multi={true}
         joinValues={true}
         simpleValue={true}
@@ -186,31 +116,81 @@ class RoleDetailsPage extends React.Component {
       />
      </div>
   }
+  handleInheritsChange(selectedOption) {
+    const { model } = this.state
+    this.setState({
+      model: {
+        ...model,
+        inherits: selectedOption
+      }
+    })
+  }
   showDescription(data) {
-    const { submitted, mModel } = this.state
+    const { submitted, model } = this.state
     return <div data-field-span="1">
 				<Label>Description</Label>
         <Input
           type="text"
           name="description"
+          value={model.description}
           placeholder="Description here"
           className="inputField"
-          defaultValue={data.description}
           onChange={this.handleChange}
         />
-        {submitted && mModel.description != null && mModel.description == ""
-          && <FormText color="danger">Role description is required</FormText>}
+        {submitted && !model.description &&
+          <FormText color="danger">Role description is required</FormText>}
 			</div>
+  }
+
+  handleSubmit(event) {
+    const { model } = this.state
+    const { dispatch } = this.props
+
+    event.preventDefault()
+    this.setState({ submitted: true })
+
+    if ( this.changedProps().length == 0 ) {
+      dispatch(alertActions.error('No changes found...'))
+    } else if( this.canBeSaved() ) {
+      dispatch(actions.saveChanges(model))
+    } else {
+      dispatch(alertActions.error('Missing data'))
+    }
+  }
+  canBeSaved() { // check for changes in model, if changes present, it can save
+    const { model } = this.state
+    for(const prop in model) {
+      if( prop == 'id') continue // skip 'id' from checkiing null or empty value
+      if( !model[prop] ) {
+        return false
+      }
+    }
+    return true
+  }
+  changedProps() {
+    const { model } = this.state
+    const { location } = this.props
+    let modelDB = location.state.model
+    let props = []
+    // check for changes in model props
+    for(const prop in model) {
+      if( prop == 'id') continue // exclude 'id' from comparision
+      if(modelDB[prop] != model[prop]) { // if data is changed wrt data in database
+        props.push(prop)
+      } else {
+        delete model[prop]  // remove unchanged property
+      }
+    }
+    return props;
   }
 }
 
 function mapStateToProps(state) {
-  const { roles, roleDetails, authentication, alert } = state
+  const { roles, authentication, alert } = state
   const { user } = authentication
   return {
     user,
     roles,
-    roleDetails,
     alert
   }
 }

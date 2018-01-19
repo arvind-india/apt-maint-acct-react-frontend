@@ -38,6 +38,14 @@ class RolesPage extends React.Component {
     this.props.dispatch(actions.getAll()) // get list after deletion of a model
   }
   showList(models){
+    let newModel = {
+      model: {
+        id: 0,
+        name: '',
+        inherits:'',
+        description: ''
+      }
+    }
     return <Table>
       <thead>
         <tr>
@@ -45,7 +53,11 @@ class RolesPage extends React.Component {
           <th>Role Name</th>
           <th>Description</th>
           <th>Inherits</th>
-          <th>Actions <Link to={`${url}/0`} title="Add"><MdAdd/></Link></th>
+          <th>Actions <Link
+                        to={{ pathname: `${url}/0`, state: newModel }}
+                        title="Add"
+                        ><MdAdd/></Link>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -57,7 +69,7 @@ class RolesPage extends React.Component {
             <td>{model.inherits}</td>
             <td>
               <Link
-                to={`${url}/${model.id}`}
+                to={{ pathname: `${url}/${model.id}`, state:{model: model} }}
                 title="View or Edit"
               ><MdVisibility/></Link>
               <Button
