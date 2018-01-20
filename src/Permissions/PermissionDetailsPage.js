@@ -24,15 +24,22 @@ class PermissionDetailsPage extends React.Component {
     super(props)
     const { dispatch, match, location } = props
     let model = location.state.model // model supplied from list page
-    let operations = model.operations?model.operations:''
+    let ops = model.operations?model.operations:''
+    let initializeModel = {
+      id: model.id,
+      operations: model.operations,
+      resource: model.resource,
+      condition: model.condition?model.condition:'', // optional field can be null, so initialize with '' if null
+      description: model.description
+    }
     this.state = {
-      model: { ...model },           // model to edit
+      model: initializeModel,           // model to edit
       submitted: false,
       adding: match.params.id === "0",
-      cPerm: operations.includes('C'), // create permission
-      rPerm: operations.includes('R'), // read permission
-      uPerm: operations.includes('U'), // update permission
-      dPerm: operations.includes('D')  // delete permission
+      cPerm: ops.includes('C'), // create permission
+      rPerm: ops.includes('R'), // read permission
+      uPerm: ops.includes('U'), // update permission
+      dPerm: ops.includes('D')  // delete permission
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleOperationsChange = this.handleOperationsChange.bind(this)
@@ -81,8 +88,6 @@ class PermissionDetailsPage extends React.Component {
       if( prop == 'id') continue // exclude 'id' from comparision
       if(modelDB[prop] != model[prop]) { // if data is changed wrt data in database
         props.push(prop)
-      } else {
-        delete model[prop]
       }
     }
     return props;

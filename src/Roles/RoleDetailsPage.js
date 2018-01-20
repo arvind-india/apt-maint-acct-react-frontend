@@ -24,8 +24,14 @@ class RoleDetailsPage extends React.Component {
     super(props)
     const { dispatch, match, location } = props
     let model = location.state.model // model supplied from list page
+    let initializeModel = {
+      id: model.id,
+      name: model.name,
+      inherits: model.inherits,
+      description: model.description
+    }
     this.state = {
-      model: { ...model },           // model to edit
+      model: initializeModel,           // model to edit
       submitted: false,
       adding: match.params.id==="0"
     }
@@ -77,7 +83,7 @@ class RoleDetailsPage extends React.Component {
           onChange={this.handleChange}
         />
         {submitted && !model.name &&
-          <FormText color="danger">Role name is required</FormText>}
+          <FormText color="danger">Name is required</FormText>}
 			</div>
   }
 
@@ -109,7 +115,6 @@ class RoleDetailsPage extends React.Component {
         simpleValue={true}
         placeholder="Select Inherits..."
         onChange={this.handleInheritsChange}
-        defaultValue="guest"
         valueKey="name"
         labelKey="name"
         options={options}
@@ -138,7 +143,7 @@ class RoleDetailsPage extends React.Component {
           onChange={this.handleChange}
         />
         {submitted && !model.description &&
-          <FormText color="danger">Role description is required</FormText>}
+          <FormText color="danger">Description is required</FormText>}
 			</div>
   }
 
@@ -160,7 +165,7 @@ class RoleDetailsPage extends React.Component {
   canBeSaved() { // check for changes in model, if changes present, it can save
     const { model } = this.state
     for(const prop in model) {
-      if( prop == 'id') continue // skip 'id' from checkiing null or empty value
+      if( prop == 'id') continue // skip 'id' from checking null or empty value
       if( !model[prop] ) {
         return false
       }
@@ -177,8 +182,6 @@ class RoleDetailsPage extends React.Component {
       if( prop == 'id') continue // exclude 'id' from comparision
       if(modelDB[prop] != model[prop]) { // if data is changed wrt data in database
         props.push(prop)
-      } else {
-        delete model[prop]  // remove unchanged property
       }
     }
     return props;
