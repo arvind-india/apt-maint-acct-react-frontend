@@ -13,6 +13,7 @@ import { LoginPage } from './Login'
 import { RegisterPage } from './Register'
 import { RolesPage, RoleDetailsPage } from './Roles'
 import { PermissionsPage, PermissionDetailsPage } from './Permissions'
+import { RolesToPermissionsLinkPage } from './Links'
 import { UsersPage, UserDetailsPage } from './Users'
 import { AppNavbar } from './AppNavbar'
 
@@ -44,6 +45,7 @@ class App extends Component {
               <PrivateRoute path="/permissions/:id" component={PermissionDetailsPage} />
               <PrivateRoute path="/permissions" component={PermissionsPage} />
             </Switch>
+            <PrivateRoute path="/rolestopermissions" component={RolesToPermissionsLinkPage} />
             <Switch>
               <PrivateRoute path="/users/:id" component={UserDetailsPage} />
               <PrivateRoute path="/users" component={UsersPage} />

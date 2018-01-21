@@ -27,7 +27,8 @@ import {
   MdVpnKey,
   MdInfoOutline,
   MdPersonAdd,
-  MdLock
+  MdLock,
+  MdAttachment
 } from 'react-icons/lib/md' // material design icons
 
 import { userActions } from './_actions'
@@ -91,6 +92,9 @@ class AppNavbar extends React.Component {
                 </DropdownItem>
                 <DropdownItem>
                   <NavLink href="/permissions"><MdLock/> Permissions</NavLink>
+                </DropdownItem>
+                <DropdownItem>
+                  <NavLink href="/rolestopermissions"><MdAttachment/> Roles-Permissions</NavLink>
                 </DropdownItem>
                 <DropdownItem>
                   <NavLink href="/users"><MdGroup /> Users</NavLink>

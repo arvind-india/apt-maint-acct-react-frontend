@@ -1,3 +1,48 @@
 .inputField::placeholder, textarea::placeholder {
   opacity: 0.3;
 }
+
+label {
+	font-weight: bold;
+	text-align: center;
+}
+
+.list-to-list {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-gap: 5px;
+}
+.llabel {
+	grid-column: 1 / 2;
+	grid-row: 1;
+}
+.lselect {
+	grid-column: 1 / 2;
+	grid-row: 2;
+}
+
+.alabel {
+	grid-column: 2 / 3;
+	grid-row: 1;
+}
+.aselect {
+	grid-column: 2 / 3;
+	grid-row: 2;
+}
+.dbutton {
+	grid-column: 2 / 3;
+	grid-row: 3;
+}
+
+.dlabel {
+	grid-column: 3 / 4;
+	grid-row: 1;
+}
+.dselect {
+	grid-column: 3 / 4;
+	grid-row: 2;
+}
+.abutton {
+	grid-column: 3 / 4;
+	grid-row: 3;
+}
