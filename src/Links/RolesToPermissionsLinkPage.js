@@ -36,11 +36,12 @@ class RolesToPermissionsLinkPage extends React.Component {
   constructor(props) {
     super(props)
     this.handleChangeInLeftList = this.handleChangeInLeftList.bind(this)
+    this.handleChangeInAttachedList = this.handleChangeInAttachedList.bind(this)
   }
 
   componentDidMount() {
     this.props.dispatch(roleActions.getAll())
-    // this.props.dispatch(permissionActions.getAll())
+    this.props.dispatch(permissionActions.getAll())
   }
 
   render() {
@@ -92,8 +93,19 @@ class RolesToPermissionsLinkPage extends React.Component {
   showAttachedList() {
     const { rolesToPermissions } = this.props
     return <div>
-      <Label for="attachedItems" className="alabel">Granted Permissions</Label>
-      <Input type="select" name="attachedItems" id="attachedItems" size="20" multiple className="aselect">
+      <Label
+        for="attachedItems"
+        className="alabel"
+      >Granted Permissions</Label>
+      <Input
+        type="select"
+        name="attachedItems"
+        id="attachedItems"
+        size="20"
+        className="aselect"
+        onChange={this.handleChangeInAttachedList}
+        multiple
+      >
       {
         rolesToPermissions.items && rolesToPermissions.items.map(each =>
         <option value={each.id} title={each.description} key={each.id}
@@ -103,15 +115,32 @@ class RolesToPermissionsLinkPage extends React.Component {
       <Button type="submit" color="danger" className="dbutton"><MdThumbDown/> Revoke</Button>
     </div>
   }
+  handleChangeInAttachedList(event) {
+    const { name, value } = event.target
+    console.log('Attached list name: ', name); console.log('Attached list value: ', value)
+    // this.props.dispatch(roleActions.detachMyPermissions(value))
+  }
   showDetachedList() {
+    const { rolesToPermissions, permissions } = this.props
+    console.log('Available permissions: ', permissions)
+    let available = [];
+    let grantedIDs = []
+    if(rolesToPermissions.items) {
+      grantedIDs = rolesToPermissions.items.map(each => each.id)
+    }
+    if(permissions.items) {
+      available = grantedIDs.length ?
+        permissions.items.filter(each => !grantedIDs.includes(each.id)) :
+        permissions.items
+    }
     return <div>
       <Label for="detachedItems" className="dlabel">Available Permissions</Label>
       <Input type="select" name="detachedItems" id="detachedItems" size="20" multiple className="dselect">
-        <option>1</option>
-        <option>2</option>
-        <option>3</option>
-        <option>4</option>
-        <option>5</option>
+      {
+        available.map(each =>
+        <option value={each.id} title={each.description} key={each.id}
+          >{each.operations} on {each.resource} {each.condition?' (restricted)':''}</option>)
+      }
       </Input>
       <Button type="submit" color="success" className="abutton"><MdThumbUp/> Grant</Button>
     </div>
@@ -121,13 +150,14 @@ class RolesToPermissionsLinkPage extends React.Component {
 
 
 function mapStateToProps(state) {
-  const { authentication, alert, roles, rolesToPermissions } = state
+  const { authentication, alert, roles, rolesToPermissions, permissions } = state
   const { user } = authentication
   return {
     alert,
     user,
     roles,
-    rolesToPermissions
+    rolesToPermissions,
+    permissions
   }
 }
 
