@@ -3,6 +3,7 @@ import axios from 'axios'
 export const roleService = {
   getAll,
   getById,
+  getMyPermissions,
   update,
   add,
   delete: _delete
@@ -31,6 +32,12 @@ function getById(id) {
   return instance.get(url + '/' + id)
     .then(handleResponse)
     .catch(handleError)
+}
+
+function getMyPermissions(id) {
+  return instance.get(url + '/mypermissions/' + id)
+    .then(handleResponse)
+    .catch(this.handleError);
 }
 
 function update(model) {

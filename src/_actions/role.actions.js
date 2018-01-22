@@ -7,6 +7,7 @@ export const roleActions = {
   getAll,
   delete: _delete,
   getById,
+  getMyPermissions,
   saveChanges
 }
 
@@ -53,6 +54,21 @@ function getById(id) {
   function request(id) { return { type: constants.GETBYID_REQUEST, id } }
   function success(model) { return { type: constants.GETBYID_SUCCESS, model } }
   function failure(id, error) { return { type: constants.GETBYID_FAILURE, id, error } }
+}
+
+function getMyPermissions(id) {
+  console.log('getMyPermissions for id: ', id)
+  return dispatch => {
+    dispatch(request(id))
+    service.getMyPermissions(id)
+      .then(
+        model => dispatch(success(model)),
+        error => dispatch(failure(error+' in get (my) permissions for roleID '+id))
+      )
+  }
+  function request(id) { return { type: constants.GETMYPERMISSIONS_REQUEST, id } }
+  function success(models) { return { type: constants.GETMYPERMISSIONS_SUCCESS, models } }
+  function failure(id, error) { return { type: constants.GETMYPERMISSIONS_FAILURE, id, error } }
 }
 
 function saveChanges(model) {

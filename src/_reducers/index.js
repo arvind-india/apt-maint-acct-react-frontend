@@ -13,6 +13,8 @@ import { roleDetails } from './roleDetails.reducer'
 import { permissions } from './permissions.reducer'
 import { permissionDetails } from './permissionDetails.reducer'
 
+import { rolesToPermissions } from './rolesToPermissions.reducer'
+
 const rootReducer = combineReducers({
   authentication,
   registration,
@@ -22,7 +24,8 @@ const rootReducer = combineReducers({
   roles,
   roleDetails,
   permissions,
-  permissionDetails
+  permissionDetails,
+  rolesToPermissions
 })
 
 export default rootReducer
