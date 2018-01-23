@@ -35,8 +35,13 @@ class RolesToPermissionsLinkPage extends React.Component {
 
   constructor(props) {
     super(props)
+    this.state = {
+      selectionInAList: [],
+      selectionInDList: []
+    }
     this.handleChangeInLeftList = this.handleChangeInLeftList.bind(this)
     this.handleChangeInAttachedList = this.handleChangeInAttachedList.bind(this)
+    this.handleChangeInDetachedList = this.handleChangeInDetachedList.bind(this)
   }
 
   componentDidMount() {
@@ -134,18 +139,42 @@ class RolesToPermissionsLinkPage extends React.Component {
         permissions.items
     }
     return <div>
-      <Label for="detachedItems" className="dlabel">Available Permissions</Label>
-      <Input type="select" name="detachedItems" id="detachedItems" size="20" multiple className="dselect">
+      <Label
+        for="detachedItems"
+        className="dlabel"
+      >Available Permissions</Label>
+      <Input
+        type="select"
+        name="detachedItems"
+        id="detachedItems"
+        size="20"
+        className="dselect"
+        onChange={this.handleChangeInDetachedList}
+        multiple
+      >
       {
         available.map(each =>
         <option value={each.id} title={each.description} key={each.id}
           >{each.operations} on {each.resource} {each.condition?' (restricted)':''}</option>)
       }
       </Input>
-      <Button type="submit" color="success" className="abutton"><MdThumbUp/> Grant</Button>
+      <Button
+        color="success"
+        className="abutton"
+        onClick={this.attachItems}
+      ><MdThumbUp/> Grant</Button>
     </div>
   }
 
+  handleChangeInDetachedList(event) {
+    const { name, value } = event.target
+    console.log('Detached list name: ', name); console.log('Detached list value: ', value)
+    // this.props.dispatch(roleActions.detachMyPermissions(value))
+  }
+  attachItems() {
+    console.log('attach clicked')
+    console.log('selection in availableList: ', this.state.selectionInAList)
+  }
 }
 
 
