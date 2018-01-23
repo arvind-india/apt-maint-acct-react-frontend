@@ -35,6 +35,9 @@ class RolesToPermissionsLinkPage extends React.Component {
 
   constructor(props) {
     super(props)
+    this.state = {
+      selectedOptionsInDList: []
+    }
     this.handleChangeInLeftList = this.handleChangeInLeftList.bind(this)
     this.handleChangeInDetachedList = this.handleChangeInDetachedList.bind(this)
     this.attachItems = this.attachItems.bind(this)
@@ -141,7 +144,6 @@ class RolesToPermissionsLinkPage extends React.Component {
         size="20"
         className="dselect"
         onChange={this.handleChangeInDetachedList}
-        innerRef={(ip)=>this.testRef=ip}
         multiple
       >
       {
@@ -154,17 +156,18 @@ class RolesToPermissionsLinkPage extends React.Component {
         color="success"
         className="abutton"
         onClick={this.attachItems}
+        disabled={this.state.selectedOptionsInDList.length==0}
       ><MdThumbUp/> Grant</Button>
     </div>
   }
   handleChangeInDetachedList(event){
-    const { name, value, innerRef } = event.target
-    console.log('event ', event)
+    const { selectedOptions } = event.target
+    this.setState({
+      selectedOptionsInDList: Array.from(selectedOptions)
+    })
   }
   attachItems() {
-    console.log('attach clicked')
-    console.log('ref: ', this.testRef)
-    console.log('ref value: ',this.testRef.options)
+    console.log('selected options: ', this.state.selectedOptionsInDList)
   }
 }
 
