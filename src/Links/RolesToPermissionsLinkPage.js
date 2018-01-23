@@ -35,13 +35,9 @@ class RolesToPermissionsLinkPage extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {
-      selectionInAList: [],
-      selectionInDList: []
-    }
     this.handleChangeInLeftList = this.handleChangeInLeftList.bind(this)
-    this.handleChangeInAttachedList = this.handleChangeInAttachedList.bind(this)
     this.handleChangeInDetachedList = this.handleChangeInDetachedList.bind(this)
+    this.attachItems = this.attachItems.bind(this)
   }
 
   componentDidMount() {
@@ -108,7 +104,6 @@ class RolesToPermissionsLinkPage extends React.Component {
         id="attachedItems"
         size="20"
         className="aselect"
-        onChange={this.handleChangeInAttachedList}
         multiple
       >
       {
@@ -120,11 +115,7 @@ class RolesToPermissionsLinkPage extends React.Component {
       <Button type="submit" color="danger" className="dbutton"><MdThumbDown/> Revoke</Button>
     </div>
   }
-  handleChangeInAttachedList(event) {
-    const { name, value } = event.target
-    console.log('Attached list name: ', name); console.log('Attached list value: ', value)
-    // this.props.dispatch(roleActions.detachMyPermissions(value))
-  }
+
   showDetachedList() {
     const { rolesToPermissions, permissions } = this.props
     console.log('Available permissions: ', permissions)
@@ -150,6 +141,7 @@ class RolesToPermissionsLinkPage extends React.Component {
         size="20"
         className="dselect"
         onChange={this.handleChangeInDetachedList}
+        innerRef={(ip)=>this.testRef=ip}
         multiple
       >
       {
@@ -165,15 +157,14 @@ class RolesToPermissionsLinkPage extends React.Component {
       ><MdThumbUp/> Grant</Button>
     </div>
   }
-
-  handleChangeInDetachedList(event) {
-    const { name, value } = event.target
-    console.log('Detached list name: ', name); console.log('Detached list value: ', value)
-    // this.props.dispatch(roleActions.detachMyPermissions(value))
+  handleChangeInDetachedList(event){
+    const { name, value, innerRef } = event.target
+    console.log('event ', event)
   }
   attachItems() {
     console.log('attach clicked')
-    console.log('selection in availableList: ', this.state.selectionInAList)
+    console.log('ref: ', this.testRef)
+    console.log('ref value: ',this.testRef.options)
   }
 }
 
