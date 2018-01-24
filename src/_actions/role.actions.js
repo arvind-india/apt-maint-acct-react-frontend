@@ -71,6 +71,23 @@ function getMyPermissions(id) {
   function failure(id, error) { return { type: constants.GETMYPERMISSIONS_FAILURE, id, error } }
 }
 
+function updateMyPermissions(id, attachedIds) {
+  console.log('updateMyPermissions for id: '+id+' with attached permission ids: '+attachedIds)
+  return dispatch => {
+    dispatch(request(id))
+    service.updateMyPermissions(id, attachedIds)
+      .then(
+        model => dispatch(success(model)),
+        error => dispatch(failure(error
+                    +' in updating (my) permissions for roleID '+id
+                    +' with permissions ids: '+attachedIds))
+      )
+  }
+  function request(id) { return { type: constants.UPDATEMYPERMISSIONS_REQUEST, id } }
+  function success(model) { return { type: constants.UPDATEMYPERMISSIONS_SUCCESS, model } }
+  function failure(id, error) { return { type: constants.UPDATEMYPERMISSIONS_FAILURE, id, error } }
+}
+
 function saveChanges(model) {
   if(model.id == 0) {
     return add(model)

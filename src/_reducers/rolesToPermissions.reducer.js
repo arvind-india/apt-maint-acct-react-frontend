@@ -19,6 +19,21 @@ export function rolesToPermissions(state = {}, action) {
         error: action.error
       }
 
+    case constants.UPDATEMYPERMISSIONS_REQUEST:
+      return {
+        loading: true
+      }
+
+    case constants.UPDATEMYPERMISSIONS_SUCCESS:
+      return {
+        items: action.model
+      }
+
+    case constants.UPDATEMYPERMISSIONS_FAILURE:
+      return {
+        error: action.error
+      }
+
     default:
       return state
 

@@ -40,6 +40,13 @@ function getMyPermissions(id) {
     .catch(this.handleError);
 }
 
+function updateMyPermissions(id, attachedIds) {
+  let data = { 'mypermissionsIds': attachedIds };
+  return instance.put(url + '/mypermissions/' + id, data)
+    .then(handleResponse)
+    .catch(this.handleError);
+}
+
 function update(model) {
   console.log('role service update model: ', model)
   return instance.put(url + '/' + model.id, model)
