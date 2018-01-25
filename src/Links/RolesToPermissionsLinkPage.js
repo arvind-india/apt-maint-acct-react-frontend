@@ -37,11 +37,15 @@ class RolesToPermissionsLinkPage extends React.Component {
     super(props)
     this.state = {
       selectedOptionInLeftList: '',
-      selectedOptionsInDList: []
+      selectedOptionsInDList: [],
+      selectedOptionsInAList: []
     }
     this.handleChangeInLeftList = this.handleChangeInLeftList.bind(this)
     this.handleChangeInDetachedList = this.handleChangeInDetachedList.bind(this)
     this.attachItems = this.attachItems.bind(this)
+    this.handleChangeInAttachedList = this.handleChangeInAttachedList.bind(this)
+    this.detachItems = this.detachItems.bind(this)
+
   }
 
   componentDidMount() {
@@ -102,7 +106,7 @@ class RolesToPermissionsLinkPage extends React.Component {
 
   showAttachedList() {
     const { rolesToPermissions } = this.props
-    const { selectedOptionInLeftList } = this.state
+    const { selectedOptionInLeftList, selectedOptionsInAList } = this.state
 console.log('rolesToPermissions: ', rolesToPermissions)
     return <div>
       <Label
@@ -115,6 +119,7 @@ console.log('rolesToPermissions: ', rolesToPermissions)
         id="attachedItems"
         size="20"
         className="aselect"
+        onChange={this.handleChangeInAttachedList}
         multiple
       >
       { selectedOptionInLeftList &&
@@ -124,13 +129,36 @@ console.log('rolesToPermissions: ', rolesToPermissions)
           >{each.operations} on {each.resource} {each.condition?' (restricted)':''}</option>)
       }
       </Input>
-      <Button type="submit" color="danger" className="dbutton"><MdThumbDown/> Revoke</Button>
+      <Button
+        color="danger"
+        className="dbutton"
+        onClick={this.detachItems}
+        disabled={selectedOptionsInAList.length==0}
+      ><MdThumbDown/> Revoke</Button>
     </div>
   }
-
+  handleChangeInAttachedList(event) {
+    const { selectedOptions } = event.target
+    this.setState({
+      selectedOptionsInAList: Array.from(selectedOptions)
+    })
+  }
+  detachItems() {
+    const { dispatch, rolesToPermissions } = this.props
+    const { selectedOptionsInAList, selectedOptionInLeftList } = this.state
+//    console.log('selected options: ', selectedOptionsInAList)
+    let id = selectedOptionInLeftList
+    let ids_toBeRemoved = selectedOptionsInAList.map(e => e.value)
+    let ids = rolesToPermissions.items.map(e => e.id.toString())
+    let ids_toBeRetained = ids.filter(each => !ids_toBeRemoved.includes(each))
+//    console.log('role id: ', id); console.log('all ids: ', ids);
+//    console.log('toBeRemoved: ',ids_toBeRemoved);console.log('toBeRetained: ', ids_toBeRetained)
+    dispatch(roleActions.updateMyPermissions(id, ids_toBeRetained))
+    this.setState({ selectedOptionsInAList: [] })
+  }
   showDetachedList() {
     const { rolesToPermissions, permissions } = this.props
-    const { selectedOptionInLeftList } = this.state
+    const { selectedOptionInLeftList, selectedOptionsInDList } = this.state
     console.log('Available permissions: ', permissions)
     let available = [];
     let grantedIDs = []
@@ -166,7 +194,7 @@ console.log('rolesToPermissions: ', rolesToPermissions)
         color="success"
         className="abutton"
         onClick={this.attachItems}
-        disabled={this.state.selectedOptionsInDList.length==0}
+        disabled={selectedOptionsInDList.length==0}
       ><MdThumbUp/> Grant</Button>
     </div>
   }
@@ -178,14 +206,18 @@ console.log('rolesToPermissions: ', rolesToPermissions)
     })
   }
   attachItems() {
-    const { dispatch } = this.props
+    const { dispatch, rolesToPermissions } = this.props
     const { selectedOptionsInDList, selectedOptionInLeftList } = this.state
     console.log('selected options: ', selectedOptionsInDList)
     let id = selectedOptionInLeftList
-    let ids = selectedOptionsInDList.map(e => e.value)
-    console.log('role id: ', id); console.log('permissions ids: ', ids)
-    dispatch(roleActions.updateMyPermissions(id, ids))
-    // dispatch(roleActions.getMyPermissions(id))
+    let ids = rolesToPermissions.items.map(e => e.id.toString())
+    let ids_toBeAdded = selectedOptionsInDList.map(e => e.value)
+    let new_ids = ids.concat(ids_toBeAdded)
+    console.log('role id: ', id); console.log('permissions ids to be added: ', ids_toBeAdded);
+    console.log('new_ids: ', new_ids)
+
+    dispatch(roleActions.updateMyPermissions(id, new_ids))
+    this.setState({ selectedOptionsInDList: [] })
   }
 }
 
