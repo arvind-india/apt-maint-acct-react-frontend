@@ -36,6 +36,7 @@ class RolesToPermissionsLinkPage extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      selectedOptionInLeftList: '',
       selectedOptionsInDList: []
     }
     this.handleChangeInLeftList = this.handleChangeInLeftList.bind(this)
@@ -89,11 +90,16 @@ class RolesToPermissionsLinkPage extends React.Component {
       <Button color="link" className="homeButton"><Link to="/home"><MdHome/> Home</Link></Button>
     </div>
   }
+
   handleChangeInLeftList(event) {
     const { name, value } = event.target
     console.log('Left list name: ', name); console.log('Left list value: ', value)
+    this.setState({
+      selectedOptionInLeftList: value
+    })
     this.props.dispatch(roleActions.getMyPermissions(value))
   }
+
   showAttachedList() {
     const { rolesToPermissions } = this.props
     return <div>
@@ -160,6 +166,7 @@ class RolesToPermissionsLinkPage extends React.Component {
       ><MdThumbUp/> Grant</Button>
     </div>
   }
+
   handleChangeInDetachedList(event){
     const { selectedOptions } = event.target
     this.setState({
@@ -168,6 +175,10 @@ class RolesToPermissionsLinkPage extends React.Component {
   }
   attachItems() {
     console.log('selected options: ', this.state.selectedOptionsInDList)
+    let id = this.state.selectedOptionInLeftList
+    let ids = this.state.selectedOptionsInDList.map(e => e.id)
+    console.log('role id: ', id); console.log('permissions ids: ', ids)
+    // this.props.dispatch(roleActions.updateMyPermissions(id, ids))
   }
 }
 
