@@ -4,6 +4,7 @@ export const roleService = {
   getAll,
   getById,
   getMyPermissions,
+  updateMyPermissions,
   update,
   add,
   delete: _delete

@@ -8,6 +8,7 @@ export const roleActions = {
   delete: _delete,
   getById,
   getMyPermissions,
+  updateMyPermissions,
   saveChanges
 }
 
@@ -77,14 +78,14 @@ function updateMyPermissions(id, attachedIds) {
     dispatch(request(id))
     service.updateMyPermissions(id, attachedIds)
       .then(
-        model => dispatch(success(model)),
+        models => dispatch(success(models)),
         error => dispatch(failure(error
                     +' in updating (my) permissions for roleID '+id
                     +' with permissions ids: '+attachedIds))
       )
   }
   function request(id) { return { type: constants.UPDATEMYPERMISSIONS_REQUEST, id } }
-  function success(model) { return { type: constants.UPDATEMYPERMISSIONS_SUCCESS, model } }
+  function success(models) { return { type: constants.UPDATEMYPERMISSIONS_SUCCESS, models } }
   function failure(id, error) { return { type: constants.UPDATEMYPERMISSIONS_FAILURE, id, error } }
 }
 

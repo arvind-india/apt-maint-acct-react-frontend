@@ -102,6 +102,8 @@ class RolesToPermissionsLinkPage extends React.Component {
 
   showAttachedList() {
     const { rolesToPermissions } = this.props
+    const { selectedOptionInLeftList } = this.state
+console.log('rolesToPermissions: ', rolesToPermissions)
     return <div>
       <Label
         for="attachedItems"
@@ -115,8 +117,9 @@ class RolesToPermissionsLinkPage extends React.Component {
         className="aselect"
         multiple
       >
-      {
-        rolesToPermissions.items && rolesToPermissions.items.map(each =>
+      { selectedOptionInLeftList &&
+        rolesToPermissions.items &&
+        rolesToPermissions.items.map(each =>
         <option value={each.id} title={each.description} key={each.id}
           >{each.operations} on {each.resource} {each.condition?' (restricted)':''}</option>)
       }
@@ -127,13 +130,14 @@ class RolesToPermissionsLinkPage extends React.Component {
 
   showDetachedList() {
     const { rolesToPermissions, permissions } = this.props
+    const { selectedOptionInLeftList } = this.state
     console.log('Available permissions: ', permissions)
     let available = [];
     let grantedIDs = []
     if(rolesToPermissions.items) {
       grantedIDs = rolesToPermissions.items.map(each => each.id)
     }
-    if(permissions.items) {
+    if(permissions.items && selectedOptionInLeftList) {
       available = grantedIDs.length ?
         permissions.items.filter(each => !grantedIDs.includes(each.id)) :
         permissions.items
@@ -174,11 +178,14 @@ class RolesToPermissionsLinkPage extends React.Component {
     })
   }
   attachItems() {
-    console.log('selected options: ', this.state.selectedOptionsInDList)
-    let id = this.state.selectedOptionInLeftList
-    let ids = this.state.selectedOptionsInDList.map(e => e.id)
+    const { dispatch } = this.props
+    const { selectedOptionsInDList, selectedOptionInLeftList } = this.state
+    console.log('selected options: ', selectedOptionsInDList)
+    let id = selectedOptionInLeftList
+    let ids = selectedOptionsInDList.map(e => e.value)
     console.log('role id: ', id); console.log('permissions ids: ', ids)
-    // this.props.dispatch(roleActions.updateMyPermissions(id, ids))
+    dispatch(roleActions.updateMyPermissions(id, ids))
+    // dispatch(roleActions.getMyPermissions(id))
   }
 }
 
