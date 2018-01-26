@@ -30,7 +30,7 @@ function getAll() {
 function _delete(id) {
   return dispatch => {
     dispatch(request(id))
-    console.log('delete request in progress...')
+//    console.log('delete request in progress...')
     service.delete(id)
       .then(
         model => dispatch(success(id)),
@@ -58,7 +58,7 @@ function getById(id) {
 }
 
 function getMyPermissions(id) {
-  console.log('getMyPermissions for id: ', id)
+//  console.log('getMyPermissions for id: ', id)
   return dispatch => {
     dispatch(request(id))
     service.getMyPermissions(id)
@@ -73,7 +73,7 @@ function getMyPermissions(id) {
 }
 
 function updateMyPermissions(id, attachedIds) {
-  console.log('updateMyPermissions for id: '+id+' with attached permission ids: '+attachedIds)
+//  console.log('updateMyPermissions for id: '+id+' with attached permission ids: '+attachedIds)
   return dispatch => {
     dispatch(request(id))
     service.updateMyPermissions(id, attachedIds)
@@ -109,8 +109,8 @@ function saveChanges(model) {
           },
           error => {
             let data = error.response.data
-            console.log('error response...')
-            console.log(error.response.data)
+//            console.log('error response...')
+//            console.log(error.response.data)
             let appData;
             if(data.error) { // check if there is a application specific error data enclosed
               appData = data.data
@@ -141,8 +141,8 @@ function saveChanges(model) {
           },
           error => {
             let data = error.response.data
-            console.log('error response...')
-            console.log(error.response.data)
+//            console.log('error response...')
+//            console.log(error.response.data)
             let appData;
             if(data.error) { // check if there is a application specific error data enclosed
               appData = data.data

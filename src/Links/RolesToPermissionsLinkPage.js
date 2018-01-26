@@ -45,7 +45,6 @@ class RolesToPermissionsLinkPage extends React.Component {
     this.attachItems = this.attachItems.bind(this)
     this.handleChangeInAttachedList = this.handleChangeInAttachedList.bind(this)
     this.detachItems = this.detachItems.bind(this)
-
   }
 
   componentDidMount() {
@@ -54,7 +53,7 @@ class RolesToPermissionsLinkPage extends React.Component {
   }
 
   render() {
-    console.log('Props in RolesToPermissionsLinkPage: ', this.props)
+//    console.log('Props in RolesToPermissionsLinkPage: ', this.props)
     const { alert } = this.props
     return (
       <div>
@@ -75,7 +74,7 @@ class RolesToPermissionsLinkPage extends React.Component {
 
   showLeftList() {
     const { roles } = this.props
-    console.log('Roles: ', roles)
+//    console.log('Roles: ', roles)
     return <div>
       <Label for="leftItem" className="llabel">Select a Role</Label>
       <Input
@@ -97,7 +96,7 @@ class RolesToPermissionsLinkPage extends React.Component {
 
   handleChangeInLeftList(event) {
     const { name, value } = event.target
-    console.log('Left list name: ', name); console.log('Left list value: ', value)
+//    console.log('Left list name: ', name); console.log('Left list value: ', value)
     this.setState({
       selectedOptionInLeftList: value
     })
@@ -107,7 +106,7 @@ class RolesToPermissionsLinkPage extends React.Component {
   showAttachedList() {
     const { rolesToPermissions } = this.props
     const { selectedOptionInLeftList, selectedOptionsInAList } = this.state
-console.log('rolesToPermissions: ', rolesToPermissions)
+// console.log('rolesToPermissions: ', rolesToPermissions)
     return <div>
       <Label
         for="attachedItems"
@@ -159,7 +158,7 @@ console.log('rolesToPermissions: ', rolesToPermissions)
   showDetachedList() {
     const { rolesToPermissions, permissions } = this.props
     const { selectedOptionInLeftList, selectedOptionsInDList } = this.state
-    console.log('Available permissions: ', permissions)
+//    console.log('Available permissions: ', permissions)
     let available = [];
     let grantedIDs = []
     if(rolesToPermissions.items) {
@@ -208,13 +207,13 @@ console.log('rolesToPermissions: ', rolesToPermissions)
   attachItems() {
     const { dispatch, rolesToPermissions } = this.props
     const { selectedOptionsInDList, selectedOptionInLeftList } = this.state
-    console.log('selected options: ', selectedOptionsInDList)
+//    console.log('selected options: ', selectedOptionsInDList)
     let id = selectedOptionInLeftList
     let ids = rolesToPermissions.items.map(e => e.id.toString())
     let ids_toBeAdded = selectedOptionsInDList.map(e => e.value)
     let new_ids = ids.concat(ids_toBeAdded)
-    console.log('role id: ', id); console.log('permissions ids to be added: ', ids_toBeAdded);
-    console.log('new_ids: ', new_ids)
+//    console.log('role id: ', id); console.log('permissions ids to be added: ', ids_toBeAdded);
+//    console.log('new_ids: ', new_ids)
 
     dispatch(roleActions.updateMyPermissions(id, new_ids))
     this.setState({ selectedOptionsInDList: [] })
