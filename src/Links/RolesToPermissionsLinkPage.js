@@ -209,12 +209,13 @@ class RolesToPermissionsLinkPage extends React.Component {
     const { selectedOptionsInDList, selectedOptionInLeftList } = this.state
 //    console.log('selected options: ', selectedOptionsInDList)
     let id = selectedOptionInLeftList
-    let ids = rolesToPermissions.items.map(e => e.id.toString())
+    let ids = rolesToPermissions.items.map(e => e.id)
     let ids_toBeAdded = selectedOptionsInDList.map(e => e.value)
     let new_ids = ids.concat(ids_toBeAdded)
-//    console.log('role id: ', id); console.log('permissions ids to be added: ', ids_toBeAdded);
-//    console.log('new_ids: ', new_ids)
-
+    console.log('role id: ', id);
+    console.log('existing perms ids: ', ids);
+    console.log('permissions ids to be added: ', ids_toBeAdded);
+    console.log('new_ids: ', new_ids)
     dispatch(roleActions.updateMyPermissions(id, new_ids))
     this.setState({ selectedOptionsInDList: [] })
   }
