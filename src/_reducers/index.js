@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux'
 
 import { authentication } from './authentication.reducer'
+import { authorizations } from './authorizations.reducer'
 import { registration } from './registration.reducer'
 import { alert } from './alert.reducer'
 
@@ -17,6 +18,7 @@ import { rolesToPermissions } from './rolesToPermissions.reducer'
 
 const rootReducer = combineReducers({
   authentication,
+  authorizations,
   registration,
   alert,
   users,
@@ -25,7 +27,7 @@ const rootReducer = combineReducers({
   roleDetails,
   permissions,
   permissionDetails,
-  rolesToPermissions
+  rolesToPermissions,
 })
 
 export default rootReducer

@@ -58,7 +58,7 @@ class RegisterPage extends React.Component {
         user.email &&
         user.password &&
         confirmPassword &&
-        user.password == confirmPassword
+        user.password === confirmPassword
       ) {
           dispatch(userActions.register(user))
         } else {
@@ -153,7 +153,7 @@ class RegisterPage extends React.Component {
                 onChange={this.handleConfirmPasswordChange}
               />
               {submitted && !confirmPassword && <FormText color="danger">Repeat Password is required</FormText>}
-              {user.password && confirmPassword && user.password != confirmPassword && <FormText color="danger">Password do NOT matchG</FormText>}
+              {user.password && confirmPassword && user.password !== confirmPassword && <FormText color="danger">Password do NOT matchG</FormText>}
             </Col>
           </FormGroup>
 

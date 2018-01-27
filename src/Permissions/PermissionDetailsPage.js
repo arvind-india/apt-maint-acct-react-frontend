@@ -1,5 +1,5 @@
 import React from 'react'
-import { Redirect } from 'react-router-dom'
+//import { Redirect } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Select from 'react-select';
@@ -11,8 +11,8 @@ import {
     FormText,
     Input,
     Label,
-    Col,
-    FormFeedback
+//    Col,
+//    FormFeedback
 } from 'reactstrap'
 
 import { permissionActions as actions, alertActions } from '../_actions'
@@ -55,7 +55,7 @@ class PermissionDetailsPage extends React.Component {
     event.preventDefault()
     this.setState({ submitted: true })
 
-    if ( this.changedProps().length == 0 ) {
+    if ( this.changedProps().length === 0 ) {
       dispatch(alertActions.error('No changes found...'))
     } else if(this.canBeSaved()){
       dispatch(actions.saveChanges(model))
@@ -85,8 +85,8 @@ class PermissionDetailsPage extends React.Component {
 
     // check for changes in mModel props
     for(const prop in model) {
-      if( prop == 'id') continue // exclude 'id' from comparision
-      if(modelDB[prop] != model[prop]) { // if data is changed wrt data in database
+      if( prop === 'id') continue // exclude 'id' from comparision
+      if(modelDB[prop] !== model[prop]) { // if data is changed wrt data in database
         props.push(prop)
       }
     }
@@ -103,7 +103,7 @@ class PermissionDetailsPage extends React.Component {
     })
   }
   handleOperationsChange(event) {
-    const { name, value } = event.target
+    const { value } = event.target
     const { cPerm, rPerm, uPerm, dPerm } = this.state
 
     // toggle state value
@@ -112,6 +112,7 @@ class PermissionDetailsPage extends React.Component {
       case 'R': this.setState({ rPerm: !rPerm }); break
       case 'U': this.setState({ uPerm: !uPerm }); break
       case 'D': this.setState({ dPerm: !dPerm }); break
+      default: return ''
     }
   }
   handleResourceChange(resource) {

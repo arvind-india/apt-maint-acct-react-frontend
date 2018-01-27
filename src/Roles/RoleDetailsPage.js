@@ -1,5 +1,4 @@
 import React from 'react'
-import { Redirect } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Select from 'react-select';
@@ -7,12 +6,12 @@ import Select from 'react-select';
 import {
     Form,
     Button,
-    FormGroup,
+//    FormGroup,
     FormText,
     Input,
     Label,
-    Col,
-    FormFeedback
+//    Col,
+//    FormFeedback
 } from 'reactstrap'
 
 import { roleActions as actions, alertActions } from '../_actions'
@@ -103,7 +102,7 @@ class RoleDetailsPage extends React.Component {
     const { roles } = this.props
     let options = []
     if(roles.items) {
-      options = roles.items.filter(each => each.name != model.name)
+      options = roles.items.filter(each => each.name !== model.name)
     }
     return <div data-field-span="1">
       <Label>Inherits</Label>
@@ -154,7 +153,7 @@ class RoleDetailsPage extends React.Component {
     event.preventDefault()
     this.setState({ submitted: true })
 
-    if ( this.changedProps().length == 0 ) {
+    if ( this.changedProps().length === 0 ) {
       dispatch(alertActions.error('No changes found...'))
     } else if( this.canBeSaved() ) {
       dispatch(actions.saveChanges(model))
@@ -165,7 +164,7 @@ class RoleDetailsPage extends React.Component {
   canBeSaved() { // check for changes in model, if changes present, it can save
     const { model } = this.state
     for(const prop in model) {
-      if( prop == 'id') continue // skip 'id' from checking null or empty value
+      if( prop === 'id') continue // skip 'id' from checking null or empty value
       if( !model[prop] ) {
         return false
       }
@@ -179,8 +178,8 @@ class RoleDetailsPage extends React.Component {
     let props = []
     // check for changes in model props
     for(const prop in model) {
-      if( prop == 'id') continue // exclude 'id' from comparision
-      if(modelDB[prop] != model[prop]) { // if data is changed wrt data in database
+      if( prop === 'id') continue // exclude 'id' from comparision
+      if(modelDB[prop] !== model[prop]) { // if data is changed wrt data in database
         props.push(prop)
       }
     }

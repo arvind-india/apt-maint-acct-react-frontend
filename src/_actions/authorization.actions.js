@@ -2,8 +2,7 @@ import { authorizationConstants as constants } from '../_constants'
 import { userService as service } from '../_services'
 
 export const authorizationActions = {
-  getAll,
-  getForModule
+  getAll
 }
 
 function getAll() {
@@ -19,8 +18,4 @@ function getAll() {
   function request() { return { type: constants.GETALL_REQUEST } }
   function success(models) { return { type: constants.GETALL_SUCCESS, models } }
   function failure(error) { return { type: constants.GETALL_FAILURE, error } }
-}
-
-function getForModule(resource) {
-  return { type: constants.GETFORMODULE_RESOURCE, resource }
 }

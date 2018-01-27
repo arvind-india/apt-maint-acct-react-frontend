@@ -24,7 +24,8 @@ function login(username, password) {
           dispatch(success(model))
           history.push('/')
           dispatch(alertActions.success('Welcome to Apartment Maintenance Tracking Application'))
-          dispatch(authzn.getAll())
+          dispatch(authzn.getAll()) // get all authorizations/permissions for this logged user
+          //service.getAllPermissions()
         },
         error => {
           dispatch(failure(error.response))
@@ -125,7 +126,7 @@ function getById(id) {
 }
 
 function saveChanges(model) {
-  if(model.id == 0) {
+  if(model.id === 0) {
     return add(model)
   } else {
     return update(model)

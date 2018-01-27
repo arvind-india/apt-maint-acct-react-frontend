@@ -1,8 +1,8 @@
 import React from 'react'
-import { connect } from 'react-redux'
+//import { connect } from 'react-redux'
 import { Alert } from 'reactstrap'
 
-import { alertActions } from '../_actions'
+//import { alertActions } from '../_actions'
 
 /*
  * This class is intended to add Auto Closure of Alert message from reactstrap.
@@ -26,8 +26,9 @@ export class FlashMessage extends React.Component {
   }
   setTimer() {
     // clear any existing timer
-    this.timer != null ? clearTimeout(this.timer) : null
-
+    if(this.timer !== null) {
+      clearTimeout(this.timer)
+    }
     // hide after 'delay' milliseconds
     this.timer = setTimeout(this.onDismiss, this.props.delay)
   }

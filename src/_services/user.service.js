@@ -20,6 +20,7 @@ let instance = axios.create({
 })
 // if jwt token is available, set it for authorization
 if(user && user.id_token) {
+  console.log('passing jwt token: ', user)
   // instance.defaults.headers.common['Authorization'] = user.id_token
   instance.defaults.headers.common['x-access-token'] = user.id_token
 }
@@ -34,6 +35,7 @@ function login(username, password) {
 function logout() {
   // remove user from local storage to log user out
   localStorage.removeItem('user')
+  localStorage.removeItem('authorizations')
 }
 
 function getAll() {
@@ -74,12 +76,38 @@ function _delete(id) {
     .catch(handleError)
 }
 
-function getAllPermissions() {
+function getAllPermissions(loginResponse) {
   console.log('user service >> getAllPermissions()...')
   return instance.get(url+'/allpermissions')
-    .then(handleResponse)
+    .then(handleAllPermissionsResponse)
     .catch(handleError)
 }
+
+function handleAllPermissionsResponse(response) {
+  console.log('handling Reponses...')
+  console.log(response)
+  if(!response.data) {
+    return Promise.reject(response.statusText)
+  }
+  return response.data
+  // let authzns = authorizationsByResource(response.data)
+  // localStorage.setItem('authorizations', JSON.stringify(authzns))
+  // return authzns
+}
+/*
+function authorizationsByResource(models) {
+  let result = []
+  models.forEach(model => {
+    result[model.resource] = {
+      allowsAdd: model.operations.includes('C'),
+      allowsView: model.operations.includes('R'),
+      allowsEdit: model.operations.includes('U'),
+      allowsDelete: model.operations.includes('D')
+    }
+  })
+  return result;
+}
+*/
 
 function handleLoginResponse(response) {
   // login successful if there's a jwt token in the response

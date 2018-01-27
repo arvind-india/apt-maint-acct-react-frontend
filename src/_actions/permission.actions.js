@@ -56,7 +56,7 @@ function getById(id) {
 }
 
 function saveChanges(model) {
-  if(model.id == 0) {
+  if(model.id === 0) {
     return add(model)
   } else {
     return update(model)

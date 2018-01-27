@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Table, Alert, UncontrolledAlert } from 'reactstrap'
-import { Router, Route } from 'react-router-dom'
+import { Table } from 'reactstrap'
+import { Router } from 'react-router-dom'
 
 import {
   MdAdd,
@@ -16,7 +16,7 @@ import {
 
 import { history } from '../_helpers'
 import { PrivateRoute, FlashMessage } from '../_components'
-import { permissionActions as actions, alertActions } from '../_actions'
+import { permissionActions as actions } from '../_actions'
 import { PermissionDetailsPage as detailsPage } from './PermissionDetailsPage'
 
 let url = '/permissions'
@@ -86,7 +86,7 @@ class PermissionsPage extends React.Component {
 
   render() {
     console.log('Props in PermissionsPage: ', this.props)
-    const { user, permissions, alert } = this.props
+    const { permissions, alert } = this.props
     let models = permissions
     return (
       <div>

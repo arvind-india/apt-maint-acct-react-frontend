@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Table, Alert, UncontrolledAlert } from 'reactstrap'
-import { Router, Route } from 'react-router-dom'
+import { Table } from 'reactstrap'
+import { Router } from 'react-router-dom'
 
 import {
   MdAdd,
@@ -16,7 +16,7 @@ import {
 
 import { history } from '../_helpers'
 import { PrivateRoute, FlashMessage } from '../_components'
-import { userActions as actions, alertActions } from '../_actions'
+import { userActions as actions } from '../_actions'
 import { UserDetailsPage as detailsPage } from './UserDetailsPage'
 
 let url = '/users'
@@ -72,7 +72,7 @@ class UsersPage extends React.Component {
   }
 
   render() {
-    const { user, users, alert } = this.props
+    const { users, alert } = this.props
     let models = users
     return (
       <div>

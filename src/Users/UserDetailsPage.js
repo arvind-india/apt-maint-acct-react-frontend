@@ -1,5 +1,5 @@
 import React from 'react'
-import { Redirect } from 'react-router-dom'
+//import { Redirect } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import {
@@ -9,8 +9,8 @@ import {
     FormText,
     Input,
     Label,
-    Col,
-    FormFeedback
+//    Col,
+//    FormFeedback
 } from 'reactstrap'
 
 import { userActions as actions, alertActions } from '../_actions'
@@ -22,7 +22,7 @@ class UserDetailsPage extends React.Component {
 
     super(props)
 
-    const { dispatch, userDetails, match } = props
+    const { dispatch, match } = props
 
     this.state = {
       mModel: {},
@@ -59,7 +59,7 @@ class UserDetailsPage extends React.Component {
     let props = []
     // check for changes in mModel
     for(const prop in mModel) {
-      if(modelDB[prop] != mModel[prop]) { // if data is changed wrt data in database
+      if(modelDB[prop] !== mModel[prop]) { // if data is changed wrt data in database
         props.push(prop)
       } else {
         delete mModel[prop]  // remove unchanged property
@@ -67,7 +67,7 @@ class UserDetailsPage extends React.Component {
     }
     // check for changes in mInfos
     for (const prop in mInfos) {
-      if(infosDB[prop] && infosDB[prop] != mInfos[prop]) {
+      if(infosDB[prop] && infosDB[prop] !== mInfos[prop]) {
         props.push(prop)
       } else {
         delete mInfos[props]
@@ -75,7 +75,7 @@ class UserDetailsPage extends React.Component {
     }
     // check for changes in mResidentType
     let prop = 'residentType'
-    if(mResidentType && infosDB[prop] && infosDB[prop] != mResidentType) {
+    if(mResidentType && infosDB[prop] && infosDB[prop] !== mResidentType) {
       props.push('residentType')
     }
     return props
@@ -93,7 +93,7 @@ class UserDetailsPage extends React.Component {
     event.preventDefault()
     this.setState({ submitted: true })
 
-    const { mModel, mInfos, mResidentType, submitted, password, confirmPassword, adding } = this.state
+    const { mModel, mInfos, mResidentType, password, confirmPassword, adding } = this.state
     const { dispatch, userDetails } = this.props
     let modelDB = userDetails.data
     let canSave = this.canSave()
@@ -120,7 +120,7 @@ class UserDetailsPage extends React.Component {
       mModel.infos.push({key: 'residentType', value: mResidentType})
     } */
     if(mResidentType){
-      if(adding || modelDB.infos.residentType != mResidentType) {
+      if(adding || modelDB.infos.residentType !== mResidentType) {
         if(!mModel.infos) {
           mModel.infos = []
         }
@@ -128,9 +128,9 @@ class UserDetailsPage extends React.Component {
       }
     }
     console.log('User to be updated: ', mModel)
-    if ( cProps.length == 0 ) {
+    if ( cProps.length === 0 ) {
       dispatch(alertActions.error('No changes found...'))
-    } else if (password != confirmPassword) {
+    } else if (password !== confirmPassword) {
       dispatch(alertActions.error('Passwords Do Not Match'))
     } else if (canSave) {
       dispatch(actions.saveChanges(mModel))
@@ -163,14 +163,14 @@ class UserDetailsPage extends React.Component {
     })
   }
   handlePasswordMatch(event) {
-    const { name, value } = event.target
+    const { value } = event.target
     const { touched, confirmPassword } = this.state
     this.setState({
       passwordMatches: value && touched && value === confirmPassword
     })
   }
   handleConfirmPasswordMatch(event) {
-    const { name, value } = event.target
+    const { value } = event.target
     const { password } = this.state
     this.setState({
       touched: true,
@@ -198,13 +198,13 @@ class UserDetailsPage extends React.Component {
     })
   }
   handleResidentTypeChange(event) {
-    const { name, value } = event.target
+    const { value } = event.target
     this.setState({
       mResidentType: value
     })
   }
   render() {
-    const { userDetails, user, match, alert, submitted } = this.props
+    const { userDetails, alert } = this.props
     return (
       <div>
         <h2>User Details</h2>
@@ -220,7 +220,7 @@ class UserDetailsPage extends React.Component {
    */
   arrToObj(array) {
     let obj = {}
-    if(!array || array.length == 0) {
+    if(!array || array.length === 0) {
       return obj
     }
     array.forEach(eachInfo => {
@@ -292,7 +292,7 @@ class UserDetailsPage extends React.Component {
           defaultValue={data.name}
           onChange={this.handleChange}
         />
-        {submitted && mModel.name != null && mModel.name == ""
+        {submitted && mModel.name !== null && mModel.name === ""
         && <FormText color="danger">User Name is required</FormText>}
 			</div>
   }

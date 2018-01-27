@@ -1,8 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Table, Alert, UncontrolledAlert } from 'reactstrap'
-import { Router, Route } from 'react-router-dom'
+//import { Table, Alert, UncontrolledAlert } from 'reactstrap'
+//import { Router, Route } from 'react-router-dom'
 
 import {
     Input,
@@ -11,11 +11,11 @@ import {
 
 import {
   MdHome,
-  MdAdd,
-  MdVisibility,
-  MdDelete,
-  MdContentCut,
-  MdAttachment,
+  //MdAdd,
+  //MdVisibility,
+  //MdDelete,
+  //MdContentCut,
+  //MdAttachment,
   MdThumbUp,
   MdThumbDown
 } from 'react-icons/lib/md' // material design icons
@@ -24,12 +24,12 @@ import {
   Button
 } from 'reactstrap'
 
-import { history } from '../_helpers'
-import { PrivateRoute, FlashMessage } from '../_components'
-import { roleActions,  permissionActions, alertActions } from '../_actions'
+//import { history } from '../_helpers'
+import { FlashMessage } from '../_components'
+import { roleActions,  permissionActions } from '../_actions'
 
 
-let url = '/rolesToPermissions'
+//let url = '/rolesToPermissions'
 
 class RolesToPermissionsLinkPage extends React.Component {
 
@@ -53,7 +53,7 @@ class RolesToPermissionsLinkPage extends React.Component {
   }
 
   render() {
-//    console.log('Props in RolesToPermissionsLinkPage: ', this.props)
+    console.log('Props in RolesToPermissionsLinkPage: ', this.props)
     const { alert } = this.props
     return (
       <div>
@@ -95,7 +95,7 @@ class RolesToPermissionsLinkPage extends React.Component {
   }
 
   handleChangeInLeftList(event) {
-    const { name, value } = event.target
+    const { value } = event.target
 //    console.log('Left list name: ', name); console.log('Left list value: ', value)
     this.setState({
       selectedOptionInLeftList: value
@@ -104,7 +104,7 @@ class RolesToPermissionsLinkPage extends React.Component {
   }
 
   showAttachedList() {
-    const { rolesToPermissions } = this.props
+    const { rolesToPermissions, authzn } = this.props
     const { selectedOptionInLeftList, selectedOptionsInAList } = this.state
 // console.log('rolesToPermissions: ', rolesToPermissions)
     return <div>
@@ -132,7 +132,8 @@ class RolesToPermissionsLinkPage extends React.Component {
         color="danger"
         className="dbutton"
         onClick={this.detachItems}
-        disabled={selectedOptionsInAList.length==0}
+        disabled={selectedOptionsInAList.length === 0}
+        hidden={!authzn.allowsEdit}
       ><MdThumbDown/> Revoke</Button>
     </div>
   }
@@ -156,7 +157,7 @@ class RolesToPermissionsLinkPage extends React.Component {
     this.setState({ selectedOptionsInAList: [] })
   }
   showDetachedList() {
-    const { rolesToPermissions, permissions } = this.props
+    const { rolesToPermissions, permissions, authzn } = this.props
     const { selectedOptionInLeftList, selectedOptionsInDList } = this.state
 //    console.log('Available permissions: ', permissions)
     let available = [];
@@ -193,7 +194,8 @@ class RolesToPermissionsLinkPage extends React.Component {
         color="success"
         className="abutton"
         onClick={this.attachItems}
-        disabled={selectedOptionsInDList.length==0}
+        disabled={selectedOptionsInDList.length === 0}
+        hidden={!authzn.allowsEdit}
       ><MdThumbUp/> Grant</Button>
     </div>
   }
@@ -223,14 +225,16 @@ class RolesToPermissionsLinkPage extends React.Component {
 
 
 function mapStateToProps(state) {
-  const { authentication, alert, roles, rolesToPermissions, permissions } = state
+  const { authentication, alert, roles, rolesToPermissions, permissions, authorizations } = state
   const { user } = authentication
+  const authzn = authorizations.roles-permissions
   return {
     alert,
     user,
     roles,
     rolesToPermissions,
-    permissions
+    permissions,
+    authzn
   }
 }
 

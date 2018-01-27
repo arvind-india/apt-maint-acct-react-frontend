@@ -1,11 +1,11 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Table, Alert, UncontrolledAlert } from 'reactstrap'
-import { Router, Route } from 'react-router-dom'
+import { Table } from 'reactstrap'
+import { Router } from 'react-router-dom'
 
 import {
-  MdAdd,
+//  MdAdd,
   MdVisibility,
   MdDelete
 } from 'react-icons/lib/md' // material design icons
@@ -16,7 +16,7 @@ import {
 
 import { history } from '../_helpers'
 import { PrivateRoute, FlashMessage } from '../_components'
-import { roleActions as actions, alertActions } from '../_actions'
+import { roleActions as actions } from '../_actions'
 import { RoleDetailsPage as detailsPage } from './RoleDetailsPage'
 
 let url = '/roles'
@@ -38,6 +38,10 @@ class RolesPage extends React.Component {
     this.props.dispatch(actions.getAll()) // get list after deletion of a model
   }
   showList(models){
+    const { user } = this.props
+    console.log('user in roles page: ', user)
+    let userInStorage = JSON.parse(localStorage.getItem('user'))
+    console.log('user in storage: ', userInStorage)
     let newModel = {
       model: {
         id: 0,
@@ -46,6 +50,10 @@ class RolesPage extends React.Component {
         description: ''
       }
     }
+    let addLink = ''
+/*    let addLink = authzn.allowsCreate ?
+      <Link to={{ pathname: `${url}/0`, state: newModel }} title="Add"><MdAdd/></Link> :
+      '' */
     return <Table>
       <thead>
         <tr>
@@ -53,10 +61,7 @@ class RolesPage extends React.Component {
           <th>Role Name</th>
           <th>Description</th>
           <th>Inherits</th>
-          <th>Actions <Link
-                        to={{ pathname: `${url}/0`, state: newModel }}
-                        title="Add"
-                        ><MdAdd/></Link>
+          <th>Actions {addLink}
           </th>
         </tr>
       </thead>
@@ -85,7 +90,7 @@ class RolesPage extends React.Component {
 
   render() {
     console.log('Props in RolesPage: ', this.props)
-    const { user, roles, alert } = this.props
+    const {  roles, alert } = this.props
     let models = roles
     return (
       <div>
@@ -105,12 +110,14 @@ class RolesPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { roles, authentication, alert } = state
+  const { roles, authentication, alert, authorizations } = state
   const { user } = authentication
+
   return {
     user,
     roles,
-    alert
+    alert,
+    authorizations
   }
 }
 
