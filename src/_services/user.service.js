@@ -8,7 +8,8 @@ export const userService = {
   getById,
   update,
   add,
-  delete: _delete
+  delete: _delete,
+  getAllPermissions
 }
 let user = JSON.parse(localStorage.getItem('user'))
 let url = '/users'
@@ -72,6 +73,14 @@ function _delete(id) {
     .then(handleResponse)
     .catch(handleError)
 }
+
+function getAllPermissions() {
+  console.log('user service >> getAllPermissions()...')
+  return instance.get(url+'/allpermissions')
+    .then(handleResponse)
+    .catch(handleError)
+}
+
 function handleLoginResponse(response) {
   // login successful if there's a jwt token in the response
   if(response.data && response.data.id_token) {

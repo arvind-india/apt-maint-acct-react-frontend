@@ -1,6 +1,6 @@
 import { userConstants as constants } from '../_constants'
 import { userService as service } from '../_services'
-import { alertActions } from './'
+import { alertActions, authorizationActions as authzn } from './'
 import { history } from '../_helpers'
 
 export const userActions = {
@@ -24,6 +24,7 @@ function login(username, password) {
           dispatch(success(model))
           history.push('/')
           dispatch(alertActions.success('Welcome to Apartment Maintenance Tracking Application'))
+          dispatch(authzn.getAll())
         },
         error => {
           dispatch(failure(error.response))
