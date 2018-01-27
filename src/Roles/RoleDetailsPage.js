@@ -52,6 +52,7 @@ class RoleDetailsPage extends React.Component {
     )
   }
   show(){
+    const { authzn } = this.props
     let title = this.state.adding?'Add':'View or Edit'
     return <Form onSubmit={this.handleSubmit} className="grid-form">
       <fieldset>
@@ -65,7 +66,7 @@ class RoleDetailsPage extends React.Component {
         </div>
       </fieldset>
       <br/>
-      <Button type="submit" color="primary">Save</Button>
+      <Button type="submit" color="primary" hidden={!authzn.allowsEdit}>Save</Button>
       <Button color="link"><Link to="/roles">Cancel</Link></Button>
     </Form>
   }
@@ -188,12 +189,14 @@ class RoleDetailsPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { roles, authentication, alert } = state
+  const { roles, authentication, alert, authorizations } = state
   const { user } = authentication
+  const authzn = authorizations.roles
   return {
     user,
     roles,
-    alert
+    alert,
+    authzn
   }
 }
 

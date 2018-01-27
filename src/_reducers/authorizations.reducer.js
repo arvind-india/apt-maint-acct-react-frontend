@@ -1,6 +1,6 @@
 import { authorizationConstants as constants } from '../_constants'
 
-let authzns = localStorage.getItem('authorizations')
+let authzns = JSON.parse(sessionStorage.getItem('authorizations'))
 console.log('authzns from localStorage: ', authzns)
 const initialState = authzns ? authzns : {}
 
@@ -12,8 +12,8 @@ export function authorizations(state = initialState, action) {
         loading: true
       }
     case constants.GETALL_SUCCESS:
-      //return action.models
-      return authorizationsByResource()
+      return action.models
+      //return authorizationsByResource()
       // return {
       //  items: action.models
         // items: authorizationsByResource()
@@ -25,7 +25,7 @@ export function authorizations(state = initialState, action) {
     default:
       return state
   }
-
+/*
   function authorizationsByResource() {
     let result = []
     action.models.forEach(model => {
@@ -36,8 +36,8 @@ export function authorizations(state = initialState, action) {
         allowsDelete: model.operations.includes('D')
       }
     })
-    localStorage.setItem('authorizations', result)
+    //localStorage.setItem('authorizations', result)
     return result;
   }
-
+*/
 }

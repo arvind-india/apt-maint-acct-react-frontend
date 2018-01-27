@@ -5,7 +5,7 @@ import { Table } from 'reactstrap'
 import { Router } from 'react-router-dom'
 
 import {
-//  MdAdd,
+  MdAdd,
   MdVisibility,
   MdDelete
 } from 'react-icons/lib/md' // material design icons
@@ -38,10 +38,14 @@ class RolesPage extends React.Component {
     this.props.dispatch(actions.getAll()) // get list after deletion of a model
   }
   showList(models){
-    const { user } = this.props
-    console.log('user in roles page: ', user)
+    const { authzn } = this.props
+    console.log('authzn in roles page: ', authzn)
+/*    console.log('user in roles page: ', user)
     let userInStorage = JSON.parse(localStorage.getItem('user'))
     console.log('user in storage: ', userInStorage)
+    let authzns = sessionStorage.getItem('authorizations')
+    console.log('authorizations in localStorage: ', authzns)
+    console.log('localStorage keys', localStorage.keys) */
     let newModel = {
       model: {
         id: 0,
@@ -50,10 +54,10 @@ class RolesPage extends React.Component {
         description: ''
       }
     }
-    let addLink = ''
-/*    let addLink = authzn.allowsCreate ?
+//    let addLink = ''
+    let addLink = authzn.allowsCreate ?
       <Link to={{ pathname: `${url}/0`, state: newModel }} title="Add"><MdAdd/></Link> :
-      '' */
+      ''
     return <Table>
       <thead>
         <tr>
@@ -75,12 +79,13 @@ class RolesPage extends React.Component {
             <td>
               <Link
                 to={{ pathname: `${url}/${model.id}`, state:{model: model} }}
-                title="View or Edit"
+                title={authzn.allowsEdit?"Edit":"View"}
               ><MdVisibility/></Link>
               <Button
                 color="link"
                 title="Delete"
                 onClick={() => this.handleDeleteModel(model.id)}
+                hidden={!authzn.allowsDelete}
               ><MdDelete color="red"/></Button>
             </td>
           </tr>)}
@@ -110,14 +115,14 @@ class RolesPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { roles, authentication, alert, authorizations } = state
-  const { user } = authentication
-
+  const { roles, alert, authorizations } = state
+//  const { user } = authentication
+  const authzn = authorizations.roles
   return {
-    user,
+//    user,
     roles,
     alert,
-    authorizations
+    authzn
   }
 }
 

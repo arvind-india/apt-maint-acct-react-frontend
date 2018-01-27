@@ -35,7 +35,7 @@ function login(username, password) {
 function logout() {
   // remove user from local storage to log user out
   localStorage.removeItem('user')
-  localStorage.removeItem('authorizations')
+  sessionStorage.removeItem('authorizations')
 }
 
 function getAll() {
@@ -84,19 +84,24 @@ function getAllPermissions(loginResponse) {
 }
 
 function handleAllPermissionsResponse(response) {
-  console.log('handling Reponses...')
+  console.log('handling all Permissions Reponses...')
   console.log(response)
   if(!response.data) {
     return Promise.reject(response.statusText)
   }
-  return response.data
-  // let authzns = authorizationsByResource(response.data)
-  // localStorage.setItem('authorizations', JSON.stringify(authzns))
-  // return authzns
+  //return response.data
+   //let authzns = authorizationsByResource(response.data)
+   //console.log('authzns: ', authzns)
+   // console.log('stringify authzns: ', JSON.stringify(authzns))
+   //sessionStorage.setItem('authorizations', JSON.stringify(authzns))
+   //localStorage.setItem('authorizations', authzns)
+   //localStorage.setItem('authorizations', 'mohan')
+   //return authzns
+  return authorizationsByResource(response.data)
 }
-/*
+
 function authorizationsByResource(models) {
-  let result = []
+  let result = {}
   models.forEach(model => {
     result[model.resource] = {
       allowsAdd: model.operations.includes('C'),
@@ -105,9 +110,10 @@ function authorizationsByResource(models) {
       allowsDelete: model.operations.includes('D')
     }
   })
+  sessionStorage.setItem('authorizations', JSON.stringify(result))
   return result;
 }
-*/
+
 
 function handleLoginResponse(response) {
   // login successful if there's a jwt token in the response
