@@ -1,4 +1,5 @@
 import axios from 'axios'
+import jwtDecode from 'jwt-decode'
 
 export const userService = {
   login,
@@ -11,23 +12,56 @@ export const userService = {
   delete: _delete,
   getAllPermissions
 }
-let user = JSON.parse(sessionStorage.getItem('user'))
+// let user = JSON.parse(sessionStorage.getItem('user'))
 let url = '/users'
+// if jwt token is available, set it for authorization
+/*
+if(user && user.id_token) {
+  console.log('passing jwt token: ', user)
+  console.log('decoded passing jwt: ', jwtDecode(user.id_token))
+  // instance.defaults.headers.common['Authorization'] = user.id_token
+  //instance.defaults.headers.common['x-access-token'] = user.id_token
+  axios.defaults.headers.common['x-access-token'] = user.id_token
+}
+*/
+/*
+let user = JSON.parse(sessionStorage.getItem('user'))
 let instance = axios.create({
   baseURL: process.env.REACT_APP_API_URL+'/api',
   timeout: 1000,
-  headers: { 'Content-Type': 'application/json' }
-})
-// if jwt token is available, set it for authorization
-if(user && user.id_token) {
-  console.log('passing jwt token: ', user)
-  // instance.defaults.headers.common['Authorization'] = user.id_token
-  instance.defaults.headers.common['x-access-token'] = user.id_token
+  headers: {
+    'Content-Type': 'application/json',
+    'x-access-token': user?user.id_token:null
+  }
+}) */
+function instance() {
+  let user = JSON.parse(sessionStorage.getItem('user'))
+
+  let axiosinstance = axios.create({
+    baseURL: process.env.REACT_APP_API_URL+'/api',
+    timeout: 1000,
+    headers: {
+      'Content-Type': 'application/json',
+      'x-access-token': user?user.id_token:null
+    }
+  })
+/*
+  console.log('setting user token: ', user)
+
+  // axiosinstance.defaults.headers.common['Authorization'] = user.id_token
+  //axiosinstance.defaults.headers.common['x-access-token'] = user.id_token
+  if(user) {
+    console.log('decoded passing jwt: ', jwtDecode(user.id_token))
+    axiosinstance.defaults.headers.common['x-access-token'] = user.id_token
+  } else {
+    axiosinstance.defaults.headers.common['x-access-token'] = null
+  } */
+  return axiosinstance
 }
 
 function login(username, password) {
   let data = { email: username, password: password }
-  return instance.post('/login', data)
+  return instance().post('/login', data)
     .then(handleLoginResponse)
     .catch(handleError)
 }
@@ -39,46 +73,47 @@ function logout() {
 }
 
 function getAll() {
-  return instance.get(url)
+  return instance().get(url)
     .then(handleResponse)
     .catch(handleError)
 }
 
 function getById(id) {
-  return instance.get(url+'/' + id)
+  return instance().get(url+'/' + id)
     .then(handleResponse)
     .catch(handleError)
 }
 
 function register(model) {
-  return instance.post(url, model)
+  return instance().post(url, model)
     .then(handleResponse)
     .catch(handleError)
 }
 
 function update(model) {
-  return instance.put(url+'/'+model.id, model)
+  return instance().put(url+'/'+model.id, model)
     .then(handleResponse)
     .catch(handleError)
 }
 
 function add(model) {
   console.log('user service add model: ', model)
-  return instance.post(url, model)
+  return instance().post(url, model)
     .then(handleResponse)
     .catch(handleError)
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
 function _delete(id) {
-  return instance.delete(url+'/'+id)
+  return instance().delete(url+'/'+id)
     .then(handleResponse)
     .catch(handleError)
 }
 
 function getAllPermissions(loginResponse) {
+  //setToken()
   console.log('user service >> getAllPermissions()...')
-  return instance.get(url+'/allpermissions')
+  return instance().get(url+'/allpermissions')
     .then(handleAllPermissionsResponse)
     .catch(handleError)
 }

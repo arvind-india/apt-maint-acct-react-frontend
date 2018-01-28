@@ -26,12 +26,28 @@ class HomePage extends React.Component {
       // if token is about to expire in the next 30 seconds...
       return moment.unix(tokenExpiration) - moment(Date.now()) < 30
   }
+  showDecodedJWT(token) {
+    let jwtDecodedToken = jwtDecode(token)
+    return <div>
+      <p>User Details:</p>
+      <p>Id: {jwtDecodedToken.id}</p>
+      <p>Name: {jwtDecodedToken.name}</p>
+      <p>First Name: {jwtDecodedToken.first_name}</p>
+      <p>Last Name: {jwtDecodedToken.last_name}</p>
+      <p>Email: {jwtDecodedToken.email}</p>
+    </div>
+  }
   render() {
     const { user, alert } = this.props
+    if(user) {
+      let jwtDecodedToken = jwtDecode(user.id_token)
+      console.log('jwtDecodedToken: ', jwtDecodedToken)
+    }
     return (
       <div>
         <h2>Welcome to Account Tracking Website</h2>
         {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
+        {user && this.showDecodedJWT(user.id_token)}
         <p>
           {user
             ?<Button color="danger" onClick={this.handleLogout}>Logout</Button>
