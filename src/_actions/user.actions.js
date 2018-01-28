@@ -25,7 +25,6 @@ function login(username, password) {
           history.push('/')
           dispatch(alertActions.success('Welcome to Apartment Maintenance Tracking Application'))
           dispatch(authzn.getAll()) // get all authorizations/permissions for this logged user
-          //service.getAllPermissions()
         },
         error => {
           dispatch(failure(error.response))
@@ -119,9 +118,7 @@ function getById(id) {
       )
   }
   function request(id) { return { type: constants.GETBYID_REQUEST, id } }
-  function success(model) {
-    console.log('user details in action file: ', model)
-    return { type: constants.GETBYID_SUCCESS, model } }
+  function success(model) { return { type: constants.GETBYID_SUCCESS, model } }
   function failure(id, error) { return { type: constants.GETBYID_FAILURE, id, error } }
 }
 

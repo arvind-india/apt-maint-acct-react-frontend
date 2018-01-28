@@ -7,7 +7,6 @@ export function userDetails(state = {}, action) {
         loading: true
       }
     case constants.GETBYID_SUCCESS:
-      console.log('Get By ID success: ', action)
       return {
         data: action.model
       }
@@ -20,7 +19,6 @@ export function userDetails(state = {}, action) {
         loading: true
       }
     case constants.UPDATE_SUCCESS:
-      console.log('User Change Request success: ', action)
       return {
         data: action.model
       }

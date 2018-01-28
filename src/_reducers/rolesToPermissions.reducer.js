@@ -25,7 +25,6 @@ export function rolesToPermissions(state = {}, action) {
       }
 
     case constants.UPDATEMYPERMISSIONS_SUCCESS:
-      // return state   // update just returns a message, not an updated permissions
       return {
         items: action.models
       }

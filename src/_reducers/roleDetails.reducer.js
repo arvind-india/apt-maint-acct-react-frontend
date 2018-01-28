@@ -7,7 +7,6 @@ export function roleDetails(state = {}, action) {
         loading: true
       }
     case constants.GETBYID_SUCCESS:
-      console.log('Get By ID success: ', action)
       return {
         data: action.model
       }
@@ -20,7 +19,6 @@ export function roleDetails(state = {}, action) {
         loading: true
       }
     case constants.UPDATE_SUCCESS:
-      console.log('Role Update Request success: ', action)
       return {
         data: action.model
       }
@@ -33,7 +31,6 @@ export function roleDetails(state = {}, action) {
         loading: true
       }
     case constants.ADD_SUCCESS:
-      console.log('Role Add Request success: ', action)
       return {
         data: action.model
       }
