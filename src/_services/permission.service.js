@@ -7,7 +7,7 @@ export const permissionService = {
   add,
   delete: _delete
 }
-let user = JSON.parse(localStorage.getItem('user'))
+let user = JSON.parse(sessionStorage.getItem('user'))
 let url = '/permissions'
 let instance = axios.create({
   baseURL: process.env.REACT_APP_API_URL+'/api',

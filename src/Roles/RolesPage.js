@@ -20,6 +20,7 @@ import { roleActions as actions } from '../_actions'
 import { RoleDetailsPage as detailsPage } from './RoleDetailsPage'
 
 let url = '/roles'
+let module = 'roles' // module name
 
 class RolesPage extends React.Component {
 
@@ -40,12 +41,6 @@ class RolesPage extends React.Component {
   showList(models){
     const { authzn } = this.props
     console.log('authzn in roles page: ', authzn)
-/*    console.log('user in roles page: ', user)
-    let userInStorage = JSON.parse(localStorage.getItem('user'))
-    console.log('user in storage: ', userInStorage)
-    let authzns = sessionStorage.getItem('authorizations')
-    console.log('authorizations in localStorage: ', authzns)
-    console.log('localStorage keys', localStorage.keys) */
     let newModel = {
       model: {
         id: 0,
@@ -54,8 +49,7 @@ class RolesPage extends React.Component {
         description: ''
       }
     }
-//    let addLink = ''
-    let addLink = authzn.allowsCreate ?
+    let addLink = authzn.allowsAdd ?
       <Link to={{ pathname: `${url}/0`, state: newModel }} title="Add"><MdAdd/></Link> :
       ''
     return <Table>
@@ -95,7 +89,7 @@ class RolesPage extends React.Component {
 
   render() {
     console.log('Props in RolesPage: ', this.props)
-    const {  roles, alert } = this.props
+    const {  roles, alert, authzn } = this.props
     let models = roles
     return (
       <div>
@@ -103,7 +97,7 @@ class RolesPage extends React.Component {
         {alert.message && <FlashMessage text={alert.message} delay={5000}/>}
         {models.loading && <em>Loading models...}</em>}
         {models.error && <span className="text-danger">ERROR: {models.error}</span>}
-        {models.items && this.showList(models) }
+        {models.items && authzn && this.showList(models) }
         <Router history={history}>
           <div>
             <PrivateRoute path={`${url}/:id`} component={detailsPage} />
@@ -117,7 +111,7 @@ class RolesPage extends React.Component {
 function mapStateToProps(state) {
   const { roles, alert, authorizations } = state
 //  const { user } = authentication
-  const authzn = authorizations.roles
+  const authzn = authorizations[module]
   return {
 //    user,
     roles,

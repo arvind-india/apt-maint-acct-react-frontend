@@ -12,7 +12,7 @@ export const PrivateRoute = ({ component: Component, ...rest }) => (
 )
 
 function validToken() {
-  let user = localStorage.getItem('user')
+  let user = sessionStorage.getItem('user')
   let userp = JSON.parse(user)
   if(!userp) {
     return false; // no user in local storage, so return false

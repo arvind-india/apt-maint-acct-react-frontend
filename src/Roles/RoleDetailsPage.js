@@ -16,6 +16,7 @@ import {
 
 import { roleActions as actions, alertActions } from '../_actions'
 
+let module = 'roles' // module name
 
 class RoleDetailsPage extends React.Component {
 
@@ -189,11 +190,11 @@ class RoleDetailsPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { roles, authentication, alert, authorizations } = state
-  const { user } = authentication
-  const authzn = authorizations.roles
+  const { roles, alert, authorizations } = state
+//  const { user } = authentication
+  const authzn = authorizations[module]
   return {
-    user,
+//    user,
     roles,
     alert,
     authzn

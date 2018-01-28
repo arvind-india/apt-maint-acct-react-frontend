@@ -1,7 +1,7 @@
 import { authorizationConstants as constants } from '../_constants'
 
 let authzns = JSON.parse(sessionStorage.getItem('authorizations'))
-console.log('authzns from localStorage: ', authzns)
+console.log('authzns from sessionStorage: ', authzns)
 const initialState = authzns ? authzns : {}
 
 export function authorizations(state = initialState, action) {

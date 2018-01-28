@@ -18,6 +18,8 @@ import {
 import { permissionActions as actions, alertActions } from '../_actions'
 import { MODULES } from '../_constants'
 
+let module = 'permissions' // module name
+
 class PermissionDetailsPage extends React.Component {
 
   constructor(props) {
@@ -135,6 +137,7 @@ class PermissionDetailsPage extends React.Component {
     )
   }
   show(){
+    const { authzn } = this.props
     let title = this.state.adding?'Add':'View or Edit'
     return <Form onSubmit={this.handleSubmit} className="grid-form">
       <fieldset>
@@ -151,7 +154,7 @@ class PermissionDetailsPage extends React.Component {
         </div>
       </fieldset>
       <br/>
-      <Button type="submit" color="primary">Save</Button>
+      <Button type="submit" color="primary" hidden={!authzn.allowsEdit}>Save</Button>
       <Button color="link"><Link to="/permissions">Cancel</Link></Button>
     </Form>
   }
@@ -260,11 +263,13 @@ class PermissionDetailsPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { authentication, alert } = state
-  const { user } = authentication
+  const { alert, authorizations } = state
+//  const { user } = authentication
+  const authzn = authorizations[module]
   return {
-    user,
-    alert
+//    user,
+    alert,
+    authzn
   }
 }
 

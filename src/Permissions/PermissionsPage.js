@@ -20,6 +20,7 @@ import { permissionActions as actions } from '../_actions'
 import { PermissionDetailsPage as detailsPage } from './PermissionDetailsPage'
 
 let url = '/permissions'
+let module = 'permissions'
 
 class PermissionsPage extends React.Component {
 
@@ -38,6 +39,8 @@ class PermissionsPage extends React.Component {
     this.props.dispatch(actions.getAll()) // get list after deletion of a model
   }
   showList(models){
+    const { authzn } = this.props
+
     let newModel = {
       model: {
         id: 0,
@@ -45,6 +48,9 @@ class PermissionsPage extends React.Component {
         description: ''
       }
     }
+    let addLink = authzn.allowsAdd ?
+      <Link to={{ pathname: `${url}/0`, state: newModel }} title="Add"><MdAdd/></Link> :
+      ''
     return <Table>
       <thead>
         <tr>
@@ -53,11 +59,7 @@ class PermissionsPage extends React.Component {
           <th>Resource</th>
           <th>Conditions</th>
           <th>Description</th>
-          <th>Actions <Link
-                        to={{ pathname: `${url}/0`, state: newModel }}
-                        title="Add"
-                        ><MdAdd/></Link>
-          </th>
+          <th>Actions {addLink}</th>
         </tr>
       </thead>
       <tbody>
@@ -71,12 +73,13 @@ class PermissionsPage extends React.Component {
             <td>
               <Link
                 to={{ pathname: `${url}/${model.id}`, state:{model: model} }}
-                title="View or Edit"
+                title={authzn.allowsEdit?"Edit":"View"}
               ><MdVisibility/></Link>
               <Button
                 color="link"
                 title="Delete"
                 onClick={() => this.handleDeleteModel(model.id)}
+                hidden={!authzn.allowsDelete}
               ><MdDelete color="red"/></Button>
             </td>
           </tr>)}
@@ -86,7 +89,7 @@ class PermissionsPage extends React.Component {
 
   render() {
     console.log('Props in PermissionsPage: ', this.props)
-    const { permissions, alert } = this.props
+    const { permissions, alert, authzn } = this.props
     let models = permissions
     return (
       <div>
@@ -94,7 +97,7 @@ class PermissionsPage extends React.Component {
         {alert.message && <FlashMessage text={alert.message} delay={5000}/>}
         {models.loading && <em>Loading models...}</em>}
         {models.error && <span className="text-danger">ERROR: {models.error}</span>}
-        {models.items && this.showList(models) }
+        {models.items && authzn && this.showList(models) }
         <Router history={history}>
           <div>
             <PrivateRoute path={`${url}/:id`} component={detailsPage} />
@@ -106,12 +109,14 @@ class PermissionsPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { permissions, authentication, alert } = state
-  const { user } = authentication
+  const { permissions, alert, authorizations } = state
+  // const { user } = authentication
+  const authzn = authorizations[module]
   return {
-    user,
+//    user,
     permissions,
-    alert
+    alert,
+    authzn
   }
 }
 

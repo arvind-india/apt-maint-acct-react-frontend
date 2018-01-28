@@ -1,5 +1,4 @@
-// Modules or Resource names
-
+// Modules or Resource names as array
 export const MODULES = [
   { label: 'ACCOUNT', name: 'accounts', isAdmin: false }, // isAdmin indicates whether it is visible only to Admin user
   { label: 'ACCOUNT_SUMMARY', name: 'account-summary', isAdmin: false },

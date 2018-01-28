@@ -11,7 +11,7 @@ export const userService = {
   delete: _delete,
   getAllPermissions
 }
-let user = JSON.parse(localStorage.getItem('user'))
+let user = JSON.parse(sessionStorage.getItem('user'))
 let url = '/users'
 let instance = axios.create({
   baseURL: process.env.REACT_APP_API_URL+'/api',
@@ -34,7 +34,7 @@ function login(username, password) {
 
 function logout() {
   // remove user from local storage to log user out
-  localStorage.removeItem('user')
+  sessionStorage.removeItem('user')
   sessionStorage.removeItem('authorizations')
 }
 
@@ -119,7 +119,7 @@ function handleLoginResponse(response) {
   // login successful if there's a jwt token in the response
   if(response.data && response.data.id_token) {
     // store user details and jwt token in local storage to keep user logged in between page refreshes
-    localStorage.setItem('user', JSON.stringify(response.data))
+    sessionStorage.setItem('user', JSON.stringify(response.data))
   }
   return response.data
 }
@@ -135,5 +135,6 @@ function handleResponse(response) {
 function handleError(error) {
   console.log('error occurred...')
   console.log(error)
-  return Promise.reject(error)
+  // return Promise.reject(error)
+  return error
 }
