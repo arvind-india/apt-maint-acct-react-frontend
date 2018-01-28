@@ -15,6 +15,8 @@ import {
 
 import { userActions as actions, alertActions } from '../_actions'
 
+let module = 'users' // module name
+
 
 class UserDetailsPage extends React.Component {
 
@@ -242,7 +244,9 @@ class UserDetailsPage extends React.Component {
    }
 
   show(data){
-    let title = this.state.adding?'Add':'View or Edit'
+    const { adding } = this.state
+    const { authzn } = this.props
+    let title = adding?'Add':authzn.allowsEdit?'Edit':'View'
     let infosObj = this.arrToObj(data.infos)
     return <Form onSubmit={this.handleSubmit} className="grid-form">
       <fieldset>
@@ -275,7 +279,7 @@ class UserDetailsPage extends React.Component {
         </div>
       </fieldset>
       <br/>
-      <Button type="submit" color="primary">Save</Button>
+      <Button type="submit" color="primary" hidden={!authzn.allowsEdit}>Save</Button>
       <Button color="link"><Link to="/users">Cancel</Link></Button>
     </Form>
   }
@@ -509,12 +513,14 @@ class UserDetailsPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { userDetails, authentication, alert } = state
-  const { user } = authentication
+  const { userDetails, alert, authorizations } = state
+//  const { user } = authentication
+  const authzn = authorizations[module]
   return {
-    user,
+//    user,
     userDetails,
-    alert
+    alert,
+    authzn
   }
 }
 

@@ -7,6 +7,7 @@ import { Router } from 'react-router-dom'
 import {
   MdAdd,
   MdVisibility,
+  MdEdit,
   MdDelete
 } from 'react-icons/lib/md' // material design icons
 
@@ -74,7 +75,7 @@ class PermissionsPage extends React.Component {
               <Link
                 to={{ pathname: `${url}/${model.id}`, state:{model: model} }}
                 title={authzn.allowsEdit?"Edit":"View"}
-              ><MdVisibility/></Link>
+              >{authzn.allowsEdit?<MdEdit/>:<MdVisibility/>}</Link>
               <Button
                 color="link"
                 title="Delete"

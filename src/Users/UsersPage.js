@@ -7,6 +7,7 @@ import { Router } from 'react-router-dom'
 import {
   MdAdd,
   MdVisibility,
+  MdEdit,
   MdDelete
 } from 'react-icons/lib/md' // material design icons
 
@@ -20,6 +21,7 @@ import { userActions as actions } from '../_actions'
 import { UserDetailsPage as detailsPage } from './UserDetailsPage'
 
 let url = '/users'
+let module = 'users' // module name
 
 class UsersPage extends React.Component {
 
@@ -38,6 +40,19 @@ class UsersPage extends React.Component {
     this.props.dispatch(actions.getAll()) // get list after deletion of a model
   }
   showList(models){
+    const { authzn } = this.props
+    let newModel = {
+      model: {
+        id: 0,
+        name: '',
+        first_name:'',
+        last_name: '',
+        email: ''
+      }
+    }
+    let addLink = authzn.allowsAdd ?
+      <Link to={{ pathname: `${url}/0`, state: newModel }} title="Add"><MdAdd/></Link> :
+      ''
     return <Table>
       <thead>
         <tr>
@@ -45,7 +60,7 @@ class UsersPage extends React.Component {
           <th>Username</th>
           <th>First Name</th>
           <th>Email</th>
-          <th>Actions <Link to={`${url}/0`} title="Add"><MdAdd/></Link></th>
+          <th>Actions {addLink}</th>
         </tr>
       </thead>
       <tbody>
@@ -57,13 +72,14 @@ class UsersPage extends React.Component {
             <td>{model.email}</td>
             <td>
               <Link
-                to={`${url}/${model.id}`}
-                title="View or Edit"
-              ><MdVisibility/></Link>
+                to={{ pathname: `${url}/${model.id}`, state:{model: model} }}
+                title={authzn.allowsEdit?"Edit":"View"}
+              >{authzn.allowsEdit?<MdEdit/>:<MdVisibility/>}</Link>
               <Button
                 color="link"
                 title="Delete"
                 onClick={() => this.handleDeleteModel(model.id)}
+                hidden={!authzn.allowsDelete}
               ><MdDelete color="red"/></Button>
             </td>
           </tr>)}
@@ -72,7 +88,7 @@ class UsersPage extends React.Component {
   }
 
   render() {
-    const { users, alert } = this.props
+    const { users, alert, authzn } = this.props
     let models = users
     return (
       <div>
@@ -80,7 +96,7 @@ class UsersPage extends React.Component {
         {alert.message && <FlashMessage text={alert.message} delay={5000}/>}
         {models.loading && <em>Loading models...}</em>}
         {models.error && <span className="text-danger">ERROR: {models.error}</span>}
-        {models.items && this.showList(models) }
+        {models.items && authzn && this.showList(models) }
         <Router history={history}>
           <div>
             <PrivateRoute path={`${url}/:id`} component={detailsPage} />
@@ -92,12 +108,14 @@ class UsersPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { users, authentication, alert } = state
-  const { user } = authentication
+  const { users, alert, authorizations } = state
+//  const { user } = authentication
+  const authzn = authorizations[module]
   return {
-    user,
+//    user,
     users,
-    alert
+    alert,
+    authzn
   }
 }
 

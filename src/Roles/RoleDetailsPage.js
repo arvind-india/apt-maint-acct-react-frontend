@@ -53,8 +53,10 @@ class RoleDetailsPage extends React.Component {
     )
   }
   show(){
+    const { adding } = this.state
     const { authzn } = this.props
-    let title = this.state.adding?'Add':'View or Edit'
+    let title = adding?'Add':authzn.allowsEdit?'Edit':'View'
+
     return <Form onSubmit={this.handleSubmit} className="grid-form">
       <fieldset>
   			<legend>{title}</legend>

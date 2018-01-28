@@ -7,6 +7,7 @@ import { Router } from 'react-router-dom'
 import {
   MdAdd,
   MdVisibility,
+  MdEdit,
   MdDelete
 } from 'react-icons/lib/md' // material design icons
 
@@ -59,8 +60,7 @@ class RolesPage extends React.Component {
           <th>Role Name</th>
           <th>Description</th>
           <th>Inherits</th>
-          <th>Actions {addLink}
-          </th>
+          <th>Actions {addLink}</th>
         </tr>
       </thead>
       <tbody>
@@ -74,7 +74,7 @@ class RolesPage extends React.Component {
               <Link
                 to={{ pathname: `${url}/${model.id}`, state:{model: model} }}
                 title={authzn.allowsEdit?"Edit":"View"}
-              ><MdVisibility/></Link>
+              >{authzn.allowsEdit?<MdEdit/>:<MdVisibility/>}</Link>
               <Button
                 color="link"
                 title="Delete"
