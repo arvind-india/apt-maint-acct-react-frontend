@@ -95,7 +95,7 @@ class UserDetailsPage extends React.Component {
     this.setState({ submitted: true })
 
     const { model, infos, password, confirmPassword } = this.state
-    const { dispatch, userDetails } = this.props
+    const { dispatch } = this.props
 
     let infosArray = this.objToArr(infos)
 
@@ -173,14 +173,12 @@ class UserDetailsPage extends React.Component {
   }
 
   render() {
-    const { userDetails, alert } = this.props
+    const { alert } = this.props
     return (
       <div>
         <h2>User Details</h2>
         {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
-        {userDetails.loading && <em>Loading user details...}</em>}
-        {userDetails.error && <span className="text-danger">{userDetails.error}</span>}
-        {userDetails.data && this.show(userDetails.data)}
+        {this.show()}
       </div>
     )
   }
@@ -212,39 +210,38 @@ class UserDetailsPage extends React.Component {
      return arr
    }
 
-  show(data){
+  show(){
     const { adding } = this.state
     const { authzn } = this.props
     let title = adding?'Add':authzn.allowsEdit?'Edit':'View'
-    let infosObj = this.arrToObj(data.infos)
     return <Form onSubmit={this.handleSubmit} className="grid-form">
       <fieldset>
   			<legend>{title}</legend>
         <div data-row-span="1">
-          {this.showUsername(data)}
+          {this.showUsername()}
         </div>
         <div data-row-span="2">
-          {this.showFlatNumber(infosObj)}
-          {this.showResidentType(infosObj)}
+          {this.showFlatNumber()}
+          {this.showResidentType()}
         </div>
         <div data-row-span="2">
-          {this.showFirstName(data)}
-          {this.showLastName(data)}
+          {this.showFirstName()}
+          {this.showLastName()}
         </div>
         <div data-row-span="2">
-          {this.showEmail(data)}
+          {this.showEmail()}
           {this.showPassword()}
         </div>
         <div data-row-span="2">
-          {this.showOtherEmails(infosObj)}
-          {this.showMobileNumbers(infosObj)}
+          {this.showOtherEmails()}
+          {this.showMobileNumbers()}
         </div>
         <div data-row-span="2">
-          {this.show2WheelerNumbers(infosObj)}
-          {this.show4WheelerNumbers(infosObj)}
+          {this.show2WheelerNumbers()}
+          {this.show4WheelerNumbers()}
         </div>
         <div data-row-span="1">
-          {this.showEmergencyContacts(infosObj)}
+          {this.showEmergencyContacts()}
         </div>
       </fieldset>
       <br/>
@@ -253,7 +250,7 @@ class UserDetailsPage extends React.Component {
     </Form>
   }
 
-  showUsername(data) {
+  showUsername() {
     const { submitted, model } = this.state // mModel is modified user
     return <div data-field-span="1">
 				<Label>Username</Label>
@@ -269,8 +266,8 @@ class UserDetailsPage extends React.Component {
         && <FormText color="danger">User Name is required</FormText>}
 			</div>
   }
-  showFlatNumber(infos0) {
-    const { model, infos } = this.state
+  showFlatNumber() {
+    const { infos } = this.state
     let value = infos && infos.flatNumber?infos.flatNumber:''
     return <div data-field-span="1">
         <Label>Flat/Apartment Number</Label>
@@ -284,8 +281,8 @@ class UserDetailsPage extends React.Component {
         />
       </div>
   }
-  showResidentType(infos0) {
-    const { mResidentType, model, infos } = this.state
+  showResidentType() {
+    const { infos } = this.state
     let rtype = infos && infos.residentType?infos.residentType:''
 
     return <div data-field-span="1">
@@ -325,7 +322,7 @@ class UserDetailsPage extends React.Component {
         </FormGroup>
       </div>
   }
-  showFirstName(data) {
+  showFirstName() {
     const { submitted, model } = this.state // mser is modified user
     return <div data-field-span="1">
         <Label>FirstName</Label>
@@ -342,7 +339,7 @@ class UserDetailsPage extends React.Component {
         && <FormText color="danger">First Name is required</FormText>}
       </div>
   }
-  showLastName(data) {
+  showLastName() {
     const { submitted, model } = this.state // mser is modified user
     return <div data-field-span="1">
         <Label>LastName</Label>
@@ -359,7 +356,7 @@ class UserDetailsPage extends React.Component {
         && <FormText color="danger">Last Name is required</FormText>}
       </div>
   }
-  showEmail(data){
+  showEmail(){
     const { submitted, model } = this.state // mser is modified user
     return <div data-field-span="1">
         <Label>email</Label>
@@ -406,8 +403,8 @@ class UserDetailsPage extends React.Component {
       }
     </div>
   }
-  showOtherEmails(infos0){
-    const { model, infos } = this.state
+  showOtherEmails(){
+    const { infos } = this.state
     let value = infos && infos.otherEmails?infos.otherEmails:''
     return <div data-field-span="1">
         <Label>Other email-ids</Label>
@@ -423,8 +420,8 @@ class UserDetailsPage extends React.Component {
         />
       </div>
   }
-  showMobileNumbers(infos0) {
-    const { model, infos } = this.state
+  showMobileNumbers() {
+    const { infos } = this.state
     let value = infos && infos.cellNumbers?infos.cellNumbers:''
     return <div data-field-span="1">
       <Label>Cell/Mobile/Landline Numbers</Label>
@@ -440,8 +437,8 @@ class UserDetailsPage extends React.Component {
       />
     </div>
   }
-  show2WheelerNumbers(infos0) {
-    const { model, infos } = this.state
+  show2WheelerNumbers() {
+    const { infos } = this.state
     let value = infos && infos.twoWheelers?infos.twoWheelers:''
     return <div data-field-span="1">
       <Label>Regn No. of 2-wheeler(s) parked</Label>
@@ -457,8 +454,8 @@ class UserDetailsPage extends React.Component {
       />
     </div>
   }
-  show4WheelerNumbers(infos0) {
-    const { model, infos } = this.state
+  show4WheelerNumbers() {
+    const { infos } = this.state
     let value = infos && infos.fourWheelers?infos.fourWheelers:''
     return <div data-field-span="1">
       <Label>Regn No. of 4-wheeler(s) parked</Label>
@@ -474,8 +471,8 @@ class UserDetailsPage extends React.Component {
       />
     </div>
   }
-  showEmergencyContacts(infos0) {
-    const { model, infos } = this.state
+  showEmergencyContacts() {
+    const { infos } = this.state
     let value = infos && infos.emergencyContacts?infos.emergencyContacts:''
     return <div data-field-span="1">
       <Label>Emergency Contact Details</Label>
@@ -495,12 +492,12 @@ class UserDetailsPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { userDetails, alert, authorizations } = state
+  const { alert, authorizations } = state
 //  const { user } = authentication
   const authzn = authorizations[module]
   return {
 //    user,
-    userDetails,
+//    userDetails,
     alert,
     authzn
   }

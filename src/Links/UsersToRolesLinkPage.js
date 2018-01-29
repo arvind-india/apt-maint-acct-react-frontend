@@ -17,12 +17,12 @@ import {
 } from 'reactstrap'
 
 import { FlashMessage } from '../_components'
-import { roleActions,  permissionActions } from '../_actions'
+import { userActions, roleActions } from '../_actions'
 
-let module = 'roles-permissions' // module name
+let module = 'users-roles' // module name
 
 
-class RolesToPermissionsLinkPage extends React.Component {
+class UsersToRolesLinkPage extends React.Component {
 
   constructor(props) {
     super(props)
@@ -39,15 +39,15 @@ class RolesToPermissionsLinkPage extends React.Component {
   }
 
   componentDidMount() {
+    this.props.dispatch(userActions.getAll())
     this.props.dispatch(roleActions.getAll())
-    this.props.dispatch(permissionActions.getAll())
   }
 
   render() {
     const { alert } = this.props
     return (
       <div>
-        <h3>Roles To Permissions Link</h3>
+        <h3>Users To Roles Link</h3>
         {alert.message && <FlashMessage text={alert.message} delay={5000}/>}
         {this.show()}
       </div>
@@ -63,9 +63,9 @@ class RolesToPermissionsLinkPage extends React.Component {
   }
 
   showLeftList() {
-    const { roles } = this.props
+    const { users } = this.props
     return <div>
-      <Label for="leftItem" className="llabel">Select a Role</Label>
+      <Label for="leftItem" className="llabel">Select an User</Label>
       <Input
         type="select"
         name="leftItem"
@@ -74,7 +74,7 @@ class RolesToPermissionsLinkPage extends React.Component {
         className="lselect"
         onChange={this.handleChangeInLeftList}
       >
-      { roles.items && roles.items.map(each =>
+      { users.items && users.items.map(each =>
         <option value={each.id} title={each.description} key={each.id}
           >{each.name}</option>)
       }
