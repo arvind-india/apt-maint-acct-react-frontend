@@ -34,8 +34,6 @@ class UsersPage extends React.Component {
     this.props.dispatch(actions.getAll())
   }
   handleDeleteModel(id) {
-    console.log('Deleting User with id: ', id)
-    //return (e) => this.props.dispatch(actions.delete(id))
     this.props.dispatch(actions.delete(id))
     this.props.dispatch(actions.getAll()) // get list after deletion of a model
   }
