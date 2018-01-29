@@ -1,9 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-//import { Table, Alert, UncontrolledAlert } from 'reactstrap'
-//import { Router, Route } from 'react-router-dom'
-
 import {
     Input,
     Label
@@ -11,11 +8,6 @@ import {
 
 import {
   MdHome,
-  //MdAdd,
-  //MdVisibility,
-  //MdDelete,
-  //MdContentCut,
-  //MdAttachment,
   MdThumbUp,
   MdThumbDown
 } from 'react-icons/lib/md' // material design icons
@@ -24,12 +16,9 @@ import {
   Button
 } from 'reactstrap'
 
-//import { history } from '../_helpers'
 import { FlashMessage } from '../_components'
 import { roleActions,  permissionActions } from '../_actions'
 
-
-//let url = '/rolesToPermissions'
 
 class RolesToPermissionsLinkPage extends React.Component {
 
@@ -53,7 +42,6 @@ class RolesToPermissionsLinkPage extends React.Component {
   }
 
   render() {
-    console.log('Props in RolesToPermissionsLinkPage: ', this.props)
     const { alert } = this.props
     return (
       <div>
@@ -74,7 +62,6 @@ class RolesToPermissionsLinkPage extends React.Component {
 
   showLeftList() {
     const { roles } = this.props
-//    console.log('Roles: ', roles)
     return <div>
       <Label for="leftItem" className="llabel">Select a Role</Label>
       <Input
@@ -96,7 +83,6 @@ class RolesToPermissionsLinkPage extends React.Component {
 
   handleChangeInLeftList(event) {
     const { value } = event.target
-//    console.log('Left list name: ', name); console.log('Left list value: ', value)
     this.setState({
       selectedOptionInLeftList: value
     })
@@ -106,7 +92,6 @@ class RolesToPermissionsLinkPage extends React.Component {
   showAttachedList() {
     const { rolesToPermissions, authzn } = this.props
     const { selectedOptionInLeftList, selectedOptionsInAList } = this.state
-// console.log('rolesToPermissions: ', rolesToPermissions)
     return <div>
       <Label
         for="attachedItems"
@@ -146,20 +131,19 @@ class RolesToPermissionsLinkPage extends React.Component {
   detachItems() {
     const { dispatch, rolesToPermissions } = this.props
     const { selectedOptionsInAList, selectedOptionInLeftList } = this.state
-//    console.log('selected options: ', selectedOptionsInAList)
+
     let id = selectedOptionInLeftList
     let ids_toBeRemoved = selectedOptionsInAList.map(e => e.value)
     let ids = rolesToPermissions.items.map(e => e.id.toString())
     let ids_toBeRetained = ids.filter(each => !ids_toBeRemoved.includes(each))
-//    console.log('role id: ', id); console.log('all ids: ', ids);
-//    console.log('toBeRemoved: ',ids_toBeRemoved);console.log('toBeRetained: ', ids_toBeRetained)
+
     dispatch(roleActions.updateMyPermissions(id, ids_toBeRetained))
     this.setState({ selectedOptionsInAList: [] })
   }
   showDetachedList() {
     const { rolesToPermissions, permissions, authzn } = this.props
     const { selectedOptionInLeftList, selectedOptionsInDList } = this.state
-//    console.log('Available permissions: ', permissions)
+
     let available = [];
     let grantedIDs = []
     if(rolesToPermissions.items) {
@@ -209,20 +193,16 @@ class RolesToPermissionsLinkPage extends React.Component {
   attachItems() {
     const { dispatch, rolesToPermissions } = this.props
     const { selectedOptionsInDList, selectedOptionInLeftList } = this.state
-//    console.log('selected options: ', selectedOptionsInDList)
+
     let id = selectedOptionInLeftList
     let ids = rolesToPermissions.items.map(e => e.id)
     let ids_toBeAdded = selectedOptionsInDList.map(e => e.value)
     let new_ids = ids.concat(ids_toBeAdded)
-    console.log('role id: ', id);
-    console.log('existing perms ids: ', ids);
-    console.log('permissions ids to be added: ', ids_toBeAdded);
-    console.log('new_ids: ', new_ids)
+
     dispatch(roleActions.updateMyPermissions(id, new_ids))
     this.setState({ selectedOptionsInDList: [] })
   }
 }
-
 
 function mapStateToProps(state) {
   const { authentication, alert, roles, rolesToPermissions, permissions, authorizations } = state

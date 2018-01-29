@@ -1,5 +1,4 @@
 import React from 'react'
-//import { Redirect } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import Select from 'react-select';
@@ -11,8 +10,6 @@ import {
     FormText,
     Input,
     Label,
-//    Col,
-//    FormFeedback
 } from 'reactstrap'
 
 import { permissionActions as actions, alertActions } from '../_actions'
