@@ -47,7 +47,8 @@ class UsersPage extends React.Component {
         name: '',
         first_name:'',
         last_name: '',
-        email: ''
+        email: '',
+        infos: []
       }
     }
     let addLink = authzn.allowsAdd ?
@@ -90,6 +91,7 @@ class UsersPage extends React.Component {
   render() {
     const { users, alert, authzn } = this.props
     let models = users
+    console.log('Users: ', users)
     return (
       <div>
         <h3>Users List</h3>
