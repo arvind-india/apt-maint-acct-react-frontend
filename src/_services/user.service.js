@@ -53,7 +53,8 @@ function getMyRoles(id) {
 }
 
 function updateMyRoles(id, attachedIds) {
-  let data = { 'myroleIds': attachedIds };
+  let data = { 'myrolesIds': attachedIds };
+  console.log('user.service >> updateMyRoles: ', attachedIds)
   return http().put(url + '/myroles/' + id, data)
     .then(handleResponse)
     .catch(this.handleError);
