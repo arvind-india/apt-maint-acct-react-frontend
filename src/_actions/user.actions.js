@@ -10,7 +10,9 @@ export const userActions = {
   getAll,
   delete: _delete,
   getById,
-  saveChanges
+  saveChanges,
+  getMyRoles,
+  updateMyRoles
 }
 
 function login(username, password) {
@@ -107,7 +109,6 @@ function _delete(id) {
   function failure(id, error) { return { type: constants.DELETE_FAILURE, id, error } }
 }
 
-
 function getById(id) {
   return dispatch => {
     dispatch(request(id))
@@ -121,6 +122,37 @@ function getById(id) {
   function success(model) { return { type: constants.GETBYID_SUCCESS, model } }
   function failure(id, error) { return { type: constants.GETBYID_FAILURE, id, error } }
 }
+
+function getMyRoles(id) {
+  return dispatch => {
+    dispatch(request(id))
+    service.getMyRoles(id)
+      .then(
+        model => dispatch(success(model)),
+        error => dispatch(failure(error+' in get (my) roles for userID '+id))
+      )
+  }
+  function request(id) { return { type: constants.GETMYROLES_REQUEST, id } }
+  function success(models) { return { type: constants.GETMYROLES_SUCCESS, models } }
+  function failure(id, error) { return { type: constants.GETMYROLES_FAILURE, id, error } }
+}
+
+function updateMyRoles(id, attachedIds) {
+  return dispatch => {
+    dispatch(request(id))
+    service.updateMyRoles(id, attachedIds)
+      .then(
+        models => dispatch(success(models)),
+        error => dispatch(failure(error
+                    +' in updating (my) roles for userID '+id
+                    +' with role ids: '+attachedIds))
+      )
+  }
+  function request(id) { return { type: constants.UPDATEMYROLES_REQUEST, id } }
+  function success(models) { return { type: constants.UPDATEMYROLES_SUCCESS, models } }
+  function failure(id, error) { return { type: constants.UPDATEMYROLES_FAILURE, id, error } }
+}
+
 
 function saveChanges(model) {
   if(model.id === 0) {

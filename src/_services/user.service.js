@@ -10,7 +10,9 @@ export const userService = {
   update,
   add,
   delete: _delete,
-  getAllPermissions
+  getAllPermissions,
+  getMyRoles,
+  updateMyRoles
 }
 
 let url = '/users'
@@ -43,6 +45,20 @@ function getById(id) {
     .then(handleResponse)
     .catch(handleError)
 }
+
+function getMyRoles(id) {
+  return http().get(url + '/myroles/' + id)
+    .then(handleResponse)
+    .catch(this.handleError);
+}
+
+function updateMyRoles(id, attachedIds) {
+  let data = { 'myroleIds': attachedIds };
+  return http().put(url + '/myroles/' + id, data)
+    .then(handleResponse)
+    .catch(this.handleError);
+}
+
 
 function register(model) {
   return http().post(url, model)

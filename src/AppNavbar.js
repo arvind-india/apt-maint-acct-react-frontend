@@ -99,6 +99,9 @@ class AppNavbar extends React.Component {
                 <DropdownItem>
                   <NavLink href="/users"><MdGroup /> Users</NavLink>
                 </DropdownItem>
+                <DropdownItem>
+                  <NavLink href="/usersToRoles"><MdAttachment/> Users-Roles</NavLink>
+                </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem>Reset</DropdownItem>
               </DropdownMenu>
