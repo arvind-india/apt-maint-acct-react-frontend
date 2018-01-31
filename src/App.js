@@ -11,6 +11,7 @@ import { PrivateRoute } from './_components'
 import { HomePage } from './Home'
 import { LoginPage } from './Login'
 import { RegisterPage } from './Register'
+import { FlatsPage, FlatDetailsPage } from './Flats'
 import { RolesPage, RoleDetailsPage } from './Roles'
 import { PermissionsPage, PermissionDetailsPage } from './Permissions'
 import { RolesToPermissionsLinkPage } from './Links'
@@ -38,6 +39,10 @@ class App extends Component {
             <Route path="/home" component={HomePage} />
             <Route path="/login" component={LoginPage} />
             <Route path="/register" component={RegisterPage} />
+            <Switch>
+              <PrivateRoute path="/flats/:id" component={FlatDetailsPage} />
+              <PrivateRoute path="/flats" component={FlatsPage} />
+            </Switch>
             <Switch>
               <PrivateRoute path="/roles/:id" component={RoleDetailsPage} />
               <PrivateRoute path="/roles" component={RolesPage} />

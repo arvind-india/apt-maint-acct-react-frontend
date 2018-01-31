@@ -114,7 +114,7 @@ class FlatDetailsPage extends React.Component {
     </Form>
   }
   showBlockNumber() {
-    const { model } = this.state
+    const { submitted, model } = this.state
     return <div data-field-span="1">
 				<Label>Block Number</Label>
         <Input

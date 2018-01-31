@@ -88,6 +88,10 @@ class AppNavbar extends React.Component {
               </DropdownToggle>
               <DropdownMenu>
                 <DropdownItem>
+                  <NavLink href="/flats"><MdVpnKey/> Flats</NavLink>
+                </DropdownItem>
+                <DropdownItem divider />
+                <DropdownItem>
                   <NavLink href="/roles"><MdVpnKey/> Roles</NavLink>
                 </DropdownItem>
                 <DropdownItem>
