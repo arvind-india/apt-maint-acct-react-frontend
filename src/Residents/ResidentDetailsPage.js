@@ -12,12 +12,12 @@ import {
     Label,
 } from 'reactstrap'
 
-import { flatActions as actions, alertActions } from '../_actions'
+import { residentActions as actions, alertActions } from '../_actions'
 //import { MODULES } from '../_constants'
 
 let module = 'flats' // module name
 
-class FlatDetailsPage extends React.Component {
+class ResidentDetailsPage extends React.Component {
 
   constructor(props) {
     super(props)
@@ -26,8 +26,12 @@ class FlatDetailsPage extends React.Component {
 //    let ops = model.operations?model.operations:''
     let initializeModel = {
       id: model.id,
-      block_number: model.block_number,
-      flat_number: model.flat_number
+      owner_id: model.owner_id,
+      first_name: model.first_name,
+      last_name: model.last_name,
+      is_a: model.is_a,
+      occupied_on: model.occupied_on,
+      vacated_on: model.vacated_on
     }
     this.state = {
       model: initializeModel,           // model to edit
@@ -90,7 +94,7 @@ class FlatDetailsPage extends React.Component {
     const { alert } = this.props
     return (
       <div>
-        <h2>Flat Details</h2>
+        <h2>Resident Details</h2>
         {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
         {this.show()}
       </div>
@@ -104,16 +108,20 @@ class FlatDetailsPage extends React.Component {
       <fieldset>
   			<legend>{title}</legend>
         <div data-row-span="2">
-          {this.showBlockNumber()}
-          {this.showFlatNumber()}
+          {this.showUserName()}
+          {this.showFirstName()}
+          {this.showLastName()}
+          {this.showResidentTypeIsA()}
+          {this.showOccupiedOn()}
+          {this.showVacatedOn()}
         </div>
       </fieldset>
       <br/>
       <Button type="submit" color="primary" hidden={!authzn.allowsEdit}>Save</Button>
-      <Button color="link"><Link to="/flats">Cancel</Link></Button>
+      <Button color="link"><Link to="/residents">Cancel</Link></Button>
     </Form>
   }
-  showBlockNumber() {
+  showUserName() {
     const { submitted, model } = this.state
     return <div data-field-span="1">
 				<Label>Block Number</Label>
@@ -130,7 +138,7 @@ class FlatDetailsPage extends React.Component {
           && <FormText color="danger">Block Number is required</FormText>}
 			</div>
   }
-  showFlatNumber() {
+  showFirstName() {
     const { submitted, model } = this.state
     return <div data-field-span="1">
 				<Label>Flat Number</Label>
