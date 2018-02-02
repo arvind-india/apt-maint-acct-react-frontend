@@ -73,6 +73,7 @@ class ResidentsPage extends React.Component {
         {models.items.map((model, index) =>
           <tr key={model.id}>
             <th scope="row">{index+1}</th>
+            <td>{model.owner_id}</td>
             <td>{model.first_name}</td>
             <td>{model.last_name}</td>
             <td>{model.is_a}</td>

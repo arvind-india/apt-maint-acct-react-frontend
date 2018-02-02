@@ -28,7 +28,9 @@ import {
   MdInfoOutline,
   MdPersonAdd,
   MdLock,
-  MdAttachment
+  MdAttachment,
+  MdLocationCity,
+  MdAccountCircle
 } from 'react-icons/lib/md' // material design icons
 
 import { userActions } from './_actions'
@@ -88,9 +90,14 @@ class AppNavbar extends React.Component {
               </DropdownToggle>
               <DropdownMenu>
                 <DropdownItem>
-                  <NavLink href="/flats"><MdVpnKey/> Flats</NavLink>
+                  <NavLink href="/residents"><MdAccountCircle/> Residents</NavLink>
                 </DropdownItem>
+                <DropdownItem>
+                  <NavLink href="/flats"><MdLocationCity/> Flats</NavLink>
+                </DropdownItem>
+
                 <DropdownItem divider />
+
                 <DropdownItem>
                   <NavLink href="/roles"><MdVpnKey/> Roles</NavLink>
                 </DropdownItem>
@@ -106,7 +113,9 @@ class AppNavbar extends React.Component {
                 <DropdownItem>
                   <NavLink href="/usersToRoles"><MdAttachment/> Users-Roles</NavLink>
                 </DropdownItem>
+
                 <DropdownItem divider />
+
                 <DropdownItem>Reset</DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>

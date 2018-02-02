@@ -189,7 +189,7 @@ class ResidentDetailsPage extends React.Component {
 			</div>
   }
   showOccupiedOn() {
-    const { submitted, model } = this.state
+    const { model } = this.state
     return <div data-field-span="1">
 				<Label>Occupied On</Label>
         <Input
@@ -203,7 +203,7 @@ class ResidentDetailsPage extends React.Component {
 			</div>
   }
   showVacatedOn() {
-    const { submitted, model } = this.state
+    const { model } = this.state
     return <div data-field-span="1">
 				<Label>Vacated On</Label>
         <Input
