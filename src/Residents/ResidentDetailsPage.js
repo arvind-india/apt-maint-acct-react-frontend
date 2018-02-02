@@ -15,7 +15,7 @@ import {
 import { residentActions as actions, alertActions } from '../_actions'
 //import { MODULES } from '../_constants'
 
-let module = 'flats' // module name
+let module = 'residents' // module name
 
 class ResidentDetailsPage extends React.Component {
 
@@ -59,10 +59,12 @@ class ResidentDetailsPage extends React.Component {
     }
   }
 
-  canBeSaved() { // check for changes in mModel, if changes present, it can save
+  canBeSaved() { // check for changes in model, if changes present, it can save
     const { model } = this.state
-    if (!model.block_number) return false // no block_number selected, if so, cannot save changes
-    if (!model.flat_number) return false // no flat_number entered, if so, cannot save changes
+    if (!model.owner_id) return false
+    if (!model.first_name) return false
+    if (!model.last_name) return false
+    if (!model.is_a) return false
     return true // can save changes
   }
   changedProps() {
@@ -71,7 +73,7 @@ class ResidentDetailsPage extends React.Component {
     let modelDB = location.state.model
     let props = []
 
-    // check for changes in mModel props
+    // check for changes in model props
     for(const prop in model) {
       if( prop === 'id') continue // exclude 'id' from comparision
       if(modelDB[prop] !== model[prop]) { // if data is changed wrt data in database
@@ -124,36 +126,97 @@ class ResidentDetailsPage extends React.Component {
   showUserName() {
     const { submitted, model } = this.state
     return <div data-field-span="1">
-				<Label>Block Number</Label>
+				<Label>User Name</Label>
         <Input
           type="text"
-          name="block_number"
-          value={model.block_number}
-          placeholder="<block number here>"
-          title="Block Number"
+          name="owner_id"
+          value={model.owner_id}
+          placeholder="<user name here>"
+          title="User Name"
           className="inputField"
           onChange={this.handleChange}
         />
-        {submitted && !model.block_number
-          && <FormText color="danger">Block Number is required</FormText>}
+        {submitted && !model.owner_id
+          && <FormText color="danger">User Name is required</FormText>}
 			</div>
   }
   showFirstName() {
     const { submitted, model } = this.state
     return <div data-field-span="1">
-				<Label>Flat Number</Label>
+				<Label>First Name</Label>
         <Input
           type="text"
-          name="flat_number"
-          value={model.flat_number}
-          placeholder="Description here"
+          name="first_name"
+          value={model.first_name}
+          placeholder="First Name here"
           className="inputField"
           onChange={this.handleChange}
         />
-        {submitted && !model.flat_number
-          && <FormText color="danger">Flat Number is required</FormText>}
+        {submitted && !model.first_name
+          && <FormText color="danger">First Name is required</FormText>}
 			</div>
   }
+  showLastName() {
+    const { submitted, model } = this.state
+    return <div data-field-span="1">
+				<Label>Last Name</Label>
+        <Input
+          type="text"
+          name="last_name"
+          value={model.last_name}
+          placeholder="Last Name here"
+          className="inputField"
+          onChange={this.handleChange}
+        />
+        {submitted && !model.last_name
+          && <FormText color="danger">Last Name is required</FormText>}
+			</div>
+  }
+  showResidentTypeIsA() {
+    const { submitted, model } = this.state
+    return <div data-field-span="1">
+				<Label>Resident Type</Label>
+        <Input
+          type="text"
+          name="is_a"
+          value={model.is_a}
+          placeholder="Resident Type here"
+          className="inputField"
+          onChange={this.handleChange}
+        />
+        {submitted && !model.is_a
+          && <FormText color="danger">Resident Type is required</FormText>}
+			</div>
+  }
+  showOccupiedOn() {
+    const { submitted, model } = this.state
+    return <div data-field-span="1">
+				<Label>Occupied On</Label>
+        <Input
+          type="text"
+          name="occupied_on"
+          value={model.occupied_on}
+          placeholder="Date of occupation of premise"
+          className="inputField"
+          onChange={this.handleChange}
+        />
+			</div>
+  }
+  showVacatedOn() {
+    const { submitted, model } = this.state
+    return <div data-field-span="1">
+				<Label>Vacated On</Label>
+        <Input
+          type="text"
+          name="vacated_on"
+          value={model.vacated_on}
+          placeholder="Date of vacation of premise"
+          className="inputField"
+          onChange={this.handleChange}
+        />
+			</div>
+  }
+
 }
 
 function mapStateToProps(state) {
@@ -167,5 +230,5 @@ function mapStateToProps(state) {
   }
 }
 
-const connectedDetailsPage = connect(mapStateToProps)(FlatDetailsPage)
-export { connectedDetailsPage as FlatDetailsPage }
+const connectedDetailsPage = connect(mapStateToProps)(ResidentDetailsPage)
+export { connectedDetailsPage as ResidentDetailsPage }
