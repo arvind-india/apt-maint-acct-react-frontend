@@ -17,7 +17,7 @@ import {
 
 import { history } from '../_helpers'
 import { PrivateRoute, FlashMessage } from '../_components'
-import { residentActions as actions } from '../_actions'
+import { residentActions as actions, userActions } from '../_actions'
 import { ResidentDetailsPage as detailsPage } from './ResidentDetailsPage'
 
 let url = '/residents'
@@ -32,6 +32,7 @@ class ResidentsPage extends React.Component {
 
   componentDidMount() {
     this.props.dispatch(actions.getAll())
+    this.props.dispatch(userActions.getAll())
   }
   handleDeleteModel(id) {
     console.log('Deleting Resident with id: ', id)
@@ -39,8 +40,14 @@ class ResidentsPage extends React.Component {
     this.props.dispatch(actions.delete(id))
     this.props.dispatch(actions.getAll()) // get list after deletion of a model
   }
-  showList(models){
-    const { authzn } = this.props
+  showList(){
+    const { authzn, residents, users } = this.props
+    let models = residents
+    // make userId -> name array
+    let userNames = []
+    console.log('users : ', users)
+    users.items.forEach(each => userNames[each.id] = each.name)
+    console.log('userNames: ', userNames)
 
     let newModel = {
       model: {
@@ -73,7 +80,7 @@ class ResidentsPage extends React.Component {
         {models.items.map((model, index) =>
           <tr key={model.id}>
             <th scope="row">{index+1}</th>
-            <td>{model.owner_id}</td>
+            <td>{userNames[model.owner_id]}</td>
             <td>{model.first_name}</td>
             <td>{model.last_name}</td>
             <td>{model.is_a}</td>
@@ -98,15 +105,13 @@ class ResidentsPage extends React.Component {
 
   render() {
     console.log('Props in ResidentsPage: ', this.props)
-    const { residents, alert, authzn } = this.props
+    const { residents, alert, authzn, users } = this.props
     let models = residents
     return (
       <div>
         <h3>Residents List</h3>
         {alert.message && <FlashMessage text={alert.message} delay={5000}/>}
-        {models.loading && <em>Loading models...}</em>}
-        {models.error && <span className="text-danger">ERROR: {models.error}</span>}
-        {models.items && authzn && this.showList(models) }
+        {models.items && authzn && users.items && this.showList() }
         <Router history={history}>
           <div>
             <PrivateRoute path={`${url}/:id`} component={detailsPage} />
@@ -118,14 +123,15 @@ class ResidentsPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { residents, alert, authorizations } = state
+  const { residents, alert, authorizations, users } = state
   // const { user } = authentication
   const authzn = authorizations[module]
   return {
 //    user,
     residents,
     alert,
-    authzn
+    authzn,
+    users
   }
 }
 
