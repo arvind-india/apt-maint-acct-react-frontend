@@ -95,6 +95,9 @@ class AppNavbar extends React.Component {
                 <DropdownItem>
                   <NavLink href="/flats"><MdLocationCity/> Flats</NavLink>
                 </DropdownItem>
+                <DropdownItem>
+                  <NavLink href="/flatstoresidents"><MdAttachment/> Flats-Residents</NavLink>
+                </DropdownItem>
 
                 <DropdownItem divider />
 

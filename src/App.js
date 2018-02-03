@@ -13,6 +13,7 @@ import { LoginPage } from './Login'
 import { RegisterPage } from './Register'
 import { ResidentsPage, ResidentDetailsPage } from './Residents'
 import { FlatsPage, FlatDetailsPage } from './Flats'
+import { FlatsToResidentsLinkPage } from './Links'
 import { RolesPage, RoleDetailsPage } from './Roles'
 import { PermissionsPage, PermissionDetailsPage } from './Permissions'
 import { RolesToPermissionsLinkPage } from './Links'
@@ -48,6 +49,7 @@ class App extends Component {
               <PrivateRoute path="/flats/:id" component={FlatDetailsPage} />
               <PrivateRoute path="/flats" component={FlatsPage} />
             </Switch>
+            <PrivateRoute path="/flatstoresidents" component={FlatsToResidentsLinkPage} />
             <Switch>
               <PrivateRoute path="/roles/:id" component={RoleDetailsPage} />
               <PrivateRoute path="/roles" component={RolesPage} />

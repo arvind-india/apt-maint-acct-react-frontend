@@ -48,22 +48,6 @@ class ResidentDetailsPage extends React.Component {
     this.props.dispatch(userActions.getAll())
   }
 
-  handleSubmit(event) {
-    const { model } = this.state
-    const { dispatch } = this.props
-
-    event.preventDefault()
-    this.setState({ submitted: true })
-
-    if ( this.changedProps().length === 0 ) {
-      dispatch(alertActions.error('No changes found...'))
-    } else if(this.canBeSaved()){
-      dispatch(actions.saveChanges(model))
-    } else {
-      dispatch(alertActions.error('Missing data'))
-    }
-  }
-
   canBeSaved() { // check for changes in model, if changes present, it can save
     const { model } = this.state
     if (!model.owner_id) return false
@@ -72,31 +56,7 @@ class ResidentDetailsPage extends React.Component {
     if (!model.is_a) return false
     return true // can save changes
   }
-  changedProps() {
-    const { model } = this.state
-    const { location } = this.props
-    let modelDB = location.state.model
-    let props = []
 
-    // check for changes in model props
-    for(const prop in model) {
-      if( prop === 'id') continue // exclude 'id' from comparision
-      if(modelDB[prop] !== model[prop]) { // if data is changed wrt data in database
-        props.push(prop)
-      }
-    }
-    return props;
-  }
-  handleChange(event) {
-    const { name, value } = event.target
-    const { model } = this.state
-    this.setState({
-        model: {
-          ...model,
-          [name]: value
-        }
-    })
-  }
   render() {
     const { alert, users } = this.props
     return (
@@ -132,6 +92,40 @@ class ResidentDetailsPage extends React.Component {
       <Button color="link"><Link to="/residents">Cancel</Link></Button>
     </Form>
   }
+
+  handleSubmit(event) {
+    const { model } = this.state
+    const { dispatch } = this.props
+
+    event.preventDefault()
+    this.setState({ submitted: true })
+
+    if ( this.changedProps().length === 0 ) {
+      dispatch(alertActions.error('No changes found...'))
+    } else if(this.canBeSaved()){
+console.log('Resident model to be saved: ', model)
+      dispatch(actions.saveChanges(model))
+    } else {
+      dispatch(alertActions.error('Missing data'))
+    }
+  }
+
+  changedProps() {
+    const { model } = this.state
+    const { location } = this.props
+    let modelDB = location.state.model
+    let props = []
+
+    // check for changes in model props
+    for(const prop in model) {
+      if( prop === 'id') continue // exclude 'id' from comparision
+      if(modelDB[prop] !== model[prop]) { // if data is changed wrt data in database
+        props.push(prop)
+      }
+    }
+    return props;
+  }
+
   showUserName() {
     const { submitted, model } = this.state
     const { users } = this.props
@@ -178,6 +172,18 @@ class ResidentDetailsPage extends React.Component {
           && <FormText color="danger">First Name is required</FormText>}
 			</div>
   }
+
+  handleChange(event) {
+    const { name, value } = event.target
+    const { model } = this.state
+    this.setState({
+        model: {
+          ...model,
+          [name]: value
+        }
+    })
+  }
+
   showLastName() {
     const { submitted, model } = this.state
     return <div data-field-span="1">
@@ -229,7 +235,7 @@ class ResidentDetailsPage extends React.Component {
     return <div data-field-span="1">
 				<Label>Occupied On</Label>
         <Input
-          type="text"
+          type="date"
           name="occupied_on"
           value={model.occupied_on}
           placeholder="Date of occupation of premise"
@@ -243,7 +249,7 @@ class ResidentDetailsPage extends React.Component {
     return <div data-field-span="1">
 				<Label>Vacated On</Label>
         <Input
-          type="text"
+          type="date"
           name="vacated_on"
           value={model.vacated_on}
           placeholder="Date of vacation of premise"

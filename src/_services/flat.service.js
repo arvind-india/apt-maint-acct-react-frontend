@@ -3,6 +3,8 @@ import { axiosClient } from './axios.instance'
 export const flatService = {
   getAll,
   getById,
+  getMyResidents,
+  updateMyResidents,
   update,
   add,
   delete: _delete
@@ -24,6 +26,19 @@ function getById(id) {
   return http().get(url + '/' + id)
     .then(handleResponse)
     .catch(handleError)
+}
+
+function getMyResidents(id) {
+  return http().get(url + '/myresidents/' + id)
+    .then(handleResponse)
+    .catch(this.handleError);
+}
+
+function updateMyResidents(id, attachedIds) {
+  let data = { 'myresidentsIds': attachedIds };
+  return http().put(url + '/myresidents/' + id, data)
+    .then(handleResponse)
+    .catch(this.handleError);
 }
 
 function update(model) {

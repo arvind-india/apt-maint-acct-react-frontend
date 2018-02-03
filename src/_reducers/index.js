@@ -14,6 +14,7 @@ import { roleDetails } from './roleDetails.reducer'
 import { permissions } from './permissions.reducer'
 import { permissionDetails } from './permissionDetails.reducer'
 
+import { flatsToResidents } from './flatsToResidents.reducer'
 import { rolesToPermissions } from './rolesToPermissions.reducer'
 import { usersToRoles } from './usersToRoles.reducer'
 
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
   roleDetails,
   permissions,
   permissionDetails,
+  flatsToResidents,
   rolesToPermissions,
   usersToRoles,
   flats,

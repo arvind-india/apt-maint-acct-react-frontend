@@ -7,7 +7,9 @@ export const flatActions = {
   getAll,
   delete: _delete,
   getById,
-  saveChanges
+  saveChanges,
+  getMyResidents,
+  updateMyResidents
 }
 
 function getAll() {
@@ -53,6 +55,37 @@ function getById(id) {
   function request(id) { return { type: constants.GETBYID_REQUEST, id } }
   function success(model) { return { type: constants.GETBYID_SUCCESS, model } }
   function failure(id, error) { return { type: constants.GETBYID_FAILURE, id, error } }
+}
+
+
+function getMyResidents(id) {
+  return dispatch => {
+    dispatch(request(id))
+    service.getMyResidents(id)
+      .then(
+        model => dispatch(success(model)),
+        error => dispatch(failure(error+' in get (my) residents for flatID '+id))
+      )
+  }
+  function request(id) { return { type: constants.GETMYRESIDENTS_REQUEST, id } }
+  function success(models) { return { type: constants.GETMYRESIDENTS_SUCCESS, models } }
+  function failure(id, error) { return { type: constants.GETMYRESIDENTS_FAILURE, id, error } }
+}
+
+function updateMyResidents(id, attachedIds) {
+  return dispatch => {
+    dispatch(request(id))
+    service.updateMyResidents(id, attachedIds)
+      .then(
+        models => dispatch(success(models)),
+        error => dispatch(failure(error
+                    +' in updating (my) residents for flatID '+id
+                    +' with residents ids: '+attachedIds))
+      )
+  }
+  function request(id) { return { type: constants.UPDATEMYRESIDENTS_REQUEST, id } }
+  function success(models) { return { type: constants.UPDATEMYRESIDENTS_SUCCESS, models } }
+  function failure(id, error) { return { type: constants.UPDATEMYRESIDENTS_FAILURE, id, error } }
 }
 
 function saveChanges(model) {
