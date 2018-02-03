@@ -14,6 +14,15 @@ export const MODULES = [
   { label: 'BALANCE', name: 'balance', isAdmin: false }
 ];
 
+// Resident Types as array
+export const RESIDENT_TYPES = [
+  { label: 'Owner', name: 'owner' },
+  { label: 'Tenant', name: 'tenant' },
+  { label: 'Relative', name: 'relative' },
+  { label: 'Friend', name: 'friend' },
+  { label: 'Guest', name: 'guest' }  
+]
+
 export const CATEGORIES = [
   'Electrical',
   'Garbage',
