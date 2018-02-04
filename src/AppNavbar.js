@@ -17,7 +17,8 @@ import {
 import {
   FaBuildingO,
   FaSignIn,
-  FaSignOut
+  FaSignOut,
+  FaBook
 } from 'react-icons/lib/fa' // font-awesome icons
 import {
   MdHome,
@@ -30,7 +31,10 @@ import {
   MdLock,
   MdAttachment,
   MdLocationCity,
-  MdAccountCircle
+  MdAccountCircle,
+  MdList,
+  MdFilterList,
+  MdViewHeadline
 } from 'react-icons/lib/md' // material design icons
 
 import { userActions } from './_actions'
@@ -46,43 +50,55 @@ class AppNavbar extends React.Component {
     }
     this.handleLogout = this.handleLogout.bind(this)
   }
-  handleLogout() {
-    this.props.dispatch(userActions.logout())
-    history.push('/home')
+
+  render() {
+    const { user } = this.props
+    console.log('AppNavBar User: ', user)
+    return (
+      <div>
+        <Navbar color="light" light expand="md">
+          <NavbarBrand href="/home"><FaBuildingO/> Apartment Maintenance</NavbarBrand>
+          <NavbarToggler onClick={this.toggle}/>
+          <Collapse isOpen={this.state.isOpen} navbar>
+            <Nav className="ml-auto" navbar>
+              <NavItem>
+                <NavLink href="/home"><MdHome/> Home</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink href="/about"><MdInfoOutline/> About</NavLink>
+              </NavItem>
+              {user && this.showAccounts()}
+              {user && this.showSettings()}
+              {user
+                ? this.showLogout(user)
+                : this.showLogin()}
+              {!user && this.showRegister()}
+            </Nav>
+          </Collapse>
+        </Navbar>
+      </div>
+    )
   }
-  toggle() {
-    this.setState({
-      isOpen: !this.state.isOpen
-    })
+
+  showAccounts() {
+    return  <UncontrolledDropdown nav>
+              <DropdownToggle nav caret>
+                <FaBook/> Accounts
+              </DropdownToggle>
+              <DropdownMenu>
+                <DropdownItem>
+                  <NavLink href="/fullList"><MdList/> Full View</NavLink>
+                </DropdownItem>
+                <DropdownItem>
+                  <NavLink href="/monthlyList"><MdFilterList/> Monthly View</NavLink>
+                </DropdownItem>
+                <DropdownItem>
+                  <NavLink href="/summaryList"><MdViewHeadline/> Summary View</NavLink>
+                </DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
   }
-  decode(user) {
-    if(user.id_token) console.log('JWT Token: ', jwtDecode(user.id_token))
-    return user.id_token
-      ? jwtDecode(user.id_token)
-      : {name: 'Guest!'}
-  }
-  showLogin() {
-    return <NavItem>
-              <NavLink href="/login"><FaSignIn/> Login</NavLink>
-           </NavItem>
-  }
-  showRegister() {
-    return <NavItem>
-              <NavLink href="/register"><MdPersonAdd/> Register</NavLink>
-           </NavItem>
-  }
-  showLogout(user) {
-    return <UncontrolledDropdown nav>
-            <DropdownToggle nav caret>
-              <MdPerson /> {this.decode(user).name}
-            </DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem>
-                <NavLink onClick={this.handleLogout}><FaSignOut/> Logout</NavLink>
-              </DropdownItem>
-            </DropdownMenu>
-          </UncontrolledDropdown>
-  }
+
   showSettings() {
     return  <UncontrolledDropdown nav>
               <DropdownToggle nav caret>
@@ -110,6 +126,9 @@ class AppNavbar extends React.Component {
                 <DropdownItem>
                   <NavLink href="/rolestopermissions"><MdAttachment/> Roles-Permissions</NavLink>
                 </DropdownItem>
+
+                <DropdownItem divider />
+
                 <DropdownItem>
                   <NavLink href="/users"><MdGroup /> Users</NavLink>
                 </DropdownItem>
@@ -117,39 +136,49 @@ class AppNavbar extends React.Component {
                   <NavLink href="/usersToRoles"><MdAttachment/> Users-Roles</NavLink>
                 </DropdownItem>
 
-                <DropdownItem divider />
-
-                <DropdownItem>Reset</DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
   }
-  render() {
-    const { user } = this.props
-    console.log('AppNavBar User: ', user)
-    return (
-      <div>
-        <Navbar color="light" light expand="md">
-          <NavbarBrand href="/home"><FaBuildingO /> Apartment Maintenance</NavbarBrand>
-          <NavbarToggler onClick={this.toggle}/>
-          <Collapse isOpen={this.state.isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink href="/home"><MdHome/> Home</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="/about"><MdInfoOutline/> About</NavLink>
-              </NavItem>
-              {user && this.showSettings()}
-              {user
-                ? this.showLogout(user)
-                : this.showLogin()}
-              {!user && this.showRegister()}
-            </Nav>
-          </Collapse>
-        </Navbar>
-      </div>
-    )
+
+  showLogin() {
+    return <NavItem>
+              <NavLink href="/login"><FaSignIn/> Login</NavLink>
+           </NavItem>
   }
+  showRegister() {
+    return <NavItem>
+              <NavLink href="/register"><MdPersonAdd/> Register</NavLink>
+           </NavItem>
+  }
+  showLogout(user) {
+    return <UncontrolledDropdown nav>
+            <DropdownToggle nav caret>
+              <MdPerson /> {this.decode(user).name}
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem>
+                <NavLink onClick={this.handleLogout}><FaSignOut/> Logout</NavLink>
+              </DropdownItem>
+            </DropdownMenu>
+          </UncontrolledDropdown>
+  }
+
+  handleLogout() {
+    this.props.dispatch(userActions.logout())
+    history.push('/home')
+  }
+  toggle() {
+    this.setState({
+      isOpen: !this.state.isOpen
+    })
+  }
+  decode(user) {
+    if(user.id_token) console.log('JWT Token: ', jwtDecode(user.id_token))
+    return user.id_token
+      ? jwtDecode(user.id_token)
+      : {name: 'Guest!'}
+  }
+
 }
 
 function mapStateToProps(state) {
