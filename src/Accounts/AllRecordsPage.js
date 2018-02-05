@@ -27,11 +27,20 @@ class AllRecordsPage extends React.Component {
 
   constructor(props) {
     super(props)
+    let noOfPrevMonths = 2  // by default show all records in the past 2 months
+    let year = new Date().getFullYear();
+    let month = new Date().getMonth() - noOfPrevMonths;
+    this.state = {
+      fromDate: new Date(2016, month, 1),
+      toDate: new Date()
+    }
     this.handleDeleteModel = this.handleDeleteModel.bind(this)
   }
 
   componentDidMount() {
-    this.props.dispatch(actions.getAll())
+    const { fromDate, toDate } = this.state
+    //this.props.dispatch(actions.getAll())
+    this.props.dispatch(actions.getListFor(fromDate, toDate))
     this.props.dispatch(userActions.getAll())
   }
   handleDeleteModel(id) {
@@ -45,6 +54,7 @@ class AllRecordsPage extends React.Component {
     let models = accounts
     // make userId -> name array
     let userNames = []
+    console.log('accounts models: ', models)
     console.log('users : ', users)
     users.items.forEach(each => userNames[each.id] = each.name)
     console.log('userNames: ', userNames)
@@ -107,6 +117,7 @@ class AllRecordsPage extends React.Component {
     console.log('Props in AccountsPage: ', this.props)
     const { accounts, alert, authzn, users } = this.props
     let models = accounts
+console.log('accounts models: ', models)    
     return (
       <div>
         <h3>Accounts List</h3>

@@ -19,6 +19,22 @@ export function accounts(state = {}, action) {
         error: action.error
       }
 
+    case constants.GETRANGE_REQUEST:
+      return {
+        loading: true
+      }
+
+    case constants.GETRANGE_SUCCESS:
+      return {
+        items: action.models
+      }
+
+    case constants.GETRANGE_FAILURE:
+      return {
+        error: action.error
+      }
+
+
     case constants.DELETE_REQUEST:
       // add 'deleting:true' property to model being deleted
       return {

@@ -1,7 +1,9 @@
 import { axiosClient } from './axios.instance'
+import  'url-search-params-polyfill'
 
 export const accountService = {
-  getAll,
+//  getAll,
+  getListFor,
   getById,
   update,
   add,
@@ -14,10 +16,22 @@ function http() {
   return axiosClient.instance()
 }
 
+/*
 function getAll() {
   return http().get(url)
     .then(handleResponse)
     .catch(handleError)
+}
+*/
+
+function getListFor(fromDate, toDate) {
+  let params = new URLSearchParams();
+  params.set('fromDate', fromDate.toString());
+  params.set('toDate', toDate.toString());
+  return http()
+    .get(this.modelUrl, { search: params })
+    .then(handleResponse)
+    .catch(this.handleError)
 }
 
 function getById(id) {

@@ -4,12 +4,14 @@ import { alertActions } from './'
 import { history } from '../_helpers'
 
 export const accountActions = {
-  getAll,
+//  getAll,
+  getListFor,
   delete: _delete,
   getById,
   saveChanges
 }
 
+/*
 function getAll() {
   return dispatch => {
     dispatch(request())
@@ -22,6 +24,21 @@ function getAll() {
   function request() { return { type: constants.GETALL_REQUEST } }
   function success(models) { return { type: constants.GETALL_SUCCESS, models } }
   function failure(error) { return { type: constants.GETALL_FAILURE, error } }
+}
+*/
+
+function getListFor(fromDate, toDate) {
+  return dispatch => {
+    dispatch(request())
+    service.getListFor(fromDate, toDate)
+      .then(
+        models => dispatch(success(models)),
+        error => dispatch(failure(error+' getting account models in the date range'))
+      )
+  }
+  function request() { return { type: constants.GETRANGE_REQUEST } }
+  function success(models) { return { type: constants.GETRANGE_SUCCESS, models } }
+  function failure(error) { return { type: constants.GETRANGE_FAILURE, error } }
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
