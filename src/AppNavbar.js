@@ -87,13 +87,13 @@ class AppNavbar extends React.Component {
               </DropdownToggle>
               <DropdownMenu>
                 <DropdownItem>
-                  <NavLink href="/fullList"><MdList/> Full View</NavLink>
+                  <NavLink href="/allRecords" title="Show All Accounts Records"><MdList/> All Records</NavLink>
                 </DropdownItem>
                 <DropdownItem>
-                  <NavLink href="/monthlyList"><MdFilterList/> Monthly View</NavLink>
+                  <NavLink href="/monthwiseRecords" title="Show Accounts by Month"><MdFilterList/> Records by Month</NavLink>
                 </DropdownItem>
                 <DropdownItem>
-                  <NavLink href="/summaryList"><MdViewHeadline/> Summary View</NavLink>
+                  <NavLink href="/summary" title="Show Summary of Accounts Details"><MdViewHeadline/> Summary</NavLink>
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>

@@ -24,6 +24,9 @@ import { flatDetails } from './flatDetails.reducer'
 import { residents } from './residents.reducer'
 import { residentDetails } from './residentDetails.reducer'
 
+import { accounts } from './accounts.reducer'
+import { accountDetails } from './accountDetails.reducer'
+
 const rootReducer = combineReducers({
   authentication,
   authorizations,
@@ -41,7 +44,9 @@ const rootReducer = combineReducers({
   flats,
   flatDetails,
   residents,
-  residentDetails
+  residentDetails,
+  accounts,
+  accountDetails
 })
 
 export default rootReducer
