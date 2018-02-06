@@ -25,11 +25,15 @@ function getAll() {
 */
 
 function getListFor(fromDate, toDate) {
-  let params = new URLSearchParams();
-  params.set('fromDate', fromDate.toString());
-  params.set('toDate', toDate.toString());
+
+  let urlParams = {
+                    params: {
+                      fromDate: fromDate.toString(),
+                      toDate: toDate.toString()
+                    }
+                  }
   return http()
-    .get(this.modelUrl, { search: params })
+    .get(url, urlParams)
     .then(handleResponse)
     .catch(this.handleError)
 }
