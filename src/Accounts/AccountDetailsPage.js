@@ -26,12 +26,17 @@ class AccountDetailsPage extends React.Component {
 //    let ops = model.operations?model.operations:''
     let initializeModel = {
       id: model.id,
-      owner_id: model.owner_id,
-      first_name: model.first_name,
-      last_name: model.last_name,
-      is_a: model.is_a,
-      occupied_on: model.occupied_on,
-      vacated_on: model.vacated_on
+      recorded_at: model.recorded_at,
+      item: model.item,
+      flat_number: model.flat_number,
+      name: model.name,
+      for_month: model.for_month,
+      for_year: model.for_year,
+      crdr: model.crdr,
+      amount: model.amount,
+      balance: model.balance,
+      category: model.category,
+      remarks: model.remarks
     }
     this.state = {
       model: initializeModel,           // model to edit
@@ -50,10 +55,17 @@ class AccountDetailsPage extends React.Component {
 
   canBeSaved() { // check for changes in model, if changes present, it can save
     const { model } = this.state
-    if (!model.owner_id) return false
-    if (!model.first_name) return false
-    if (!model.last_name) return false
-    if (!model.is_a) return false
+
+    if (!model.recorded_at) return false
+    if (!model.item) return false
+    if (!model.flat_number) return false
+    if (!model.name) return false
+    if (!model.for_month) return false
+    if (!model.for_year) return false
+    if (!model.crdr) return false
+    if (!model.amount) return false
+    if (!model.category) return false
+
     return true // can save changes
   }
 
@@ -75,16 +87,24 @@ class AccountDetailsPage extends React.Component {
       <fieldset>
   			<legend>{title}</legend>
         <div data-row-span="2">
-          {this.showUserName()}
-          {this.showAccountTypeIsA()}
+          {this.showRecordedAt()}
+          {this.showItem()}
+        </div>
+        <div data-row-span="1">
+          {this.showCategory()}
         </div>
         <div data-row-span="2">
-          {this.showFirstName()}
-          {this.showLastName()}
+          {this.showFlatNumber()}
+          {this.showName()}
         </div>
-        <div data-row-span="2">
-          {this.showOccupiedOn()}
-          {this.showVacatedOn()}
+        <div data-row-span="4">
+          {this.showMonth()}
+          {this.showYear()}
+          {this.showAmount()}
+          {this.showCrdr()}
+        </div>
+        <div data-row-span="1">
+          {this.showRemarks()}
         </div>
       </fieldset>
       <br/>

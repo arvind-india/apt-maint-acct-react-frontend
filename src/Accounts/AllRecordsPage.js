@@ -62,12 +62,16 @@ class AllRecordsPage extends React.Component {
     let newModel = {
       model: {
         id: 0,
-        owner_id: 0,
-        first_name:'',
-        last_name: '',
-        is_a: '',
-        occupied_on: '',
-        vacated_on: ''
+        recorded_at: 0,
+        item: '',
+        flat_number:'',
+        for_month: '',
+        for_year: '',
+        crdr: '',
+        amount: '',
+        balance: '',
+        category: '',
+        remarks: ''
       }
     }
     let addLink = authzn.allowsAdd ?
@@ -77,25 +81,31 @@ class AllRecordsPage extends React.Component {
       <thead>
         <tr>
           <th>#</th>
-          <th>User Name</th>
-    			<th>First Name</th>
-    			<th>Last Name</th>
-    			<th>Type</th>
-    			<th>Occupied On</th>
-    			<th>Vacated On</th>
+          <th>Txn Date</th>
+    			<th>Flat#</th>
+    			<th>Name</th>
+    			<th>Mth</th>
+    			<th>Yr</th>
+    			<th>Cr/Dr</th>
+          <th>Amt in &#8377;</th>
+          <th>&#8377; Balance</th>
+          <th>Category</th>
           <th>Actions {addLink}</th>
         </tr>
       </thead>
       <tbody>
         {models.items.map((model, index) =>
           <tr key={model.id}>
-            <th scope="row">{index+1}</th>
-            <td>{userNames[model.owner_id]}</td>
-            <td>{model.first_name}</td>
-            <td>{model.last_name}</td>
-            <td>{model.is_a}</td>
-            <td>{model.occupied_on}</td>
-            <td>{model.vacated_on}</td>
+            <td scope="row">{index+1}</td>
+            <td>{model.recorded_at}</td>
+            <td>{model.flat_number}</td>
+            <td>{model.name}</td>
+            <td>{model.for_month}</td>
+            <td>{model.for_year}</td>
+            <td>{model.crdr}</td>
+            <td>{model.amount}</td>
+            <td>{model.balance}</td>
+            <td>{model.category}</td>
             <td>
               <Link
                 to={{ pathname: `${url}/${model.id}`, state:{model: model} }}
@@ -117,7 +127,7 @@ class AllRecordsPage extends React.Component {
     console.log('Props in AccountsPage: ', this.props)
     const { accounts, alert, authzn, users } = this.props
     let models = accounts
-console.log('accounts models: ', models)    
+console.log('accounts models: ', models)
     return (
       <div>
         <h3>Accounts List</h3>
