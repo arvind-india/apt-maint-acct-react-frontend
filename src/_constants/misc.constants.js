@@ -20,19 +20,34 @@ export const RESIDENT_TYPES = [
   { label: 'Tenant', name: 'tenant' },
   { label: 'Relative', name: 'relative' },
   { label: 'Friend', name: 'friend' },
-  { label: 'Guest', name: 'guest' }  
+  { label: 'Guest', name: 'guest' }
 ]
 
 export const CATEGORIES = [
-  'Electrical',
-  'Garbage',
-  'Monthly Maintenance',
-  'Major Maintenance',
-  'Plumbing',
-  'Seasonal Gift',
-  'Septic Tank',
-  'Sweeping',
-  'Water Tank - Overhead',
-  'Water Tank - Sump',
-  'Others'
+  {name: 'Electrical'},
+  {name: 'Garbage'},
+  {name: 'Monthly Maintenance'},
+  {name: 'Major Maintenance'},
+  {name: 'Plumbing'},
+  {name: 'Seasonal Gift'},
+  {name: 'Septic Tank'},
+  {name: 'Sweeping'},
+  {name: 'Water Tank - Overhead'},
+  {name: 'Water Tank - Sump'},
+  {name: 'Others'}
 ];
+
+export const MONTHS = [
+  { name: 'Jan', number: 1 }
+  { name: 'Feb', number: 2 }
+  { name: 'Mar', number: 3 }
+  { name: 'Apr', number: 4 }
+  { name: 'May', number: 5 }
+  { name: 'Jun', number: 6 }
+  { name: 'Jul', number: 7 }
+  { name: 'Aug', number: 8 }
+  { name: 'Sep', number: 9 }
+  { name: 'Oct', number: 10 }
+  { name: 'Nov', number: 11 }
+  { name: 'Dec', number: 12 }
+]

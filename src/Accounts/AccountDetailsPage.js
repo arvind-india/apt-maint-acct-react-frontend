@@ -12,8 +12,13 @@ import {
     Label,
 } from 'reactstrap'
 
-import { accountActions as actions, alertActions,userActions } from '../_actions'
-import { RESIDENT_TYPES } from '../_constants'
+import { accountActions as actions,
+         alertActions,
+         userActions,
+         flatActions
+} from '../_actions'
+
+import { CATEGORIES, MONTHS } from '../_constants'
 
 let module = 'accounts' // module name
 
@@ -51,6 +56,7 @@ class AccountDetailsPage extends React.Component {
 
   componentDidMount() {
     this.props.dispatch(userActions.getAll())
+    this.props.dispatch(flatActions.getAll())
   }
 
   canBeSaved() { // check for changes in model, if changes present, it can save
@@ -58,7 +64,7 @@ class AccountDetailsPage extends React.Component {
 
     if (!model.recorded_at) return false
     if (!model.item) return false
-    if (!model.flat_number) return false
+    // if (!model.flat_number) return false
     if (!model.name) return false
     if (!model.for_month) return false
     if (!model.for_year) return false
@@ -113,6 +119,52 @@ class AccountDetailsPage extends React.Component {
     </Form>
   }
 
+  showRecordedAt() {
+    const { submitted, model } = this.state
+    return <div data-field-span="1">
+				<Label>Txn Date</Label>
+        <Input
+          type="date"
+          name="recorded_at"
+          value={model.recorded_at}
+          placeholder="Transaction Date here"
+          className="inputField"
+          onChange={this.handleChange}
+        />
+        {submitted && !model.recorded_at
+          && <FormText color="danger">Transaction date is required</FormText>}
+			</div>
+  }
+
+  handleChange(event) {
+    const { name, value } = event.target
+    const { model } = this.state
+    this.setState({
+        model: {
+          ...model,
+          [name]: value
+        }
+    })
+  }
+
+  showItem() {
+    const { submitted, model } = this.state
+    return <div data-field-span="1">
+				<Label>Item</Label>
+        <Input
+          type="text"
+          name="item"
+          value={model.item}
+          placeholder="Item details here"
+          className="inputField"
+          onChange={this.handleChange}
+        />
+        {submitted && !model.item
+          && <FormText color="danger">Item is required</FormText>}
+			</div>
+  }
+
+
   handleSubmit(event) {
     const { model } = this.state
     const { dispatch } = this.props
@@ -146,150 +198,215 @@ console.log('Account model to be saved: ', model)
     return props;
   }
 
-  showUserName() {
+  showCategory() {
     const { submitted, model } = this.state
-    const { users } = this.props
     return <div data-field-span="1">
-				<Label>User Name</Label>
+				<Label>Category</Label>
         <Select
           name="form-field-name"
-          value={model.owner_id}
+          value={model.category}
           multi={false}
           joinValues={false}
           simpleValue={true}
-          placeholder="Select User name..."
-          onChange={this.handleUserNameChange}
-          valueKey="id"
-          labelKey="name"
-          options={users.items}
-        />
-        {submitted && !model.owner_id
-          && <FormText color="danger">User Name is required</FormText>}
-			</div>
-  }
-  handleUserNameChange(selectedOption) {
-    const { model } = this.state
-    this.setState({
-      model: {
-        ...model,
-        owner_id: selectedOption
-      }
-    })
-  }
-  showFirstName() {
-    const { submitted, model } = this.state
-    return <div data-field-span="1">
-				<Label>First Name</Label>
-        <Input
-          type="text"
-          name="first_name"
-          value={model.first_name}
-          placeholder="First Name here"
-          className="inputField"
-          onChange={this.handleChange}
-        />
-        {submitted && !model.first_name
-          && <FormText color="danger">First Name is required</FormText>}
-			</div>
-  }
-
-  handleChange(event) {
-    const { name, value } = event.target
-    const { model } = this.state
-    this.setState({
-        model: {
-          ...model,
-          [name]: value
-        }
-    })
-  }
-
-  showLastName() {
-    const { submitted, model } = this.state
-    return <div data-field-span="1">
-				<Label>Last Name</Label>
-        <Input
-          type="text"
-          name="last_name"
-          value={model.last_name}
-          placeholder="Last Name here"
-          className="inputField"
-          onChange={this.handleChange}
-        />
-        {submitted && !model.last_name
-          && <FormText color="danger">Last Name is required</FormText>}
-			</div>
-  }
-  showAccountTypeIsA() {
-    const { submitted, model } = this.state
-    return <div data-field-span="1">
-				<Label>Account Type</Label>
-        <Select
-          name="form-field-name"
-          value={model.is_a}
-          multi={false}
-          joinValues={false}
-          simpleValue={true}
-          placeholder="Select Account Type..."
-          onChange={this.handleAccountTypeChange}
+          placeholder="Select Category..."
+          onChange={this.handleCategoryChange}
           valueKey="name"
-          labelKey="label"
-          options={RESIDENT_TYPES}
+          labelKey="name"
+          options={CATEGORIES}
         />
-        {submitted && !model.is_a
-          && <FormText color="danger">Account Type is required</FormText>}
+        {submitted && !model.category
+          && <FormText color="danger">Category is required</FormText>}
 			</div>
   }
-  handleAccountTypeChange(selectedOption) {
+  handleCategoryChange(selectedOption) {
     const { model } = this.state
     this.setState({
       model: {
         ...model,
-        is_a: selectedOption
+        category: selectedOption
+      }
+    })
+  }
+  showFlatNumber() {
+    const { submitted, model } = this.state
+    return <div data-field-span="1">
+				<Label>Flat Number</Label>
+        <Select
+          name="form-field-name"
+          value={model.flat_number}
+          multi={false}
+          joinValues={false}
+          simpleValue={true}
+          placeholder="Select a Flat Number..."
+          onChange={this.handleFlatChange}
+          valueKey="flat_number"
+          labelKey="flat_number"
+          options={flats}
+        />
+			</div>
+  }
+  handleFlatChange(selectedOption) {
+    const { model } = this.state
+    this.setState({
+      model: {
+        ...model,
+        flat_number: selectedOption
+      }
+    })
+  }
+  showName() {
+    const { submitted, model } = this.state
+    return <div data-field-span="1">
+				<Label>Name</Label>
+        <Input
+          type="text"
+          name="name"
+          value={model.name}
+          placeholder="Name here"
+          className="inputField"
+          onChange={this.handleChange}
+        />
+        {submitted && !model.name
+          && <FormText color="danger">Name is required</FormText>}
+			</div>
+  }
+  showMonth() {
+    const { submitted, model } = this.state
+    return <div data-field-span="1">
+				<Label>Month</Label>
+        <Select
+          name="form-field-name"
+          value={model.month}
+          multi={false}
+          joinValues={false}
+          simpleValue={true}
+          placeholder="Select a Month..."
+          onChange={this.handleMonthChange}
+          valueKey="number"
+          labelKey="name"
+          options={MONTHS}
+        />
+        {submitted && !model.month
+          && <FormText color="danger">Month is required</FormText>}
+			</div>
+  }
+  handleMonthChange(selectedOption) {
+    const { model } = this.state
+    this.setState({
+      model: {
+        ...model,
+        month: selectedOption
       }
     })
   }
 
-  showOccupiedOn() {
-    const { model } = this.state
+  showYear() {
+    const { submitted, model } = this.state
     return <div data-field-span="1">
-				<Label>Occupied On</Label>
+				<Label>Year</Label>
         <Input
-          type="date"
-          name="occupied_on"
-          value={model.occupied_on}
-          placeholder="Date of occupation of premise"
+          type="number"
+          name="year"
+          value={model.year}
+          placeholder="Year here"
           className="inputField"
+          min="2013"
+          max="2030"
           onChange={this.handleChange}
         />
+        {submitted && !model.year
+          && <FormText color="danger">Year is required</FormText>}
 			</div>
   }
-  showVacatedOn() {
-    const { model } = this.state
+
+  showAmount() {
+    const { submitted, model } = this.state
     return <div data-field-span="1">
-				<Label>Vacated On</Label>
+				<Label>Amount</Label>
         <Input
-          type="date"
-          name="vacated_on"
-          value={model.vacated_on}
-          placeholder="Date of vacation of premise"
+          type="number"
+          step="0.01"
+          name="amount"
+          value={model.amount}
+          placeholder="Amount here"
           className="inputField"
           onChange={this.handleChange}
         />
+        {submitted && !model.amount
+          && <FormText color="danger">Amount is required</FormText>}
+			</div>
+  }
+
+  showCrdr() {
+    const { submitted, model } = this.state
+    let rtype = model.crdr?model.crdr:''
+
+    return <div data-field-span="1">
+        <Label>Collection/Expenditure</Label>
+        <FormGroup check inline>
+          <Label check>
+            <Input
+              type="radio"
+              name="crdr"
+              value="cr"
+              checked={rtype === "cr"}
+              onChange={this.handleCrdrChange}
+            /> Cr
+          </Label>
+        </FormGroup>
+        <FormGroup check inline>
+          <Label check>
+            <Input
+              type="radio"
+              name="crdr"
+              value="dr"
+              checked={rtype === "dr"}
+              onChange={this.handleCrdrChange}
+            /> Dr
+          </Label>
+        </FormGroup>
+      </div>
+  }
+
+  handleCrdrChange(selectedOption) {
+    const { model } = this.state
+    this.setState({
+      model: {
+        ...model,
+        crdr: selectedOption
+      }
+    })
+  }
+
+  showRemarks() {
+    const { submitted, model } = this.state
+    return <div data-field-span="1">
+				<Label>Remarks</Label>
+        <Input
+          type="text"
+          name="remarks"
+          value={model.remarks}
+          placeholder="Remarks here"
+          className="inputField"
+          onChange={this.handleChange}
+        />
+        {submitted && !model.remarks
+          && <FormText color="danger">Remarks is required</FormText>}
 			</div>
   }
 
 }
 
 function mapStateToProps(state) {
-  const { alert, authorizations, users } = state
+  const { alert, authorizations, users, flats } = state
 //  const { user } = authentication
   const authzn = authorizations[module]
   return {
 //    user,
     alert,
     authzn,
-    users
+    users,
+    flats
   }
 }
 
