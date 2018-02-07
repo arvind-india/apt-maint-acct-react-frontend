@@ -1,2 +1,2 @@
-export * from './AllRecordsPage'
+export * from './AccountsPage'
 export * from './AccountDetailsPage'

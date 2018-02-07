@@ -23,15 +23,16 @@ import { AccountDetailsPage as detailsPage } from './AccountDetailsPage'
 let url = '/accounts'
 let module = 'accounts'
 
-class AllRecordsPage extends React.Component {
+class AccountsPage extends React.Component {
 
   constructor(props) {
     super(props)
     let noOfPrevMonths = 2  // by default show all records in the past 2 months
     let year = new Date().getFullYear();
+    year = 2016 // for testing purpose only
     let month = new Date().getMonth() - noOfPrevMonths;
     this.state = {
-      fromDate: new Date(2016, month, 1),
+      fromDate: new Date(year, month, 1),
       toDate: new Date()
     }
     this.handleDeleteModel = this.handleDeleteModel.bind(this)
@@ -96,7 +97,7 @@ class AllRecordsPage extends React.Component {
       <tbody>
         {models.items.map((model, index) =>
           <tr key={model.id}>
-            <td scope="row">{index+1}</td>
+            <td>{index+1}</td>
             <td>{model.recorded_at}</td>
             <td>{model.flat_number}</td>
             <td>{model.name}</td>
@@ -156,5 +157,5 @@ function mapStateToProps(state) {
   }
 }
 
-const connectedAllRecordsPage = connect(mapStateToProps)(AllRecordsPage)
-export { connectedAllRecordsPage as AllRecordsPage }
+const connectedAccountsPage = connect(mapStateToProps)(AccountsPage)
+export { connectedAccountsPage as AccountsPage }

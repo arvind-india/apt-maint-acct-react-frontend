@@ -6,7 +6,7 @@ import Select from 'react-select';
 import {
     Form,
     Button,
-//    FormGroup,
+    FormGroup,
     FormText,
     Input,
     Label,
@@ -14,7 +14,6 @@ import {
 
 import { accountActions as actions,
          alertActions,
-         userActions,
          flatActions
 } from '../_actions'
 
@@ -49,13 +48,17 @@ class AccountDetailsPage extends React.Component {
       adding: match.params.id === "0"
     }
     this.handleChange = this.handleChange.bind(this)
+    this.handleCategoryChange = this.handleCategoryChange.bind(this)
+    this.handleFlatChange = this.handleFlatChange.bind(this)
+    this.handleCrdrChange = this.handleCrdrChange.bind(this)
+    this.handleMonthChange = this.handleMonthChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
 
     dispatch(alertActions.clear())  // clear alert messages from other pages
   }
 
   componentDidMount() {
-    this.props.dispatch(userActions.getAll())
+    // this.props.dispatch(userActions.getAll())
     this.props.dispatch(flatActions.getAll())
   }
 
@@ -76,12 +79,12 @@ class AccountDetailsPage extends React.Component {
   }
 
   render() {
-    const { alert, users } = this.props
+    const { alert } = this.props
     return (
       <div>
         <h2>Account Details</h2>
-        {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
-        {users.items && this.show()}
+        { alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div> }
+        { this.show() }
       </div>
     )
   }
@@ -228,7 +231,8 @@ console.log('Account model to be saved: ', model)
     })
   }
   showFlatNumber() {
-    const { submitted, model } = this.state
+    const { flats } = this.props
+    const { model } = this.state
     return <div data-field-span="1">
 				<Label>Flat Number</Label>
         <Select
@@ -338,7 +342,7 @@ console.log('Account model to be saved: ', model)
   }
 
   showCrdr() {
-    const { submitted, model } = this.state
+    const { model } = this.state
     let rtype = model.crdr?model.crdr:''
 
     return <div data-field-span="1">
