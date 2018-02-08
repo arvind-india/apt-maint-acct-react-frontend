@@ -28,6 +28,7 @@ class AccountDetailsPage extends React.Component {
     const { dispatch, match, location } = props
     let model = location.state.model // model supplied from list page
 //    let ops = model.operations?model.operations:''
+console.log('Account Model: ', model)
     let initializeModel = {
       id: model.id,
       recorded_at: model.recorded_at,
@@ -50,18 +51,19 @@ class AccountDetailsPage extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleCategoryChange = this.handleCategoryChange.bind(this)
     this.handleFlatChange = this.handleFlatChange.bind(this)
-    this.handleCrdrChange = this.handleCrdrChange.bind(this)
+//    this.handleCrdrChange = this.handleCrdrChange.bind(this)
     this.handleMonthChange = this.handleMonthChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
 
+    dispatch(flatActions.getAll())
     dispatch(alertActions.clear())  // clear alert messages from other pages
   }
-
+/*
   componentDidMount() {
     // this.props.dispatch(userActions.getAll())
     this.props.dispatch(flatActions.getAll())
   }
-
+*/
   canBeSaved() { // check for changes in model, if changes present, it can save
     const { model } = this.state
 
@@ -74,6 +76,7 @@ class AccountDetailsPage extends React.Component {
     if (!model.crdr) return false
     if (!model.amount) return false
     if (!model.category) return false
+    if (!model.remarks) return false
 
     return true // can save changes
   }
@@ -233,6 +236,8 @@ console.log('Account model to be saved: ', model)
   showFlatNumber() {
     const { flats } = this.props
     const { model } = this.state
+    let options = flats.items?flats.items:[]
+
     return <div data-field-span="1">
 				<Label>Flat Number</Label>
         <Select
@@ -245,7 +250,7 @@ console.log('Account model to be saved: ', model)
           onChange={this.handleFlatChange}
           valueKey="flat_number"
           labelKey="flat_number"
-          options={flats}
+          options={options}
         />
 			</div>
   }
@@ -280,7 +285,7 @@ console.log('Account model to be saved: ', model)
 				<Label>Month</Label>
         <Select
           name="form-field-name"
-          value={model.month}
+          value={model.for_month}
           multi={false}
           joinValues={false}
           simpleValue={true}
@@ -290,7 +295,7 @@ console.log('Account model to be saved: ', model)
           labelKey="name"
           options={MONTHS}
         />
-        {submitted && !model.month
+        {submitted && !model.for_month
           && <FormText color="danger">Month is required</FormText>}
 			</div>
   }
@@ -299,7 +304,7 @@ console.log('Account model to be saved: ', model)
     this.setState({
       model: {
         ...model,
-        month: selectedOption
+        for_month: selectedOption
       }
     })
   }
@@ -310,15 +315,15 @@ console.log('Account model to be saved: ', model)
 				<Label>Year</Label>
         <Input
           type="number"
-          name="year"
-          value={model.year}
+          name="for_year"
+          value={model.for_year}
           placeholder="Year here"
           className="inputField"
           min="2013"
           max="2030"
           onChange={this.handleChange}
         />
-        {submitted && !model.year
+        {submitted && !model.for_year
           && <FormText color="danger">Year is required</FormText>}
 			</div>
   }
@@ -343,7 +348,7 @@ console.log('Account model to be saved: ', model)
 
   showCrdr() {
     const { model } = this.state
-    let rtype = model.crdr?model.crdr:''
+    let rtype = model && model.crdr?model.crdr:''
 
     return <div data-field-span="1">
         <Label>Collection/Expenditure</Label>
@@ -354,7 +359,7 @@ console.log('Account model to be saved: ', model)
               name="crdr"
               value="cr"
               checked={rtype === "cr"}
-              onChange={this.handleCrdrChange}
+              onChange={this.handleChange}
             /> Cr
           </Label>
         </FormGroup>
@@ -365,13 +370,13 @@ console.log('Account model to be saved: ', model)
               name="crdr"
               value="dr"
               checked={rtype === "dr"}
-              onChange={this.handleCrdrChange}
+              onChange={this.handleChange}
             /> Dr
           </Label>
         </FormGroup>
       </div>
   }
-
+/*
   handleCrdrChange(selectedOption) {
     const { model } = this.state
     this.setState({
@@ -381,7 +386,7 @@ console.log('Account model to be saved: ', model)
       }
     })
   }
-
+*/
   showRemarks() {
     const { submitted, model } = this.state
     return <div data-field-span="1">

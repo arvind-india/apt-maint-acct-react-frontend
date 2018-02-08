@@ -51,21 +51,22 @@ class AccountsPage extends React.Component {
     this.props.dispatch(actions.getAll()) // get list after deletion of a model
   }
   showList(){
-    const { authzn, accounts, users } = this.props
+    const { authzn, accounts } = this.props
     let models = accounts
     // make userId -> name array
-    let userNames = []
+/*    let userNames = []
     console.log('accounts models: ', models)
     console.log('users : ', users)
     users.items.forEach(each => userNames[each.id] = each.name)
     console.log('userNames: ', userNames)
-
+*/
     let newModel = {
       model: {
         id: 0,
-        recorded_at: 0,
+        recorded_at: '',
         item: '',
         flat_number:'',
+        name: '',
         for_month: '',
         for_year: '',
         crdr: '',

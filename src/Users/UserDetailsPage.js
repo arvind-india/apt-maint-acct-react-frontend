@@ -33,9 +33,9 @@ class UserDetailsPage extends React.Component {
     this.state = {
       model: initializeModel,
       infos: initializeInfos,
-      mModel: {},
-      mInfos: {},
-      mResidentType: null,
+//      mModel: {},
+//      mInfos: {},
+//      mResidentType: null,
       password: '',
       confirmPassword: '',
       passwordChanged: false,
@@ -64,13 +64,13 @@ class UserDetailsPage extends React.Component {
     let modelDB = location.state.model
     let infosDB = location.state.model.infos
     let props = []
-    // check for changes in mModel
+    // check for changes in model
     for(const prop in model) {
       if(modelDB[prop] !== model[prop]) { // if data is changed wrt data in database
         props.push(prop)
       }
     }
-    // check for changes in mInfos
+    // check for changes in infos
     for (const prop in infos) {
       if(infosDB[prop] && infosDB[prop] !== infos[prop]) {
         props.push(prop)
@@ -251,7 +251,7 @@ class UserDetailsPage extends React.Component {
   }
 
   showUsername() {
-    const { submitted, model } = this.state // mModel is modified user
+    const { submitted, model } = this.state // model is modified user
     return <div data-field-span="1">
 				<Label>Username</Label>
         <Input
