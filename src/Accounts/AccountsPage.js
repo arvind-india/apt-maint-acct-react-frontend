@@ -1,7 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Table } from 'reactstrap'
+import {
+  Table,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter
+} from 'reactstrap'
 import { Router } from 'react-router-dom'
 
 import {
@@ -32,10 +38,14 @@ class AccountsPage extends React.Component {
     year = 2016 // for testing purpose only
     let month = new Date().getMonth() - noOfPrevMonths;
     this.state = {
+      modal: false,
+      canDelete: false,
       fromDate: new Date(year, month, 1),
       toDate: new Date()
     }
     this.handleDeleteModel = this.handleDeleteModel.bind(this)
+    this.toggleModalDialog = this.toggleModalDialog.bind(this)
+    this.deleteConfirmed = this.deleteConfirmed.bind(this)
   }
 
   componentDidMount() {
@@ -44,22 +54,30 @@ class AccountsPage extends React.Component {
     this.props.dispatch(actions.getListFor(fromDate, toDate))
     this.props.dispatch(userActions.getAll())
   }
-  handleDeleteModel(id) {
-    console.log('Deleting Account with id: ', id)
-    //return (e) => this.props.dispatch(actions.delete(id))
-    this.props.dispatch(actions.delete(id))
-    this.props.dispatch(actions.getAll()) // get list after deletion of a model
+
+  render() {
+    console.log('Props in AccountsPage: ', this.props)
+    const { accounts, alert, authzn, users } = this.props
+    let models = accounts
+console.log('accounts models: ', models)
+    return (
+      <div>
+        <h3>Accounts List</h3>
+        {alert.message && <FlashMessage text={alert.message} delay={5000}/>}
+        {models.items && authzn && users.items && this.showList() }
+        <Router history={history}>
+          <div>
+            <PrivateRoute path={`${url}/:id`} component={detailsPage} />
+          </div>
+        </Router>
+        {this.setModalDialog()}
+      </div>
+    )
   }
+
   showList(){
     const { authzn, accounts } = this.props
     let models = accounts
-    // make userId -> name array
-/*    let userNames = []
-    console.log('accounts models: ', models)
-    console.log('users : ', users)
-    users.items.forEach(each => userNames[each.id] = each.name)
-    console.log('userNames: ', userNames)
-*/
     let newModel = {
       model: {
         id: 0,
@@ -108,41 +126,70 @@ class AccountsPage extends React.Component {
             <td>{model.amount}</td>
             <td>{model.balance}</td>
             <td>{model.category}</td>
-            <td>
-              <Link
-                to={{ pathname: `${url}/${model.id}`, state:{model: model} }}
-                title={authzn.allowsEdit?"Edit":"View"}
-              >{authzn.allowsEdit?<MdEdit/>:<MdVisibility/>}</Link>
-              <Button
-                color="link"
-                title="Delete"
-                onClick={() => this.handleDeleteModel(model.id)}
-                hidden={!authzn.allowsDelete}
-              ><MdDelete color="red"/></Button>
-            </td>
+            {this.showActions(model)}
           </tr>)}
       </tbody>
     </Table>
   }
 
-  render() {
-    console.log('Props in AccountsPage: ', this.props)
-    const { accounts, alert, authzn, users } = this.props
-    let models = accounts
-console.log('accounts models: ', models)
-    return (
-      <div>
-        <h3>Accounts List</h3>
-        {alert.message && <FlashMessage text={alert.message} delay={5000}/>}
-        {models.items && authzn && users.items && this.showList() }
-        <Router history={history}>
-          <div>
-            <PrivateRoute path={`${url}/:id`} component={detailsPage} />
-          </div>
-        </Router>
-      </div>
-    )
+  showActions(model) {
+    const { authzn } = this.props
+    return <td>
+            <Link
+              to={{ pathname: `${url}/${model.id}`, state:{model: model} }}
+              title={authzn.allowsEdit?"Edit":"View"}
+            >{authzn.allowsEdit?<MdEdit/>:<MdVisibility/>}</Link>
+            <Button
+              color="link"
+              title="Delete"
+              onClick={() => this.handleDeleteModel(model.id)}
+              hidden={!authzn.allowsDelete}
+            ><MdDelete color="red"/></Button>
+          </td>
   }
+
+  handleDeleteModel(id) {
+    const { fromDate, toDate } = this.state
+    console.log('Deleting Account with id: ', id)
+    this.toggleModalDialog()
+    if(this.state.canDelete){
+      console.log('Delete confirmed')
+      this.props.dispatch(actions.delete(id))
+      this.props.dispatch(actions.getListFor(fromDate, toDate))
+      this.setState({ canDelete: false })  // reset canDelete status
+    } else {
+      console.log('Delete cancelled!')
+    }
+
+/*    this.setState({
+      modal: true
+    }) */
+    // this.props.dispatch(actions.delete(id))
+  }
+
+  setModalDialog() {
+    return <Modal isOpen={this.state.modal}>
+      <ModalHeader>Confirm Delete</ModalHeader>
+      <ModalBody>
+        Are you sure to Delete this record?
+      </ModalBody>
+      <ModalFooter>
+        <Button color="primary" onClick={this.deleteConfirmed}>Yes</Button>{' '}
+        <Button color="secondary" onClick={this.toggleModalDialog}>No</Button>
+      </ModalFooter>
+    </Modal>
+  }
+  deleteConfirmed() {
+    console.log('Delete confirmed')
+    this.setState({ canDelete: true })
+    this.toggleModalDialog()
+  }
+  toggleModalDialog() {
+    this.setState({
+      modal: !this.state.modal
+    });
+  }
+
 }
 
 function mapStateToProps(state) {
