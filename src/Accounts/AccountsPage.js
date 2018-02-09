@@ -1,13 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import {
-  Table,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter
-} from 'reactstrap'
+import { Table } from 'reactstrap'
 import { Router } from 'react-router-dom'
 
 import {
@@ -44,8 +38,8 @@ class AccountsPage extends React.Component {
       toDate: new Date()
     }
     this.handleDeleteModel = this.handleDeleteModel.bind(this)
-    this.toggleModalDialog = this.toggleModalDialog.bind(this)
-    this.deleteConfirmed = this.deleteConfirmed.bind(this)
+//    this.toggleModalDialog = this.toggleModalDialog.bind(this)
+//    this.deleteConfirmed = this.deleteConfirmed.bind(this)
   }
 
   componentDidMount() {
@@ -70,15 +64,44 @@ console.log('accounts models: ', models)
             <PrivateRoute path={`${url}/:id`} component={detailsPage} />
           </div>
         </Router>
-        {this.setModalDialog()}
       </div>
     )
   }
 
   showList(){
-    const { authzn, accounts } = this.props
+    const { accounts } = this.props
     let models = accounts
-    let newModel = {
+    return <Table>
+      <thead>{ this.headerRow() }</thead>
+      <tbody>
+        { models.items.map((model, index) => this.bodyRow(model,index)) }
+      </tbody>
+    </Table>
+  }
+
+  headerRow() {
+    return <tr>
+      <th>#</th>
+      <th>Txn Date</th>
+      <th>Flat#</th>
+      <th>Name</th>
+      <th>Mth</th>
+      <th>Yr</th>
+      <th>Cr/Dr</th>
+      <th>Amt in &#8377;</th>
+      <th>&#8377; Balance</th>
+      <th>Category</th>
+      <th>Actions {this.addLink()}</th>
+    </tr>
+  }
+  addLink() {
+    const { authzn } = this.props
+    return authzn.allowsAdd ?
+      <Link to={{ pathname: `${url}/0`, state: this.newModel() }} title="Add"><MdAdd/></Link> :
+      ''
+  }
+  newModel() {
+    return {
       model: {
         id: 0,
         recorded_at: '',
@@ -94,42 +117,22 @@ console.log('accounts models: ', models)
         remarks: ''
       }
     }
-    let addLink = authzn.allowsAdd ?
-      <Link to={{ pathname: `${url}/0`, state: newModel }} title="Add"><MdAdd/></Link> :
-      ''
-    return <Table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Txn Date</th>
-    			<th>Flat#</th>
-    			<th>Name</th>
-    			<th>Mth</th>
-    			<th>Yr</th>
-    			<th>Cr/Dr</th>
-          <th>Amt in &#8377;</th>
-          <th>&#8377; Balance</th>
-          <th>Category</th>
-          <th>Actions {addLink}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {models.items.map((model, index) =>
-          <tr key={model.id}>
-            <td>{index+1}</td>
-            <td>{model.recorded_at}</td>
-            <td>{model.flat_number}</td>
-            <td>{model.name}</td>
-            <td>{model.for_month}</td>
-            <td>{model.for_year}</td>
-            <td>{model.crdr}</td>
-            <td>{model.amount}</td>
-            <td>{model.balance}</td>
-            <td>{model.category}</td>
-            {this.showActions(model)}
-          </tr>)}
-      </tbody>
-    </Table>
+  }
+
+  bodyRow(model,index) {
+    return <tr key={model.id}>
+      <td>{index+1}</td>
+      <td>{model.recorded_at}</td>
+      <td>{model.flat_number}</td>
+      <td>{model.name}</td>
+      <td>{model.for_month}</td>
+      <td>{model.for_year}</td>
+      <td>{model.crdr}</td>
+      <td>{model.amount}</td>
+      <td>{model.balance}</td>
+      <td>{model.category}</td>
+      {this.showActions(model)}
+    </tr>
   }
 
   showActions(model) {
@@ -151,43 +154,14 @@ console.log('accounts models: ', models)
   handleDeleteModel(id) {
     const { fromDate, toDate } = this.state
     console.log('Deleting Account with id: ', id)
-    this.toggleModalDialog()
-    if(this.state.canDelete){
+
+    if( window.confirm('Are you sure?') ) {
       console.log('Delete confirmed')
       this.props.dispatch(actions.delete(id))
       this.props.dispatch(actions.getListFor(fromDate, toDate))
-      this.setState({ canDelete: false })  // reset canDelete status
     } else {
       console.log('Delete cancelled!')
     }
-
-/*    this.setState({
-      modal: true
-    }) */
-    // this.props.dispatch(actions.delete(id))
-  }
-
-  setModalDialog() {
-    return <Modal isOpen={this.state.modal}>
-      <ModalHeader>Confirm Delete</ModalHeader>
-      <ModalBody>
-        Are you sure to Delete this record?
-      </ModalBody>
-      <ModalFooter>
-        <Button color="primary" onClick={this.deleteConfirmed}>Yes</Button>{' '}
-        <Button color="secondary" onClick={this.toggleModalDialog}>No</Button>
-      </ModalFooter>
-    </Modal>
-  }
-  deleteConfirmed() {
-    console.log('Delete confirmed')
-    this.setState({ canDelete: true })
-    this.toggleModalDialog()
-  }
-  toggleModalDialog() {
-    this.setState({
-      modal: !this.state.modal
-    });
   }
 
 }
