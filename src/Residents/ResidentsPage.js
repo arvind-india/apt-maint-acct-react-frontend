@@ -34,74 +34,6 @@ class ResidentsPage extends React.Component {
     this.props.dispatch(actions.getAll())
     this.props.dispatch(userActions.getAll())
   }
-  handleDeleteModel(id) {
-    console.log('Deleting Resident with id: ', id)
-    //return (e) => this.props.dispatch(actions.delete(id))
-    this.props.dispatch(actions.delete(id))
-    this.props.dispatch(actions.getAll()) // get list after deletion of a model
-  }
-  showList(){
-    const { authzn, residents, users } = this.props
-    let models = residents
-    // make userId -> name array
-    let userNames = []
-    console.log('users : ', users)
-    users.items.forEach(each => userNames[each.id] = each.name)
-    console.log('userNames: ', userNames)
-
-    let newModel = {
-      model: {
-        id: 0,
-        owner_id: 0,
-        first_name:'',
-        last_name: '',
-        is_a: '',
-        occupied_on: '',
-        vacated_on: ''
-      }
-    }
-    let addLink = authzn.allowsAdd ?
-      <Link to={{ pathname: `${url}/0`, state: newModel }} title="Add"><MdAdd/></Link> :
-      ''
-    return <Table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>User Name</th>
-    			<th>First Name</th>
-    			<th>Last Name</th>
-    			<th>Type</th>
-    			<th>Occupied On</th>
-    			<th>Vacated On</th>
-          <th>Actions {addLink}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {models.items.map((model, index) =>
-          <tr key={model.id}>
-            <th scope="row">{index+1}</th>
-            <td>{userNames[model.owner_id]}</td>
-            <td>{model.first_name}</td>
-            <td>{model.last_name}</td>
-            <td>{model.is_a}</td>
-            <td>{model.occupied_on}</td>
-            <td>{model.vacated_on}</td>
-            <td>
-              <Link
-                to={{ pathname: `${url}/${model.id}`, state:{model: model} }}
-                title={authzn.allowsEdit?"Edit":"View"}
-              >{authzn.allowsEdit?<MdEdit/>:<MdVisibility/>}</Link>
-              <Button
-                color="link"
-                title="Delete"
-                onClick={() => this.handleDeleteModel(model.id)}
-                hidden={!authzn.allowsDelete}
-              ><MdDelete color="red"/></Button>
-            </td>
-          </tr>)}
-      </tbody>
-    </Table>
-  }
 
   render() {
     console.log('Props in ResidentsPage: ', this.props)
@@ -120,6 +52,102 @@ class ResidentsPage extends React.Component {
       </div>
     )
   }
+
+/*
+  handleDeleteModel(id) {
+    console.log('Deleting Resident with id: ', id)
+    //return (e) => this.props.dispatch(actions.delete(id))
+    this.props.dispatch(actions.delete(id))
+    this.props.dispatch(actions.getAll()) // get list after deletion of a model
+  } */
+  showList(){
+    const { residents } = this.props
+    let models = residents
+    // make userId -> name array
+
+    return <Table>
+      <thead>{ this.headerRow() }</thead>
+      <tbody>
+        {models.items.map((model, index) => this.bodyRow(model, index))}
+      </tbody>
+    </Table>
+  }
+  headerRow() {
+    return <tr>
+      <th>#</th>
+      <th>User Name</th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Type</th>
+      <th>Occupied On</th>
+      <th>Vacated On</th>
+      <th>Actions {this.addLink()}</th>
+    </tr>
+  }
+  bodyRow(model, index) {
+    const { users } = this.props
+    let userNames = []
+    console.log('users : ', users)
+    users.items.forEach(each => userNames[each.id] = each.name)
+    console.log('userNames: ', userNames)
+
+    return <tr key={model.id}>
+      <th scope="row">{index+1}</th>
+      <td>{userNames[model.owner_id]}</td>
+      <td>{model.first_name}</td>
+      <td>{model.last_name}</td>
+      <td>{model.is_a}</td>
+      <td>{model.occupied_on}</td>
+      <td>{model.vacated_on}</td>
+      { this.showActions(model) }
+    </tr>
+  }
+  addLink() {
+    const { authzn } = this.props
+    return authzn.allowsAdd ?
+      <Link to={{ pathname: `${url}/0`, state: this.newModel() }} title="Add"><MdAdd/></Link> :
+      ''
+  }
+
+  newModel() {
+    return {
+      model: {
+        id: 0,
+        owner_id: 0,
+        first_name:'',
+        last_name: '',
+        is_a: '',
+        occupied_on: '',
+        vacated_on: ''
+      }
+    }
+  }
+
+  showActions(model) {
+    const { authzn } = this.props
+    return <td>
+            <Link
+              to={{ pathname: `${url}/${model.id}`, state:{model: model} }}
+              title={authzn.allowsEdit?"Edit":"View"}
+            >{authzn.allowsEdit?<MdEdit/>:<MdVisibility/>}</Link>
+            <Button
+              color="link"
+              title="Delete"
+              onClick={() => this.handleDeleteModel(model.id)}
+              hidden={!authzn.allowsDelete}
+            ><MdDelete color="red"/></Button>
+          </td>
+  }
+
+  handleDeleteModel(id) {
+    if( window.confirm('Are you sure?') ) {
+      console.log('Delete confirmed')
+      this.props.dispatch(actions.delete(id))
+      this.props.dispatch(actions.getAll()) // get list after deletion of a model
+    }
+  }
+
+
 }
 
 function mapStateToProps(state) {

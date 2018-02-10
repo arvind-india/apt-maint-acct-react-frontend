@@ -33,60 +33,6 @@ class PermissionsPage extends React.Component {
   componentDidMount() {
     this.props.dispatch(actions.getAll())
   }
-  handleDeleteModel(id) {
-    console.log('Deleting Permission with id: ', id)
-    //return (e) => this.props.dispatch(actions.delete(id))
-    this.props.dispatch(actions.delete(id))
-    this.props.dispatch(actions.getAll()) // get list after deletion of a model
-  }
-  showList(models){
-    const { authzn } = this.props
-
-    let newModel = {
-      model: {
-        id: 0,
-        condition:'',
-        description: ''
-      }
-    }
-    let addLink = authzn.allowsAdd ?
-      <Link to={{ pathname: `${url}/0`, state: newModel }} title="Add"><MdAdd/></Link> :
-      ''
-    return <Table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Operations</th>
-          <th>Resource</th>
-          <th>Conditions</th>
-          <th>Description</th>
-          <th>Actions {addLink}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {models.items.map((model, index) =>
-          <tr key={model.id}>
-            <th scope="row">{index+1}</th>
-            <td>{model.operations}</td>
-            <td>{model.resource}</td>
-            <td>{model.condition}</td>
-            <td>{model.description}</td>
-            <td>
-              <Link
-                to={{ pathname: `${url}/${model.id}`, state:{model: model} }}
-                title={authzn.allowsEdit?"Edit":"View"}
-              >{authzn.allowsEdit?<MdEdit/>:<MdVisibility/>}</Link>
-              <Button
-                color="link"
-                title="Delete"
-                onClick={() => this.handleDeleteModel(model.id)}
-                hidden={!authzn.allowsDelete}
-              ><MdDelete color="red"/></Button>
-            </td>
-          </tr>)}
-      </tbody>
-    </Table>
-  }
 
   render() {
     console.log('Props in PermissionsPage: ', this.props)
@@ -107,6 +53,82 @@ class PermissionsPage extends React.Component {
       </div>
     )
   }
+
+/*  handleDeleteModel(id) {
+    console.log('Deleting Permission with id: ', id)
+    //return (e) => this.props.dispatch(actions.delete(id))
+    this.props.dispatch(actions.delete(id))
+    this.props.dispatch(actions.getAll()) // get list after deletion of a model
+  } */
+  showList(models){
+    //const { authzn } = this.props
+    return <Table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Operations</th>
+          <th>Resource</th>
+          <th>Conditions</th>
+          <th>Description</th>
+          <th>Actions {this.addLink()}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {models.items.map((model, index) =>
+          <tr key={model.id}>
+            <th scope="row">{index+1}</th>
+            <td>{model.operations}</td>
+            <td>{model.resource}</td>
+            <td>{model.condition}</td>
+            <td>{model.description}</td>
+            { this.showActions(model) }
+          </tr>)}
+      </tbody>
+    </Table>
+  }
+
+  addLink() {
+    const { authzn } = this.props
+    return authzn.allowsAdd ?
+      <Link to={{ pathname: `${url}/0`, state: this.newModel() }} title="Add"><MdAdd/></Link> :
+      ''
+  }
+
+  newModel() {
+    return {
+      model: {
+        id: 0,
+        condition:'',
+        description: ''
+      }
+    }
+  }
+
+  showActions(model) {
+    const { authzn } = this.props
+    return <td>
+            <Link
+              to={{ pathname: `${url}/${model.id}`, state:{model: model} }}
+              title={authzn.allowsEdit?"Edit":"View"}
+            >{authzn.allowsEdit?<MdEdit/>:<MdVisibility/>}</Link>
+            <Button
+              color="link"
+              title="Delete"
+              onClick={() => this.handleDeleteModel(model.id)}
+              hidden={!authzn.allowsDelete}
+            ><MdDelete color="red"/></Button>
+          </td>
+  }
+
+  handleDeleteModel(id) {
+    if( window.confirm('Are you sure?') ) {
+      console.log('Delete confirmed')
+      this.props.dispatch(actions.delete(id))
+      this.props.dispatch(actions.getAll()) // get list after deletion of a model
+    }
+  }
+
+
 }
 
 function mapStateToProps(state) {

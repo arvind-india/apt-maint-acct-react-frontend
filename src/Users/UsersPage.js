@@ -33,58 +33,6 @@ class UsersPage extends React.Component {
   componentDidMount() {
     this.props.dispatch(actions.getAll())
   }
-  handleDeleteModel(id) {
-    this.props.dispatch(actions.delete(id))
-    this.props.dispatch(actions.getAll()) // get list after deletion of a model
-  }
-  showList(models){
-    const { authzn } = this.props
-    let newModel = {
-      model: {
-        id: 0,
-        name: '',
-        first_name:'',
-        last_name: '',
-        email: '',
-        infos: []
-      }
-    }
-    let addLink = authzn.allowsAdd ?
-      <Link to={{ pathname: `${url}/0`, state: newModel }} title="Add"><MdAdd/></Link> :
-      ''
-    return <Table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Username</th>
-          <th>First Name</th>
-          <th>Email</th>
-          <th>Actions {addLink}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {models.items.map((model, index) =>
-          <tr key={model.id}>
-            <th scope="row">{index+1}</th>
-            <td>{model.name}</td>
-            <td>{model.first_name}</td>
-            <td>{model.email}</td>
-            <td>
-              <Link
-                to={{ pathname: `${url}/${model.id}`, state:{model: model} }}
-                title={authzn.allowsEdit?"Edit":"View"}
-              >{authzn.allowsEdit?<MdEdit/>:<MdVisibility/>}</Link>
-              <Button
-                color="link"
-                title="Delete"
-                onClick={() => this.handleDeleteModel(model.id)}
-                hidden={!authzn.allowsDelete}
-              ><MdDelete color="red"/></Button>
-            </td>
-          </tr>)}
-      </tbody>
-    </Table>
-  }
 
   render() {
     const { users, alert, authzn } = this.props
@@ -105,6 +53,77 @@ class UsersPage extends React.Component {
       </div>
     )
   }
+
+/*  handleDeleteModel(id) {
+    this.props.dispatch(actions.delete(id))
+    this.props.dispatch(actions.getAll()) // get list after deletion of a model
+  } */
+  showList(models){
+    //const { authzn } = this.props
+    return <Table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Username</th>
+          <th>First Name</th>
+          <th>Email</th>
+          <th>Actions {this.addLink()}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {models.items.map((model, index) =>
+          <tr key={model.id}>
+            <th scope="row">{index+1}</th>
+            <td>{model.name}</td>
+            <td>{model.first_name}</td>
+            <td>{model.email}</td>
+            { this.showActions(model) }
+          </tr>)}
+      </tbody>
+    </Table>
+  }
+  addLink() {
+    const { authzn } = this.props
+    return authzn.allowsAdd ?
+      <Link to={{ pathname: `${url}/0`, state: this.newModel() }} title="Add"><MdAdd/></Link> :
+      ''
+  }
+  newModel() {
+    return {
+      model: {
+        id: 0,
+        name: '',
+        first_name:'',
+        last_name: '',
+        email: '',
+        infos: []
+      }
+    }
+  }
+  showActions(model) {
+    const { authzn } = this.props
+    return <td>
+            <Link
+              to={{ pathname: `${url}/${model.id}`, state:{model: model} }}
+              title={authzn.allowsEdit?"Edit":"View"}
+            >{authzn.allowsEdit?<MdEdit/>:<MdVisibility/>}</Link>
+            <Button
+              color="link"
+              title="Delete"
+              onClick={() => this.handleDeleteModel(model.id)}
+              hidden={!authzn.allowsDelete}
+            ><MdDelete color="red"/></Button>
+          </td>
+  }
+
+  handleDeleteModel(id) {
+    if( window.confirm('Are you sure?') ) {
+      console.log('Delete confirmed')
+      this.props.dispatch(actions.delete(id))
+      this.props.dispatch(actions.getAll()) // get list after deletion of a model
+    }
+  }
+
 }
 
 function mapStateToProps(state) {

@@ -39,12 +39,15 @@ class ResidentDetailsPage extends React.Component {
       adding: match.params.id === "0"
     }
     this.handleChange = this.handleChange.bind(this)
+    this.handleUserNameChange = this.handleUserNameChange.bind(this)
+    this.handleResidentTypeChange = this.handleResidentTypeChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
 
     dispatch(alertActions.clear())  // clear alert messages from other pages
   }
 
   componentDidMount() {
+    console.log('state now: ', this.state)
     this.props.dispatch(userActions.getAll())
   }
 
