@@ -1,37 +1,13 @@
 import React from 'react'
-// import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Table } from 'reactstrap'
-// import { Router } from 'react-router-dom'
-/*
-import {
-  MdAdd,
-  MdVisibility,
-  MdEdit,
-  MdDelete
-} from 'react-icons/lib/md' // material design icons
 
-import {
-  Button,
-  Input,
-  Label
-} from 'reactstrap'
-*/
-// import { history } from '../_helpers'
 import { FlashMessage } from '../_components'
 import { accountActions as actions, userActions } from '../_actions'
-// import { AccountDetailsPage as detailsPage } from './AccountDetailsPage'
-// import { DEFAULTS } from '../_constants'
 
-// let url = '/accounts-summary'
-//let module = 'accounts'
 
 class SummaryPage extends React.Component {
-/*
-  constructor(props) {
-    super(props)
-  }
-*/
+
   componentDidMount() {
     this.props.dispatch(actions.getSummaryList())
     this.props.dispatch(userActions.getAll())
@@ -82,18 +58,13 @@ class SummaryPage extends React.Component {
     </tr>
   }
 
-
 }
 
 function mapStateToProps(state) {
-  const { summaries, alert, authorizations, users } = state
-  // const { user } = authentication
-//  const authzn = authorizations[module]
+  const { summaries, alert, users } = state
   return {
-//    user,
     summaries,
     alert,
-//    authzn,
     users
   }
 }
