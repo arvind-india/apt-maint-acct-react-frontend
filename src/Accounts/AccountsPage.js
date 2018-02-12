@@ -30,13 +30,7 @@ class AccountsPage extends React.Component {
 
   constructor(props) {
     super(props)
-    const { location } = props
-
-console.log('location ==========> ', location)
-console.log('history ----------> ', history)
     this.state = {
-//      fromDate: this.date(DEFAULTS.AccountsInMonths),
-//      toDate: this.date()
       fromDate: this.fromDate(),
       toDate: this.toDate()
     }
@@ -47,7 +41,6 @@ console.log('history ----------> ', history)
     let date = sessionStorage.getItem('fromDate')
     if(!date) {
       date = this.date(DEFAULTS.AccountsInMonths)
-//      sessionStorage.setItem('fromDate', date)
     }
     return date
   }
@@ -55,7 +48,6 @@ console.log('history ----------> ', history)
     let date = sessionStorage.getItem('toDate')
     if(!date) {
       date = this.date()
-//      sessionStorage.setItem('toDate', date)
     }
     return date
   }
@@ -69,18 +61,13 @@ console.log('history ----------> ', history)
   }
 
   componentDidMount() {
-    //const { fromDate, toDate } = this.state
-    //this.props.dispatch(actions.getAll())
-    //this.props.dispatch(actions.getListFor(fromDate, toDate))
     this.getAccounts()
     this.props.dispatch(userActions.getAll())
   }
 
   render() {
-    console.log('Props in AccountsPage: ', this.props)
     const { accounts, alert, authzn, users } = this.props
     let models = accounts
-console.log('accounts models: ', models)
     return (
       <div>
         <h3>Accounts List</h3>
@@ -106,7 +93,6 @@ console.log('accounts models: ', models)
           name="fromDate"
           value={fromDate}
           placeholder="Accounts from this date"
-          // className="inputField"
           onChange={this.handleChange}
         />
       </div>
@@ -117,7 +103,6 @@ console.log('accounts models: ', models)
           name="toDate"
           value={toDate}
           placeholder="Accounts from this date"
-          // className="inputField"
           onChange={this.handleChange}
         />
       </div>
@@ -220,14 +205,9 @@ console.log('accounts models: ', models)
 
   handleDeleteModel(id) {
     const { fromDate, toDate } = this.state
-    console.log('Deleting Account with id: ', id)
-
     if( window.confirm('Are you sure?') ) {
-      console.log('Delete confirmed')
       this.props.dispatch(actions.delete(id))
       this.props.dispatch(actions.getListFor(fromDate, toDate))
-    } else {
-      console.log('Delete cancelled!')
     }
   }
 

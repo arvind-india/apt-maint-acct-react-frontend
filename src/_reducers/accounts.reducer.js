@@ -4,17 +4,17 @@ export function accounts(state = {}, action) {
 
   switch (action.type) {
 
-    case constants.GETALL_REQUEST:
+    case constants.GETSUMMARY_REQUEST:
       return {
         loading: true
       }
 
-    case constants.GETALL_SUCCESS:
+    case constants.GETSUMMARY_SUCCESS:
       return {
-        items: action.models
+        items: action.summaries
       }
 
-    case constants.GETALL_FAILURE:
+    case constants.GETSUMMARY_FAILURE:
       return {
         error: action.error
       }

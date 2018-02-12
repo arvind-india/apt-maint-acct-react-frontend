@@ -5,6 +5,7 @@ export const accountService = {
 //  getAll,
   getListFor,
   getById,
+  getSummaryList,
   update,
   add,
   delete: _delete
@@ -44,6 +45,13 @@ function getById(id) {
     .catch(handleError)
 }
 
+function getSummaryList() {
+  console.log('account service >> getSummaryList()................')
+  return http().get(url + '/summary/list')
+    .then(handleResponse)
+    .catch(handleError)
+}
+
 function update(model) {
   return http().put(url + '/' + model.id, model)
     .then(handleResponse)
@@ -64,6 +72,7 @@ function _delete(id) {
 }
 
 function handleResponse(response) {
+  console.log('account service >> handleResponse.......', response)
   if(!response.data) {
     return Promise.reject(response.statusText)
   }

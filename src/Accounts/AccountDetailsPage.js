@@ -27,8 +27,6 @@ class AccountDetailsPage extends React.Component {
     super(props)
     const { dispatch, match, location } = props
     let model = location.state.model // model supplied from list page
-//    let ops = model.operations?model.operations:''
-console.log('Account Model: ', model)
     let initializeModel = {
       id: model.id,
       recorded_at: model.recorded_at,
@@ -51,25 +49,18 @@ console.log('Account Model: ', model)
     this.handleChange = this.handleChange.bind(this)
     this.handleCategoryChange = this.handleCategoryChange.bind(this)
     this.handleFlatChange = this.handleFlatChange.bind(this)
-//    this.handleCrdrChange = this.handleCrdrChange.bind(this)
     this.handleMonthChange = this.handleMonthChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
 
     dispatch(flatActions.getAll())
     dispatch(alertActions.clear())  // clear alert messages from other pages
   }
-/*
-  componentDidMount() {
-    // this.props.dispatch(userActions.getAll())
-    this.props.dispatch(flatActions.getAll())
-  }
-*/
+
   canBeSaved() { // check for changes in model, if changes present, it can save
     const { model } = this.state
 
     if (!model.recorded_at) return false
     if (!model.item) return false
-    // if (!model.flat_number) return false
     if (!model.name) return false
     if (!model.for_month) return false
     if (!model.for_year) return false
@@ -91,6 +82,7 @@ console.log('Account Model: ', model)
       </div>
     )
   }
+
   show(){
     const { adding } = this.state
     const { authzn } = this.props
@@ -170,7 +162,6 @@ console.log('Account Model: ', model)
 			</div>
   }
 
-
   handleSubmit(event) {
     const { model } = this.state
     const { dispatch } = this.props
@@ -181,7 +172,6 @@ console.log('Account Model: ', model)
     if ( this.changedProps().length === 0 ) {
       dispatch(alertActions.error('No changes found...'))
     } else if(this.canBeSaved()){
-console.log('Account model to be saved: ', model)
       dispatch(actions.saveChanges(model))
     } else {
       dispatch(alertActions.error('Missing data'))
@@ -224,6 +214,7 @@ console.log('Account model to be saved: ', model)
           && <FormText color="danger">Category is required</FormText>}
 			</div>
   }
+
   handleCategoryChange(selectedOption) {
     const { model } = this.state
     this.setState({
@@ -233,6 +224,7 @@ console.log('Account model to be saved: ', model)
       }
     })
   }
+
   showFlatNumber() {
     const { flats } = this.props
     const { model } = this.state
@@ -254,6 +246,7 @@ console.log('Account model to be saved: ', model)
         />
 			</div>
   }
+
   handleFlatChange(selectedOption) {
     const { model } = this.state
     this.setState({
@@ -263,6 +256,7 @@ console.log('Account model to be saved: ', model)
       }
     })
   }
+
   showName() {
     const { submitted, model } = this.state
     return <div data-field-span="1">
@@ -279,6 +273,7 @@ console.log('Account model to be saved: ', model)
           && <FormText color="danger">Name is required</FormText>}
 			</div>
   }
+
   showMonth() {
     const { submitted, model } = this.state
     return <div data-field-span="1">
@@ -376,17 +371,7 @@ console.log('Account model to be saved: ', model)
         </FormGroup>
       </div>
   }
-/*
-  handleCrdrChange(selectedOption) {
-    const { model } = this.state
-    this.setState({
-      model: {
-        ...model,
-        crdr: selectedOption
-      }
-    })
-  }
-*/
+
   showRemarks() {
     const { submitted, model } = this.state
     return <div data-field-span="1">
@@ -408,10 +393,8 @@ console.log('Account model to be saved: ', model)
 
 function mapStateToProps(state) {
   const { alert, authorizations, users, flats } = state
-//  const { user } = authentication
   const authzn = authorizations[module]
   return {
-//    user,
     alert,
     authzn,
     users,

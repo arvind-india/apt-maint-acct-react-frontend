@@ -93,7 +93,7 @@ class AppNavbar extends React.Component {
                   <NavLink href="/accountsMonthwise" title="Show Accounts Monthwise"><MdFilterList/> Monthwise</NavLink>
                 </DropdownItem>
                 <DropdownItem>
-                  <NavLink href="/accountsSummary" title="Show Accounts Summary"><MdViewHeadline/> Summary</NavLink>
+                  <NavLink href="/accounts-summary" title="Show Accounts Summary"><MdViewHeadline/> Summary</NavLink>
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
