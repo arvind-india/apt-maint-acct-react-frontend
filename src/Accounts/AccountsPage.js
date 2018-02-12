@@ -12,13 +12,16 @@ import {
 } from 'react-icons/lib/md' // material design icons
 
 import {
-  Button
+  Button,
+  Input,
+  Label
 } from 'reactstrap'
 
 import { history } from '../_helpers'
 import { PrivateRoute, FlashMessage } from '../_components'
 import { accountActions as actions, userActions } from '../_actions'
 import { AccountDetailsPage as detailsPage } from './AccountDetailsPage'
+import { DEFAULTS } from '../_constants'
 
 let url = '/accounts'
 let module = 'accounts'
@@ -27,25 +30,49 @@ class AccountsPage extends React.Component {
 
   constructor(props) {
     super(props)
-    let noOfPrevMonths = 2  // by default show all records in the past 2 months
-    let year = new Date().getFullYear();
-    year = 2016 // for testing purpose only
-    let month = new Date().getMonth() - noOfPrevMonths;
+    const { location } = props
+
+console.log('location ==========> ', location)
+console.log('history ----------> ', history)
     this.state = {
-      modal: false,
-      canDelete: false,
-      fromDate: new Date(year, month, 1),
-      toDate: new Date()
+//      fromDate: this.date(DEFAULTS.AccountsInMonths),
+//      toDate: this.date()
+      fromDate: this.fromDate(),
+      toDate: this.toDate()
     }
+    this.handleChange = this.handleChange.bind(this)
     this.handleDeleteModel = this.handleDeleteModel.bind(this)
-//    this.toggleModalDialog = this.toggleModalDialog.bind(this)
-//    this.deleteConfirmed = this.deleteConfirmed.bind(this)
+  }
+  fromDate() {
+    let date = sessionStorage.getItem('fromDate')
+    if(!date) {
+      date = this.date(DEFAULTS.AccountsInMonths)
+//      sessionStorage.setItem('fromDate', date)
+    }
+    return date
+  }
+  toDate() {
+    let date = sessionStorage.getItem('toDate')
+    if(!date) {
+      date = this.date()
+//      sessionStorage.setItem('toDate', date)
+    }
+    return date
+  }
+  date(deduct=0) {
+    let today = new Date()
+    if(deduct > 0) {
+      let month = today.getMonth()
+      today.setMonth(month - deduct)
+    }
+    return today.toISOString().split('T')[0]
   }
 
   componentDidMount() {
-    const { fromDate, toDate } = this.state
+    //const { fromDate, toDate } = this.state
     //this.props.dispatch(actions.getAll())
-    this.props.dispatch(actions.getListFor(fromDate, toDate))
+    //this.props.dispatch(actions.getListFor(fromDate, toDate))
+    this.getAccounts()
     this.props.dispatch(userActions.getAll())
   }
 
@@ -58,6 +85,7 @@ console.log('accounts models: ', models)
       <div>
         <h3>Accounts List</h3>
         {alert.message && <FlashMessage text={alert.message} delay={5000}/>}
+        <div className="grid-form">{ this.showDates() }</div>
         {models.items && authzn && users.items && this.showList() }
         <Router history={history}>
           <div>
@@ -68,6 +96,51 @@ console.log('accounts models: ', models)
     )
   }
 
+  showDates() {
+    const { fromDate, toDate } = this.state
+    return <div data-row-span="6">
+      <div data-field-span="1">
+        <Label>From</Label>
+        <Input
+          type="date"
+          name="fromDate"
+          value={fromDate}
+          placeholder="Accounts from this date"
+          // className="inputField"
+          onChange={this.handleChange}
+        />
+      </div>
+      <div data-field-span="1">
+        <Label>To</Label>
+        <Input
+          type="date"
+          name="toDate"
+          value={toDate}
+          placeholder="Accounts from this date"
+          // className="inputField"
+          onChange={this.handleChange}
+        />
+      </div>
+    </div>
+  }
+
+  handleChange(event) {
+    const { name, value } = event.target
+console.log('name: ...............', name);console.log('value: ...............', value);
+    this.setState({
+      [name]: value
+    })
+    this.getAccounts()
+  }
+  getAccounts() {
+    const { fromDate, toDate } = this.state
+    const { dispatch } = this.props
+    console.log('fromDate: ', fromDate)
+    console.log('toDate: ', toDate)
+    sessionStorage.setItem('fromDate', fromDate)
+    sessionStorage.setItem('toDate', toDate)
+    dispatch(actions.getListFor(fromDate, toDate))
+  }
   showList(){
     const { accounts } = this.props
     let models = accounts

@@ -51,3 +51,7 @@ export const MONTHS = [
   { name: 'Nov', number: 11 },
   { name: 'Dec', number: 12 }
 ]
+
+export const DEFAULTS = {
+  AccountsInMonths: 2
+}

@@ -85,9 +85,9 @@ function saveChanges(model) {
 
       service.update(model)
         .then(
-          model => {
+          res => {
             dispatch(success())
-            history.push('/accounts')
+            history.push('/accounts', {prevPathname: '/accounts/'+model.id})
             dispatch(alertActions.success('Updated Successfully'))
           },
           error => {
