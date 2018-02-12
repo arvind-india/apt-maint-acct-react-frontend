@@ -126,17 +126,11 @@ console.log('accounts models: ', models)
 
   handleChange(event) {
     const { name, value } = event.target
-console.log('name: ...............', name);console.log('value: ...............', value);
-    this.setState({
-      [name]: value
-    })
-    this.getAccounts()
+    this.setState( { [name]: value }, this.getAccounts )
   }
   getAccounts() {
     const { fromDate, toDate } = this.state
     const { dispatch } = this.props
-    console.log('fromDate: ', fromDate)
-    console.log('toDate: ', toDate)
     sessionStorage.setItem('fromDate', fromDate)
     sessionStorage.setItem('toDate', toDate)
     dispatch(actions.getListFor(fromDate, toDate))
