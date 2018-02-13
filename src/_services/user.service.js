@@ -102,18 +102,37 @@ function handleAllPermissionsResponse(response) {
 
 function authorizationsByResource(models) {
   let result = {}
+console.log('user service >> authorizationsByResource(models)..........', models)
   models.forEach(model => {
-    result[model.resource] = {
-      allowsAdd: model.operations.includes('C'),
-      allowsView: model.operations.includes('R'),
-      allowsEdit: model.operations.includes('U'),
-      allowsDelete: model.operations.includes('D')
-    }
+    let existingPermission = result[model.resource]
+    let currentPermission = extractPermission(model, existingPermission)
+    result[model.resource] = existingPermission ?
+      mergePermissions(existingPermission, currentPermission) :
+      currentPermission
   })
   sessionStorage.setItem('authorizations', JSON.stringify(result))
   return result;
 }
-
+function extractPermission(model, existingPermission=null) {
+  return {
+    allowsAdd: model.operations.includes('C'),
+    allowsView: model.operations.includes('R'),
+    allowsEdit: model.operations.includes('U'),
+    allowsDelete: model.operations.includes('D'),
+    condition: model.condition
+  }
+}
+function mergePermissions(existing, current) {
+  return {
+    allowsAdd: existing.allowsAdd || current.allowsAdd,
+    allowsView: existing.allowsView || current.allowsView,
+    allowsEdit: existing.allowsEdit || current.allowsEdit,
+    allowsDelete: existing.allowsDelete || current.allowsDelete,
+    condition: existing.condition && current.condition ?
+                  existing.condition+','+current.condition : // concatenate conditions
+                  '' // condition is no longer needed
+  }
+}
 function handleLoginResponse(response) {
   // login successful if there's a jwt token in the response
   if(response.data && response.data.id_token) {

@@ -86,67 +86,99 @@ class AppNavbar extends React.Component {
                 <FaBook/> Accounts
               </DropdownToggle>
               <DropdownMenu>
-                <DropdownItem>
-                  <NavLink href="/accounts" title="Show Accounts (all records)"><MdList/> All Records</NavLink>
-                </DropdownItem>
-                <DropdownItem>
-                  <NavLink href="/accountsMonthwise" title="Show Accounts Monthwise"><MdFilterList/> Monthwise</NavLink>
-                </DropdownItem>
-                { this.showAccountSummary() }
+                { this.accountsLink() }
+                { this.accountsMonthwiseLink() }
+                { this.accountSummaryLink() }
               </DropdownMenu>
             </UncontrolledDropdown>
   }
 
-  showAccountSummary() {
-    if( this.authorizes('account-summary') ) {
-        return <DropdownItem>
-          <NavLink href="/accounts-summary" title="Show Accounts Summary"><MdViewHeadline/> Summary</NavLink>
-        </DropdownItem>
-    }
-    return ''
+  accountsLink() {
+    if( !this.authorizes('accounts') ) return ''
+    return <DropdownItem>
+      <NavLink href="/accounts" title="Show Accounts (all records)"><MdList/> All Records</NavLink>
+    </DropdownItem>
+  }
+  accountsMonthwiseLink() {
+    return <DropdownItem>
+      <NavLink href="/accountsMonthwise" title="Show Accounts Monthwise"><MdFilterList/> Monthwise</NavLink>
+    </DropdownItem>
+  }
+  accountSummaryLink() {
+    if( !this.authorizes('account-summary') ) return ''
+    return <DropdownItem>
+      <NavLink href="/accounts-summary" title="Show Accounts Summary"><MdViewHeadline/> Summary</NavLink>
+    </DropdownItem>
   }
 
   showSettings() {
     return  <UncontrolledDropdown nav>
-              <DropdownToggle nav caret>
-                <MdSettingsApplications/> Settings
-              </DropdownToggle>
-              <DropdownMenu>
-                <DropdownItem>
-                  <NavLink href="/residents"><MdAccountCircle/> Residents</NavLink>
-                </DropdownItem>
-                <DropdownItem>
-                  <NavLink href="/flats"><MdLocationCity/> Flats</NavLink>
-                </DropdownItem>
-                <DropdownItem>
-                  <NavLink href="/flatstoresidents"><MdAttachment/> Flats-Residents</NavLink>
-                </DropdownItem>
-
-                <DropdownItem divider />
-
-                <DropdownItem>
-                  <NavLink href="/roles"><MdVpnKey/> Roles</NavLink>
-                </DropdownItem>
-                <DropdownItem>
-                  <NavLink href="/permissions"><MdLock/> Permissions</NavLink>
-                </DropdownItem>
-                <DropdownItem>
-                  <NavLink href="/rolestopermissions"><MdAttachment/> Roles-Permissions</NavLink>
-                </DropdownItem>
-
-                <DropdownItem divider />
-
-                <DropdownItem>
-                  <NavLink href="/users"><MdGroup /> Users</NavLink>
-                </DropdownItem>
-                <DropdownItem>
-                  <NavLink href="/usersToRoles"><MdAttachment/> Users-Roles</NavLink>
-                </DropdownItem>
-
-              </DropdownMenu>
-            </UncontrolledDropdown>
+        <DropdownToggle nav caret>
+          <MdSettingsApplications/> Settings
+        </DropdownToggle>
+        <DropdownMenu>
+          { this.residentsLink() }
+          { this.flatsLink() }
+          { this.flatsToResidentsLink() }
+          <DropdownItem divider />
+          { this.rolesLink() }
+          { this.permissionsLink() }
+          { this.rolesToPermissionsLink() }
+          <DropdownItem divider />
+          { this.usersLink() }
+          { this.usersToRolesLink() }
+        </DropdownMenu>
+      </UncontrolledDropdown>
+  }
+  residentsLink() {
+    if( !this.authorizes('residents') ) return ''
+    return <DropdownItem>
+      <NavLink href="/residents"><MdAccountCircle/> Residents</NavLink>
+    </DropdownItem>
+  }
+  flatsLink() {
+    if( !this.authorizes('flats') ) return ''
+    return <DropdownItem>
+      <NavLink href="/flats"><MdLocationCity/> Flats</NavLink>
+    </DropdownItem>
+  }
+  flatsToResidentsLink() {
+    if( !this.authorizes('flats-residents') ) return ''
+    return <DropdownItem>
+      <NavLink href="/flatstoresidents"><MdAttachment/> Flats-Residents</NavLink>
+    </DropdownItem>
   }
 
+  rolesLink() {
+    if( !this.authorizes('roles') ) return ''
+    return <DropdownItem>
+      <NavLink href="/roles"><MdVpnKey/> Roles</NavLink>
+    </DropdownItem>
+  }
+  permissionsLink() {
+    if( !this.authorizes('permissions') ) return ''
+    return <DropdownItem>
+      <NavLink href="/permissions"><MdLock/> Permissions</NavLink>
+    </DropdownItem>
+  }
+  rolesToPermissionsLink() {
+    if( !this.authorizes('roles-permissions') ) return ''
+    return <DropdownItem>
+      <NavLink href="/rolestopermissions"><MdAttachment/> Roles-Permissions</NavLink>
+    </DropdownItem>
+  }
+  usersLink() {
+    if( !this.authorizes('users') ) return ''
+    return <DropdownItem>
+      <NavLink href="/users"><MdGroup /> Users</NavLink>
+    </DropdownItem>
+  }
+  usersToRolesLink() {
+    if( !this.authorizes('users-roles') ) return ''
+    return <DropdownItem>
+      <NavLink href="/usersToRoles"><MdAttachment/> Users-Roles</NavLink>
+    </DropdownItem>
+  }
   authorizes(module){
     const { authorizations } = this.props
 

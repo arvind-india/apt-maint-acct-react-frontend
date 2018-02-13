@@ -71,14 +71,7 @@ class UsersPage extends React.Component {
         </tr>
       </thead>
       <tbody>
-        {models.items.map((model, index) =>
-          <tr key={model.id}>
-            <th scope="row">{index+1}</th>
-            <td>{model.name}</td>
-            <td>{model.first_name}</td>
-            <td>{model.email}</td>
-            { this.showActions(model) }
-          </tr>)}
+        {models.items.map((model, index) => this.showRow(model, index))}
       </tbody>
     </Table>
   }
@@ -99,6 +92,19 @@ class UsersPage extends React.Component {
         infos: []
       }
     }
+  }
+  showRow(model, index) {
+    const { user, authzn } = this.props
+    console.log('Users page >>> showRow()...........', model)
+    console.log('user is: ', user)
+    console.log('authzn is: ', authzn)
+    return <tr key={model.id}>
+      <th scope="row">{index+1}</th>
+      <td>{model.name}</td>
+      <td>{model.first_name}</td>
+      <td>{model.email}</td>
+      { this.showActions(model) }
+    </tr>
   }
   showActions(model) {
     const { authzn } = this.props
@@ -127,11 +133,11 @@ class UsersPage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { users, alert, authorizations } = state
-//  const { user } = authentication
+  const { users, alert, authorizations, authentication } = state
+  const { user } = authentication
   const authzn = authorizations[module]
   return {
-//    user,
+    user,
     users,
     alert,
     authzn
