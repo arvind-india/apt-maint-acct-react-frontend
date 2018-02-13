@@ -24,17 +24,17 @@ export const RESIDENT_TYPES = [
 ]
 
 export const CATEGORIES = [
-  {name: 'Electrical'},
-  {name: 'Garbage'},
-  {name: 'Monthly Maintenance'},
-  {name: 'Major Maintenance'},
-  {name: 'Plumbing'},
-  {name: 'Seasonal Gift'},
-  {name: 'Septic Tank'},
-  {name: 'Sweeping'},
-  {name: 'Water Tank - Overhead'},
-  {name: 'Water Tank - Sump'},
-  {name: 'Others'}
+  { name: 'Electrical' },
+  { name: 'Garbage' },
+  { name: 'Monthly Maintenance' },
+  { name: 'Major Maintenance' },
+  { name: 'Plumbing' },
+  { name: 'Seasonal Gift' },
+  { name: 'Septic Tank' },
+  { name: 'Sweeping' },
+  { name: 'Water Tank - Overhead' },
+  { name: 'Water Tank - Sump' },
+  { name: 'Others' }
 ];
 
 export const MONTHS = [

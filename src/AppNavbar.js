@@ -92,11 +92,18 @@ class AppNavbar extends React.Component {
                 <DropdownItem>
                   <NavLink href="/accountsMonthwise" title="Show Accounts Monthwise"><MdFilterList/> Monthwise</NavLink>
                 </DropdownItem>
-                <DropdownItem>
-                  <NavLink href="/accounts-summary" title="Show Accounts Summary"><MdViewHeadline/> Summary</NavLink>
-                </DropdownItem>
+                { this.showAccountSummary() }
               </DropdownMenu>
             </UncontrolledDropdown>
+  }
+
+  showAccountSummary() {
+    if( this.authorizes('account-summary') ) {
+        return <DropdownItem>
+          <NavLink href="/accounts-summary" title="Show Accounts Summary"><MdViewHeadline/> Summary</NavLink>
+        </DropdownItem>
+    }
+    return ''
   }
 
   showSettings() {
@@ -138,6 +145,19 @@ class AppNavbar extends React.Component {
 
               </DropdownMenu>
             </UncontrolledDropdown>
+  }
+
+  authorizes(module){
+    const { authorizations } = this.props
+
+    let authzn = authorizations[module]
+    if(!authzn) return false
+    console.log('authorizes.....', authzn)
+    let result = authzn.allowsAdd ||
+                 authzn.allowsView ||
+                 authzn.allowsEdit ||
+                 authzn.allowsDelete
+    return result
   }
 
   showLogin() {
@@ -182,10 +202,11 @@ class AppNavbar extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { authentication } = state
+  const { authentication, authorizations } = state
   const { user } = authentication
   return {
-    user
+    user,
+    authorizations
   }
 }
 const connectedAppNavbar = connect(mapStateToProps)(AppNavbar)
