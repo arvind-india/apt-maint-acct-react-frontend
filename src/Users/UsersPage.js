@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Table } from 'reactstrap'
 import { Router } from 'react-router-dom'
+import jwtDecode from 'jwt-decode'
 
 import {
   MdAdd,
@@ -15,7 +16,7 @@ import {
   Button
 } from 'reactstrap'
 
-import { history } from '../_helpers'
+import { history, RowAuthorization } from '../_helpers'
 import { PrivateRoute, FlashMessage } from '../_components'
 import { userActions as actions } from '../_actions'
 import { UserDetailsPage as detailsPage } from './UserDetailsPage'
@@ -94,17 +95,32 @@ class UsersPage extends React.Component {
     }
   }
   showRow(model, index) {
-    const { user, authzn } = this.props
-    console.log('Users page >>> showRow()...........', model)
-    console.log('user is: ', user)
-    console.log('authzn is: ', authzn)
-    return <tr key={model.id}>
+    const { authzn } = this.props
+
+    let row = <tr key={model.id}>
       <th scope="row">{index+1}</th>
       <td>{model.name}</td>
       <td>{model.first_name}</td>
       <td>{model.email}</td>
       { this.showActions(model) }
     </tr>
+
+    if(!authzn.condition) return row
+
+    if(this.isAuthorizedRow(model)) return row
+    // nothing to return at this end
+  }
+  isAuthorizedRow(model) {
+    const { user, authzn } = this.props
+    let data = {
+      user_id: user.id,
+      model: { owner_id: model.id}
+    }
+    let evaluations = authzn.condition.split(',').filter(condition => {
+      let rowAuthzn = new RowAuthorization(condition, data);
+      return rowAuthzn.evaluate(); // returns boolean value
+    });
+    return evaluations.length > 0;
   }
   showActions(model) {
     const { authzn } = this.props
@@ -134,7 +150,8 @@ class UsersPage extends React.Component {
 
 function mapStateToProps(state) {
   const { users, alert, authorizations, authentication } = state
-  const { user } = authentication
+  //const { user } = authentication
+  const user = jwtDecode(authentication.user.id_token) // logged user
   const authzn = authorizations[module]
   return {
     user,
