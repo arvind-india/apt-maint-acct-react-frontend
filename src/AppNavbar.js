@@ -34,7 +34,8 @@ import {
   MdAccountCircle,
   MdList,
   MdFilterList,
-  MdViewHeadline
+  MdViewHeadline,
+  MdEdit
 } from 'react-icons/lib/md' // material design icons
 
 import { userActions } from './_actions'
@@ -208,13 +209,22 @@ class AppNavbar extends React.Component {
               <MdPerson /> {this.decode(user).name}
             </DropdownToggle>
             <DropdownMenu>
-              <DropdownItem>
-                <NavLink onClick={this.handleLogout}><FaSignOut/> Logout</NavLink>
-              </DropdownItem>
+              { this.profileLink() }
+              { this.logoutLink() }
             </DropdownMenu>
           </UncontrolledDropdown>
   }
-
+  profileLink() {
+    if( !this.authorizes('user-profile') ) return ''
+    return <DropdownItem>
+      <NavLink href='/userprofile'><MdEdit/> Profile</NavLink>
+    </DropdownItem>
+  }
+  logoutLink() {
+    return <DropdownItem>
+      <NavLink onClick={this.handleLogout}><FaSignOut/> Logout</NavLink>
+    </DropdownItem>
+  }
   handleLogout() {
     this.props.dispatch(userActions.logout())
     history.push('/home')

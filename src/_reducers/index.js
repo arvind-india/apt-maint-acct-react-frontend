@@ -7,6 +7,7 @@ import { alert } from './alert.reducer'
 
 import { users } from './users.reducer'
 import { userDetails } from './userDetails.reducer'
+import { userProfile } from './userProfile.reducer'
 
 import { roles } from './roles.reducer'
 import { roleDetails } from './roleDetails.reducer'
@@ -35,6 +36,7 @@ const rootReducer = combineReducers({
   alert,
   users,
   userDetails,
+  userProfile,
   roles,
   roleDetails,
   permissions,

@@ -12,7 +12,9 @@ export const userActions = {
   getById,
   saveChanges,
   getMyRoles,
-  updateMyRoles
+  updateMyRoles,
+  getProfile,
+  saveProfileChanges
 }
 
 function login(username, password) {
@@ -123,6 +125,20 @@ function getById(id) {
   function failure(id, error) { return { type: constants.GETBYID_FAILURE, id, error } }
 }
 
+function getProfile(id) {
+  return dispatch => {
+    dispatch(request(id))
+    service.getById(id)
+      .then(
+        model => dispatch(success(model)),
+        error => dispatch(failure(error+' in getting profile model: '+id))
+      )
+  }
+  function request(id) { return { type: constants.GETPROFILE_REQUEST, id } }
+  function success(model) { return { type: constants.GETPROFILE_SUCCESS, model } }
+  function failure(id, error) { return { type: constants.GETPROFILE_FAILURE, id, error } }
+}
+
 function getMyRoles(id) {
   return dispatch => {
     dispatch(request(id))
@@ -226,3 +242,35 @@ function saveChanges(model) {
   }
 
 } // end of saveChanges
+
+function saveProfileChanges(model) {
+  return dispatch => {
+    dispatch(request(model))
+
+    service.update(model)
+      .then(
+        model => {
+          dispatch(success())
+          history.push('/home')
+          dispatch(alertActions.success('Changes Saved Successfully'))
+        },
+        error => {
+          let data = error.response.data
+          console.log('error response...')
+          console.log(error.response.data)
+          let appData;
+          if(data.error) { // check if there is a application specific error data enclosed
+            appData = data.data
+            dispatch(failure(appData.message))
+            dispatch(alertActions.error(appData.message))
+          } else {
+            dispatch(failure(error.response))
+            dispatch(alertActions.error(error.response.statusText))
+          }
+        }
+      )
+  }
+  function request(model) { return { type: constants.UPDATEPROFILE_REQUEST, model } }
+  function success(model) { return { type: constants.UPDATEPROFILE_SUCCESS, model } }
+  function failure(error) { return { type: constants.UPDATEPROFILE_FAILURE, error } }
+}

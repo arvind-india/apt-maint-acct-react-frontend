@@ -19,7 +19,7 @@ import { RolesPage, RoleDetailsPage } from './Roles'
 import { PermissionsPage, PermissionDetailsPage } from './Permissions'
 import { RolesToPermissionsLinkPage } from './Links'
 import { UsersToRolesLinkPage } from './Links'
-import { UsersPage, UserDetailsPage } from './Users'
+import { UsersPage, UserDetailsPage, UserProfilePage } from './Users'
 import { AppNavbar } from './AppNavbar'
 
 class App extends Component {
@@ -70,6 +70,7 @@ class App extends Component {
               <PrivateRoute path="/users" component={UsersPage} />
             </Switch>
             <PrivateRoute path="/usersToRoles" component={UsersToRolesLinkPage} />
+            <PrivateRoute path="/userprofile" component={UserProfilePage} />
           </div>
         </Router>
       </div>
