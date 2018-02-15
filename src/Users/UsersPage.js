@@ -126,7 +126,7 @@ class UsersPage extends React.Component {
     const { authzn } = this.props
     return <td>
             <Link
-              to={{ pathname: `${url}/${model.id}`, state:{model: model} }}
+              to={{ pathname: `${url}/${model.id}`, state:{model: model, title: 'User Details'} }}
               title={authzn.allowsEdit?"Edit":"View"}
             >{authzn.allowsEdit?<MdEdit/>:<MdVisibility/>}</Link>
             <Button
