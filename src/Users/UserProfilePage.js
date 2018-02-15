@@ -21,10 +21,6 @@ class UserProfilePage extends React.Component {
   constructor(props) {
     super(props)
     const { dispatch } = props
-    //console.log('user from jwt.......', user)
-    //dispatch(actions.getProfile(user.id), this.testCallback)
-    //console.log('User profile: ', userProfile)
-    //let model = location.state.model // model supplied from list page
     this.state = {
       model: {},
       infos: {},
@@ -35,8 +31,7 @@ class UserProfilePage extends React.Component {
       submitted: false,
       touched: false
     }
-//    this.testCallback = this.testCallback.bind(this)
-//    this.initializeProfile = this.initializeProfile.bind(this)
+
     this.handleChange = this.handleChange.bind(this)
     this.handleInfosChange = this.handleInfosChange.bind(this)
     this.handlePasswordChange = this.handlePasswordChange.bind(this)
@@ -53,28 +48,6 @@ class UserProfilePage extends React.Component {
     console.log('user from jwt.......', user)
     dispatch(actions.getProfile(user.id))
   }
-/*
-  initializeProfile() {
-    const { userProfile } = this.props
-    let model = userProfile.data
-    //console.log('Refresh using retrieved User Profile.......')
-    //console.log('user profile: ', model)
-    let initializeModel = {
-      id: model.id,
-      name: model.name,
-      first_name: model.first_name,
-      last_name: model.last_name,
-      email: model.email
-    }
-    let initializeInfos = this.arrToObj(model.infos)
-    this.setState({
-        model: initializeModel,
-        infos: initializeInfos
-    })
-
-  }
-*/
-
 
   changedProps() {
     const { model, infos } = this.state
@@ -515,12 +488,10 @@ class UserProfilePage extends React.Component {
 
 function mapStateToProps(state) {
   const { alert, authentication, authorizations, userProfile } = state
-//  const { user } = authentication
   const user = jwtDecode(authentication.user.id_token) // logged user
   const authzn = authorizations[module]
   return {
     user,
-//    userDetails,
     alert,
     authzn,
     userProfile
