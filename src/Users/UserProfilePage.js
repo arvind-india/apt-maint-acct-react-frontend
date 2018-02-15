@@ -13,19 +13,29 @@ import jwtDecode from 'jwt-decode'
 
 import { userActions as actions, alertActions } from '../_actions'
 
-let module = 'userprofile' // module name
+let module = 'user-profile' // module name
 
 
 class UserProfilePage extends React.Component {
 
   constructor(props) {
     super(props)
-    const { dispatch, user } = props
+    const { dispatch, user, userProfile } = props
     console.log('user from jwt.......', user)
-    dispatch(actions.getProfile(user.id), this.initializeProfile)
+    dispatch(actions.getProfile(user.id))
+    console.log('User profile: ', userProfile)
     //let model = location.state.model // model supplied from list page
-
-    this.initializeProfile = this.initializeProfile.bind(this)
+    this.state = {
+  //    model: {id: user.id, name: user.name, first_name: user.first_name, last_name: user.last_name, email: user.email},
+  //    infos: {},
+  //    password: '',
+  //    confirmPassword: '',
+  //    passwordChanged: false,
+  //    passwordMatches: false,
+      submitted: false,
+      touched: false
+    }
+//    this.initializeProfile = this.initializeProfile.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleInfosChange = this.handleInfosChange.bind(this)
     this.handlePasswordChange = this.handlePasswordChange.bind(this)
@@ -38,12 +48,15 @@ class UserProfilePage extends React.Component {
   }
 /*
   componentDidMount() {
-    this.props.dispatch(actions.getProfile(this.props.match.params.id))
-  }  */
+    const { dispatch, user } = this.props
+    console.log('user from jwt.......', user)
+    dispatch(actions.getProfile(user.id), this.initializeProfile)
+  }
 
   initializeProfile() {
     const { userProfile } = this.props
     let model = userProfile
+    console.log('Refresh using retrieved User Profile.......')
     console.log('user profile: ', model)
     let initializeModel = {
       id: model.id,
@@ -59,12 +72,10 @@ class UserProfilePage extends React.Component {
       password: '',
       confirmPassword: '',
       passwordChanged: false,
-      passwordMatches: false,
-      submitted: false,
-      touched: false
+      passwordMatches: false
     })
   }
-
+*/
   changedProps() {
     const { model, infos } = this.state
     const { location } = this.props
@@ -181,12 +192,14 @@ class UserProfilePage extends React.Component {
   }
 
   render() {
-    const { alert } = this.props
+    const { alert, userProfile } = this.props
     return (
       <div>
         <h2>User Profile</h2>
-        {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
-        {this.show()}
+        { alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div> }
+        { userProfile.loading && <em>User Profile is loading ....</em> }
+        { userProfile.error && <span className="text-danger">ERROR: {userProfile.error}</span> }
+        { userProfile.data && this.show() }
       </div>
     )
   }
@@ -499,7 +512,7 @@ class UserProfilePage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { alert, authentication, authorizations } = state
+  const { alert, authentication, authorizations, userProfile } = state
 //  const { user } = authentication
   const user = jwtDecode(authentication.user.id_token) // logged user
   const authzn = authorizations[module]
@@ -507,7 +520,8 @@ function mapStateToProps(state) {
     user,
 //    userDetails,
     alert,
-    authzn
+    authzn,
+    userProfile
   }
 }
 
