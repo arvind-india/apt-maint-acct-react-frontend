@@ -20,21 +20,22 @@ class UserProfilePage extends React.Component {
 
   constructor(props) {
     super(props)
-    const { dispatch, user, userProfile } = props
-    console.log('user from jwt.......', user)
-    dispatch(actions.getProfile(user.id))
-    console.log('User profile: ', userProfile)
+    const { dispatch } = props
+    //console.log('user from jwt.......', user)
+    //dispatch(actions.getProfile(user.id), this.testCallback)
+    //console.log('User profile: ', userProfile)
     //let model = location.state.model // model supplied from list page
     this.state = {
-  //    model: {id: user.id, name: user.name, first_name: user.first_name, last_name: user.last_name, email: user.email},
-  //    infos: {},
-  //    password: '',
-  //    confirmPassword: '',
-  //    passwordChanged: false,
-  //    passwordMatches: false,
+      model: {},
+      infos: {},
+      password: '',
+      confirmPassword: '',
+      passwordChanged: false,
+      passwordMatches: false,
       submitted: false,
       touched: false
     }
+//    this.testCallback = this.testCallback.bind(this)
 //    this.initializeProfile = this.initializeProfile.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.handleInfosChange = this.handleInfosChange.bind(this)
@@ -45,19 +46,19 @@ class UserProfilePage extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
 
     dispatch(alertActions.clear())  // clear alert messages from other pages
+
   }
-/*
   componentDidMount() {
     const { dispatch, user } = this.props
     console.log('user from jwt.......', user)
-    dispatch(actions.getProfile(user.id), this.initializeProfile)
+    dispatch(actions.getProfile(user.id))
   }
-
+/*
   initializeProfile() {
     const { userProfile } = this.props
-    let model = userProfile
-    console.log('Refresh using retrieved User Profile.......')
-    console.log('user profile: ', model)
+    let model = userProfile.data
+    //console.log('Refresh using retrieved User Profile.......')
+    //console.log('user profile: ', model)
     let initializeModel = {
       id: model.id,
       name: model.name,
@@ -67,15 +68,14 @@ class UserProfilePage extends React.Component {
     }
     let initializeInfos = this.arrToObj(model.infos)
     this.setState({
-      model: initializeModel,
-      infos: initializeInfos,
-      password: '',
-      confirmPassword: '',
-      passwordChanged: false,
-      passwordMatches: false
+        model: initializeModel,
+        infos: initializeInfos
     })
+
   }
 */
+
+
   changedProps() {
     const { model, infos } = this.state
     const { location } = this.props
@@ -199,10 +199,11 @@ class UserProfilePage extends React.Component {
         { alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div> }
         { userProfile.loading && <em>User Profile is loading ....</em> }
         { userProfile.error && <span className="text-danger">ERROR: {userProfile.error}</span> }
-        { userProfile.data && this.show() }
+        { userProfile.data && this.show(userProfile.data) }
       </div>
     )
   }
+
 
   /**
    * Converts Array into object
@@ -231,37 +232,38 @@ class UserProfilePage extends React.Component {
      return arr
    }
 
-  show(){
+  show(model){
     const { authzn } = this.props
     let title = authzn.allowsEdit?'Edit':'View'
+    let infos = this.arrToObj(model.infos)
     return <Form onSubmit={this.handleSubmit} className="grid-form">
       <fieldset>
   			<legend>{title}</legend>
         <div data-row-span="1">
-          {this.showUsername()}
+          { this.showUsername(model) }
         </div>
         <div data-row-span="2">
-          {this.showFlatNumber()}
-          {this.showResidentType()}
+          { this.showFlatNumber(infos) }
+          { this.showResidentType(infos) }
         </div>
         <div data-row-span="2">
-          {this.showFirstName()}
-          {this.showLastName()}
+          { this.showFirstName(model) }
+          { this.showLastName(model) }
         </div>
         <div data-row-span="2">
-          {this.showEmail()}
-          {this.showPassword()}
+          { this.showEmail(model) }
+          { this.showPassword() }
         </div>
         <div data-row-span="2">
-          {this.showOtherEmails()}
-          {this.showMobileNumbers()}
+          { this.showOtherEmails(infos) }
+          { this.showMobileNumbers(infos) }
         </div>
         <div data-row-span="2">
-          {this.show2WheelerNumbers()}
-          {this.show4WheelerNumbers()}
+          { this.show2WheelerNumbers(infos) }
+          { this.show4WheelerNumbers(infos) }
         </div>
         <div data-row-span="1">
-          {this.showEmergencyContacts()}
+          { this.showEmergencyContacts(infos) }
         </div>
       </fieldset>
       <br/>
@@ -270,8 +272,8 @@ class UserProfilePage extends React.Component {
     </Form>
   }
 
-  showUsername() {
-    const { submitted, model } = this.state // model is modified user
+  showUsername(model) {
+    const { submitted } = this.state // model is modified user
     return <div data-field-span="1">
 				<Label>Username</Label>
         <Input
@@ -286,8 +288,8 @@ class UserProfilePage extends React.Component {
         && <FormText color="danger">User Name is required</FormText>}
 			</div>
   }
-  showFlatNumber() {
-    const { infos } = this.state
+  showFlatNumber(infos) {
+    // const { infos } = this.state
     let value = infos && infos.flatNumber?infos.flatNumber:''
     return <div data-field-span="1">
         <Label>Flat/Apartment Number</Label>
@@ -301,8 +303,8 @@ class UserProfilePage extends React.Component {
         />
       </div>
   }
-  showResidentType() {
-    const { infos } = this.state
+  showResidentType(infos) {
+    //const { infos } = this.state
     let rtype = infos && infos.residentType?infos.residentType:''
 
     return <div data-field-span="1">
@@ -342,8 +344,8 @@ class UserProfilePage extends React.Component {
         </FormGroup>
       </div>
   }
-  showFirstName() {
-    const { submitted, model } = this.state // mser is modified user
+  showFirstName(model) {
+    const { submitted } = this.state // mser is modified user
     return <div data-field-span="1">
         <Label>FirstName</Label>
         <Input
@@ -359,8 +361,8 @@ class UserProfilePage extends React.Component {
         && <FormText color="danger">First Name is required</FormText>}
       </div>
   }
-  showLastName() {
-    const { submitted, model } = this.state // mser is modified user
+  showLastName(model) {
+    const { submitted } = this.state // mser is modified user
     return <div data-field-span="1">
         <Label>LastName</Label>
         <Input
@@ -376,8 +378,8 @@ class UserProfilePage extends React.Component {
         && <FormText color="danger">Last Name is required</FormText>}
       </div>
   }
-  showEmail(){
-    const { submitted, model } = this.state // mser is modified user
+  showEmail(model){
+    const { submitted } = this.state // mser is modified user
     return <div data-field-span="1">
         <Label>email</Label>
         <Input
@@ -423,8 +425,8 @@ class UserProfilePage extends React.Component {
       }
     </div>
   }
-  showOtherEmails(){
-    const { infos } = this.state
+  showOtherEmails(infos){
+    //const { infos } = this.state
     let value = infos && infos.otherEmails?infos.otherEmails:''
     return <div data-field-span="1">
         <Label>Other email-ids</Label>
@@ -440,8 +442,8 @@ class UserProfilePage extends React.Component {
         />
       </div>
   }
-  showMobileNumbers() {
-    const { infos } = this.state
+  showMobileNumbers(infos) {
+    //const { infos } = this.state
     let value = infos && infos.cellNumbers?infos.cellNumbers:''
     return <div data-field-span="1">
       <Label>Cell/Mobile/Landline Numbers</Label>
@@ -457,8 +459,8 @@ class UserProfilePage extends React.Component {
       />
     </div>
   }
-  show2WheelerNumbers() {
-    const { infos } = this.state
+  show2WheelerNumbers(infos) {
+    //const { infos } = this.state
     let value = infos && infos.twoWheelers?infos.twoWheelers:''
     return <div data-field-span="1">
       <Label>Regn No. of 2-wheeler(s) parked</Label>
@@ -474,8 +476,8 @@ class UserProfilePage extends React.Component {
       />
     </div>
   }
-  show4WheelerNumbers() {
-    const { infos } = this.state
+  show4WheelerNumbers(infos) {
+    //const { infos } = this.state
     let value = infos && infos.fourWheelers?infos.fourWheelers:''
     return <div data-field-span="1">
       <Label>Regn No. of 4-wheeler(s) parked</Label>
@@ -491,8 +493,8 @@ class UserProfilePage extends React.Component {
       />
     </div>
   }
-  showEmergencyContacts() {
-    const { infos } = this.state
+  showEmergencyContacts(infos) {
+    //const { infos } = this.state
     let value = infos && infos.emergencyContacts?infos.emergencyContacts:''
     return <div data-field-span="1">
       <Label>Emergency Contact Details</Label>
