@@ -6,8 +6,6 @@ import jwtDecode from 'jwt-decode'
 import { userActions as actions } from '../_actions'
 import { UserDetailsPage } from './'
 
-let module = 'user-profile' // module name
-
 
 class UserProfilePage extends React.Component {
 
@@ -34,7 +32,8 @@ class UserProfilePage extends React.Component {
     return {
       state: {
         model: userProfile.data,
-        title: 'User Profile'
+        title: 'User Profile',
+        module: 'user-profile'
       }
     }
   }

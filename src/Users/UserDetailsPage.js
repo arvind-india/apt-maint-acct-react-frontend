@@ -21,6 +21,7 @@ class UserDetailsPage extends React.Component {
     super(props)
     const { dispatch, location } = props
     let model = location.state.model // model supplied from list page
+    if(location.state.module) { module = location.state.module } // override if module is available, ex: user-profile
     let initializeModel = {
       id: model.id,
       name: model.name,

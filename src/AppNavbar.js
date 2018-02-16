@@ -88,7 +88,6 @@ class AppNavbar extends React.Component {
               </DropdownToggle>
               <DropdownMenu>
                 { this.accountsLink() }
-                { this.accountsMonthwiseLink() }
                 { this.accountSummaryLink() }
               </DropdownMenu>
             </UncontrolledDropdown>
