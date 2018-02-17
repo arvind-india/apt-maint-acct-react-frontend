@@ -4,6 +4,8 @@ import { Provider } from 'react-redux'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'react-select/dist/react-select.css'
 
+//import 'hellojs/dist/hello.all.js' // used for social logins such as Facebook, Google
+
 import './gridforms.css'
 import './index.css';
 

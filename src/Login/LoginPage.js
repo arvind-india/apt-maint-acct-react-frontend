@@ -12,6 +12,7 @@ import {
         } from 'reactstrap'
 
 import { userActions, alertActions } from '../_actions'
+import { SocialLoginPage } from './SocialLoginPage'
 
 class LoginPage extends React.Component {
   constructor(props) {
@@ -94,7 +95,17 @@ class LoginPage extends React.Component {
             </Col>
           </FormGroup>
 
+          <FormGroup row>
+            <Label sm={3}></Label>
+            <Col smoffset={3} sm={9}>
+                <SocialLoginPage />
+            </Col>
+          </FormGroup>
+
         </Form>
+
+
+
       </div>
     )
   }

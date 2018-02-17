@@ -3,6 +3,7 @@ import { axiosClient } from './axios.instance'
 
 export const userService = {
   login,
+  socialLogin,
   logout,
   register,
   getAll,
@@ -24,6 +25,13 @@ function http() {
 function login(username, password) {
   let data = { email: username, password: password }
   return http().post('/login', data)
+    .then(handleLoginResponse)
+    .catch(handleError)
+}
+
+function socialLogin(network, token) {
+  let data = { network: network, token: token }
+  return http().post('/sociallogin', data)
     .then(handleLoginResponse)
     .catch(handleError)
 }

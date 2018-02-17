@@ -5,6 +5,7 @@ import { history } from '../_helpers'
 
 export const userActions = {
   login,
+  socialLogin,
   logout,
   register,
   getAll,
@@ -41,6 +42,32 @@ function login(username, password) {
   function success(model) { return { type: constants.LOGIN_SUCCESS, model } }
   function failure(error) { return { type: constants.LOGIN_FAILURE, error } }
 }
+
+function socialLogin(network, token) {
+
+  return dispatch => {
+    dispatch(request({ network }))
+
+    service.socialLogin(network, token)
+      .then(
+        model => {
+          dispatch(success(model))
+          history.push('/')
+          dispatch(alertActions.success('Welcome to Apartment Maintenance Tracking Application'))
+          dispatch(authzn.getAll()) // get all authorizations/permissions for this logged user
+        },
+        error => {
+          dispatch(failure(error.response))
+          dispatch(alertActions.error(error.response.statusText))
+        }
+      )
+  }
+
+  function request(model) { return { type: constants.SOCIALLOGIN_REQUEST, model } }
+  function success(model) { return { type: constants.SOCIALLOGIN_SUCCESS, model } }
+  function failure(error) { return { type: constants.SOCIALLOGIN_FAILURE, error } }
+}
+
 
 function logout() {
   service.logout()
