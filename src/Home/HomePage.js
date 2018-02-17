@@ -62,8 +62,9 @@ class HomePage extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { alert, authentication } = state
-  const { user } = authentication
+  const { alert, authentication, authenticationSocial } = state
+  // const { user } = authentication
+  let user = authentication.user || authenticationSocial.user
   return {
     alert,
     user

@@ -17,6 +17,8 @@ export function authenticationSocial(state = initialState, action) {
       }
     case constants.SOCIALLOGIN_FAILURE:
       return {}
+    case constants.LOGOUT:
+      return {}      
     default:
       return state
   }

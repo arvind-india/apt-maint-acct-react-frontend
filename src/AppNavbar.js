@@ -243,8 +243,9 @@ class AppNavbar extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { authentication, authorizations } = state
-  const { user } = authentication
+  const { authentication, authenticationSocial, authorizations } = state
+  //const { user } = authentication
+  let user = authentication.user || authenticationSocial.user
   return {
     user,
     authorizations
