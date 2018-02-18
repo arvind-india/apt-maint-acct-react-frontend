@@ -6,6 +6,7 @@ import { history } from '../_helpers'
 export const userActions = {
   login,
   socialLogin,
+  forgotPassword,
   logout,
   register,
   getAll,
@@ -66,6 +67,30 @@ function socialLogin(network, token) {
   function request(model) { return { type: constants.SOCIALLOGIN_REQUEST, model } }
   function success(model) { return { type: constants.SOCIALLOGIN_SUCCESS, model } }
   function failure(error) { return { type: constants.SOCIALLOGIN_FAILURE, error } }
+}
+
+function forgotPassword(email) {
+
+  return dispatch => {
+    dispatch(request({ email }))
+
+    service.forgotPassword(email)
+      .then(
+        model => {
+          dispatch(success(model))
+          history.push('/')
+          dispatch(alertActions.success('An email is sent with link to reset the password'))
+        },
+        error => {
+          dispatch(failure(error.response))
+          dispatch(alertActions.error(error.response.statusText))
+        }
+      )
+  }
+
+  function request(model) { return { type: constants.FORGOTPASSWORD_REQUEST, model } }
+  function success(model) { return { type: constants.FORGOTPASSWORD_SUCCESS, model } }
+  function failure(error) { return { type: constants.FORGOTPASSWORD_FAILURE, error } }
 }
 
 
