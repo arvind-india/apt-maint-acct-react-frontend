@@ -7,6 +7,7 @@ export const userActions = {
   login,
   socialLogin,
   forgotPassword,
+  resetPassword,
   logout,
   register,
   getAll,
@@ -93,6 +94,29 @@ function forgotPassword(email) {
   function failure(error) { return { type: constants.FORGOTPASSWORD_FAILURE, error } }
 }
 
+function resetPassword(password, token) {
+
+  return dispatch => {
+    dispatch(request({ token: token })) // not sure on request parameter, just set token: token as a placeholder
+
+    service.resetPassword(password, token)
+      .then(
+        model => {
+          dispatch(success(model))
+          history.push('/')
+          dispatch(alertActions.success('Reset the password successfully'))
+        },
+        error => {
+          dispatch(failure(error.response))
+          dispatch(alertActions.error(error.response.statusText))
+        }
+      )
+  }
+
+  function request(model) { return { type: constants.RESETPASSWORD_REQUEST, model } }
+  function success(model) { return { type: constants.RESETPASSWORD_SUCCESS, model } }
+  function failure(error) { return { type: constants.RESETPASSWORD_FAILURE, error } }
+}
 
 function logout() {
   service.logout()

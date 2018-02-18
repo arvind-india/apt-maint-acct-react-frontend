@@ -9,7 +9,7 @@ import { history } from './_helpers'
 //import { alertActions } from './_actions'
 import { PrivateRoute } from './_components'
 import { HomePage } from './Home'
-import { LoginPage } from './Login'
+import { LoginPage, ForgotPasswordPage } from './Login'
 import { RegisterPage } from './Register'
 import { AccountsPage, AccountDetailsPage, SummaryPage } from './Accounts'
 import { ResidentsPage, ResidentDetailsPage } from './Residents'
@@ -40,7 +40,10 @@ class App extends Component {
           <div>
             <Route exact path="/" component={HomePage} />
             <Route path="/home" component={HomePage} />
-            <Route path="/login" component={LoginPage} />
+            <Switch>
+              <Route path="/login/forgot-password" component={ForgotPasswordPage} />
+              <Route path="/login" component={LoginPage} />
+            </Switch>
             <Route path="/register" component={RegisterPage} />
             <PrivateRoute path="/accounts-summary" component={SummaryPage} />
             <Switch>

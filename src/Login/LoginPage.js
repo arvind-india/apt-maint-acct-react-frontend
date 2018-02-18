@@ -54,7 +54,8 @@ class LoginPage extends React.Component {
         <Form onSubmit={this.handleSubmit}>
           { this.emailId() }
           { this.password() }
-          { this.buttons() }
+          { this.buttons1() }
+          { this.buttons2() }
         </Form>
       </div>
     )
@@ -94,7 +95,7 @@ class LoginPage extends React.Component {
     </FormGroup>
   }
 
-  buttons() {
+  buttons1() {
     return <FormGroup row>
       <Label sm={3}></Label>
       <Col smoffset={3} sm={9}>
@@ -107,7 +108,17 @@ class LoginPage extends React.Component {
           <Link to="/register" className="text-success">Register</Link>
         </Button>
       </Col>
+    </FormGroup>
+  }
 
+  buttons2() {
+    return <FormGroup row>
+      <Label sm={3}></Label>
+      <Col smoffset={3} sm={9}>
+        <Button color="link" title="Forgot Password">
+          <Link to="/login/forgot-password" className="text-info" title="Request for resetting forgotton password">Forgot Password?</Link>
+        </Button>
+      </Col>
     </FormGroup>
   }
 

@@ -5,6 +5,7 @@ export const userService = {
   login,
   socialLogin,
   forgotPassword,
+  resetPassword,
   logout,
   register,
   getAll,
@@ -42,6 +43,14 @@ function forgotPassword(email) {
   let data = { email: email }
   console.log('Forgot password: ', data)
   return http().post('/login/forgot-password', data)
+    .then(handleResponse)
+    .catch(handleError)
+}
+
+function resetPassword(password, token) {
+  let data = { resetPassword: password, token: token }
+  console.log('Reset password: ', data)
+  return http().post('/login/reset-password', data)
     .then(handleResponse)
     .catch(handleError)
 }

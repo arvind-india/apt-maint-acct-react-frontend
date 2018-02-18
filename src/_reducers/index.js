@@ -3,6 +3,7 @@ import { combineReducers } from 'redux'
 import { authentication } from './authentication.reducer'
 import { authenticationSocial } from './authenticationSocial.reducer'
 import { forgotPassword } from './forgotPassword.reducer'
+import { resetPassword } from './resetPassword.reducer'
 import { authorizations } from './authorizations.reducer'
 import { registration } from './registration.reducer'
 import { alert } from './alert.reducer'
@@ -35,6 +36,7 @@ const rootReducer = combineReducers({
   authentication,
   authenticationSocial,
   forgotPassword,
+  resetPassword,
   authorizations,
   registration,
   alert,
