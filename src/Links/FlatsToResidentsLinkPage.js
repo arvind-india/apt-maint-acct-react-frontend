@@ -121,6 +121,7 @@ class FlatsToResidentsLinkPage extends React.Component {
         onClick={this.detachItems}
         disabled={selectedOptionsInAList.length === 0}
         hidden={!authzn.allowsEdit}
+        title="Detach selected items"
       ><MdThumbDown/> Detach</Button>
     </div>
   }
@@ -182,6 +183,7 @@ class FlatsToResidentsLinkPage extends React.Component {
         onClick={this.attachItems}
         disabled={selectedOptionsInDList.length === 0}
         hidden={!authzn.allowsEdit}
+        title="Attach selected items"
       ><MdThumbUp/> Attach</Button>
     </div>
   }

@@ -121,6 +121,7 @@ class UsersToRolesLinkPage extends React.Component {
         onClick={this.detachItems}
         disabled={selectedOptionsInAList.length === 0}
         hidden={!authzn.allowsEdit}
+        title="Unassign selected roles"
       ><MdThumbDown/> Unassign</Button>
     </div>
   }
@@ -182,6 +183,7 @@ class UsersToRolesLinkPage extends React.Component {
         onClick={this.attachItems}
         disabled={selectedOptionsInDList.length === 0}
         hidden={!authzn.allowsEdit}
+        title="Assign selected roles"
       ><MdThumbUp/> Assign</Button>
     </div>
   }

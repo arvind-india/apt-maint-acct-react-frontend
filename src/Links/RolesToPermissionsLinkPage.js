@@ -121,6 +121,7 @@ class RolesToPermissionsLinkPage extends React.Component {
         onClick={this.detachItems}
         disabled={selectedOptionsInAList.length === 0}
         hidden={!authzn.allowsEdit}
+        title="Revoke selected roles"
       ><MdThumbDown/> Revoke</Button>
     </div>
   }
@@ -182,6 +183,7 @@ class RolesToPermissionsLinkPage extends React.Component {
         onClick={this.attachItems}
         disabled={selectedOptionsInDList.length === 0}
         hidden={!authzn.allowsEdit}
+        title="Grant selected roles"
       ><MdThumbUp/> Grant</Button>
     </div>
   }

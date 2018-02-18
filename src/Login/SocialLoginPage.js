@@ -3,7 +3,8 @@ import { connect } from 'react-redux'
 import { Button  } from 'reactstrap'
 import {
           FaFacebook,
-          FaGoogle
+          FaGoogle,
+          FaGithub
 } from 'react-icons/lib/fa' // material design icons
 
 import { userActions, alertActions } from '../_actions'
@@ -12,7 +13,8 @@ let hello = require('hellojs/dist/hello.all.js')
 
 hello.init({
     facebook: process.env.REACT_APP_FACEBOOK_CLIENT_ID,
-    google: process.env.REACT_APP_GOOGLE_CLIENT_ID
+    google: process.env.REACT_APP_GOOGLE_CLIENT_ID,
+    github: process.env.REACT_APP_GITHUB_CLIENT_ID
   }, {
     scope: 'email'
   }
@@ -29,7 +31,7 @@ class SocialLoginPage extends React.Component {
 
   render() {
     return (
-      <i>or, sign-in through {this.fbButton()}, {this.googleButton()}</i>
+      <i>.{this.fbButton()}.{this.googleButton()}.</i>
     )
   }
 
@@ -37,7 +39,7 @@ class SocialLoginPage extends React.Component {
     return <Button
       color="link"
       onClick={()=>this.socialLogin('google')}
-      title="Google"
+      title="Google login"
     ><FaGoogle/></Button>
   }
 
@@ -45,8 +47,16 @@ class SocialLoginPage extends React.Component {
     return <Button
       color="link"
       onClick={()=>this.socialLogin('facebook')}
-      title="facebook"
+      title="Facebook login"
     ><FaFacebook/></Button>
+  }
+
+  githubButton() {
+    return <Button
+      color="link"
+      onClick={()=>this.socialLogin2('github')}
+      title="github"
+    ><FaGithub/></Button>
   }
 
   socialLogin(network){
@@ -62,7 +72,6 @@ class SocialLoginPage extends React.Component {
       console.error('Social Login Error: ', err)
     }
   }
-
 
 }
 

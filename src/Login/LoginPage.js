@@ -37,7 +37,6 @@ class LoginPage extends React.Component {
   }
   handleSubmit(e) {
     e.preventDefault()
-
     this.setState({ submitted: true })
     const { email, password } = this.state
     const { dispatch } = this.props
@@ -46,61 +45,70 @@ class LoginPage extends React.Component {
     }
   }
   render() {
-
-    const { email, password, submitted } = this.state
+    //const { email, password, submitted } = this.state
     const { alert } = this.props
-
     return (
       <div>
         <h2 align="center">Login</h2>
         {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
-
         <Form onSubmit={this.handleSubmit}>
-
-          <FormGroup row>
-            <Label for="email" sm={3}>Email_Id</Label>
-            <Col sm={9}>
-              <Input
-                type="email"
-                name="email"
-                placeholder="email id here"
-                defaultValue={email}
-                onChange={this.handleChange.bind(this)}
-              />
-              {submitted && !email && <FormText color="danger">Email-id is required</FormText>}
-            </Col>
-          </FormGroup>
-
-          <FormGroup row>
-            <Label sm={3}>Password</Label>
-            <Col sm={9}>
-              <Input
-                type="password"
-                name="password"
-                placeholder="password here"
-                defaultValue={password}
-                onChange={this.handleChange.bind(this)}
-              />
-              {submitted && !password && <FormText color="danger">Password is required</FormText>}
-            </Col>
-          </FormGroup>
-
-          <FormGroup row>
-            <Label sm={3}></Label>
-            <Col smoffset={3} sm={9}>
-              <Button type="submit" color="primary" bssize="large">Login</Button>
-              <Button color="link">
-                <Link to="/register">Register</Link>
-              </Button>
-            </Col>
-          </FormGroup>
-
+          { this.emailId() }
+          { this.password() }
+          { this.buttons() }
         </Form>
-
-        <SocialLoginPage />
-
       </div>
     )
+  }
+
+  emailId() {
+    const { email, submitted } = this.state
+    return <FormGroup row>
+      <Label for="email" sm={3}>Email_Id</Label>
+      <Col sm={9}>
+        <Input
+          type="email"
+          name="email"
+          placeholder="email id here"
+          defaultValue={email}
+          onChange={this.handleChange.bind(this)}
+        />
+        {submitted && !email && <FormText color="danger">Email-id is required</FormText>}
+      </Col>
+    </FormGroup>
+  }
+
+  password() {
+    const { password, submitted } = this.state
+    return <FormGroup row>
+      <Label sm={3}>Password</Label>
+      <Col sm={9}>
+        <Input
+          type="password"
+          name="password"
+          placeholder="password here"
+          defaultValue={password}
+          onChange={this.handleChange.bind(this)}
+        />
+        {submitted && !password && <FormText color="danger">Password is required</FormText>}
+      </Col>
+    </FormGroup>
+  }
+
+  buttons() {
+    return <FormGroup row>
+      <Label sm={3}></Label>
+      <Col smoffset={3} sm={9}>
+        <Button type="submit" color="primary" bssize="large" title="Go to App">Login</Button>
+        <Button color="link" title="Go to home">
+          <Link to="/home" className="text-danger" >Cancel</Link>
+        </Button>
+        <SocialLoginPage />
+        <Button color="link" title="Go to Registration">
+          <Link to="/register" className="text-success">Register</Link>
+        </Button>
+      </Col>
+
+    </FormGroup>
   }
 
 }

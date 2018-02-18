@@ -153,8 +153,8 @@ class PermissionDetailsPage extends React.Component {
         </div>
       </fieldset>
       <br/>
-      <Button type="submit" color="primary" hidden={!authzn.allowsEdit}>Save</Button>
-      <Button color="link"><Link to="/permissions">Cancel</Link></Button>
+      <Button type="submit" color="primary" hidden={!authzn.allowsEdit} title="Save changes">Save</Button>
+      <Button color="link"><Link to="/permissions" className="text-danger" title="Go to Permissions">Cancel</Link></Button>
     </Form>
   }
   showOperations() {
