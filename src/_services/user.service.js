@@ -48,7 +48,7 @@ function forgotPassword(email) {
 }
 
 function resetPassword(password, token) {
-  let data = { resetPassword: password, token: token }
+  let data = { resetpassword: password, token: token }
   console.log('Reset password: ', data)
   return http().post('/login/reset-password', data)
     .then(handleResponse)

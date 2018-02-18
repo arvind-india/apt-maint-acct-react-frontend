@@ -9,7 +9,7 @@ import { history } from './_helpers'
 //import { alertActions } from './_actions'
 import { PrivateRoute } from './_components'
 import { HomePage } from './Home'
-import { LoginPage, ForgotPasswordPage } from './Login'
+import { LoginPage, ForgotPasswordPage, ResetPasswordPage } from './Login'
 import { RegisterPage } from './Register'
 import { AccountsPage, AccountDetailsPage, SummaryPage } from './Accounts'
 import { ResidentsPage, ResidentDetailsPage } from './Residents'
@@ -41,6 +41,7 @@ class App extends Component {
             <Route exact path="/" component={HomePage} />
             <Route path="/home" component={HomePage} />
             <Switch>
+              <Route path="/login/reset/:token" component={ResetPasswordPage} />
               <Route path="/login/forgot-password" component={ForgotPasswordPage} />
               <Route path="/login" component={LoginPage} />
             </Switch>

@@ -46,14 +46,14 @@ class ResetPasswordPage extends React.Component {
     event.preventDefault()
     this.setState({ submitted: true })
     const { user, confirmPassword } = this.state
-    const { dispatch, location } = this.props
-console.log('Reset password token: ', location)
+    const { dispatch, match } = this.props
+console.log('Reset password match: ', match)
     if(user.password &&
         confirmPassword &&
-        location.state.token &&
+        match.params.token &&
         user.password === confirmPassword
     ) {
-      dispatch(userActions.resetPassword(user.password, token))
+      dispatch(userActions.resetPassword(user.password, match.params.token))
     } else {
       dispatch(alertActions.error('Missing Data...'))
     }
@@ -112,22 +112,19 @@ console.log('Reset password token: ', location)
         <Button color="link">
           <Link to="/login" className="text-danger" title="Go to home">Cancel</Link>
         </Button>
-        <SocialLoginPage/>
+
       </Col>
     </FormGroup>
   }
-
 
 }
 
 function mapStateToProps(state) {
   const { alert } = state
-  const { registering } = state.registration
   return {
-    alert,
-    registering
+    alert
   }
 }
 
-const connectedRegisterPage = connect(mapStateToProps)(RegisterPage)
-export { connectedRegisterPage as RegisterPage }
+const connectedResetPasswordPage = connect(mapStateToProps)(ResetPasswordPage)
+export { connectedResetPasswordPage as ResetPasswordPage }

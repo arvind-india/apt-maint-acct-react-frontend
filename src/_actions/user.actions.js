@@ -97,7 +97,7 @@ function forgotPassword(email) {
 function resetPassword(password, token) {
 
   return dispatch => {
-    dispatch(request({ token: token })) // not sure on request parameter, just set token: token as a placeholder
+    dispatch(request({ password, token })) // not sure on request parameter, just set token: token as a placeholder
 
     service.resetPassword(password, token)
       .then(
