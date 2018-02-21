@@ -36,10 +36,10 @@ class App extends Component {
     return (
       <div>
         <AppNavbar/>
-        <Router history={history} basename='/apt-maint-react'>
+        <Router history={history}>
           <div>
-            <Route exact path='/' component={HomePage} />
-            <Route path='/home' component={HomePage} />
+            <Route exact path="/" component={HomePage} />
+            <Route path="/home" component={HomePage} />
             <Switch>
               <Route path="/login/reset/:token" component={ResetPasswordPage} />
               <Route path="/login/forgot-password" component={ForgotPasswordPage} />

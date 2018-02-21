@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import jwtDecode from 'jwt-decode'
 import {
   Collapse,
@@ -193,8 +194,10 @@ class AppNavbar extends React.Component {
   }
 
   showLogin() {
+    // <NavLink href='/login'><FaSignIn/> Login</NavLink>
     return <NavItem>
-              <NavLink href="/login"><FaSignIn/> Login</NavLink>
+
+              <Link to="/login"><FaSignIn /> Login</Link>
            </NavItem>
   }
   showRegister() {
