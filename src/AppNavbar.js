@@ -34,7 +34,7 @@ import {
   MdLocationCity,
   MdAccountCircle,
   MdList,
-  MdFilterList,
+//  MdFilterList,
   MdViewHeadline,
   MdEdit
 } from 'react-icons/lib/md' // material design icons
@@ -55,10 +55,12 @@ class AppNavbar extends React.Component {
 
   render() {
     const { user } = this.props
+    const baz = () => <NavLink className="navbar-brand" tag={NavLinkRRD} to="/"><FaBuildingO/> Apartment Maintenance</NavLink>
+// <NavbarBrand href="home"><FaBuildingO/> Apartment Maintenance</NavbarBrand>
     return (
       <div>
         <Navbar color="light" light expand="md">
-          <NavbarBrand href="home"><FaBuildingO/> Apartment Maintenance</NavbarBrand>
+          <NavbarBrand tag={baz}/>
           <NavbarToggler onClick={this.toggle}/>
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
