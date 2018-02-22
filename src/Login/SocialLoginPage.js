@@ -31,7 +31,7 @@ class SocialLoginPage extends React.Component {
 
   render() {
     return (
-      <i>.{this.fbButton()}.{this.googleButton()}.</i>
+      <i className="float-right">{this.fbButton()}.{this.googleButton()}</i>
     )
   }
 

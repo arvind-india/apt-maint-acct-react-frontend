@@ -64,8 +64,8 @@ class LoginPage extends React.Component {
   emailId() {
     const { email, submitted } = this.state
     return <FormGroup row>
-      <Label for="email" sm={3}>Email_Id</Label>
-      <Col sm={9}>
+      <Label for="email" sm={{size: 1, offset: 4}}>Email_Id</Label>
+      <Col sm={3}>
         <Input
           type="email"
           name="email"
@@ -81,8 +81,8 @@ class LoginPage extends React.Component {
   password() {
     const { password, submitted } = this.state
     return <FormGroup row>
-      <Label sm={3}>Password</Label>
-      <Col sm={9}>
+      <Label sm={{size: 1, offset: 4}}>Password</Label>
+      <Col sm={3}>
         <Input
           type="password"
           name="password"
@@ -96,28 +96,28 @@ class LoginPage extends React.Component {
   }
 
   buttons1() {
+    //<Label sm={{size: 3, offset: 6}}></Label>
     return <FormGroup row>
-      <Label sm={3}></Label>
-      <Col smoffset={3} sm={9}>
+      <Col sm={{size: 3, offset: 5}}>
         <Button type="submit" color="primary" bssize="large" title="Go to App">Login</Button>
         <Button color="link" title="Go to home">
           <Link to="/home" className="text-danger" >Cancel</Link>
         </Button>
-        <SocialLoginPage />
-        <Button color="link" title="Go to Registration">
-          <Link to="/register" className="text-success">Register</Link>
+        <Button color="link" title="Forgot Password" className="float-right">
+          <Link to="/login/forgot-password" className="text-info" title="Request for resetting forgotton password">Forgot Password?</Link>
         </Button>
       </Col>
     </FormGroup>
   }
 
   buttons2() {
+    // <Label sm={3}></Label>
     return <FormGroup row>
-      <Label sm={3}></Label>
-      <Col smoffset={3} sm={9}>
-        <Button color="link" title="Forgot Password">
-          <Link to="/login/forgot-password" className="text-info" title="Request for resetting forgotton password">Forgot Password?</Link>
+      <Col sm={{size: 3, offset: 5}}>
+        <Button color="link" title="Go to Registration" className="float-left">
+          <Link to="/register" className="text-success">New User?</Link>
         </Button>
+        <SocialLoginPage />
       </Col>
     </FormGroup>
   }

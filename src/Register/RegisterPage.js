@@ -88,8 +88,8 @@ class RegisterPage extends React.Component {
   userName() {
     const { submitted, user } = this.state
     return <FormGroup row>
-      <Label sm={3}>UserName</Label>
-      <Col sm={9}>
+      <Label sm={{size: 1, offset: 4}}>UserName</Label>
+      <Col sm={3}>
         <Input
           type="text"
           name="name"
@@ -103,8 +103,8 @@ class RegisterPage extends React.Component {
   firstName() {
     const { submitted, user } = this.state
     return <FormGroup row>
-      <Label sm={3}>FirstName</Label>
-      <Col sm={9}>
+      <Label sm={{size: 1, offset: 4}}>FirstName</Label>
+      <Col sm={3}>
         <Input
           type="text"
           name="first_name"
@@ -118,8 +118,8 @@ class RegisterPage extends React.Component {
   lastName() {
     const { submitted, user } = this.state
     return <FormGroup row>
-      <Label sm={3}>LastName</Label>
-      <Col sm={9}>
+      <Label sm={{size: 1, offset: 4}}>LastName</Label>
+      <Col sm={3}>
         <Input
           type="text"
           name="last_name"
@@ -134,8 +134,8 @@ class RegisterPage extends React.Component {
   email() {
     const { submitted, user } = this.state
     return <FormGroup row>
-      <Label sm={3}>Email_Id</Label>
-      <Col sm={9}>
+      <Label sm={{size: 1, offset: 4}}>Email_Id</Label>
+      <Col sm={3}>
         <Input
           type="email"
           name="email"
@@ -149,8 +149,8 @@ class RegisterPage extends React.Component {
   password() {
     const { submitted, user } = this.state
     return <FormGroup row>
-      <Label sm={3}>Password</Label>
-      <Col sm={9}>
+      <Label sm={{size: 1, offset: 4}}>Password</Label>
+      <Col sm={3}>
         <Input
           type="password"
           name="password"
@@ -164,8 +164,8 @@ class RegisterPage extends React.Component {
   repeatPassword() {
     const { submitted, user, confirmPassword } = this.state
     return <FormGroup row>
-      <Label sm={3}>Repeat_Password</Label>
-      <Col sm={9}>
+      <Label sm={{size: 1, offset: 4}} title="Repeat password">Repeat_Pwd</Label>
+      <Col sm={3}>
         <Input
           type="password"
           name="confirmPassword"
@@ -180,13 +180,12 @@ class RegisterPage extends React.Component {
 
   buttons() {
     return <FormGroup row>
-      <Label sm={3}></Label>
-      <Col smoffset={3} sm={9}>
+      <Col sm={{size: 3, offset: 5}}>
         <Button type="submit" color="primary" title="Register New User">Register</Button>
         <Button color="link">
           <Link to="/login" className="text-danger" title="Go to home">Cancel</Link>
         </Button>
-        <SocialLoginPage/>
+        <SocialLoginPage />
       </Col>
     </FormGroup>
   }
