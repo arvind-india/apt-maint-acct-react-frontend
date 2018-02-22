@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { NavLink as NavLinkRRD } from 'react-router-dom'
 import jwtDecode from 'jwt-decode'
 import {
   Collapse,
@@ -55,19 +55,18 @@ class AppNavbar extends React.Component {
 
   render() {
     const { user } = this.props
-    console.log('AppNavBar User: ', user)
     return (
       <div>
         <Navbar color="light" light expand="md">
-          <NavbarBrand href="/home"><FaBuildingO/> Apartment Maintenance</NavbarBrand>
+          <NavbarBrand href="home"><FaBuildingO/> Apartment Maintenance</NavbarBrand>
           <NavbarToggler onClick={this.toggle}/>
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/home"><MdHome/> Home</NavLink>
+                <NavLink tag={NavLinkRRD} to="/home"><MdHome/> Home </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/about"><MdInfoOutline/> About</NavLink>
+                <NavLink tag={NavLinkRRD} to="/about"><MdInfoOutline/> About </NavLink>
               </NavItem>
               {user && this.showAccounts()}
               {user && this.showSettings()}
@@ -97,18 +96,13 @@ class AppNavbar extends React.Component {
   accountsLink() {
     if( !this.authorizes('accounts') ) return ''
     return <DropdownItem>
-      <NavLink href="/accounts" title="Show Accounts (all records)"><MdList/> All Records</NavLink>
-    </DropdownItem>
-  }
-  accountsMonthwiseLink() {
-    return <DropdownItem>
-      <NavLink href="/accountsMonthwise" title="Show Accounts Monthwise"><MdFilterList/> Monthwise</NavLink>
+      <NavLink tag={NavLinkRRD} to="/accounts" title="Show Accounts (all records)"><MdList/> All Records</NavLink>
     </DropdownItem>
   }
   accountSummaryLink() {
     if( !this.authorizes('account-summary') ) return ''
     return <DropdownItem>
-      <NavLink href="/accounts-summary" title="Show Accounts Summary"><MdViewHeadline/> Summary</NavLink>
+      <NavLink tag={NavLinkRRD} to="/accounts-summary" title="Show Accounts Summary"><MdViewHeadline/> Summary</NavLink>
     </DropdownItem>
   }
 
@@ -134,50 +128,50 @@ class AppNavbar extends React.Component {
   residentsLink() {
     if( !this.authorizes('residents') ) return ''
     return <DropdownItem>
-      <NavLink href="/residents"><MdAccountCircle/> Residents</NavLink>
+      <NavLink tag={NavLinkRRD} to="/residents"><MdAccountCircle/> Residents</NavLink>
     </DropdownItem>
   }
   flatsLink() {
     if( !this.authorizes('flats') ) return ''
     return <DropdownItem>
-      <NavLink href="/flats"><MdLocationCity/> Flats</NavLink>
+      <NavLink tag={NavLinkRRD} to="/flats"><MdLocationCity/> Flats</NavLink>
     </DropdownItem>
   }
   flatsToResidentsLink() {
     if( !this.authorizes('flats-residents') ) return ''
     return <DropdownItem>
-      <NavLink href="/flatstoresidents"><MdAttachment/> Flats-Residents</NavLink>
+      <NavLink tag={NavLinkRRD} to="/flatstoresidents"><MdAttachment/> Flats-Residents</NavLink>
     </DropdownItem>
   }
 
   rolesLink() {
     if( !this.authorizes('roles') ) return ''
     return <DropdownItem>
-      <NavLink href="/roles"><MdVpnKey/> Roles</NavLink>
+      <NavLink tag={NavLinkRRD} to="/roles"><MdVpnKey/> Roles</NavLink>
     </DropdownItem>
   }
   permissionsLink() {
     if( !this.authorizes('permissions') ) return ''
     return <DropdownItem>
-      <NavLink href="/permissions"><MdLock/> Permissions</NavLink>
+      <NavLink tag={NavLinkRRD} to="/permissions"><MdLock/> Permissions</NavLink>
     </DropdownItem>
   }
   rolesToPermissionsLink() {
     if( !this.authorizes('roles-permissions') ) return ''
     return <DropdownItem>
-      <NavLink href="/rolestopermissions"><MdAttachment/> Roles-Permissions</NavLink>
+      <NavLink tag={NavLinkRRD} to="/rolestopermissions"><MdAttachment/> Roles-Permissions</NavLink>
     </DropdownItem>
   }
   usersLink() {
     if( !this.authorizes('users') ) return ''
     return <DropdownItem>
-      <NavLink href="/users"><MdGroup /> Users</NavLink>
+      <NavLink tag={NavLinkRRD} to="/users"><MdGroup /> Users</NavLink>
     </DropdownItem>
   }
   usersToRolesLink() {
     if( !this.authorizes('users-roles') ) return ''
     return <DropdownItem>
-      <NavLink href="/usersToRoles"><MdAttachment/> Users-Roles</NavLink>
+      <NavLink tag={NavLinkRRD} to="/usersToRoles"><MdAttachment/> Users-Roles</NavLink>
     </DropdownItem>
   }
   authorizes(module){
@@ -196,13 +190,12 @@ class AppNavbar extends React.Component {
   showLogin() {
     // <NavLink href='/login'><FaSignIn/> Login</NavLink>
     return <NavItem>
-
-              <Link to="/login"><FaSignIn /> Login</Link>
+              <NavLink tag={NavLinkRRD} to="/login"><FaSignIn /> Login</NavLink>
            </NavItem>
   }
   showRegister() {
     return <NavItem>
-              <NavLink href="/register"><MdPersonAdd/> Register</NavLink>
+              <NavLink tag={NavLinkRRD} to="/register"><MdPersonAdd/> Register</NavLink>
            </NavItem>
   }
   showLogout(user) {
@@ -219,7 +212,7 @@ class AppNavbar extends React.Component {
   profileLink() {
     if( !this.authorizes('user-profile') ) return ''
     return <DropdownItem>
-      <NavLink href='/userprofile'><MdEdit/> Profile</NavLink>
+      <NavLink tag={NavLinkRRD} to='/userprofile'><MdEdit/> Profile</NavLink>
     </DropdownItem>
   }
   logoutLink() {

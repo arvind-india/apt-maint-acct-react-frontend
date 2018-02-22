@@ -35,9 +35,9 @@ class App extends Component {
   render() {
     return (
       <div>
-        <AppNavbar/>
         <Router history={history}>
           <div>
+            <AppNavbar/>
             <Route exact path="/" component={HomePage} />
             <Route path="/home" component={HomePage} />
             <Switch>
