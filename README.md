@@ -11,7 +11,7 @@ Features:
 
 
 ## Demo  
-A read-only demo is [here](http://eastgate.in/apt-maint-acct-react-frontend-demo).  
+A read-only demo is [here](http://eastgate.in/apt-maint-react-demo).  
 
 
 ## Backend  
