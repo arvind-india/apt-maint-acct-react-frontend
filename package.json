@@ -1,9 +1,9 @@
 {
-  "name": "apt-maint-app-react-frontend",
+  "name": "apt-maint-react-app",
   "version": "0.1.0",
   "private": false,
   "license": "MIT",
-  "homepage": "/apt-maint-react/",
+  "homepage": "http://eastgate.in/apt-maint-react-demo",
   "keywords": [
     "Apartment",
     "Maintenance",
