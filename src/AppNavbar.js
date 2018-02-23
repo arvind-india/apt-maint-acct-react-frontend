@@ -64,7 +64,7 @@ class AppNavbar extends React.Component {
                         tag={NavLinkRRD}
                         to="/"
                         ><FaBuildingO/> Apartment Maintenance</NavLink>
-// <NavbarBrand href="home"><FaBuildingO/> Apartment Maintenance</NavbarBrand>
+
     return (
       <div>
         <Navbar color="light" light expand="md">
@@ -72,20 +72,8 @@ class AppNavbar extends React.Component {
           <NavbarToggler onClick={this.toggle}/>
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
-              <NavItem>
-                <NavLink
-                  tag={NavLinkRRD}
-                  to="/home"
-                  activeClassName="selected"
-                  ><MdHome/> Home </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink
-                  tag={NavLinkRRD}
-                  to="/about"
-                  activeClassName="selected"
-                  ><MdInfoOutline/> About </NavLink>
-              </NavItem>
+              { this.showHome() }
+              { this.showAbout() }
               {user && this.showAccounts()}
               {user && this.showSettings()}
               {user
@@ -97,6 +85,25 @@ class AppNavbar extends React.Component {
         </Navbar>
       </div>
     )
+  }
+
+  showHome() {
+    return <NavItem>
+      <NavLink
+        tag={NavLinkRRD}
+        to="/home"
+        activeClassName="selected"
+        ><MdHome/> Home </NavLink>
+    </NavItem>
+  }
+  showAbout() {
+    return <NavItem>
+      <NavLink
+        tag={NavLinkRRD}
+        to="/about"
+        activeClassName="selected"
+        ><MdInfoOutline/> About </NavLink>
+    </NavItem>
   }
 
   showAccounts() {
