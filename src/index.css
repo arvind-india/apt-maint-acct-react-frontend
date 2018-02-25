@@ -15,40 +15,46 @@ label {
 }
 .llabel {
 	grid-column: 1 / 2;
-	grid-row: 1;
+	grid-row: 1 / 2;
+  font-weight: bold;
+	text-align: center;
 }
 .lselect {
 	grid-column: 1 / 2;
-	grid-row: 2;
+	grid-row: 2 / 3;
 }
+.homeButton {
+	grid-column: 1 / 2;
+	grid-row: 3 / 4;
+}
+
 
 .alabel {
 	grid-column: 2 / 3;
-	grid-row: 1;
+	grid-row: 1 / 2;
+  font-weight: bold;
+	text-align: center;
 }
 .aselect {
 	grid-column: 2 / 3;
-	grid-row: 2;
+	grid-row: 2 / 3;
 }
 .dbutton {
 	grid-column: 2 / 3;
-	grid-row: 3;
+	grid-row: 3 / 4;
 }
 
 .dlabel {
 	grid-column: 3 / 4;
-	grid-row: 1;
+	grid-row: 1 / 2;
+  font-weight: bold;
+	text-align: center;  
 }
 .dselect {
 	grid-column: 3 / 4;
-	grid-row: 2;
+	grid-row: 2 / 3;
 }
 .abutton {
 	grid-column: 3 / 4;
-	grid-row: 3;
-}
-
-.homeButton {
-	grid-column: 1 / 2;
-	grid-row: 3;
+	grid-row: 3 / 4;
 }

@@ -55,13 +55,63 @@ class FlatsToResidentsLinkPage extends React.Component {
   }
 
   show() {
+    // {this.showLeftList()}
+    // {this.showAttachedList()}
+    // {this.showDetachedList()}
+
     return <div className="list-to-list">
-      {this.showLeftList()}
-      {this.showAttachedList()}
-      {this.showDetachedList()}
+      { this.showLeftLabel() }
+      { this.showLeftInput() }
+      { this.showLeftButton() }
+
+      { this.showAttachedLabel() }
+      { this.showAttachedInput() }
+      { this.showDetachButton() }
+
+      { this.showDetachedLabel() }
+      { this.showDetachedInput() }
+      { this.showAttachButton() }
     </div>
   }
 
+  showLeftLabel() {
+    return <Label
+      for="leftItem"
+      className="llabel"
+      >Select a Flat</Label>
+  }
+  showLeftInput() {
+    const { flats } = this.props
+    return <Input
+      type="select"
+      name="leftItem"
+      id="leftItem"
+      size="20"
+      className="lselect"
+      onChange={this.handleChangeInLeftList}
+    >
+    { flats.items && flats.items.map(each =>
+      <option value={each.id} title={each.remark} key={each.id}
+        >{each.block_number}-{each.flat_number}</option>)
+    }
+    </Input>
+  }
+  handleChangeInLeftList(event) {
+    const { value } = event.target
+    this.setState({
+      selectedOptionInLeftList: value
+    })
+    this.props.dispatch(flatActions.getMyResidents(value))
+  }
+
+  showLeftButton() {
+    return <div class="homeButton"><Button
+      color="link"
+      ><Link to="/home"><MdHome/> Home</Link></Button>
+    </div>
+  }
+
+/*
   showLeftList() {
     const { flats } = this.props
     return <div>
@@ -82,15 +132,54 @@ class FlatsToResidentsLinkPage extends React.Component {
       <Button color="link" className="homeButton"><Link to="/home"><MdHome/> Home</Link></Button>
     </div>
   }
+*/
 
-  handleChangeInLeftList(event) {
-    const { value } = event.target
+  showAttachedLabel() {
+    return <Label
+      for="attachedItems"
+      className="alabel"
+    >Attached Residents</Label>
+  }
+  showAttachedInput() {
+    const { flatsToResidents } = this.props
+    const { selectedOptionInLeftList } = this.state
+    return <Input
+      type="select"
+      name="attachedItems"
+      id="attachedItems"
+      size="20"
+      className="aselect"
+      onChange={this.handleChangeInAttachedList}
+      multiple
+    >
+    { selectedOptionInLeftList &&
+      flatsToResidents.items &&
+      flatsToResidents.items.map(each =>
+      <option value={each.id} title={each.remark?each.is_a+';'+each.remark:each.is_a} key={each.id}
+        >{each.first_name} {each.last_name}</option>)
+    }
+    </Input>
+  }
+  handleChangeInAttachedList(event) {
+    const { selectedOptions } = event.target
     this.setState({
-      selectedOptionInLeftList: value
+      selectedOptionsInAList: Array.from(selectedOptions)
     })
-    this.props.dispatch(flatActions.getMyResidents(value))
+  }
+  showDetachButton() {
+    const { authzn } = this.props
+    const { selectedOptionsInAList } = this.state
+    return <Button
+      color="danger"
+      className="dbutton"
+      onClick={this.detachItems}
+      disabled={selectedOptionsInAList.length === 0}
+      hidden={!authzn.allowsEdit}
+      title="Detach selected items"
+    ><MdThumbDown/> Detach</Button>
   }
 
+/*
   showAttachedList() {
     const { flatsToResidents, authzn } = this.props
     const { selectedOptionInLeftList, selectedOptionsInAList } = this.state
@@ -125,12 +214,9 @@ class FlatsToResidentsLinkPage extends React.Component {
       ><MdThumbDown/> Detach</Button>
     </div>
   }
-  handleChangeInAttachedList(event) {
-    const { selectedOptions } = event.target
-    this.setState({
-      selectedOptionsInAList: Array.from(selectedOptions)
-    })
-  }
+*/
+
+
   detachItems() {
     const { dispatch, flatsToResidents } = this.props
     const { selectedOptionsInAList, selectedOptionInLeftList } = this.state
@@ -143,6 +229,63 @@ class FlatsToResidentsLinkPage extends React.Component {
     dispatch(flatActions.updateMyResidents(id, ids_toBeRetained))
     this.setState({ selectedOptionsInAList: [] })
   }
+
+  showDetachedLabel() {
+    return <Label
+      for="detachedItems"
+      className="dlabel"
+    >Available Residents</Label>
+  }
+  showDetachedInput() {
+    const { flatsToResidents, residents } = this.props
+    const { selectedOptionInLeftList } = this.state
+    let available = [];
+    let grantedIDs = []
+    if(flatsToResidents.items) {
+      grantedIDs = flatsToResidents.items.map(each => each.id)
+    }
+    if(residents.items && selectedOptionInLeftList) {
+      available = grantedIDs.length ?
+        residents.items.filter(each => !grantedIDs.includes(each.id)) :
+        residents.items
+    }
+    return <Input
+      type="select"
+      name="detachedItems"
+      id="detachedItems"
+      size="20"
+      className="dselect"
+      onChange={this.handleChangeInDetachedList}
+      multiple
+    >
+    {
+      available.map(each =>
+      <option value={each.id} title={each.remark?each.is_a+';'+each.remark:each.is_a} key={each.id}
+        >{each.first_name} {each.last_name}</option>)
+    }
+    </Input>
+  }
+  handleChangeInDetachedList(event){
+    const { selectedOptions } = event.target
+    this.setState({
+      selectedOptionsInDList: Array.from(selectedOptions)
+    })
+  }
+  showAttachButton() {
+    const { authzn } = this.props
+    const { selectedOptionsInDList } = this.state
+
+    return <Button
+      color="success"
+      className="abutton"
+      onClick={this.attachItems}
+      disabled={selectedOptionsInDList.length === 0}
+      hidden={!authzn.allowsEdit}
+      title="Attach selected items"
+    ><MdThumbUp/> Attach</Button>
+  }
+
+/*
   showDetachedList() {
     const { flatsToResidents, residents, authzn } = this.props
     const { selectedOptionInLeftList, selectedOptionsInDList } = this.state
@@ -187,13 +330,8 @@ class FlatsToResidentsLinkPage extends React.Component {
       ><MdThumbUp/> Attach</Button>
     </div>
   }
+*/
 
-  handleChangeInDetachedList(event){
-    const { selectedOptions } = event.target
-    this.setState({
-      selectedOptionsInDList: Array.from(selectedOptions)
-    })
-  }
   attachItems() {
     const { dispatch, flatsToResidents } = this.props
     const { selectedOptionsInDList, selectedOptionInLeftList } = this.state
