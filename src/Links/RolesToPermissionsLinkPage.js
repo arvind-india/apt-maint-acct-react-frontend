@@ -145,6 +145,11 @@ class RolesToPermissionsLinkPage extends React.Component {
       className="alabel"
     >Granted Permissions</Label>
   }
+  resourceWise(a, b) {
+    if(a.resource < b.resource) return -1
+    if(a.resource > b.resource) return 1
+    return 0
+  }
   showAttachedInput() {
     const { rolesToPermissions } = this.props
     const { selectedOptionInLeftList } = this.state
@@ -159,9 +164,9 @@ class RolesToPermissionsLinkPage extends React.Component {
     >
     { selectedOptionInLeftList &&
       rolesToPermissions.items &&
-      rolesToPermissions.items.map(each =>
+      rolesToPermissions.items.sort(this.resourceWise).map(each =>
       <option value={each.id} title={each.description} key={each.id}
-        >{each.operations} on {each.resource} {each.condition?' (restricted)':''}</option>)
+        >{each.resource} {each.condition?' (restricted)':''} with {each.operations}</option>)
     }
     </Input>
   }
@@ -264,9 +269,9 @@ class RolesToPermissionsLinkPage extends React.Component {
       multiple
     >
     {
-      available.map(each =>
+      available.sort(this.resourceWise).map(each =>
       <option value={each.id} title={each.description} key={each.id}
-        >{each.operations} on {each.resource} {each.condition?' (restricted)':''}</option>)
+        >{each.resource} {each.condition?' (restricted)':''} with {each.operations}</option>)
     }
     </Input>
   }
