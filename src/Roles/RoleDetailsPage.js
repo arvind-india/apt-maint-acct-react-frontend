@@ -109,7 +109,7 @@ class RoleDetailsPage extends React.Component {
       options = roles.items.filter(each => each.name !== model.name)
     }
     return <div data-field-span="1">
-      <Label>Inherits</Label>
+      <Label>Inherits (optional)</Label>
       <Select
         name="form-field-name"
         value={model.inherits}

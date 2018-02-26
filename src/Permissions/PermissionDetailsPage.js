@@ -218,7 +218,7 @@ class PermissionDetailsPage extends React.Component {
         name="form-field-name"
         value={model.resource}
         simpleValue={true}
-        placeholder="Select Inherits..."
+        placeholder="Select a Resource..."
         onChange={this.handleResourceChange}
         valueKey="name"
         labelKey="label"
@@ -231,7 +231,7 @@ class PermissionDetailsPage extends React.Component {
   showCondition() {
     const { model } = this.state
     return <div data-field-span="1">
-				<Label>Conditions</Label>
+				<Label>Conditions (optional)</Label>
         <Input
           type="text"
           name="condition"
