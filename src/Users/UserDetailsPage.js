@@ -254,7 +254,7 @@ class UserDetailsPage extends React.Component {
   showUsername(model) {
     const { submitted } = this.state // model is modified user
     return <div data-field-span="1">
-				<Label>Username</Label>
+				<Label>Username [Required]</Label>
         <Input
           type="text"
           name="name"
@@ -326,7 +326,7 @@ class UserDetailsPage extends React.Component {
   showFirstName(model) {
     const { submitted } = this.state // mser is modified user
     return <div data-field-span="1">
-        <Label>FirstName</Label>
+        <Label>FirstName [Required]</Label>
         <Input
           type="text"
           name="first_name"
@@ -343,7 +343,7 @@ class UserDetailsPage extends React.Component {
   showLastName(model) {
     const { submitted } = this.state // mser is modified user
     return <div data-field-span="1">
-        <Label>LastName</Label>
+        <Label>LastName [Required]</Label>
         <Input
           type="text"
           name="last_name"
@@ -360,7 +360,7 @@ class UserDetailsPage extends React.Component {
   showEmail(model){
     const { submitted } = this.state // mser is modified user
     return <div data-field-span="1">
-        <Label>email</Label>
+        <Label>email [Required]</Label>
         <Input
           type="email"
           name="email"

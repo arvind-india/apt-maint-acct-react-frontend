@@ -91,7 +91,8 @@ class UsersPage extends React.Component {
         last_name: '',
         email: '',
         infos: []
-      }
+      },
+      title: 'User Details'
     }
   }
   showRow(model, index) {
