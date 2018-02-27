@@ -33,7 +33,7 @@ Steps [here](https://github.com/mohankumaranna/apt-maint-acct-react-frontend/wik
 
 ## Technical Guide
 
-[Here](https://github.com/mohankumaranna/apt-maint-acct-react-frontend/wiki/Technical-Guide}
+[Here](https://github.com/mohankumaranna/apt-maint-acct-react-frontend/wiki/Technical-Guide)
 
 
 
