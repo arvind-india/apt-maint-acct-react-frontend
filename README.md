@@ -1,7 +1,6 @@
 # apt-maint-acct-react-frontend  
 Exploring React & Redux frameworks by re-implementing a tiny application on Apartment Maintenance Account, that was earlier written in Angular.  
 
-
 Features:  
 1. Authentication using JSON Web Token (JWT),  
 2. Authorizations using Hierarchical Role Based Access Control (RBAC),   
@@ -10,31 +9,19 @@ Features:
 5. Reusable code for future projects; almost always, variables are written meaningful so as to convey what it is doing and added comments, where necessary, to convey intention of the code.  
 
 
-## Demo  
-A read-only demo is [here](http://eastgate.in/apt-maint-react-demo).  
+## [Demo (read-only)](http://eastgate.in/apt-maint-react-demo).  
 
 
-## Backend  
-A backend for this application, written in NodeJS/ExpressJS, is available. Please refer  [here](https://github.com/mohankumaranna/apt-maintenance-account-backend).  
+## [Backend, written in NodeJS/ExpressJS](https://github.com/mohankumaranna/apt-maintenance-account-backend).  
 
 
-
-## Installation  
-
-Steps [here](https://github.com/mohankumaranna/apt-maint-acct-react-frontend/wiki/Installation-Guide).  
+## [Installation Guide](https://github.com/mohankumaranna/apt-maint-acct-react-frontend/wiki/Installation-Guide).  
 
 
-
-## User Guide
-
-[Here](https://github.com/mohankumaranna/apt-maint-acct-react-frontend/wiki/User-Guide)
+## [User Guide](https://github.com/mohankumaranna/apt-maint-acct-react-frontend/wiki/User-Guide)
 
 
-
-## Technical Guide
-
-[Here](https://github.com/mohankumaranna/apt-maint-acct-react-frontend/wiki/Technical-Guide)
-
+## [Technical Guide](https://github.com/mohankumaranna/apt-maint-acct-react-frontend/wiki/Technical-Guide)
 
 
 ## License  
