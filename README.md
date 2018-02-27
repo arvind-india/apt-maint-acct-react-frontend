@@ -18,14 +18,23 @@ A read-only demo is [here](http://eastgate.in/apt-maint-react-demo).
 A backend for this application, written in NodeJS/ExpressJS, is available. Please refer  [here](https://github.com/mohankumaranna/apt-maintenance-account-backend).  
 
 
+
 ## Installation  
 
-Steps to be followed are [here](https://github.com/mohankumaranna/apt-maint-acct-react-frontend/wiki/Installation-Guide).  
+Steps [here](https://github.com/mohankumaranna/apt-maint-acct-react-frontend/wiki/Installation-Guide).  
+
 
 
 ## User Guide
 
 [Here](https://github.com/mohankumaranna/apt-maint-acct-react-frontend/wiki/User-Guide)
+
+
+
+## Technical Guide
+
+[Here](https://github.com/mohankumaranna/apt-maint-acct-react-frontend/wiki/Technical-Guide}
+
 
 
 ## License  
