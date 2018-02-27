@@ -23,5 +23,10 @@ A backend for this application, written in NodeJS/ExpressJS, is available. Pleas
 Steps to be followed are [here](https://github.com/mohankumaranna/apt-maint-acct-react-frontend/wiki/Installation-Guide).  
 
 
+## User Guide
+
+[Here](https://github.com/mohankumaranna/apt-maint-acct-react-frontend/wiki/User-Guide)
+
+
 ## License  
 MIT  

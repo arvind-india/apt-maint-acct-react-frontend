@@ -231,7 +231,7 @@ class AccountDetailsPage extends React.Component {
     let options = flats.items?flats.items:[]
 
     return <div data-field-span="1">
-				<Label>Flat Number</Label>
+				<Label>Flat Number (optional)</Label>
         <Select
           name="form-field-name"
           value={model.flat_number}
