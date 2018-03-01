@@ -9,20 +9,15 @@ Features:
 5. Reusable code for future projects; almost always, variables are written meaningful so as to convey what it is doing and added comments, where necessary, to convey intention of the code.  
 
 
-## [Demo (read-only)](http://eastgate.in/apt-maint-react-demo).  
+#### [Demo (read-only)](http://eastgate.in/apt-maint-react-demo)  
 
+#### [Backend, written in NodeJS/ExpressJS](https://github.com/mohankumaranna/apt-maintenance-account-backend)  
 
-## [Backend, written in NodeJS/ExpressJS](https://github.com/mohankumaranna/apt-maintenance-account-backend).  
+#### [Installation Guide](https://github.com/mohankumaranna/apt-maint-acct-react-frontend/wiki/Installation-Guide)  
 
+#### [User Guide](https://github.com/mohankumaranna/apt-maint-acct-react-frontend/wiki/User-Guide)
 
-## [Installation Guide](https://github.com/mohankumaranna/apt-maint-acct-react-frontend/wiki/Installation-Guide).  
+#### [Technical Guide](https://github.com/mohankumaranna/apt-maint-acct-react-frontend/wiki/Technical-Guide)
 
-
-## [User Guide](https://github.com/mohankumaranna/apt-maint-acct-react-frontend/wiki/User-Guide)
-
-
-## [Technical Guide](https://github.com/mohankumaranna/apt-maint-acct-react-frontend/wiki/Technical-Guide)
-
-
-## License  
+#### License  
 MIT  

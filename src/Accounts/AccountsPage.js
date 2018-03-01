@@ -215,10 +215,8 @@ class AccountsPage extends React.Component {
 
 function mapStateToProps(state) {
   const { accounts, alert, authorizations, users } = state
-  // const { user } = authentication
   const authzn = authorizations[module]
   return {
-//    user,
     accounts,
     alert,
     authzn,
