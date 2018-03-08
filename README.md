@@ -9,7 +9,7 @@ Features:
 5. Reusable code for future projects; almost always, variables are written meaningful so as to convey what it is doing and added comments, where necessary, to convey intention of the code.  
 
 
-#### [Demo (read-only)](http://eastgate.in/apt-maint-react-demo)  
+#### [Demo (read-only)](https://eastgate.in/apt-maint-react-demo)  
 
 #### [Backend, written in NodeJS/ExpressJS](https://github.com/mohankumaranna/apt-maintenance-account-backend)  
 

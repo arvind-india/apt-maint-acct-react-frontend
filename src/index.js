@@ -4,16 +4,17 @@ import { Provider } from 'react-redux'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'react-select/dist/react-select.css'
 
-//import 'hellojs/dist/hello.all.js' // used for social logins such as Facebook, Google
-
 import './gridforms.css'
 import './index.css';
 
 import { App } from './App';
 import { store } from './_helpers'
+import registerServiceWorker from './registerServiceWorker'
 
 ReactDOM.render(
   <Provider store={store}>
     <App />
   </Provider>,
   document.getElementById('root'));
+
+registerServiceWorker();

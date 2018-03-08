@@ -77,6 +77,7 @@ class RegisterPage extends React.Component {
           { this.userName() }
           { this.firstName() }
           { this.lastName() }
+          { this.email() }
           { this.password() }
           { this.repeatPassword() }
           { this.buttons() }

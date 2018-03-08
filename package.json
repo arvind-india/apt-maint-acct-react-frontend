@@ -1,9 +1,9 @@
 {
   "name": "apt-maint-react-app",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "private": false,
   "license": "MIT",
-  "homepage": "http://eastgate.in/apt-maint-react-demo",
+  "homepage": "https://eastgate.in/apt-maint-react-demo",
   "keywords": [
     "Apartment",
     "Maintenance",
@@ -23,7 +23,8 @@
     "Complete App",
     "Full App",
     "Skeleton App",
-    "Foundation App"
+    "Foundation App",
+    "BoilerPlate"
   ],
   "author": "Mohankumar Anna <armk100@gmail.com>",
   "dependencies": {
