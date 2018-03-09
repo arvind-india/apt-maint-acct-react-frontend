@@ -5,10 +5,16 @@ export const axiosClient={
   instance
 }
 
+
+// baseURL: process.env.REACT_APP_API_URL+'/api',
 function instance() {
   let user = JSON.parse(sessionStorage.getItem('user'))
+  let host = process.env.NODE_ENV === 'production' ?
+              window.location.origin :
+              process.env.REACT_APP_API_URL
+  console.log('host ', host)
   return axios.create({
-    baseURL: process.env.REACT_APP_API_URL+'/api',
+    baseURL: host+'/api',
     timeout: 10000,
     headers: {
       'Content-Type': 'application/json',
