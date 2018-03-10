@@ -21,7 +21,7 @@ export const userActions = {
 }
 
 function login(username, password) {
-
+  console.log('User Actions: ', 'login process...for username: '+username+', password: '+password)
   return dispatch => {
     dispatch(request({ username }))
 

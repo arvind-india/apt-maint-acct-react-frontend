@@ -26,6 +26,7 @@ function http() {
 
 function login(username, password) {
   let data = { email: username, password: password }
+  console.log('Login: ', 'user service >> login...')
   return http().post('/login', data)
     .then(handleLoginResponse)
     .catch(handleError)

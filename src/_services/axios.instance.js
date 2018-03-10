@@ -12,6 +12,10 @@ function instance() {
   let host = process.env.NODE_ENV === 'production' ?
               window.location.origin :
               process.env.REACT_APP_API_URL
+
+  // let host = process.env.REACT_APP_API_URL
+  //let host = 'http://react-demo.eastgate.test'
+  console.log('window location origin: ', window.location.origin)
   console.log('host ', host)
   return axios.create({
     baseURL: host+'/api',
