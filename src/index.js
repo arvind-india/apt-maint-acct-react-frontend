@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import 'react-select/dist/react-select.css'
 
 import './gridforms.css'
-import './index.css';
+import './index.css';  // moved to index.html to enable fast loading of first page
 
 import { App } from './App';
 import { store } from './_helpers'

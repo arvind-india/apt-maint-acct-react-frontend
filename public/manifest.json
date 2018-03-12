@@ -3,8 +3,13 @@
   "name": "Apartment Maintenance Account Demo",
   "icons": [
     {
-      "src": "icon.png",
+      "src": "eg_logo14_192x192.png",
       "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "eg_logo14_512x512.png",
+      "sizes": "512x512",
       "type": "image/png"
     }
   ],

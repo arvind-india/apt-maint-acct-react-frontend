@@ -7,7 +7,7 @@ Features:
 3. App Login, Registration, Forgot Password, Social Logins.  
 4. NodeJS backend.  
 5. Reusable code for future projects; almost always, variables are written meaningful so as to convey what it is doing and added comments, where necessary, to convey intention of the code.  
-6. Enabled as Progressive Web Application so that it can now be added onto HomeScreen of a Mobile.  
+6. Enabled as Progressive Web Application (PWA); hence, this App can be added onto HomeScreen of a Mobile.  
 
 
 #### [Demo (read-only)](https://react-demo.eastgate.in)  
