@@ -65,5 +65,4 @@ describe('LoginPage events test', () => {
     component.find('#loginForm').simulate('submit', {preventDefault() {}})
     expect(mockProps.login.mock.calls[1]).toEqual(mockResult)
   })
-
 })
