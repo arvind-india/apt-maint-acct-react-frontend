@@ -55,7 +55,6 @@ class HomePage extends React.Component {
             <br/>
           {user && this.isJWTExpired(user.id_token) && this.exitApp()}
         </p>
-
       </div>
     )
   }

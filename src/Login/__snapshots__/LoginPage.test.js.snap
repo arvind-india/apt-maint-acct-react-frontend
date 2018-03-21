@@ -1,0 +1,224 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoginPage params test should render initial layout 1`] = `
+Array [
+  <div>
+    <h2
+        align="center"
+    >
+        Login
+    </h2>
+    <div
+        className="alert undefined"
+    >
+        testingAlert
+    </div>
+    <Form
+        id="loginForm"
+        onSubmit={[Function]}
+        tag="form"
+    >
+        <FormGroup
+            row={true}
+            tag="div"
+        >
+            <Label
+                for="email"
+                sm={
+                    Object {
+                        "offset": 4,
+                        "size": 1,
+                      }
+                }
+                tag="label"
+                widths={
+                    Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                }
+            >
+                Email_Id
+            </Label>
+            <Col
+                sm={3}
+                tag="div"
+                widths={
+                    Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                }
+            >
+                <Input
+                    defaultValue="guest@eastgate.in"
+                    id="email"
+                    name="email"
+                    onChange={[Function]}
+                    placeholder="email id here"
+                    tag="p"
+                    type="email"
+                />
+            </Col>
+        </FormGroup>
+        <FormGroup
+            row={true}
+            tag="div"
+        >
+            <Label
+                sm={
+                    Object {
+                        "offset": 4,
+                        "size": 1,
+                      }
+                }
+                tag="label"
+                widths={
+                    Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                }
+            >
+                Password
+            </Label>
+            <Col
+                sm={3}
+                tag="div"
+                widths={
+                    Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                }
+            >
+                <Input
+                    defaultValue="password123"
+                    id="password"
+                    name="password"
+                    onChange={[Function]}
+                    placeholder="password here"
+                    tag="p"
+                    type="password"
+                />
+            </Col>
+        </FormGroup>
+        <FormGroup
+            row={true}
+            tag="div"
+        >
+            <Col
+                sm={
+                    Object {
+                        "offset": 5,
+                        "size": 3,
+                      }
+                }
+                tag="div"
+                widths={
+                    Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                }
+            >
+                <Button
+                    bssize="large"
+                    color="primary"
+                    id="submitButton"
+                    tag="button"
+                    title="Go to App"
+                    type="submit"
+                >
+                    Login
+                </Button>
+                <Button
+                    color="link"
+                    tag="button"
+                    title="Go to home"
+                >
+                    <Link
+                        className="text-danger"
+                        replace={false}
+                        to="/home"
+                    >
+                        Cancel
+                    </Link>
+                </Button>
+                <Connect(SocialLogin) />
+            </Col>
+        </FormGroup>
+        <FormGroup
+            row={true}
+            tag="div"
+        >
+            <Col
+                sm={
+                    Object {
+                        "offset": 5,
+                        "size": 3,
+                      }
+                }
+                tag="div"
+                widths={
+                    Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                }
+            >
+                <Button
+                    className="float-right"
+                    color="link"
+                    id="newUser"
+                    tag="button"
+                    title="Go to Registration"
+                >
+                    <Link
+                        className="text-success"
+                        replace={false}
+                        to="/register"
+                    >
+                        New User?
+                    </Link>
+                </Button>
+                <Button
+                    className="float-left"
+                    color="link"
+                    id="forgotPassword"
+                    tag="button"
+                    title="Forgot Password"
+                >
+                    <Link
+                        className="text-info"
+                        replace={false}
+                        title="Request for resetting forgotton password"
+                        to="/login/forgot-password"
+                    >
+                        Forgot Password?
+                    </Link>
+                </Button>
+            </Col>
+        </FormGroup>
+    </Form>
+</div>,
+]
+`;

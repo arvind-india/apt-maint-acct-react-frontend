@@ -1,9 +1,11 @@
 import { userConstants as constants } from '../_constants'
 
+/*
 let user = JSON.parse(sessionStorage.getItem('user'))
 const initialState = user ? { loggedIn: true, user } : {}
 
-export function authenticationSocial(state = initialState, action) {
+export function authenticationSocial(state = initialState, action) { */
+export function authenticationSocial(state = {}, action) {
   switch(action.type) {
     case constants.SOCIALLOGIN_REQUEST:
       return {
@@ -18,7 +20,7 @@ export function authenticationSocial(state = initialState, action) {
     case constants.SOCIALLOGIN_FAILURE:
       return {}
     case constants.LOGOUT:
-      return {}      
+      return {}
     default:
       return state
   }

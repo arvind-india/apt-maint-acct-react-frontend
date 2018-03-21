@@ -35,7 +35,8 @@ function login(username, password) {
         },
         error => {
           dispatch(failure(error.response))
-          dispatch(alertActions.error(error.response.statusText))
+          // dispatch(alertActions.error(error.response.statusText))
+          dispatch(alertActions.error(error.response))
         }
       )
   }

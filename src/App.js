@@ -10,6 +10,7 @@ import { history } from './_helpers'
 import { PrivateRoute } from './_components'
 import { HomePage } from './Home'
 import { LoginPage, ForgotPasswordPage, ResetPasswordPage } from './Login'
+//import LoginPage, { ForgotPasswordPage, ResetPasswordPage } from './Login'
 import { RegisterPage } from './Register'
 import { AccountsPage, AccountDetailsPage, SummaryPage } from './Accounts'
 import { ResidentsPage, ResidentDetailsPage } from './Residents'
@@ -34,7 +35,6 @@ class App extends Component {
 
   render() {
     return (
-      <div>
         <Router history={history}>
           <div>
             <AppNavbar/>
@@ -77,7 +77,6 @@ class App extends Component {
             <PrivateRoute path="/userprofile" component={UserProfilePage} />
           </div>
         </Router>
-      </div>
     );
   }
 

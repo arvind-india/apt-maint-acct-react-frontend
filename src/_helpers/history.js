@@ -1,10 +1,7 @@
-import { createBrowserHistory } from 'history'
+// import { createBrowserHistory } from 'history'
 
-/*
-let param = process.env.NODE_ENV === 'production' ?
-            {basename: process.env.REACT_APP_API_URL} :
-            ''
-export const history = createBrowserHistory(param)
-*/
+// export const history = createBrowserHistory()
 
-export const history = createBrowserHistory()
+import { createMemoryHistory } from 'history'
+
+export const history = createMemoryHistory()

@@ -1,0 +1,73 @@
+// LoginPage.test.js
+
+import React from 'react'
+import { shallow } from 'enzyme'
+import configureMockStore from 'redux-mock-store'
+
+import { Login } from './LoginPage'
+
+
+// pass in middleware if needed into configureStore
+const mockStore = configureMockStore()
+
+describe('Login Component', () => {
+  let wrapper
+  // let store
+  const mockLoginFn = jest.fn()
+  const auth = {loggingIn: true}
+  const state = {
+    alert: "",
+    authentication: ""
+  }
+
+  beforeEach(() => {
+    const initialState = {
+      alert: {message: "testingAlert"},
+      authentication: {loggingIn: true, user: {}},
+      login: mockLoginFn,
+      logout: jest.fn(), // mock function
+      clearAlert: jest.fn()
+    }
+    let store = mockStore(initialState)
+    // creates the store with any initial state or middleware needed
+     wrapper = shallow(
+      <Login store={store} />
+     )
+    //  wrapper = shallow(<Login {...initialState} />)
+      console.log('Wrapper: ', wrapper.props())
+  })
+
+  it('should show alert message', () => {
+    expect(wrapper.props().alert.message).toBe('testingAlert')
+  })
+
+  describe('When the form is submitted', () => {
+    it('should call the mock login function', () => {
+      wrapper.find('#loginForm').simulate(
+        'submit',
+        {preventDefault() {}}
+      )
+      expect(mockLoginFn.mock.calls.length).toBe(1)
+    })
+
+    it('should be called with the email and password in the state as arguments', () => {
+      wrapper.find('#email').simulate(
+        'change',
+        {target: {name: 'email', value: "dummy@email.id"}}
+      )
+      wrapper.find('#password').simulate(
+        'change',
+        {target: {name: 'password', value: "monkeys"}}
+      )
+      wrapper.find('#loginForm').simulate(
+        'submit',
+        {preventDefault() {}}
+      )
+      // test to see arguments used after its been submitted
+      expect(mockLoginFn.mock.calls[1][0]).toEqual(
+        {email: 'dummy@email.id', password: 'monkeys'}
+      )
+    })
+  })
+
+})

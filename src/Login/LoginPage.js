@@ -12,15 +12,18 @@ import {
         } from 'reactstrap'
 
 import { userActions, alertActions } from '../_actions'
-import { SocialLoginPage } from './SocialLoginPage'
+import SocialLoginPage  from './SocialLoginPage'
 
-class LoginPage extends React.Component {
+export class Login extends React.Component { // exports unconnected component; used in unit testing
   constructor(props) {
     super(props)
 
     // reset login status
-    this.props.dispatch(userActions.logout())
-    this.props.dispatch(alertActions.clear())  // clear alert messages from other pages
+//    this.props.dispatch(userActions.logout())
+//    this.props.dispatch(alertActions.clear())  // clear alert messages from other pages
+// console.log(this.props)
+    this.props.logout()
+    this.props.clearAlert()
 
     this.state = {
       email: 'guest@eastgate.in',
@@ -39,10 +42,11 @@ class LoginPage extends React.Component {
     e.preventDefault()
     this.setState({ submitted: true })
     const { email, password } = this.state
-    const { dispatch } = this.props
+//    const { dispatch } = this.props
     if(email && password) {
       console.log('LoginPage: ', 'login submitted........')
-      dispatch(userActions.login(email, password))
+//      dispatch(userActions.login(email, password))
+      this.props.login(email, password)
     }
   }
   render() {
@@ -52,7 +56,7 @@ class LoginPage extends React.Component {
       <div>
         <h2 align="center">Login</h2>
         {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
-        <Form onSubmit={this.handleSubmit}>
+        <Form id="loginForm" onSubmit={this.handleSubmit}>
           { this.emailId() }
           { this.password() }
           { this.buttons1() }
@@ -68,6 +72,7 @@ class LoginPage extends React.Component {
       <Label for="email" sm={{size: 1, offset: 4}}>Email_Id</Label>
       <Col sm={3}>
         <Input
+          id="email"
           type="email"
           name="email"
           placeholder="email id here"
@@ -85,6 +90,7 @@ class LoginPage extends React.Component {
       <Label sm={{size: 1, offset: 4}}>Password</Label>
       <Col sm={3}>
         <Input
+          id="password"
           type="password"
           name="password"
           placeholder="password here"
@@ -100,13 +106,20 @@ class LoginPage extends React.Component {
     //<Label sm={{size: 3, offset: 6}}></Label>
     return <FormGroup row>
       <Col sm={{size: 3, offset: 5}}>
-        <Button type="submit" color="primary" bssize="large" title="Go to App">Login</Button>
+        <Button
+          id="submitButton"
+          type="submit"
+          color="primary"
+          bssize="large"
+          title="Go to App"
+          >Login</Button>
         <Button color="link" title="Go to home">
-          <Link to="/home" className="text-danger" >Cancel</Link>
+          <Link
+            to="/home"
+            className="text-danger"
+            >Cancel</Link>
         </Button>
-        <Button color="link" title="Forgot Password" className="float-right">
-          <Link to="/login/forgot-password" className="text-info" title="Request for resetting forgotton password">Forgot Password?</Link>
-        </Button>
+        <SocialLoginPage />
       </Col>
     </FormGroup>
   }
@@ -115,10 +128,24 @@ class LoginPage extends React.Component {
     // <Label sm={3}></Label>
     return <FormGroup row>
       <Col sm={{size: 3, offset: 5}}>
-        <Button color="link" title="Go to Registration" className="float-left">
-          <Link to="/register" className="text-success">New User?</Link>
+        <Button
+          id="newUser"
+          color="link"
+          title="Go to Registration"
+          className="float-right"
+          ><Link to="/register" className="text-success">New User?</Link>
         </Button>
-        <SocialLoginPage />
+        <Button
+          id="forgotPassword"
+          color="link"
+          title="Forgot Password"
+          className="float-left"
+          ><Link
+            to="/login/forgot-password"
+            className="text-info"
+            title="Request for resetting forgotton password"
+            >Forgot Password?</Link>
+        </Button>
       </Col>
     </FormGroup>
   }
@@ -134,5 +161,21 @@ function mapStateToProps(state) {
   }
 }
 
-const connectedLoginPage = connect(mapStateToProps)(LoginPage)
-export { connectedLoginPage as LoginPage }
+function mapDispatchToProps(dispatch) {
+  return {
+    login: (email, password) => {
+      dispatch(userActions.login(email, password))
+    },
+    logout: () => {
+      dispatch(userActions.logout())
+    },
+    clearAlert: () => {
+      dispatch(alertActions.clear())
+    }
+  }
+}
+
+//const connectedLoginPage = connect(mapStateToProps, mapDispatchToProps)(Login)
+//export { connectedLoginPage as LoginPage } // exports connected component; cannot be used in unit testing
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login)
