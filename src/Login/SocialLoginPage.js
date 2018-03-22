@@ -8,7 +8,7 @@ import {
 } from 'react-icons/lib/fa' // material design icons
 
 import { userActions, alertActions } from '../_actions'
-/*
+
 let hello = require('hellojs/dist/hello.all.js')
 
 hello.init({
@@ -19,7 +19,6 @@ hello.init({
     scope: 'email'
   }
 )
-*/
 
 export class SocialLogin extends React.Component {
 

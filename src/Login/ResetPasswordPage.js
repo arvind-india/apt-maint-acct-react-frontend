@@ -13,7 +13,7 @@ import {
 
 import { userActions, alertActions } from '../_actions'
 
-class ResetPasswordPage extends React.Component {
+export class ResetPassword extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -53,9 +53,11 @@ console.log('Reset password match: ', match)
         match.params.token &&
         user.password === confirmPassword
     ) {
-      dispatch(userActions.resetPassword(user.password, match.params.token))
+      // dispatch(userActions.resetPassword(user.password, match.params.token))
+      this.props.resetPassword(user.password, match.params.token)
     } else {
-      dispatch(alertActions.error('Missing Data...'))
+      // dispatch(alertActions.error('Missing Data...'))
+      this.props.error('Missing Date...')
     }
   }
   render() {
@@ -112,11 +114,21 @@ console.log('Reset password match: ', match)
         <Button color="link">
           <Link to="/login" className="text-danger" title="Go to home">Cancel</Link>
         </Button>
-
       </Col>
     </FormGroup>
   }
 
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    resetPassword: (password, token) => {
+      dispatch(userActions.resetPassword(password, token))
+    }
+    error: (msg) => {
+      dispatch(alertActions.error(msg))
+    }
+  }
 }
 
 function mapStateToProps(state) {
@@ -126,5 +138,7 @@ function mapStateToProps(state) {
   }
 }
 
-const connectedResetPasswordPage = connect(mapStateToProps)(ResetPasswordPage)
-export { connectedResetPasswordPage as ResetPasswordPage }
+// const connectedResetPasswordPage = connect(mapStateToProps)(ResetPasswordPage)
+// export { connectedResetPasswordPage as ResetPasswordPage }
+
+export default connect(mapStateToProps, mapDispatchToProps)(ResetPassword)
