@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SocialLoginPage params test should render initial layout 1`] = `
+Array [
+  <i
+    className="float-right"
+>
+    <Button
+        color="link"
+        onClick={[Function]}
+        tag="button"
+        title="Facebook login"
+    >
+        <FaFacebook />
+    </Button>
+    .
+    <Button
+        color="link"
+        onClick={[Function]}
+        tag="button"
+        title="Google login"
+    >
+        <FaGoogle />
+    </Button>
+</i>,
+]
+`;

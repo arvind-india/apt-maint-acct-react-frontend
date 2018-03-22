@@ -17,44 +17,38 @@ export class ResetPassword extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      user: {
-        password: '',
-      },
+      password: '',
       confirmPassword: '',
       submitted: false
     }
     this.handleChange = this.handleChange.bind(this)
-    this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this)
+    // this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
   handleChange(event) {
     const { name, value } = event.target
-    const { user } = this.state
     this.setState({
-      user: {
-        ...user,
         [name]: value
-      }
     })
   }
-  handleConfirmPasswordChange(event) {
+/*  handleConfirmPasswordChange(event) {
     this.setState({
       confirmPassword: event.target.value
     })
-  }
+  } */
   handleSubmit(event) {
     event.preventDefault()
     this.setState({ submitted: true })
-    const { user, confirmPassword } = this.state
-    const { dispatch, match } = this.props
-console.log('Reset password match: ', match)
-    if(user.password &&
+    const { password, confirmPassword } = this.state
+    const { match } = this.props
+// console.log('Reset password match: ', match)
+    if(password &&
         confirmPassword &&
         match.params.token &&
-        user.password === confirmPassword
+        password === confirmPassword
     ) {
       // dispatch(userActions.resetPassword(user.password, match.params.token))
-      this.props.resetPassword(user.password, match.params.token)
+      this.props.resetPassword(password, match.params.token)
     } else {
       // dispatch(alertActions.error('Missing Data...'))
       this.props.error('Missing Date...')
@@ -66,7 +60,7 @@ console.log('Reset password match: ', match)
       <div>
         <h2 align="center">Reset Password</h2>
         {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
-        <Form onSubmit={this.handleSubmit}>
+        <Form id="resetPasswordForm" onSubmit={this.handleSubmit}>
           { this.password() }
           { this.repeatPassword() }
           { this.buttons() }
@@ -75,33 +69,35 @@ console.log('Reset password match: ', match)
     )
   }
   password() {
-    const { submitted, user } = this.state
+    const { submitted, password } = this.state
     return <FormGroup row>
       <Label sm={3}>Password</Label>
       <Col sm={9}>
         <Input
+          id="password"
           type="password"
           name="password"
           placeholder="password here"
           onChange={this.handleChange}
         />
-        {submitted && !user.password && <FormText color="danger">Password is required</FormText>}
+        {submitted && !password && <FormText color="danger">Password is required</FormText>}
       </Col>
     </FormGroup>
   }
   repeatPassword() {
-    const { submitted, user, confirmPassword } = this.state
+    const { submitted, password, confirmPassword } = this.state
     return <FormGroup row>
       <Label sm={3}>Repeat_Password</Label>
       <Col sm={9}>
         <Input
+          id="confirmPassword"
           type="password"
           name="confirmPassword"
-          placeholder="Repeat password here"
-          onChange={this.handleConfirmPasswordChange}
+          placeholder="Confirm password here"
+          onChange={this.handleChange}
         />
         {submitted && !confirmPassword && <FormText color="danger">Repeat Password is required</FormText>}
-        {user.password && confirmPassword && user.password !== confirmPassword && <FormText color="danger">Password do NOT matchG</FormText>}
+        {password && confirmPassword && password !== confirmPassword && <FormText color="danger">Password do NOT matchG</FormText>}
       </Col>
     </FormGroup>
   }
@@ -124,7 +120,7 @@ function mapDispatchToProps(dispatch) {
   return {
     resetPassword: (password, token) => {
       dispatch(userActions.resetPassword(password, token))
-    }
+    },
     error: (msg) => {
       dispatch(alertActions.error(msg))
     }

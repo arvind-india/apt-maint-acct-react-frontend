@@ -44,7 +44,7 @@ export class Login extends React.Component { // exports unconnected component; u
     const { email, password } = this.state
 //    const { dispatch } = this.props
     if(email && password) {
-      console.log('LoginPage: ', 'login submitted........')
+//      console.log('LoginPage: ', 'login submitted........')
 //      dispatch(userActions.login(email, password))
       this.props.login(email, password)
     }
@@ -175,7 +175,7 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-//const connectedLoginPage = connect(mapStateToProps, mapDispatchToProps)(Login)
-//export { connectedLoginPage as LoginPage } // exports connected component; cannot be used in unit testing
+// const connectedLoginPage = connect(mapStateToProps, mapDispatchToProps)(Login)
+// export default { connectedLoginPage as LoginPage } // exports connected component; cannot be used in unit testing
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

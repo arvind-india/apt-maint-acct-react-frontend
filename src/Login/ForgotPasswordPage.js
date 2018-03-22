@@ -14,12 +14,14 @@ import {
 import { userActions, alertActions } from '../_actions'
 
 
-class ForgotPasswordPage extends React.Component {
+export class ForgotPassword extends React.Component {
   constructor(props) {
     super(props)
     // reset login status
-    this.props.dispatch(userActions.logout())
-    this.props.dispatch(alertActions.clear())  // clear alert messages from other pages
+    this.props.logout()
+    this.props.clearAlert()
+    // this.props.dispatch(userActions.logout())
+    // this.props.dispatch(alertActions.clear())  // clear alert messages from other pages
     this.state = {
       email: '',
       submitted: false
@@ -35,9 +37,10 @@ class ForgotPasswordPage extends React.Component {
     e.preventDefault()
     this.setState({ submitted: true })
     const { email } = this.state
-    const { dispatch } = this.props
+    // const { dispatch } = this.props
     if(email) {
-      dispatch(userActions.forgotPassword(email))
+      // dispatch(userActions.forgotPassword(email))
+      this.props.forgotPassword(email)
     }
   }
   render() {
@@ -46,7 +49,7 @@ class ForgotPasswordPage extends React.Component {
       <div>
         <h2 align="center">Forgot Password</h2>
         {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
-        <Form onSubmit={this.handleSubmit}>
+        <Form id="forgotPasswordForm" onSubmit={this.handleSubmit}>
           { this.emailId() }
           { this.buttons() }
         </Form>
@@ -60,6 +63,7 @@ class ForgotPasswordPage extends React.Component {
       <Label for="email" sm={3}>Email_Id</Label>
       <Col sm={9}>
         <Input
+          id="email"
           type="email"
           name="email"
           placeholder="email id here"
@@ -92,5 +96,21 @@ function mapStateToProps(state) {
   }
 }
 
-const connectedForgotPasswordPage = connect(mapStateToProps)(ForgotPasswordPage)
-export { connectedForgotPasswordPage as ForgotPasswordPage }
+function mapDispatchToProps(dispatch) {
+  return {
+    forgotPassword: (email) => {
+      dispatch(userActions.forgotPassword(email))
+    },
+    logout: () => {
+      dispatch(userActions.logout())
+    },
+    clearAlert: () => {
+      dispatch(alertActions.clear())
+    }
+  }
+}
+
+// const connectedForgotPasswordPage = connect(mapStateToProps)(ForgotPasswordPage)
+// export { connectedForgotPasswordPage as ForgotPasswordPage }
+
+export default connect(mapStateToProps, mapDispatchToProps)(ForgotPassword)

@@ -63,7 +63,7 @@ export class SocialLogin extends React.Component {
   }
 
   socialLogin(network){
-    const { dispatch } = this.props
+    // const { dispatch } = this.props
 
     let hello = require('hellojs/dist/hello.all.js')
 
