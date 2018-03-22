@@ -25,9 +25,6 @@ export class SocialLogin extends React.Component {
   constructor(props) {
     super(props)
     // reset login status
-    // this.props.dispatch(userActions.logout())
-    // this.props.dispatch(alertActions.clear())  // clear alert messages from other pages
-
     this.props.logout()
     this.props.clearAlert()
   }
@@ -63,7 +60,6 @@ export class SocialLogin extends React.Component {
   }
 
   socialLogin(network){
-    // const { dispatch } = this.props
 
     let hello = require('hellojs/dist/hello.all.js')
 
@@ -81,7 +77,6 @@ export class SocialLogin extends React.Component {
     function socialResponse() {
       let authResponse = hello(network).getAuthResponse();
       let token = authResponse.access_token;
-      // dispatch( userActions.socialLogin(network, token) )
       this.props.socialLogin(network, token)
     }
     function error(err) {
@@ -114,8 +109,5 @@ function mapDispatchToProps(dispatch) {
     }
   }
 }
-
-// const connectedSocialLoginPage = connect(mapStateToProps)(SocialLoginPage)
-// export { connectedSocialLoginPage as SocialLoginPage }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SocialLogin)

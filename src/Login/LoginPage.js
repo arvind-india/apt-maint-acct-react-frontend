@@ -19,9 +19,6 @@ export class Login extends React.Component { // exports unconnected component; u
     super(props)
 
     // reset login status
-//    this.props.dispatch(userActions.logout())
-//    this.props.dispatch(alertActions.clear())  // clear alert messages from other pages
-// console.log(this.props)
     this.props.logout()
     this.props.clearAlert()
 
@@ -42,15 +39,11 @@ export class Login extends React.Component { // exports unconnected component; u
     e.preventDefault()
     this.setState({ submitted: true })
     const { email, password } = this.state
-//    const { dispatch } = this.props
     if(email && password) {
-//      console.log('LoginPage: ', 'login submitted........')
-//      dispatch(userActions.login(email, password))
       this.props.login(email, password)
     }
   }
   render() {
-    //const { email, password, submitted } = this.state
     const { alert } = this.props
     return (
       <div>
@@ -103,7 +96,6 @@ export class Login extends React.Component { // exports unconnected component; u
   }
 
   buttons1() {
-    //<Label sm={{size: 3, offset: 6}}></Label>
     return <FormGroup row>
       <Col sm={{size: 3, offset: 5}}>
         <Button
@@ -125,7 +117,6 @@ export class Login extends React.Component { // exports unconnected component; u
   }
 
   buttons2() {
-    // <Label sm={3}></Label>
     return <FormGroup row>
       <Col sm={{size: 3, offset: 5}}>
         <Button
@@ -174,8 +165,5 @@ function mapDispatchToProps(dispatch) {
     }
   }
 }
-
-// const connectedLoginPage = connect(mapStateToProps, mapDispatchToProps)(Login)
-// export default { connectedLoginPage as LoginPage } // exports connected component; cannot be used in unit testing
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login)

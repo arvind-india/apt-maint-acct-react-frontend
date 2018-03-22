@@ -8,28 +8,19 @@ import { ForgotPassword } from './ForgotPasswordPage'
 
 const mockProps = {
   alert: {message: "testingAlert"},
-  // authentication: {loggingIn: true, user: {}},
-  // login: jest.fn(),  // mock function
   logout: jest.fn(), // mock function
   clearAlert: jest.fn(), // mock function
   forgotPassword: jest.fn()
 }
 const mockStates = {
   email: 'unitTesting@jest.js',
-  // password: 'secret'
 }
 const mockEmail = {
   name: 'email',
   value: "dummy@email.id"
 }
-/*
-const mockPassword = {
-  name: 'password',
-  value: "secret"
-} */
 const mockResult = [
   mockEmail.value,
-//  mockPassword.value
 ]
 const component = shallow(<ForgotPassword {...mockProps} />)
 
@@ -43,17 +34,10 @@ describe('ForgotPasswordPage params test', () => {
   it('should have email state', () => {
     expect(component.state('email')).toBeDefined()
   })
-/*  it('should have password state', () => {
-    expect(component.state('password')).toBeDefined()
-  }) */
   it('should set email state', () => {
     component.setState({email: mockStates.email})
     expect(component.state('email')).toEqual(mockStates.email)
   })
-/*  it('should set password state', () => {
-    component.setState({password: mockStates.password})
-    expect(component.state('password')).toEqual(mockStates.password)
-  }) */
 })
 
 describe('ForgotPasswordPage events test', () => {
@@ -63,7 +47,6 @@ describe('ForgotPasswordPage events test', () => {
   })
   it('should be called with the email and password in the state as arguments', () => {
     component.find('#email').simulate('change', {target: mockEmail})
-    // component.find('#password').simulate('change', {target: mockPassword})
     component.find('#forgotPasswordForm').simulate('submit', {preventDefault() {}})
     expect(mockProps.forgotPassword.mock.calls[1]).toEqual(mockResult)
   })

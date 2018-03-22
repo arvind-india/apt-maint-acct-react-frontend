@@ -20,8 +20,6 @@ export class ForgotPassword extends React.Component {
     // reset login status
     this.props.logout()
     this.props.clearAlert()
-    // this.props.dispatch(userActions.logout())
-    // this.props.dispatch(alertActions.clear())  // clear alert messages from other pages
     this.state = {
       email: '',
       submitted: false
@@ -37,9 +35,7 @@ export class ForgotPassword extends React.Component {
     e.preventDefault()
     this.setState({ submitted: true })
     const { email } = this.state
-    // const { dispatch } = this.props
     if(email) {
-      // dispatch(userActions.forgotPassword(email))
       this.props.forgotPassword(email)
     }
   }
@@ -109,8 +105,5 @@ function mapDispatchToProps(dispatch) {
     }
   }
 }
-
-// const connectedForgotPasswordPage = connect(mapStateToProps)(ForgotPasswordPage)
-// export { connectedForgotPasswordPage as ForgotPasswordPage }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ForgotPassword)

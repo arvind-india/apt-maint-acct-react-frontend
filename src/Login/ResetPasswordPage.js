@@ -22,7 +22,6 @@ export class ResetPassword extends React.Component {
       submitted: false
     }
     this.handleChange = this.handleChange.bind(this)
-    // this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
   handleChange(event) {
@@ -31,26 +30,18 @@ export class ResetPassword extends React.Component {
         [name]: value
     })
   }
-/*  handleConfirmPasswordChange(event) {
-    this.setState({
-      confirmPassword: event.target.value
-    })
-  } */
   handleSubmit(event) {
     event.preventDefault()
     this.setState({ submitted: true })
     const { password, confirmPassword } = this.state
     const { match } = this.props
-// console.log('Reset password match: ', match)
     if(password &&
         confirmPassword &&
         match.params.token &&
         password === confirmPassword
     ) {
-      // dispatch(userActions.resetPassword(user.password, match.params.token))
       this.props.resetPassword(password, match.params.token)
     } else {
-      // dispatch(alertActions.error('Missing Data...'))
       this.props.error('Missing Date...')
     }
   }
@@ -133,8 +124,5 @@ function mapStateToProps(state) {
     alert
   }
 }
-
-// const connectedResetPasswordPage = connect(mapStateToProps)(ResetPasswordPage)
-// export { connectedResetPasswordPage as ResetPasswordPage }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResetPassword)
