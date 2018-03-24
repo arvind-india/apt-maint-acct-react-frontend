@@ -15,11 +15,11 @@ import { userActions as actions, alertActions } from '../_actions'
 let module = 'users' // module name
 
 
-class UserDetailsPage extends React.Component {
+export class UserDetails extends React.Component {
 
   constructor(props) {
     super(props)
-    const { dispatch, location } = props
+    const { location } = props
     let model = location.state.model // model supplied from list page
     if(location.state.module) { module = location.state.module } // override if module is available, ex: user-profile
     let initializeModel = {
@@ -51,11 +51,13 @@ class UserDetailsPage extends React.Component {
     this.handleConfirmPasswordMatch = this.handleConfirmPasswordMatch.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
 
-    dispatch(alertActions.clear())  // clear alert messages from other pages
+    //dispatch(alertActions.clear())  // clear alert messages from other pages
+    this.props.clearAlert() // clear alert messages from other pages
   }
   componentDidMount() {
-    const { dispatch, location } = this.props
-    dispatch(actions.getById(location.state.model.id))
+    //const { dispatch, location, getById } = this.props
+    //dispatch(actions.getById(location.state.model.id))
+    this.props.getById(this.props.location.state.model.id)
   }
   changedProps() {
     const { model, infos } = this.state
@@ -95,7 +97,7 @@ class UserDetailsPage extends React.Component {
     this.setState({ submitted: true })
 
     const { model, infos, password, confirmPassword } = this.state
-    const { dispatch } = this.props
+    //const { dispatch } = this.props
 
     let infosArray = this.objToArr(infos)
 
@@ -103,13 +105,17 @@ class UserDetailsPage extends React.Component {
 
     console.log('User to be updated: ', model)
     if ( this.changedProps().length === 0 ) {
-      dispatch(alertActions.error('No changes found...'))
+      // dispatch(alertActions.error('No changes found...'))
+      this.props.error('No changes found...')
     } else if (password !== confirmPassword) {
-      dispatch(alertActions.error('Passwords Do Not Match'))
+      // dispatch(alertActions.error('Passwords Do Not Match'))
+      this.props.error('Passwords Do Not Match')
     } else if( this.canBeSaved() ) {
-      dispatch(actions.saveChanges(model))
+      //dispatch(actions.saveChanges(model))
+      this.props.saveChanges(model)
     } else {
-      dispatch(alertActions.error('Missing Data...'))
+      //dispatch(alertActions.error('Missing Data...'))
+      this.props.error('Missing Data...')
     }
   }
 
@@ -504,5 +510,25 @@ function mapStateToProps(state) {
   }
 }
 
-const connectedDetailsPage = connect(mapStateToProps)(UserDetailsPage)
-export { connectedDetailsPage as UserDetailsPage }
+function mapDispatchToProps(dispatch) {
+  return {
+    clearAlert: () => {
+      dispatch(alertActions.clear())
+    },
+    getById: (id) => {
+      dispatch(actions.getById(id))
+    },
+    saveChanges: (model) => {
+      dispatch(actions.saveChanges(model))
+    },
+    error: (msg) => {
+      dispatch(alertActions.error(msg))
+    }
+  }
+}
+
+
+//const connectedDetailsPage = connect(mapStateToProps)(UserDetailsPage)
+//export { connectedDetailsPage as UserDetailsPage }
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserDetails)

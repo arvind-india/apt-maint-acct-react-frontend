@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
-import renderer from 'react-test-renderer';
+//import renderer from 'react-test-renderer';
 
 import { ForgotPassword } from './ForgotPasswordPage'
 
@@ -41,11 +41,11 @@ describe('ForgotPasswordPage params test', () => {
 })
 
 describe('ForgotPasswordPage events test', () => {
-  it('should call mock login function', () => {
+  it('should call mock forgotPassword function', () => {
     component.find('#forgotPasswordForm').simulate('submit', {preventDefault() {}})
     expect(mockProps.forgotPassword.mock.calls.length).toEqual(1)
   })
-  it('should be called with the email and password in the state as arguments', () => {
+  it('should be called with the email in the state as arguments', () => {
     component.find('#email').simulate('change', {target: mockEmail})
     component.find('#forgotPasswordForm').simulate('submit', {preventDefault() {}})
     expect(mockProps.forgotPassword.mock.calls[1]).toEqual(mockResult)

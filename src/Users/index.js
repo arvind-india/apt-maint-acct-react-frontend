@@ -1,3 +1,3 @@
-export * from './UsersPage'
-export * from './UserDetailsPage'
-export * from './UserProfilePage'
+export { default as UsersPage } from './UsersPage'
+export { default as UserDetailsPage } from './UserDetailsPage'
+export { default as UserProfilePage } from './UserProfilePage'

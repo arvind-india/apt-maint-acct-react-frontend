@@ -19,12 +19,12 @@ import {
 import { history, RowAuthorization } from '../_helpers'
 import { PrivateRoute, FlashMessage } from '../_components'
 import { userActions as actions } from '../_actions'
-import { UserDetailsPage as detailsPage } from './UserDetailsPage'
+import { default as detailsPage } from './UserDetailsPage'
 
 let url = '/users'
 let module = 'users' // module name
 
-class UsersPage extends React.Component {
+export class Users extends React.Component {
 
   constructor(props) {
     super(props)
@@ -32,7 +32,8 @@ class UsersPage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(actions.getAll())
+    // this.props.dispatch(actions.getAll())
+    this.props.getAll()
   }
 
   render() {
@@ -142,8 +143,10 @@ class UsersPage extends React.Component {
   handleDeleteModel(id) {
     if( window.confirm('Are you sure?') ) {
       console.log('Delete confirmed')
-      this.props.dispatch(actions.delete(id))
-      this.props.dispatch(actions.getAll()) // get list after deletion of a model
+      // this.props.dispatch(actions.delete(id))
+      // this.props.dispatch(actions.getAll()) // get list after deletion of a model
+      this.props.delete(id)
+      this.props.getAll() // get list after deletion of a model
     }
   }
 
@@ -162,5 +165,18 @@ function mapStateToProps(state) {
   }
 }
 
-const connectedUsersPage = connect(mapStateToProps)(UsersPage)
-export { connectedUsersPage as UsersPage }
+function mapDispatchToProps(dispatch) {
+  return {
+    getAll: () => {
+      dispatch(actions.getAll())
+    },
+    delete: (id) => {
+      dispatch(actions.delete(id))
+    }
+  }
+}
+
+// const connectedUsersPage = connect(mapStateToProps)(UsersPage)
+// export { connectedUsersPage as UsersPage }
+
+export default connect(mapStateToProps, mapDispatchToProps)(Users)

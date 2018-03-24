@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { shallow } from 'enzyme'
-import renderer from 'react-test-renderer';
+//import renderer from 'react-test-renderer';
 
 import { ResetPassword } from './ResetPasswordPage'
 
@@ -20,7 +20,7 @@ const mockPassword = {
   name: 'password',
   value: "secret"
 }
-const mockRepeatPassword = {
+const mockConfirmPassword = {
   name: 'confirmPassword',
   value: "secret"
 }
@@ -42,27 +42,27 @@ describe('ResetPasswordPage params test', () => {
   it('should have password state', () => {
     expect(component.state('password')).toBeDefined()
   })
-  it('should have repeat password state', () => {
+  it('should have confirm password state', () => {
     expect(component.state('confirmPassword')).toBeDefined()
   })
   it('should set password state', () => {
     component.setState({password: mockStates.password})
     expect(component.state('password')).toEqual(mockStates.password)
   })
-  it('should set repeat password state', () => {
+  it('should set confirm password state', () => {
     component.setState({confirmPassword: mockStates.confirmPassword})
     expect(component.state('confirmPassword')).toEqual(mockStates.confirmPassword)
   })
 })
 
 describe('ResetPasswordPage events test', () => {
-  it('should call mock login function', () => {
+  it('should call mock resetPassword function', () => {
     component.find('#resetPasswordForm').simulate('submit', {preventDefault() {}})
     expect(mockProps.resetPassword.mock.calls.length).toEqual(1)
   })
   it('should be called with the password and confirm password in the state as arguments', () => {
     component.find('#password').simulate('change', {target: mockPassword})
-    component.find('#confirmPassword').simulate('change', {target: mockRepeatPassword})
+    component.find('#confirmPassword').simulate('change', {target: mockConfirmPassword})
     component.find('#resetPasswordForm').simulate('submit', {preventDefault() {}})
     expect(mockProps.resetPassword.mock.calls[1]).toEqual(mockResult)
   })

@@ -7,12 +7,14 @@ import { userActions as actions } from '../_actions'
 import { UserDetailsPage } from './'
 
 
-class UserProfilePage extends React.Component {
+export class UserProfile extends React.Component {
 
   componentDidMount() {
-    const { dispatch, user } = this.props
-    console.log('user from jwt.......', user)
-    dispatch(actions.getProfile(user.id))
+    //const { dispatch, user } = this.props
+    //console.log('user from jwt.......', user)
+    //dispatch(actions.getProfile(user.id))
+    console.log('user from jwt......', this.props.user)
+    this.props.getProfile(this.props.user.id)
   }
 
   render() {
@@ -53,5 +55,15 @@ function mapStateToProps(state) {
   }
 }
 
-const connectedProfilePage = connect(mapStateToProps)(UserProfilePage)
-export { connectedProfilePage as UserProfilePage }
+function mapDispatchToProps(dispatch) {
+  return {
+    getProfile: (id) => {
+      dispatch(actions.getProfile(id))
+    }
+  }
+}
+
+// const connectedProfilePage = connect(mapStateToProps)(UserProfilePage)
+// export { connectedProfilePage as UserProfilePage }
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile)
