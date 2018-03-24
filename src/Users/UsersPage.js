@@ -37,9 +37,10 @@ export class Users extends React.Component {
   }
 
   render() {
-    const { users, alert, authzn } = this.props
+    const { users, alert, authzn, trackHistory } = this.props
     let models = users
-    console.log('Users: ', users)
+    let hist = trackHistory?history:{}
+    //console.log('Users: ', users)
     return (
       <div>
         <h3>Users List</h3>
@@ -47,7 +48,7 @@ export class Users extends React.Component {
         {models.loading && <em>Loading models...}</em>}
         {models.error && <span className="text-danger">ERROR: {models.error}</span>}
         {models.items && authzn && this.showList(models) }
-        <Router history={history}>
+        <Router history={hist}>
           <div>
             <PrivateRoute path={`${url}/:id`} component={detailsPage} />
           </div>
@@ -157,11 +158,13 @@ function mapStateToProps(state) {
   //const { user } = authentication
   const user = jwtDecode(authentication.user.id_token) // logged user
   const authzn = authorizations[module]
+  const trackHistory = true  // added for unit testing; snapshot to be precise
   return {
     user,
     users,
     alert,
-    authzn
+    authzn,
+    trackHistory
   }
 }
 
