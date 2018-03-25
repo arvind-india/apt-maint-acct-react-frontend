@@ -55,8 +55,7 @@ describe('UsersPage params test', () => {
     component
   })
   it('should render initial layout', () => {
-    //expect(component.getElements()).toMatchSnapshot()
-    expect(component.find('Table')).toMatchSnapshot()
+    expect(component.getElements()).toMatchSnapshot()
   })
 })
 

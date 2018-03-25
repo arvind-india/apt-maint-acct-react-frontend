@@ -30,6 +30,8 @@ export class UserDetails extends React.Component {
       email: model.email
     }
     let initializeInfos = this.arrToObj(model.infos)
+    //let validationMsg = 'No changes to save'
+    //let formValid = false
 
     this.state = {
       model: initializeModel,
@@ -96,7 +98,8 @@ export class UserDetails extends React.Component {
     event.preventDefault()
     this.setState({ submitted: true })
 
-    const { model, infos, password, confirmPassword } = this.state
+    const { model, infos } = this.state
+    //const { model, infos, password, confirmPassword } = this.state
     //const { dispatch } = this.props
 
     let infosArray = this.objToArr(infos)
@@ -104,6 +107,8 @@ export class UserDetails extends React.Component {
     if(infosArray.length > 0) model.infos = infosArray
 
     console.log('User to be updated: ', model)
+    this.props.saveChanges(model)
+/*
     if ( this.changedProps().length === 0 ) {
       // dispatch(alertActions.error('No changes found...'))
       this.props.error('No changes found...')
@@ -117,6 +122,8 @@ export class UserDetails extends React.Component {
       //dispatch(alertActions.error('Missing Data...'))
       this.props.error('Missing Data...')
     }
+  */
+
   }
 
   handlePasswordChange(event) {
@@ -185,6 +192,7 @@ export class UserDetails extends React.Component {
       <div>
         <h2>{title}</h2>
         {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
+        {this.validateForm()}
         {this.show(model, infos)}
       </div>
     )
@@ -217,11 +225,39 @@ export class UserDetails extends React.Component {
      return arr
    }
 
+  validateForm() {
+    const { password, confirmPassword } = this.state
+    console.log('Form validations...')
+    if ( this.changedProps().length === 0 ) {
+      // dispatch(alertActions.error('No changes found...'))
+      // this.props.error('No changes found...')
+      this.validationMsg = 'No changes to save'
+      this.formValid = false
+    } else if (password !== confirmPassword) {
+      // dispatch(alertActions.error('Passwords Do Not Match'))
+      //this.props.error('Passwords Do Not Match')
+      this.validationMsg = 'Password do not match'
+      this.formValid = false
+    } else if( this.canBeSaved() ) {
+      //dispatch(actions.saveChanges(model))
+      // this.props.saveChanges(model)
+      this.validationMsg = 'Save Changes'
+      this.formValid = true
+
+    } else {
+      //dispatch(alertActions.error('Missing Data...'))
+      //this.props.error('Missing Data...')
+      this.validationMsg = 'Missing Date...'
+      this.formValid = false
+    }
+
+  }
+
   show(model, infos){
     const { adding } = this.state
     const { authzn } = this.props
     let title = adding?'Add':authzn.allowsEdit?'Edit':'View'
-    return <Form onSubmit={this.handleSubmit} className="grid-form">
+    return <Form id="userDetailsForm" onSubmit={this.handleSubmit} className="grid-form">
       <fieldset>
   			<legend>{title}</legend>
         <div data-row-span="1">
@@ -252,8 +288,21 @@ export class UserDetails extends React.Component {
         </div>
       </fieldset>
       <br/>
-      <Button type="submit" color="primary" hidden={!authzn.allowsEdit} title="Save changes">Save</Button>
-      <Button color="link"><Link to="/users" className="text-danger" title="Go to Users">Cancel</Link></Button>
+      <Button
+        type="submit"
+        color="primary"
+        disabled={!this.formValid}
+        hidden={!authzn.allowsEdit}
+        title={this.validationMsg}
+        >Save</Button>
+      <Button
+        color="link"
+        ><Link
+          to="/users"
+          className="text-danger"
+          title="Go to Users"
+          >Cancel</Link>
+        </Button><br/>
     </Form>
   }
 
@@ -262,6 +311,7 @@ export class UserDetails extends React.Component {
     return <div data-field-span="1">
 				<Label>Username [Required]</Label>
         <Input
+          id="userName"
           type="text"
           name="name"
           value={model.name}
@@ -279,6 +329,7 @@ export class UserDetails extends React.Component {
     return <div data-field-span="1">
         <Label>Flat/Apartment Number</Label>
         <Input
+          id="flatNumber"
           type="text"
           name="flatNumber"
           value={value}
@@ -297,6 +348,7 @@ export class UserDetails extends React.Component {
         <FormGroup check inline>
           <Label check>
             <Input
+              className="residentType"
               type="radio"
               name="residentType"
               value="owner"
@@ -308,6 +360,7 @@ export class UserDetails extends React.Component {
         <FormGroup check inline>
           <Label check>
             <Input
+              className="residentType"
               type="radio"
               name="residentType"
               value="tenant"
@@ -319,6 +372,7 @@ export class UserDetails extends React.Component {
         <FormGroup check inline>
           <Label check>
             <Input
+              className="residentType"
               type="radio"
               name="residentType"
               value="NA"
@@ -334,6 +388,7 @@ export class UserDetails extends React.Component {
     return <div data-field-span="1">
         <Label>FirstName [Required]</Label>
         <Input
+          id="firstName"
           type="text"
           name="first_name"
           value={model.first_name}
@@ -351,6 +406,7 @@ export class UserDetails extends React.Component {
     return <div data-field-span="1">
         <Label>LastName [Required]</Label>
         <Input
+          id="lastName"
           type="text"
           name="last_name"
           value={model.last_name}
@@ -368,6 +424,7 @@ export class UserDetails extends React.Component {
     return <div data-field-span="1">
         <Label>email [Required]</Label>
         <Input
+          id="email"
           type="email"
           name="email"
           value={model.email}
@@ -385,6 +442,7 @@ export class UserDetails extends React.Component {
     return <div data-field-span="1">
       <Label>Password</Label>
       <Input
+        id="password"
         type="password"
         name="password"
         placeholder="<enter password here>"
@@ -397,6 +455,7 @@ export class UserDetails extends React.Component {
         <div data-field-span="1">
           <Label>Confirm Password</Label>
           <Input
+            id="confirmPassword"
             type="password"
             name="confirmPassword"
             placeholder="<repeat password here>"
@@ -416,6 +475,7 @@ export class UserDetails extends React.Component {
     return <div data-field-span="1">
         <Label>Other email-ids</Label>
         <Input
+          id="otherEmails"
           type="textarea"
           name="otherEmails"
           value={value}
@@ -433,6 +493,7 @@ export class UserDetails extends React.Component {
     return <div data-field-span="1">
       <Label>Cell/Mobile/Landline Numbers</Label>
       <Input
+        id="cellNumbers"
         type="textarea"
         name="cellNumbers"
         value={value}
@@ -450,6 +511,7 @@ export class UserDetails extends React.Component {
     return <div data-field-span="1">
       <Label>Regn No. of 2-wheeler(s) parked</Label>
       <Input
+        id="twoWheelers"
         type="textarea"
         name="twoWheelers"
         value={value}
@@ -467,6 +529,7 @@ export class UserDetails extends React.Component {
     return <div data-field-span="1">
       <Label>Regn No. of 4-wheeler(s) parked</Label>
       <Input
+        id="fourWheelers"
         type="textarea"
         name="fourWheelers"
         value={value}
@@ -484,6 +547,7 @@ export class UserDetails extends React.Component {
     return <div data-field-span="1">
       <Label>Emergency Contact Details</Label>
       <Input
+        id="emergencyContacts"
         type="textarea"
         name="emergencyContacts"
         value={value}

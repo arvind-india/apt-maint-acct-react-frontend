@@ -1,0 +1,509 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UsersPage params test should render initial layout 1`] = `
+Array [
+  <div>
+    <h2>
+        Mock Test: User Details
+    </h2>
+    <div
+        className="alert undefined"
+    >
+        testingAlert
+    </div>
+    <Form
+        className="grid-form"
+        id="userDetailsForm"
+        sonSubmit={[Function]}
+        tag="form"
+    >
+        <fieldset>
+            <legend>
+                Edit
+            </legend>
+            <div
+                data-row-span="1"
+            >
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Username [Required]
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="userName"
+                        name="name"
+                        onChange={[Function]}
+                        placeholder="User name here"
+                        tag="p"
+                        type="text"
+                        value="user1"
+                    />
+                </div>
+            </div>
+            <div
+                data-row-span="2"
+            >
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Flat/Apartment Number
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="flatNumber"
+                        name="flatNumber"
+                        onChange={[Function]}
+                        placeholder="Enter Flat Number if applicablee"
+                        tag="p"
+                        type="text"
+                        value=""
+                    />
+                </div>
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Resident Type
+                    </Label>
+                    <FormGroup
+                        check={true}
+                        inline={true}
+                        tag="div"
+                    >
+                        <Label
+                            check={true}
+                            tag="label"
+                            widths={
+                                Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                            }
+                        >
+                            <Input
+                                checked={false}
+                                className="residentType"
+                                name="residentType"
+                                onChange={[Function]}
+                                tag="p"
+                                type="radio"
+                                value="owner"
+                            />
+                             Owner
+                        </Label>
+                    </FormGroup>
+                    <FormGroup
+                        check={true}
+                        inline={true}
+                        tag="div"
+                    >
+                        <Label
+                            check={true}
+                            tag="label"
+                            widths={
+                                Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                            }
+                        >
+                            <Input
+                                checked={false}
+                                className="residentType"
+                                name="residentType"
+                                onChange={[Function]}
+                                tag="p"
+                                type="radio"
+                                value="tenant"
+                            />
+                             Tenant
+                        </Label>
+                    </FormGroup>
+                    <FormGroup
+                        check={true}
+                        inline={true}
+                        tag="div"
+                    >
+                        <Label
+                            check={true}
+                            tag="label"
+                            widths={
+                                Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                            }
+                        >
+                            <Input
+                                checked={false}
+                                className="residentType"
+                                name="residentType"
+                                onChange={[Function]}
+                                tag="p"
+                                type="radio"
+                                value="NA"
+                            />
+                             Not Applicable
+                        </Label>
+                    </FormGroup>
+                </div>
+            </div>
+            <div
+                data-row-span="2"
+            >
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        FirstName [Required]
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="firstName"
+                        name="first_name"
+                        onChange={[Function]}
+                        placeholder="First name here"
+                        tag="p"
+                        title="First Name of the user"
+                        type="text"
+                        value="user1"
+                    />
+                </div>
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        LastName [Required]
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="lastName"
+                        name="last_name"
+                        onChange={[Function]}
+                        placeholder="Last name here"
+                        tag="p"
+                        title="Last name of the user"
+                        type="text"
+                        value="test"
+                    />
+                </div>
+            </div>
+            <div
+                data-row-span="2"
+            >
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        email [Required]
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="email"
+                        name="email"
+                        onChange={[Function]}
+                        placeholder="<email id here>"
+                        tag="p"
+                        title="eMail ID of the User"
+                        type="email"
+                        value="user1@test.com"
+                    />
+                </div>
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Password
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="password"
+                        name="password"
+                        onBlur={[Function]}
+                        onChange={[Function]}
+                        placeholder="<enter password here>"
+                        tag="p"
+                        title="Password is required"
+                        type="password"
+                    />
+                </div>
+            </div>
+            <div
+                data-row-span="2"
+            >
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Other email-ids
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="otherEmails"
+                        name="otherEmails"
+                        onChange={[Function]}
+                        placeholder="example1@email.id, example2@email.id"
+                        rows="2"
+                        tag="p"
+                        title="Other eMail IDs of the User"
+                        type="textarea"
+                        value=""
+                    />
+                </div>
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Cell/Mobile/Landline Numbers
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="cellNumbers"
+                        name="cellNumbers"
+                        onChange={[Function]}
+                        placeholder="eg: 9797097970, 044-27273030"
+                        rows="2"
+                        tag="p"
+                        title="Mobile or Landline Phone numbers of the User"
+                        type="textarea"
+                        value=""
+                    />
+                </div>
+            </div>
+            <div
+                data-row-span="2"
+            >
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Regn No. of 2-wheeler(s) parked
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="twoWheelers"
+                        name="twoWheelers"
+                        onChange={[Function]}
+                        placeholder="eg: TN 11 CY 1234, TN 01 AZ 9876"
+                        rows="2"
+                        tag="p"
+                        title="Registration Number of Two Wheelers parked by the User"
+                        type="textarea"
+                        value=""
+                    />
+                </div>
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Regn No. of 4-wheeler(s) parked
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="fourWheelers"
+                        name="fourWheelers"
+                        onChange={[Function]}
+                        placeholder="eg: TN 22 A 4567, TN 02 BD 789"
+                        rows="2"
+                        tag="p"
+                        title="Registration Number of Four Wheelers parked by the User"
+                        type="textarea"
+                        value=""
+                    />
+                </div>
+            </div>
+            <div
+                data-row-span="1"
+            >
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Emergency Contact Details
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="emergencyContacts"
+                        name="emergencyContacts"
+                        onChange={[Function]}
+                        placeholder="In case of emergency, whom to approach (such as relatives, friends), enter their name, address, or phone numbers here"
+                        rows="1"
+                        tag="p"
+                        title="Contact phone numbers in case of emergencies"
+                        type="textarea"
+                        value=""
+                    />
+                </div>
+            </div>
+        </fieldset>
+        <br />
+        <Button
+            color="primary"
+            hidden={false}
+            tag="button"
+            title="Save changes"
+            type="submit"
+        >
+            Save
+        </Button>
+        <Button
+            color="link"
+            tag="button"
+        >
+            <Link
+                className="text-danger"
+                replace={false}
+                title="Go to Users"
+                to="/users"
+            >
+                Cancel
+            </Link>
+        </Button>
+    </Form>
+</div>,
+]
+`;
