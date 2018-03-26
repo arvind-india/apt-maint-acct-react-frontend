@@ -295,7 +295,7 @@ function saveChanges(model) {
           model => {
             dispatch(success())
             history.push('/users')
-            dispatch(alertActions.success('Added new Role Successfully'))
+            dispatch(alertActions.success('Added new User Successfully'))
           },
           error => {
             let data = error.response.data

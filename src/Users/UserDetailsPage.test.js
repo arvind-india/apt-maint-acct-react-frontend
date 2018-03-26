@@ -9,8 +9,7 @@ const mockUser = {
   name: 'user1',
   first_name:'user1',
   last_name: 'test',
-  email: 'user1@test.com',
-  infos: []
+  email: 'user1@test.com'
 }
 
 const mockProps = {
@@ -31,7 +30,7 @@ const mockLocation = {
     model: mockUser,
     title: 'User Details',
     module: '',
-    infos: mockUser.infos,
+    infos: [],
     password: 'secret',
     confirmPassword: 'secret',
     passwordChanged: false,
@@ -44,13 +43,10 @@ const mockLocation = {
 }
 
 const mock = {
-  userName: {name: 'name', value: 'user1'},
-  firstName: {name: 'first_name', value: 'user1'},
-  lastName: {name: 'last_name', value: 'test'},
-  email: {name: 'email', value: 'dummy@email.id' },
-  infos: [
-
-  ]
+  userName: {name: 'name', value: mockUser.name},
+  firstName: {name: 'first_name', value: mockUser.first_name},
+  lastName: {name: 'last_name', value: mockUser.last_name},
+  email: {name: 'email', value: mockUser.email }
 }
 
 const component = shallow(<UserDetails {...mockProps} location={mockLocation}/>)
@@ -107,6 +103,6 @@ describe('UserDetailsPage events test', () => {
     component.find('#lastName').simulate('change', {target: mock.lastName})
     component.find('#email').simulate('change', {target: mock.email})
     component.find('#userDetailsForm').simulate('submit', {preventDefault() {}})
-    expect(mockProps.saveChanges.mock.calls[1]).toEqual(mockUser)
+    expect(mockProps.saveChanges.mock.calls[1][0]).toEqual(mockUser)
   })
 })

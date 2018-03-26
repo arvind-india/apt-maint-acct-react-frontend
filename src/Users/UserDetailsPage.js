@@ -106,7 +106,7 @@ export class UserDetails extends React.Component {
 
     if(infosArray.length > 0) model.infos = infosArray
 
-    console.log('User to be updated: ', model)
+    //console.log('User to be updated: ', model)
     this.props.saveChanges(model)
 /*
     if ( this.changedProps().length === 0 ) {
@@ -227,7 +227,7 @@ export class UserDetails extends React.Component {
 
   validateForm() {
     const { password, confirmPassword } = this.state
-    console.log('Form validations...')
+    //console.log('Form validations...')
     if ( this.changedProps().length === 0 ) {
       // dispatch(alertActions.error('No changes found...'))
       // this.props.error('No changes found...')
@@ -247,7 +247,7 @@ export class UserDetails extends React.Component {
     } else {
       //dispatch(alertActions.error('Missing Data...'))
       //this.props.error('Missing Data...')
-      this.validationMsg = 'Missing Date...'
+      this.validationMsg = 'Missing "Required Data"...'
       this.formValid = false
     }
 
