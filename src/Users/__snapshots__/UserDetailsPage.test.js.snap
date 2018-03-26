@@ -4,7 +4,7 @@ exports[`UsersPage params test should render initial layout 1`] = `
 Array [
   <div>
     <h2>
-        Mock Test: User Details
+        Mock Test: User1 Details
     </h2>
     <div
         className="alert undefined"
