@@ -29,3 +29,30 @@ class Parser {
     return new Function(statement);
   }
 }
+
+/**
+ * Converts Array into object
+ */
+export function arrToObj(array) {
+  let obj = {}
+  if(!array || array.length === 0) {
+    return obj
+  }
+  array.forEach(eachInfo => {
+    obj[eachInfo.key] = eachInfo.value
+  })
+  return obj
+}
+
+/**
+ * Converts Object to Array
+ */
+export function objToArr(obj) {
+   let arr = []
+   let val;
+   Object.keys(obj).forEach(key => {
+     val = obj[key]
+     arr.push({key: key, value: val})
+   })
+   return arr
+ }

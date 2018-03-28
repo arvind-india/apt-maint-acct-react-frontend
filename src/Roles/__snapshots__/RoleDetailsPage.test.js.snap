@@ -1,0 +1,184 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RolesPage params test should render initial layout 1`] = `
+Array [
+  <div>
+    <h2>
+        Role Details
+    </h2>
+    <div
+        className="alert undefined"
+    >
+        testingAlert
+    </div>
+    <Form
+        className="grid-form"
+        id="roleDetailsForm"
+        onSubmit={[Function]}
+        tag="form"
+    >
+        <fieldset>
+            <legend>
+                Edit
+            </legend>
+            <div
+                data-row-span="2"
+            >
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Role Name
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="name"
+                        name="name"
+                        onChange={[Function]}
+                        placeholder="Role name here"
+                        tag="p"
+                        type="text"
+                        value="admin"
+                    />
+                </div>
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Inherits (optional)
+                    </Label>
+                    <Select
+                        arrowRenderer={[Function]}
+                        autosize={true}
+                        backspaceRemoves={true}
+                        backspaceToRemoveMessage="Press backspace to remove {label}"
+                        clearAllText="Clear all"
+                        clearRenderer={[Function]}
+                        clearValueText="Clear value"
+                        clearable={true}
+                        closeOnSelect={true}
+                        deleteRemoves={true}
+                        delimiter=","
+                        disabled={false}
+                        escapeClearsValue={true}
+                        filterOptions={[Function]}
+                        id="inherits"
+                        ignoreAccents={true}
+                        ignoreCase={true}
+                        inputProps={Object {}}
+                        isLoading={false}
+                        joinValues={true}
+                        labelKey="name"
+                        matchPos="any"
+                        matchProp="any"
+                        menuBuffer={0}
+                        menuRenderer={[Function]}
+                        multi={true}
+                        name="form-field-name"
+                        noResultsText="No results found"
+                        onBlurResetsInput={true}
+                        onChange={[Function]}
+                        onCloseResetsInput={true}
+                        onSelectResetsInput={true}
+                        openOnClick={true}
+                        optionComponent={[Function]}
+                        options={Array []}
+                        pageSize={5}
+                        placeholder="Select Inherits..."
+                        removeSelected={true}
+                        required={false}
+                        rtl={false}
+                        scrollMenuIntoView={true}
+                        searchable={true}
+                        simpleValue={true}
+                        tabSelectsValue={true}
+                        trimFilter={true}
+                        value=""
+                        valueComponent={[Function]}
+                        valueKey="name"
+                    />
+                </div>
+            </div>
+            <div
+                data-row-span="1"
+            >
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Description
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="description"
+                        name="description"
+                        onChange={[Function]}
+                        placeholder="Description here"
+                        tag="p"
+                        type="text"
+                        value="administrator"
+                    />
+                </div>
+            </div>
+        </fieldset>
+        <br />
+        <Button
+            color="primary"
+            disabled={true}
+            hidden={false}
+            tag="button"
+            title="Save changes"
+            type="submit"
+        >
+            Save
+        </Button>
+        <Button
+            color="link"
+            tag="button"
+        >
+            <Link
+                className="text-danger"
+                replace={false}
+                title="Go to Roles"
+                to="/roles"
+            >
+                Cancel
+            </Link>
+        </Button>
+    </Form>
+</div>,
+]
+`;

@@ -1,0 +1,210 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RolesPage params test should render initial layout 1`] = `
+Array [
+  <div>
+    <h3>
+        Roles List
+    </h3>
+    <FlashMessage
+        delay={5000}
+        text="testingAlert"
+    />
+    <Table
+        responsiveTag="div"
+        tag="table"
+    >
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Role Name
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Inherits
+                </th>
+                <th>
+                    Actions 
+                    <Link
+                        replace={false}
+                        title="Add"
+                        to={
+                            Object {
+                                "pathname": "/roles/0",
+                                "state": Object {
+                                  "model": Object {
+                                    "description": "",
+                                    "id": 0,
+                                    "inherits": "",
+                                    "name": "",
+                                  },
+                                },
+                              }
+                        }
+                    >
+                        <MdAdd />
+                    </Link>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th
+                    scope="row"
+                >
+                    1
+                </th>
+                <td>
+                    admin
+                </td>
+                <td>
+                    administrator with all access
+                </td>
+                <td />
+                <td>
+                    <Link
+                        replace={false}
+                        title="Edit"
+                        to={
+                            Object {
+                                "pathname": "/roles/1",
+                                "state": Object {
+                                  "model": Object {
+                                    "description": "administrator with all access",
+                                    "id": 1,
+                                    "inherits": "",
+                                    "name": "admin",
+                                  },
+                                },
+                              }
+                        }
+                    >
+                        <MdEdit />
+                    </Link>
+                    <Button
+                        color="link"
+                        hidden={false}
+                        onClick={[Function]}
+                        tag="button"
+                        title="Delete"
+                    >
+                        <MdDelete
+                            color="red"
+                        />
+                    </Button>
+                </td>
+            </tr>
+            <tr>
+                <th
+                    scope="row"
+                >
+                    2
+                </th>
+                <td>
+                    supervisor
+                </td>
+                <td>
+                    supervisor with limited access compared to administrator
+                </td>
+                <td />
+                <td>
+                    <Link
+                        replace={false}
+                        title="Edit"
+                        to={
+                            Object {
+                                "pathname": "/roles/2",
+                                "state": Object {
+                                  "model": Object {
+                                    "description": "supervisor with limited access compared to administrator",
+                                    "id": 2,
+                                    "inherits": "",
+                                    "name": "supervisor",
+                                  },
+                                },
+                              }
+                        }
+                    >
+                        <MdEdit />
+                    </Link>
+                    <Button
+                        color="link"
+                        hidden={false}
+                        onClick={[Function]}
+                        tag="button"
+                        title="Delete"
+                    >
+                        <MdDelete
+                            color="red"
+                        />
+                    </Button>
+                </td>
+            </tr>
+            <tr>
+                <th
+                    scope="row"
+                >
+                    3
+                </th>
+                <td>
+                    owner
+                </td>
+                <td>
+                    Owner can access own records for editing purpose
+                </td>
+                <td>
+                    tenant
+                </td>
+                <td>
+                    <Link
+                        replace={false}
+                        title="Edit"
+                        to={
+                            Object {
+                                "pathname": "/roles/3",
+                                "state": Object {
+                                  "model": Object {
+                                    "description": "Owner can access own records for editing purpose",
+                                    "id": 3,
+                                    "inherits": "tenant",
+                                    "name": "owner",
+                                  },
+                                },
+                              }
+                        }
+                    >
+                        <MdEdit />
+                    </Link>
+                    <Button
+                        color="link"
+                        hidden={false}
+                        onClick={[Function]}
+                        tag="button"
+                        title="Delete"
+                    >
+                        <MdDelete
+                            color="red"
+                        />
+                    </Button>
+                </td>
+            </tr>
+        </tbody>
+    </Table>
+    <Router
+        history={Object {}}
+    >
+        <div>
+            <PrivateRoute
+                component={[Function]}
+                path="/roles/:id"
+            />
+        </div>
+    </Router>
+</div>,
+]
+`;

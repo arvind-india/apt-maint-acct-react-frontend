@@ -122,7 +122,6 @@ Array [
                             <Input
                                 checked={false}
                                 className="residentType"
-                                id="residentTypeOwner"
                                 name="residentType"
                                 onChange={[Function]}
                                 tag="p"
@@ -153,7 +152,6 @@ Array [
                             <Input
                                 checked={false}
                                 className="residentType"
-                                id="residentTypeTenant"
                                 name="residentType"
                                 onChange={[Function]}
                                 tag="p"
@@ -184,7 +182,6 @@ Array [
                             <Input
                                 checked={false}
                                 className="residentType"
-                                id="residentTypeNA"
                                 name="residentType"
                                 onChange={[Function]}
                                 tag="p"

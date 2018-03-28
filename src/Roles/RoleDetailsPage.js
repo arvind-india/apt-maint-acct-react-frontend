@@ -18,11 +18,11 @@ import { roleActions as actions, alertActions } from '../_actions'
 
 let module = 'roles' // module name
 
-class RoleDetailsPage extends React.Component {
+export class RoleDetails extends React.Component {
 
   constructor(props) {
     super(props)
-    const { dispatch, match, location } = props
+    const { location } = props
     let model = location.state.model // model supplied from list page
     let initializeModel = {
       id: model.id,
@@ -33,13 +33,14 @@ class RoleDetailsPage extends React.Component {
     this.state = {
       model: initializeModel,           // model to edit
       submitted: false,
-      adding: match.params.id==="0"
+      adding: model.id==="0"
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleInheritsChange = this.handleInheritsChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
 
-    dispatch(alertActions.clear())  // clear alert messages from other pages
+    //dispatch(alertActions.clear())  // clear alert messages from other pages
+    this.props.clearAlert()
   }
 
   render() {
@@ -48,6 +49,7 @@ class RoleDetailsPage extends React.Component {
       <div>
         <h2>Role Details</h2>
         {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
+        {this.validateForm()}
         {this.show()}
       </div>
     )
@@ -57,7 +59,7 @@ class RoleDetailsPage extends React.Component {
     const { authzn } = this.props
     let title = adding?'Add':authzn.allowsEdit?'Edit':'View'
 
-    return <Form onSubmit={this.handleSubmit} className="grid-form">
+    return <Form id="roleDetailsForm" onSubmit={this.handleSubmit} className="grid-form">
       <fieldset>
   			<legend>{title}</legend>
         <div data-row-span="2">
@@ -69,8 +71,20 @@ class RoleDetailsPage extends React.Component {
         </div>
       </fieldset>
       <br/>
-      <Button type="submit" color="primary" hidden={!authzn.allowsEdit} title="Save changes">Save</Button>
-      <Button color="link"><Link to="/roles" className="text-danger" title="Go to Roles">Cancel</Link></Button>
+      <Button
+        type="submit"
+        color="primary"
+        disabled={!this.formValid}
+        hidden={!authzn.allowsEdit}
+        title="Save changes"
+        >Save</Button>
+      <Button
+        color="link"
+        ><Link
+          to="/roles"
+          className="text-danger"
+          title="Go to Roles"
+          >Cancel</Link></Button>
     </Form>
   }
   showRolename() {
@@ -78,6 +92,7 @@ class RoleDetailsPage extends React.Component {
     return <div data-field-span="1">
 				<Label>Role Name</Label>
         <Input
+          id="name"
           type="text"
           name="name"
           value={model.name}
@@ -111,6 +126,7 @@ class RoleDetailsPage extends React.Component {
     return <div data-field-span="1">
       <Label>Inherits (optional)</Label>
       <Select
+        id="inherits"
         name="form-field-name"
         value={model.inherits}
         multi={true}
@@ -138,6 +154,7 @@ class RoleDetailsPage extends React.Component {
     return <div data-field-span="1">
 				<Label>Description</Label>
         <Input
+          id="description"
           type="text"
           name="description"
           value={model.description}
@@ -152,18 +169,37 @@ class RoleDetailsPage extends React.Component {
 
   handleSubmit(event) {
     const { model } = this.state
-    const { dispatch } = this.props
+    //const { dispatch } = this.props
 
     event.preventDefault()
     this.setState({ submitted: true })
-
+    this.props.saveChanges(model)
+/*
     if ( this.changedProps().length === 0 ) {
       dispatch(alertActions.error('No changes found...'))
     } else if( this.canBeSaved() ) {
       dispatch(actions.saveChanges(model))
     } else {
       dispatch(alertActions.error('Missing data'))
+    } */
+  }
+  validateForm() {
+    //const { password, confirmPassword } = this.state
+
+    if ( this.changedProps().length === 0 ) {
+      this.validationMsg = 'No changes to save'
+      this.formValid = false
+      return null
     }
+    if( this.canBeSaved() ) {
+      this.validationMsg = 'Save Changes'
+      this.formValid = true
+      return null
+    }
+    // finally, if reached here
+    this.validationMsg = 'Missing "Required Data"...'
+    this.formValid = false
+
   }
   canBeSaved() { // check for changes in model, if changes present, it can save
     const { model } = this.state
@@ -203,5 +239,21 @@ function mapStateToProps(state) {
   }
 }
 
-const connectedDetailsPage = connect(mapStateToProps)(RoleDetailsPage)
-export { connectedDetailsPage as RoleDetailsPage }
+function mapDispatchToProps(dispatch) {
+  return {
+    clearAlert: () => {
+      dispatch(alertActions.clear())
+    },
+    saveChanges: (model) => {
+      dispatch(actions.saveChanges(model))
+    },
+    error: (msg) => {
+      dispatch(alertActions.error(msg))
+    }
+  }
+}
+
+//const connectedDetailsPage = connect(mapStateToProps)(RoleDetailsPage)
+//export { connectedDetailsPage as RoleDetailsPage }
+
+export default connect(mapStateToProps, mapDispatchToProps)(RoleDetails)

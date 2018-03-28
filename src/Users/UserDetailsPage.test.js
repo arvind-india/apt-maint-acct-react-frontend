@@ -169,6 +169,9 @@ describe('UserDetailsPage with WITH INFOS events test', () => {
   it('should find checked radio input', () => {
     expect(component2.find('.residentType [checked=true]').length).toEqual(1)
   })
+  it('should find checked radio input, here too', () => {
+    expect(component2.find('Input[type="radio"][checked=true]').length).toEqual(1)
+  })
   it('should be called with required states as arguments', () => {
     component2.find('#userName').simulate('change', {target: mocks[1].userName})
     component2.find('#firstName').simulate('change', {target: mocks[1].firstName})

@@ -11,6 +11,7 @@ import {
 } from 'reactstrap'
 
 import { userActions as actions, alertActions } from '../_actions'
+import { arrToObj, objToArr } from '../_helpers'
 
 let module = 'users' // module name
 
@@ -29,7 +30,7 @@ export class UserDetails extends React.Component {
       last_name: model.last_name,
       email: model.email
     }
-    let initializeInfos = this.arrToObj(model.infos)
+    let initializeInfos = arrToObj(model.infos)
     //let validationMsg = 'No changes to save'
     //let formValid = false
 
@@ -102,7 +103,7 @@ export class UserDetails extends React.Component {
     //const { model, infos, password, confirmPassword } = this.state
     //const { dispatch } = this.props
 
-    let infosArray = this.objToArr(infos)
+    let infosArray = objToArr(infos)
 
     if(infosArray.length > 0) model.infos = infosArray
 
@@ -176,7 +177,7 @@ export class UserDetails extends React.Component {
   handleInfosChange(event) {
     const { name, value } = event.target
     const { infos } = this.state
-    console.log('handle infos change name: ', name); console.log('handle info change value: ', value)
+    //console.log('handle infos change name: ', name); console.log('handle info change value: ', value)
     this.setState({
       infos: {
         ...infos,
@@ -201,7 +202,7 @@ export class UserDetails extends React.Component {
   /**
    * Converts Array into object
    */
-  arrToObj(array) {
+/*  arrToObj(array) {
     let obj = {}
     if(!array || array.length === 0) {
       return obj
@@ -211,11 +212,12 @@ export class UserDetails extends React.Component {
     })
     return obj
   }
+*/
 
   /**
    * Converts Object to Array
    */
-   objToArr(obj) {
+/*   objToArr(obj) {
      let arr = []
      let val;
      Object.keys(obj).forEach(key => {
@@ -224,32 +226,29 @@ export class UserDetails extends React.Component {
      })
      return arr
    }
-
+*/
   validateForm() {
     const { password, confirmPassword } = this.state
-    //console.log('Form validations...')
+
     if ( this.changedProps().length === 0 ) {
-      // dispatch(alertActions.error('No changes found...'))
-      // this.props.error('No changes found...')
       this.validationMsg = 'No changes to save'
       this.formValid = false
-    } else if (password !== confirmPassword) {
-      // dispatch(alertActions.error('Passwords Do Not Match'))
-      //this.props.error('Passwords Do Not Match')
+      return null
+    }
+    if (password !== confirmPassword) {
       this.validationMsg = 'Password do not match'
       this.formValid = false
-    } else if( this.canBeSaved() ) {
-      //dispatch(actions.saveChanges(model))
-      // this.props.saveChanges(model)
+      return null
+    }
+    if( this.canBeSaved() ) {
       this.validationMsg = 'Save Changes'
       this.formValid = true
-
-    } else {
-      //dispatch(alertActions.error('Missing Data...'))
-      //this.props.error('Missing Data...')
-      this.validationMsg = 'Missing "Required Data"...'
-      this.formValid = false
+      return null
     }
+
+    // finally, if reached here
+    this.validationMsg = 'Missing "Required Data"...'
+    this.formValid = false
 
   }
 
@@ -348,7 +347,6 @@ export class UserDetails extends React.Component {
         <FormGroup check inline>
           <Label check>
             <Input
-              id="residentTypeOwner"
               className="residentType"
               type="radio"
               name="residentType"
@@ -361,7 +359,6 @@ export class UserDetails extends React.Component {
         <FormGroup check inline>
           <Label check>
             <Input
-              id="residentTypeTenant"
               className="residentType"
               type="radio"
               name="residentType"
@@ -374,7 +371,6 @@ export class UserDetails extends React.Component {
         <FormGroup check inline>
           <Label check>
             <Input
-              id="residentTypeNA"
               className="residentType"
               type="radio"
               name="residentType"

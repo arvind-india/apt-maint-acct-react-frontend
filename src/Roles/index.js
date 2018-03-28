@@ -1,2 +1,2 @@
-export * from './RolesPage'
-export * from './RoleDetailsPage'
+export { default as RolesPage } from './RolesPage'
+export { default as RoleDetailsPage } from './RoleDetailsPage'
