@@ -348,6 +348,7 @@ export class UserDetails extends React.Component {
         <FormGroup check inline>
           <Label check>
             <Input
+              id="residentTypeOwner"
               className="residentType"
               type="radio"
               name="residentType"
@@ -360,6 +361,7 @@ export class UserDetails extends React.Component {
         <FormGroup check inline>
           <Label check>
             <Input
+              id="residentTypeTenant"
               className="residentType"
               type="radio"
               name="residentType"
@@ -372,6 +374,7 @@ export class UserDetails extends React.Component {
         <FormGroup check inline>
           <Label check>
             <Input
+              id="residentTypeNA"
               className="residentType"
               type="radio"
               name="residentType"

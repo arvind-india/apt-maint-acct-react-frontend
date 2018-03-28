@@ -18,7 +18,11 @@ const mockUsers = [
     name: 'user2',
     first_name:'user2',
     last_name: 'test',
-    email: 'user2@test.com'
+    email: 'user2@test.com',
+    infos: [
+      {key: 'flatNumber', value: 'F1'},
+      {key: 'residentType', value: 'owner'}
+    ]
   }
 
 ]
@@ -95,7 +99,11 @@ const mocks = [
     userName: {name: 'name', value: mockUsers[1].name},
     firstName: {name: 'first_name', value: mockUsers[1].first_name},
     lastName: {name: 'last_name', value: mockUsers[1].last_name},
-    email: {name: 'email', value: mockUsers[1].email }
+    email: {name: 'email', value: mockUsers[1].email },
+    infos: {
+      flatNumber: {name: 'flatNumber', value: mockUsers[1].infos[0].value},
+      residentType: {name: 'residentType', value: mockUsers[1].infos[1].value}
+    }
   }
 ]
 const component = shallow(<UserDetails {...mockProps[0]} location={mockLocations[0]}/>)
@@ -158,11 +166,16 @@ describe('UserDetailsPage with NO INFOS events test', () => {
 
 const component2 = shallow(<UserDetails {...mockProps[1]} location={mockLocations[1]}/>)
 describe('UserDetailsPage with WITH INFOS events test', () => {
+  it('should find checked radio input', () => {
+    expect(component2.find('.residentType [checked=true]').length).toEqual(1)
+  })
   it('should be called with required states as arguments', () => {
     component2.find('#userName').simulate('change', {target: mocks[1].userName})
     component2.find('#firstName').simulate('change', {target: mocks[1].firstName})
     component2.find('#lastName').simulate('change', {target: mocks[1].lastName})
     component2.find('#email').simulate('change', {target: mocks[1].email})
+    component2.find('#flatNumber').simulate('change', {target: mocks[1].infos.flatNumber})
+    component2.find('.residentType [checked=true]').simulate('change', {target: mocks[1].infos.residentType})
     component2.find('#userDetailsForm').simulate('submit', {preventDefault() {}})
     expect(mockProps[1].saveChanges.mock.calls[0][0]).toEqual(mockUsers[1])
   })
