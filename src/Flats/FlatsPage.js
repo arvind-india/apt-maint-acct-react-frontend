@@ -18,12 +18,12 @@ import {
 import { history } from '../_helpers'
 import { PrivateRoute, FlashMessage } from '../_components'
 import { flatActions as actions } from '../_actions'
-import { FlatDetailsPage as detailsPage } from './FlatDetailsPage'
+import { default as detailsPage } from './FlatDetailsPage'
 
 let url = '/flats'
 let module = 'flats'
 
-class FlatsPage extends React.Component {
+export class Flats extends React.Component {
 
   constructor(props) {
     super(props)
@@ -31,13 +31,16 @@ class FlatsPage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(actions.getAll())
+    //this.props.dispatch(actions.getAll())
+    this.props.getAll()
   }
   handleDeleteModel(id) {
     console.log('Deleting Flat with id: ', id)
     //return (e) => this.props.dispatch(actions.delete(id))
-    this.props.dispatch(actions.delete(id))
-    this.props.dispatch(actions.getAll()) // get list after deletion of a model
+    //this.props.dispatch(actions.delete(id))
+    //this.props.dispatch(actions.getAll()) // get list after deletion of a model
+    this.props.delete(id)
+    this.props.getAll()
   }
   showList(models){
     const { authzn } = this.props
@@ -85,9 +88,10 @@ class FlatsPage extends React.Component {
   }
 
   render() {
-    console.log('Props in FlatsPage: ', this.props)
-    const { flats, alert, authzn } = this.props
+    //console.log('Props in FlatsPage: ', this.props)
+    const { flats, alert, authzn, trackHistory } = this.props
     let models = flats
+    let hist = trackHistory?history:{}
     return (
       <div>
         <h3>Flats List</h3>
@@ -95,7 +99,7 @@ class FlatsPage extends React.Component {
         {models.loading && <em>Loading models...}</em>}
         {models.error && <span className="text-danger">ERROR: {models.error}</span>}
         {models.items && authzn && this.showList(models) }
-        <Router history={history}>
+        <Router history={hist}>
           <div>
             <PrivateRoute path={`${url}/:id`} component={detailsPage} />
           </div>
@@ -109,13 +113,27 @@ function mapStateToProps(state) {
   const { flats, alert, authorizations } = state
   // const { user } = authentication
   const authzn = authorizations[module]
+  const trackHistory = true  // added for unit testing; snapshot to be precise
   return {
 //    user,
     flats,
     alert,
-    authzn
+    authzn,
+    trackHistory
   }
 }
 
-const connectedFlatsPage = connect(mapStateToProps)(FlatsPage)
-export { connectedFlatsPage as FlatsPage }
+function mapDispatchToProps(dispatch) {
+  return {
+    getAll: () => {
+      dispatch(actions.getAll())
+    },
+    delete: (id) => {
+      dispatch(actions.delete(id))
+    }
+  }
+}
+
+//const connectedFlatsPage = connect(mapStateToProps)(FlatsPage)
+//export { connectedFlatsPage as FlatsPage }
+export default connect(mapStateToProps, mapDispatchToProps)(Flats)

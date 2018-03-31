@@ -1,0 +1,355 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UsersPage params test should render initial layout 1`] = `
+Array [
+  <div>
+    <h2
+        align="center"
+    >
+        Register
+    </h2>
+    <div
+        className="alert undefined"
+    >
+        testingAlert
+    </div>
+    <Form
+        id="registerForm"
+        onSubmit={[Function]}
+        tag="form"
+    >
+        <FormGroup
+            row={true}
+            tag="div"
+        >
+            <Label
+                sm={
+                    Object {
+                        "offset": 4,
+                        "size": 1,
+                      }
+                }
+                tag="label"
+                widths={
+                    Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                }
+            >
+                UserName
+            </Label>
+            <Col
+                sm={3}
+                tag="div"
+                widths={
+                    Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                }
+            >
+                <Input
+                    id="userName"
+                    name="name"
+                    onChange={[Function]}
+                    placeholder="User name here"
+                    tag="p"
+                    type="text"
+                />
+            </Col>
+        </FormGroup>
+        <FormGroup
+            row={true}
+            tag="div"
+        >
+            <Label
+                sm={
+                    Object {
+                        "offset": 4,
+                        "size": 1,
+                      }
+                }
+                tag="label"
+                widths={
+                    Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                }
+            >
+                FirstName
+            </Label>
+            <Col
+                sm={3}
+                tag="div"
+                widths={
+                    Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                }
+            >
+                <Input
+                    id="firstName"
+                    name="first_name"
+                    onChange={[Function]}
+                    placeholder="First name here"
+                    tag="p"
+                    type="text"
+                />
+            </Col>
+        </FormGroup>
+        <FormGroup
+            row={true}
+            tag="div"
+        >
+            <Label
+                sm={
+                    Object {
+                        "offset": 4,
+                        "size": 1,
+                      }
+                }
+                tag="label"
+                widths={
+                    Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                }
+            >
+                LastName
+            </Label>
+            <Col
+                sm={3}
+                tag="div"
+                widths={
+                    Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                }
+            >
+                <Input
+                    id="lastName"
+                    name="last_name"
+                    onChange={[Function]}
+                    placeholder="Last name here"
+                    tag="p"
+                    type="text"
+                />
+            </Col>
+        </FormGroup>
+        <FormGroup
+            row={true}
+            tag="div"
+        >
+            <Label
+                sm={
+                    Object {
+                        "offset": 4,
+                        "size": 1,
+                      }
+                }
+                tag="label"
+                widths={
+                    Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                }
+            >
+                Email_Id
+            </Label>
+            <Col
+                sm={3}
+                tag="div"
+                widths={
+                    Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                }
+            >
+                <Input
+                    id="email"
+                    name="email"
+                    onChange={[Function]}
+                    placeholder="email id here"
+                    tag="p"
+                    type="email"
+                />
+            </Col>
+        </FormGroup>
+        <FormGroup
+            row={true}
+            tag="div"
+        >
+            <Label
+                sm={
+                    Object {
+                        "offset": 4,
+                        "size": 1,
+                      }
+                }
+                tag="label"
+                widths={
+                    Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                }
+            >
+                Password
+            </Label>
+            <Col
+                sm={3}
+                tag="div"
+                widths={
+                    Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                }
+            >
+                <Input
+                    id="password"
+                    name="password"
+                    onChange={[Function]}
+                    placeholder="password here"
+                    tag="p"
+                    type="password"
+                />
+            </Col>
+        </FormGroup>
+        <FormGroup
+            row={true}
+            tag="div"
+        >
+            <Label
+                sm={
+                    Object {
+                        "offset": 4,
+                        "size": 1,
+                      }
+                }
+                tag="label"
+                title="Repeat password"
+                widths={
+                    Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                }
+            >
+                Repeat_Pwd
+            </Label>
+            <Col
+                sm={3}
+                tag="div"
+                widths={
+                    Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                }
+            >
+                <Input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    onChange={[Function]}
+                    placeholder="Repeat password here"
+                    tag="p"
+                    type="password"
+                />
+                
+            </Col>
+        </FormGroup>
+        <FormGroup
+            row={true}
+            tag="div"
+        >
+            <Col
+                sm={
+                    Object {
+                        "offset": 5,
+                        "size": 3,
+                      }
+                }
+                tag="div"
+                widths={
+                    Array [
+                        "xs",
+                        "sm",
+                        "md",
+                        "lg",
+                        "xl",
+                      ]
+                }
+            >
+                <Button
+                    color="primary"
+                    disabled={true}
+                    tag="button"
+                    title="Missing \\"Required Data\\"..."
+                    type="submit"
+                >
+                    Register
+                </Button>
+                <Button
+                    color="link"
+                    tag="button"
+                >
+                    <Link
+                        className="text-danger"
+                        replace={false}
+                        title="Go to home"
+                        to="/login"
+                    >
+                        Cancel
+                    </Link>
+                </Button>
+                <Connect(SocialLogin) />
+            </Col>
+        </FormGroup>
+    </Form>
+</div>,
+]
+`;

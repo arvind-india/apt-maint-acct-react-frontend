@@ -1,0 +1,113 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FlatsPage params test should render initial layout 1`] = `
+Array [
+  <div>
+    <h2>
+        Flat Details
+    </h2>
+    <div
+        className="alert undefined"
+    >
+        testingAlert
+    </div>
+    <Form
+        className="grid-form"
+        id="flatDetailsForm"
+        onSubmit={[Function]}
+        tag="form"
+    >
+        <fieldset>
+            <legend>
+                Edit
+            </legend>
+            <div
+                data-row-span="2"
+            >
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Block Number
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="blockNumber"
+                        name="blockNumber"
+                        onChange={[Function]}
+                        placeholder="<block number here>"
+                        tag="p"
+                        title="Block Number"
+                        type="text"
+                        value="0"
+                    />
+                </div>
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Flat Number
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="flatNumber"
+                        name="flatNumber"
+                        onChange={[Function]}
+                        placeholder="Description here"
+                        tag="p"
+                        type="text"
+                        value="g1"
+                    />
+                </div>
+            </div>
+        </fieldset>
+        <br />
+        <Button
+            color="primary"
+            disabled={true}
+            hidden={false}
+            tag="button"
+            title="Save changes"
+            type="submit"
+        >
+            Save
+        </Button>
+        <Button
+            color="link"
+            tag="button"
+        >
+            <Link
+                className="text-danger"
+                replace={false}
+                title="Go to Flats"
+                to="/flats"
+            >
+                Cancel
+            </Link>
+        </Button>
+    </Form>
+</div>,
+]
+`;

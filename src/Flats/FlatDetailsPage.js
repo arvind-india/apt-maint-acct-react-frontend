@@ -17,11 +17,11 @@ import { flatActions as actions, alertActions } from '../_actions'
 
 let module = 'flats' // module name
 
-class FlatDetailsPage extends React.Component {
+export class FlatDetails extends React.Component {
 
   constructor(props) {
     super(props)
-    const { dispatch, match, location } = props
+    const { location } = props
     let model = location.state.model // model supplied from list page
 //    let ops = model.operations?model.operations:''
     let initializeModel = {
@@ -32,27 +32,29 @@ class FlatDetailsPage extends React.Component {
     this.state = {
       model: initializeModel,           // model to edit
       submitted: false,
-      adding: match.params.id === "0"
+      adding: model.id === "0"
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
 
-    dispatch(alertActions.clear())  // clear alert messages from other pages
+    //dispatch(alertActions.clear())  // clear alert messages from other pages
+    this.props.clearAlert()
   }
   handleSubmit(event) {
     const { model } = this.state
-    const { dispatch } = this.props
+    //const { dispatch } = this.props
 
     event.preventDefault()
     this.setState({ submitted: true })
+    this.props.saveChanges(model)
 
-    if ( this.changedProps().length === 0 ) {
+/*    if ( this.changedProps().length === 0 ) {
       dispatch(alertActions.error('No changes found...'))
     } else if(this.canBeSaved()){
       dispatch(actions.saveChanges(model))
     } else {
       dispatch(alertActions.error('Missing data'))
-    }
+    } */
   }
 
   canBeSaved() { // check for changes in mModel, if changes present, it can save
@@ -77,6 +79,7 @@ class FlatDetailsPage extends React.Component {
     return props;
   }
   handleChange(event) {
+    //console.log('event target: ', event.target)
     const { name, value } = event.target
     const { model } = this.state
     this.setState({
@@ -92,15 +95,31 @@ class FlatDetailsPage extends React.Component {
       <div>
         <h2>Flat Details</h2>
         {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
+        {this.validateForm()}
         {this.show()}
       </div>
     )
+  }
+  validateForm() {
+    if ( this.changedProps().length === 0 ) {
+      this.validationMsg = 'No changes to save'
+      this.formValid = false
+      return null
+    }
+    if( this.canBeSaved() ) {
+      this.validationMsg = 'Save Changes'
+      this.formValid = true
+      return null
+    }
+    // finally, if reached here
+    this.validationMsg = 'Missing "Required Data"...'
+    this.formValid = false
   }
   show(){
     const { adding } = this.state
     const { authzn } = this.props
     let title = adding?'Add':authzn.allowsEdit?'Edit':'View'
-    return <Form onSubmit={this.handleSubmit} className="grid-form">
+    return <Form id="flatDetailsForm" onSubmit={this.handleSubmit} className="grid-form">
       <fieldset>
   			<legend>{title}</legend>
         <div data-row-span="2">
@@ -109,8 +128,20 @@ class FlatDetailsPage extends React.Component {
         </div>
       </fieldset>
       <br/>
-      <Button type="submit" color="primary" hidden={!authzn.allowsEdit} title="Save changes">Save</Button>
-      <Button color="link"><Link to="/flats" className="text-danger" title="Go to Flats">Cancel</Link></Button>
+      <Button
+        type="submit"
+        color="primary"
+        disabled={!this.formValid}
+        hidden={!authzn.allowsEdit}
+        title="Save changes"
+        >Save</Button>
+      <Button
+        color="link"
+        ><Link
+          to="/flats"
+          className="text-danger"
+          title="Go to Flats"
+          >Cancel</Link></Button>
     </Form>
   }
   showBlockNumber() {
@@ -118,8 +149,9 @@ class FlatDetailsPage extends React.Component {
     return <div data-field-span="1">
 				<Label>Block Number</Label>
         <Input
+          id="blockNumber"
           type="text"
-          name="block_number"
+          name="blockNumber"
           value={model.block_number}
           placeholder="<block number here>"
           title="Block Number"
@@ -135,8 +167,9 @@ class FlatDetailsPage extends React.Component {
     return <div data-field-span="1">
 				<Label>Flat Number</Label>
         <Input
+          id="flatNumber"
           type="text"
-          name="flat_number"
+          name="flatNumber"
           value={model.flat_number}
           placeholder="Description here"
           className="inputField"
@@ -159,5 +192,20 @@ function mapStateToProps(state) {
   }
 }
 
-const connectedDetailsPage = connect(mapStateToProps)(FlatDetailsPage)
-export { connectedDetailsPage as FlatDetailsPage }
+function mapDispatchToProps(dispatch) {
+  return {
+    clearAlert: () => {
+      dispatch(alertActions.clear())
+    },
+    saveChanges: (model) => {
+      dispatch(actions.saveChanges(model))
+    },
+    error: (msg) => {
+      dispatch(alertActions.error(msg))
+    }
+  }
+}
+
+//const connectedDetailsPage = connect(mapStateToProps)(FlatDetailsPage)
+//export { connectedDetailsPage as FlatDetailsPage }
+export default connect(mapStateToProps, mapDispatchToProps)(FlatDetails)

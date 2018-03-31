@@ -1,0 +1,198 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FlatsPage params test should render initial layout 1`] = `
+Array [
+  <div>
+    <h3>
+        Flats List
+    </h3>
+    <FlashMessage
+        delay={5000}
+        text="testingAlert"
+    />
+    <Table
+        responsiveTag="div"
+        tag="table"
+    >
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Block Number
+                </th>
+                <th>
+                    Flat Number
+                </th>
+                <th>
+                    Actions 
+                    <Link
+                        replace={false}
+                        title="Add"
+                        to={
+                            Object {
+                                "pathname": "/flats/0",
+                                "state": Object {
+                                  "model": Object {
+                                    "block_number": "",
+                                    "flat_number": "",
+                                    "id": 0,
+                                  },
+                                },
+                              }
+                        }
+                    >
+                        <MdAdd />
+                    </Link>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th
+                    scope="row"
+                >
+                    1
+                </th>
+                <td>
+                    0
+                </td>
+                <td>
+                    g1
+                </td>
+                <td>
+                    <Link
+                        replace={false}
+                        title="Edit"
+                        to={
+                            Object {
+                                "pathname": "/flats/1",
+                                "state": Object {
+                                  "model": Object {
+                                    "block_number": "0",
+                                    "flat_number": "g1",
+                                    "id": 1,
+                                  },
+                                },
+                              }
+                        }
+                    >
+                        <MdEdit />
+                    </Link>
+                    <Button
+                        color="link"
+                        hidden={false}
+                        onClick={[Function]}
+                        tag="button"
+                        title="Delete"
+                    >
+                        <MdDelete
+                            color="red"
+                        />
+                    </Button>
+                </td>
+            </tr>
+            <tr>
+                <th
+                    scope="row"
+                >
+                    2
+                </th>
+                <td>
+                    0
+                </td>
+                <td>
+                    f1
+                </td>
+                <td>
+                    <Link
+                        replace={false}
+                        title="Edit"
+                        to={
+                            Object {
+                                "pathname": "/flats/2",
+                                "state": Object {
+                                  "model": Object {
+                                    "block_number": "0",
+                                    "flat_number": "f1",
+                                    "id": 2,
+                                  },
+                                },
+                              }
+                        }
+                    >
+                        <MdEdit />
+                    </Link>
+                    <Button
+                        color="link"
+                        hidden={false}
+                        onClick={[Function]}
+                        tag="button"
+                        title="Delete"
+                    >
+                        <MdDelete
+                            color="red"
+                        />
+                    </Button>
+                </td>
+            </tr>
+            <tr>
+                <th
+                    scope="row"
+                >
+                    3
+                </th>
+                <td>
+                    1
+                </td>
+                <td>
+                    g4
+                </td>
+                <td>
+                    <Link
+                        replace={false}
+                        title="Edit"
+                        to={
+                            Object {
+                                "pathname": "/flats/3",
+                                "state": Object {
+                                  "model": Object {
+                                    "block_number": "1",
+                                    "flat_number": "g4",
+                                    "id": 3,
+                                  },
+                                },
+                              }
+                        }
+                    >
+                        <MdEdit />
+                    </Link>
+                    <Button
+                        color="link"
+                        hidden={false}
+                        onClick={[Function]}
+                        tag="button"
+                        title="Delete"
+                    >
+                        <MdDelete
+                            color="red"
+                        />
+                    </Button>
+                </td>
+            </tr>
+        </tbody>
+    </Table>
+    <Router
+        history={Object {}}
+    >
+        <div>
+            <PrivateRoute
+                component={[Function]}
+                path="/flats/:id"
+            />
+        </div>
+    </Router>
+</div>,
+]
+`;

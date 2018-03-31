@@ -14,7 +14,7 @@ import {
 import { userActions, alertActions } from '../_actions'
 import { SocialLoginPage } from '../Login'
 
-class RegisterPage extends React.Component {
+export class Register extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -49,11 +49,13 @@ class RegisterPage extends React.Component {
     })
   }
   handleSubmit(event) {
+    const { user } = this.state
     event.preventDefault()
     this.setState({ submitted: true })
-    const { user, confirmPassword } = this.state
-    const { dispatch } = this.props
-    if(user.name &&
+    this.props.register(user)
+    //const { user, confirmPassword } = this.state
+    //const { dispatch } = this.props
+/*    if(user.name &&
         user.first_name &&
         user.last_name &&
         user.email &&
@@ -61,10 +63,12 @@ class RegisterPage extends React.Component {
         confirmPassword &&
         user.password === confirmPassword
       ) {
-          dispatch(userActions.register(user))
+          //dispatch(userActions.register(user))
+          this.props.register(user)
         } else {
-          dispatch(alertActions.error('Missing data...'))
-        }
+          //dispatch(alertActions.error('Missing data...'))
+          this.props.error('Missing data...')
+        } */
   }
   render() {
     // const { user, submitted, confirmPassword } = this.state
@@ -72,8 +76,9 @@ class RegisterPage extends React.Component {
     return (
       <div>
         <h2 align="center">Register</h2>
-        {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
-        <Form onSubmit={this.handleSubmit}>
+        { alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div> }
+        { this.validateForm() }
+        <Form id="registerForm" onSubmit={this.handleSubmit}>
           { this.userName() }
           { this.firstName() }
           { this.lastName() }
@@ -86,12 +91,33 @@ class RegisterPage extends React.Component {
     )
   }
 
+  validateForm() {
+    const { user, confirmPassword } = this.state
+
+    if(user.name &&
+        user.first_name &&
+        user.last_name &&
+        user.email &&
+        user.password &&
+        confirmPassword &&
+        user.password === confirmPassword
+      ) {
+        this.validationMsg = 'Save Changes'
+        this.formValid = true
+        return null
+      }
+    // if reached here
+    this.validationMsg = 'Missing "Required Data"...'
+    this.formValid = false
+  }
+
   userName() {
     const { submitted, user } = this.state
     return <FormGroup row>
       <Label sm={{size: 1, offset: 4}}>UserName</Label>
       <Col sm={3}>
         <Input
+          id="userName"
           type="text"
           name="name"
           placeholder="User name here"
@@ -107,6 +133,7 @@ class RegisterPage extends React.Component {
       <Label sm={{size: 1, offset: 4}}>FirstName</Label>
       <Col sm={3}>
         <Input
+          id="firstName"
           type="text"
           name="first_name"
           placeholder="First name here"
@@ -122,6 +149,7 @@ class RegisterPage extends React.Component {
       <Label sm={{size: 1, offset: 4}}>LastName</Label>
       <Col sm={3}>
         <Input
+          id="lastName"
           type="text"
           name="last_name"
           placeholder="Last name here"
@@ -138,6 +166,7 @@ class RegisterPage extends React.Component {
       <Label sm={{size: 1, offset: 4}}>Email_Id</Label>
       <Col sm={3}>
         <Input
+          id="email"
           type="email"
           name="email"
           placeholder="email id here"
@@ -153,6 +182,7 @@ class RegisterPage extends React.Component {
       <Label sm={{size: 1, offset: 4}}>Password</Label>
       <Col sm={3}>
         <Input
+          id="password"
           type="password"
           name="password"
           placeholder="password here"
@@ -168,6 +198,7 @@ class RegisterPage extends React.Component {
       <Label sm={{size: 1, offset: 4}} title="Repeat password">Repeat_Pwd</Label>
       <Col sm={3}>
         <Input
+          id="confirmPassword"
           type="password"
           name="confirmPassword"
           placeholder="Repeat password here"
@@ -182,9 +213,18 @@ class RegisterPage extends React.Component {
   buttons() {
     return <FormGroup row>
       <Col sm={{size: 3, offset: 5}}>
-        <Button type="submit" color="primary" title="Register New User">Register</Button>
+        <Button
+          type="submit"
+          color="primary"
+          disabled={!this.formValid}
+          title={this.validationMsg}
+          >Register</Button>
         <Button color="link">
-          <Link to="/login" className="text-danger" title="Go to home">Cancel</Link>
+          <Link
+            to="/login"
+            className="text-danger"
+            title="Go to home"
+            >Cancel</Link>
         </Button>
         <SocialLoginPage />
       </Col>
@@ -203,5 +243,17 @@ function mapStateToProps(state) {
   }
 }
 
-const connectedRegisterPage = connect(mapStateToProps)(RegisterPage)
-export { connectedRegisterPage as RegisterPage }
+function mapDispatchToProps(dispatch) {
+  return {
+    error: (msg) => {
+      dispatch(alertActions.error(msg))
+    },
+    register: (user) => {
+      dispatch(userActions.register(user))
+    }
+  }
+}
+
+//const connectedRegisterPage = connect(mapStateToProps)(RegisterPage)
+//export { connectedRegisterPage as RegisterPage }
+export default connect(mapStateToProps, mapDispatchToProps)(Register)

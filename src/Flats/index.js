@@ -1,2 +1,2 @@
-export * from './FlatsPage'
-export * from './FlatDetailsPage'
+export {default as FlatsPage } from './FlatsPage'
+export {default as FlatDetailsPage } from './FlatDetailsPage'
