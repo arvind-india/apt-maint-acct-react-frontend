@@ -17,11 +17,11 @@ import { MODULES } from '../_constants'
 
 let module = 'permissions' // module name
 
-class PermissionDetailsPage extends React.Component {
+export class PermissionDetails extends React.Component {
 
   constructor(props) {
     super(props)
-    const { dispatch, match, location } = props
+    const { location } = props
     let model = location.state.model // model supplied from list page
     let ops = model.operations?model.operations:''
     let initializeModel = {
@@ -34,7 +34,7 @@ class PermissionDetailsPage extends React.Component {
     this.state = {
       model: initializeModel,           // model to edit
       submitted: false,
-      adding: match.params.id === "0",
+      adding: model.id === "0",
       cPerm: ops.includes('C'), // create permission
       rPerm: ops.includes('R'), // read permission
       uPerm: ops.includes('U'), // update permission
@@ -45,22 +45,46 @@ class PermissionDetailsPage extends React.Component {
     this.handleResourceChange = this.handleResourceChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
 
-    dispatch(alertActions.clear())  // clear alert messages from other pages
+    //dispatch(alertActions.clear())  // clear alert messages from other pages
+    this.props.clearAlert()
   }
   handleSubmit(event) {
     const { model } = this.state
-    const { dispatch } = this.props
+    //const { dispatch } = this.props
 
     event.preventDefault()
     this.setState({ submitted: true })
-
+    this.props.saveChanges(model)
+/*
     if ( this.changedProps().length === 0 ) {
-      dispatch(alertActions.error('No changes found...'))
+      //dispatch(alertActions.error('No changes found...'))
+      this.props.error('No changes found...')
     } else if(this.canBeSaved()){
-      dispatch(actions.saveChanges(model))
+      //dispatch(actions.saveChanges(model))
+      this.props.saveChanges(model)
     } else {
-      dispatch(alertActions.error('Missing data'))
+      //dispatch(alertActions.error('Missing data'))
+      this.props.error('Missing data...')
     }
+*/
+
+  }
+
+  validateForm() {
+    
+    if ( this.changedProps().length === 0 ) {
+      this.validationMsg = 'No changes to save'
+      this.formValid = false
+      return null
+    }
+    if( this.canBeSaved() ) {
+      this.validationMsg = 'Save Changes'
+      this.formValid = true
+      return null
+    }
+    // finally, if reached here
+    this.validationMsg = 'Missing "Required Data"...'
+    this.formValid = false
   }
 
   canBeSaved() { // check for changes in mModel, if changes present, it can save
@@ -129,6 +153,7 @@ class PermissionDetailsPage extends React.Component {
       <div>
         <h2>Permission Details</h2>
         {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
+        {this.validateForm()}
         {this.show()}
       </div>
     )
@@ -138,7 +163,7 @@ class PermissionDetailsPage extends React.Component {
     const { authzn } = this.props
     let title = adding?'Add':authzn.allowsEdit?'Edit':'View'
 
-    return <Form onSubmit={this.handleSubmit} className="grid-form">
+    return <Form id="permissionDetailsForm" onSubmit={this.handleSubmit} className="grid-form">
       <fieldset>
   			<legend>{title}</legend>
         <div data-row-span="2">
@@ -153,8 +178,20 @@ class PermissionDetailsPage extends React.Component {
         </div>
       </fieldset>
       <br/>
-      <Button type="submit" color="primary" hidden={!authzn.allowsEdit} title="Save changes">Save</Button>
-      <Button color="link"><Link to="/permissions" className="text-danger" title="Go to Permissions">Cancel</Link></Button>
+      <Button
+        type="submit"
+        color="primary"
+        disabled={!this.formValid}
+        hidden={!authzn.allowsEdit}
+        title={this.validationMsg}
+        >Save</Button>
+      <Button
+        color="link"
+        ><Link
+          to="/permissions"
+          className="text-danger"
+          title="Go to Permissions"
+          >Cancel</Link></Button>
     </Form>
   }
   showOperations() {
@@ -165,6 +202,8 @@ class PermissionDetailsPage extends React.Component {
         <FormGroup check inline>
           <Label check>
             <Input
+              id="createOperations"
+              className="operations"
               type="checkbox"
               name="operations"
               value="C"
@@ -176,6 +215,8 @@ class PermissionDetailsPage extends React.Component {
         <FormGroup check inline>
           <Label check>
             <Input
+              id="readOperations"
+              className="operations"
               type="checkbox"
               name="operations"
               value="R"
@@ -187,6 +228,8 @@ class PermissionDetailsPage extends React.Component {
         <FormGroup check inline>
           <Label check>
             <Input
+              id="updateOperations"
+              className="operations"
               type="checkbox"
               name="operations"
               value="U"
@@ -198,6 +241,8 @@ class PermissionDetailsPage extends React.Component {
         <FormGroup check inline>
           <Label check>
             <Input
+              id="deleteOperations"
+              className="operations"
               type="checkbox"
               name="operations"
               value="D"
@@ -215,6 +260,7 @@ class PermissionDetailsPage extends React.Component {
     return <div data-field-span="1">
       <Label>Resource</Label>
       <Select
+        id="resource"
         name="form-field-name"
         value={model.resource}
         simpleValue={true}
@@ -233,6 +279,7 @@ class PermissionDetailsPage extends React.Component {
     return <div data-field-span="1">
 				<Label>Conditions (optional)</Label>
         <Input
+          id="condition"
           type="text"
           name="condition"
           value={model.condition}
@@ -248,6 +295,7 @@ class PermissionDetailsPage extends React.Component {
     return <div data-field-span="1">
 				<Label>Description</Label>
         <Input
+          id="description"
           type="text"
           name="description"
           value={model.description}
@@ -272,5 +320,20 @@ function mapStateToProps(state) {
   }
 }
 
-const connectedDetailsPage = connect(mapStateToProps)(PermissionDetailsPage)
-export { connectedDetailsPage as PermissionDetailsPage }
+function mapDispatchToProps(dispatch) {
+  return {
+    clearAlert: () => {
+      dispatch(alertActions.clear())
+    },
+    saveChanges: (model) => {
+      dispatch(actions.saveChanges(model))
+    },
+    error: (msg) => {
+      dispatch(alertActions.error(msg))
+    }
+  }
+}
+
+//const connectedDetailsPage = connect(mapStateToProps)(PermissionDetailsPage)
+//export { connectedDetailsPage as PermissionDetailsPage }
+export default connect(mapStateToProps, mapDispatchToProps)(PermissionDetails)

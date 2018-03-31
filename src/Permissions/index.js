@@ -1,2 +1,2 @@
-export * from './PermissionsPage'
-export * from './PermissionDetailsPage'
+export { default as PermissionsPage } from './PermissionsPage'
+export { default as PermissionDetailsPage } from './PermissionDetailsPage'

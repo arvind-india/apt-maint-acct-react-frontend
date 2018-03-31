@@ -1,0 +1,222 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PermissionsPage params test should render initial layout 1`] = `
+Array [
+  <div>
+    <h3>
+        Permissions List
+    </h3>
+    <FlashMessage
+        delay={5000}
+        text="testingAlert"
+    />
+    <Table
+        responsiveTag="div"
+        tag="table"
+    >
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Operations
+                </th>
+                <th>
+                    Resource
+                </th>
+                <th>
+                    Conditions
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Actions 
+                    <Link
+                        replace={false}
+                        title="Add"
+                        to={
+                            Object {
+                                "pathname": "/permissions/0",
+                                "state": Object {
+                                  "model": Object {
+                                    "condition": "",
+                                    "description": "",
+                                    "id": 0,
+                                  },
+                                },
+                              }
+                        }
+                    >
+                        <MdAdd />
+                    </Link>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th
+                    scope="row"
+                >
+                    1
+                </th>
+                <td>
+                    R
+                </td>
+                <td>
+                    ACCOUNT
+                </td>
+                <td />
+                <td>
+                    Grands Read-only permission on ACCOUNT
+                </td>
+                <td>
+                    <Link
+                        replace={false}
+                        title="Edit"
+                        to={
+                            Object {
+                                "pathname": "/permissions/1",
+                                "state": Object {
+                                  "model": Object {
+                                    "conditions": "",
+                                    "description": "Grands Read-only permission on ACCOUNT",
+                                    "id": 1,
+                                    "operations": "R",
+                                    "resource": "ACCOUNT",
+                                  },
+                                },
+                              }
+                        }
+                    >
+                        <MdEdit />
+                    </Link>
+                    <Button
+                        color="link"
+                        hidden={false}
+                        onClick={[Function]}
+                        tag="button"
+                        title="Delete"
+                    >
+                        <MdDelete
+                            color="red"
+                        />
+                    </Button>
+                </td>
+            </tr>
+            <tr>
+                <th
+                    scope="row"
+                >
+                    2
+                </th>
+                <td>
+                    RU
+                </td>
+                <td>
+                    ACCOUNT
+                </td>
+                <td />
+                <td>
+                    Grands Read and Edit permissions on ACCOUNT
+                </td>
+                <td>
+                    <Link
+                        replace={false}
+                        title="Edit"
+                        to={
+                            Object {
+                                "pathname": "/permissions/2",
+                                "state": Object {
+                                  "model": Object {
+                                    "conditions": "",
+                                    "description": "Grands Read and Edit permissions on ACCOUNT",
+                                    "id": 2,
+                                    "operations": "RU",
+                                    "resource": "ACCOUNT",
+                                  },
+                                },
+                              }
+                        }
+                    >
+                        <MdEdit />
+                    </Link>
+                    <Button
+                        color="link"
+                        hidden={false}
+                        onClick={[Function]}
+                        tag="button"
+                        title="Delete"
+                    >
+                        <MdDelete
+                            color="red"
+                        />
+                    </Button>
+                </td>
+            </tr>
+            <tr>
+                <th
+                    scope="row"
+                >
+                    3
+                </th>
+                <td>
+                    CRUD
+                </td>
+                <td>
+                    ACCOUNT
+                </td>
+                <td />
+                <td>
+                    Grands All permissions on ACCOUNT
+                </td>
+                <td>
+                    <Link
+                        replace={false}
+                        title="Edit"
+                        to={
+                            Object {
+                                "pathname": "/permissions/3",
+                                "state": Object {
+                                  "model": Object {
+                                    "conditions": "",
+                                    "description": "Grands All permissions on ACCOUNT",
+                                    "id": 3,
+                                    "operations": "CRUD",
+                                    "resource": "ACCOUNT",
+                                  },
+                                },
+                              }
+                        }
+                    >
+                        <MdEdit />
+                    </Link>
+                    <Button
+                        color="link"
+                        hidden={false}
+                        onClick={[Function]}
+                        tag="button"
+                        title="Delete"
+                    >
+                        <MdDelete
+                            color="red"
+                        />
+                    </Button>
+                </td>
+            </tr>
+        </tbody>
+    </Table>
+    <Router
+        history={Object {}}
+    >
+        <div>
+            <PrivateRoute
+                component={[Function]}
+                path="/permissions/:id"
+            />
+        </div>
+    </Router>
+</div>,
+]
+`;

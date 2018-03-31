@@ -18,12 +18,12 @@ import {
 import { history } from '../_helpers'
 import { PrivateRoute, FlashMessage } from '../_components'
 import { residentActions as actions, userActions } from '../_actions'
-import { ResidentDetailsPage as detailsPage } from './ResidentDetailsPage'
+import { default as detailsPage } from './ResidentDetailsPage'
 
 let url = '/residents'
 let module = 'residents'
 
-class ResidentsPage extends React.Component {
+export class Residents extends React.Component {
 
   constructor(props) {
     super(props)
@@ -31,20 +31,25 @@ class ResidentsPage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(actions.getAll())
-    this.props.dispatch(userActions.getAll())
+    //this.props.dispatch(actions.getAll())
+    //this.props.dispatch(userActions.getAll())
+    this.props.getAll()
+    this.props.getAllUser()
   }
 
   render() {
-    console.log('Props in ResidentsPage: ', this.props)
-    const { residents, alert, authzn, users } = this.props
+    //console.log('Props in ResidentsPage: ', this.props)
+    const { residents, alert, authzn, users, trackHistory } = this.props
     let models = residents
+    let hist = trackHistory?history:{}
     return (
       <div>
         <h3>Residents List</h3>
         {alert.message && <FlashMessage text={alert.message} delay={5000}/>}
+        {models.loading && <em>Loading models...}</em>}
+        {models.error && <span className="text-danger">ERROR: {models.error}</span>}
         {models.items && authzn && users.items && this.showList() }
-        <Router history={history}>
+        <Router history={hist}>
           <div>
             <PrivateRoute path={`${url}/:id`} component={detailsPage} />
           </div>
@@ -87,9 +92,9 @@ class ResidentsPage extends React.Component {
   bodyRow(model, index) {
     const { users } = this.props
     let userNames = []
-    console.log('users : ', users)
+    //console.log('users : ', users)
     users.items.forEach(each => userNames[each.id] = each.name)
-    console.log('userNames: ', userNames)
+    //console.log('userNames: ', userNames)
 
     return <tr key={model.id}>
       <th scope="row">{index+1}</th>
@@ -142,8 +147,10 @@ class ResidentsPage extends React.Component {
   handleDeleteModel(id) {
     if( window.confirm('Are you sure?') ) {
       console.log('Delete confirmed')
-      this.props.dispatch(actions.delete(id))
-      this.props.dispatch(actions.getAll()) // get list after deletion of a model
+      //this.props.dispatch(actions.delete(id))
+      //this.props.dispatch(actions.getAll()) // get list after deletion of a model
+      this.props.delete(id)
+      this.props.getAll() // get list after deletion of a model
     }
   }
 
@@ -154,14 +161,31 @@ function mapStateToProps(state) {
   const { residents, alert, authorizations, users } = state
   // const { user } = authentication
   const authzn = authorizations[module]
+  const trackHistory = true  // added for unit testing; snapshot to be precise
   return {
 //    user,
     residents,
     alert,
     authzn,
-    users
+    users,
+    trackHistory
   }
 }
 
-const connectedResidentsPage = connect(mapStateToProps)(ResidentsPage)
-export { connectedResidentsPage as ResidentsPage }
+function mapDispatchToProps(dispatch) {
+  return {
+    getAll: () => {
+      dispatch(actions.getAll())
+    },
+    getAllUser: () => {
+      dispatch(userActions.getAll())
+    },
+    delete: (id) => {
+      dispatch(actions.delete(id))
+    }
+  }
+}
+
+//const connectedResidentsPage = connect(mapStateToProps)(ResidentsPage)
+//export { connectedResidentsPage as ResidentsPage }
+export default connect(mapStateToProps, mapDispatchToProps)(Residents)

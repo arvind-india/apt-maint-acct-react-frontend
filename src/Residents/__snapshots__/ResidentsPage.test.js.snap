@@ -1,0 +1,232 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ResidentsPage params test should render initial layout 1`] = `
+Array [
+  <div>
+    <h3>
+        Residents List
+    </h3>
+    <FlashMessage
+        delay={5000}
+        text="testingAlert"
+    />
+    <Table
+        responsiveTag="div"
+        tag="table"
+    >
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    User Name
+                </th>
+                <th>
+                    First Name
+                </th>
+                <th>
+                    Last Name
+                </th>
+                <th>
+                    Type
+                </th>
+                <th>
+                    Occupied On
+                </th>
+                <th>
+                    Vacated On
+                </th>
+                <th>
+                    Actions 
+                    <Link
+                        replace={false}
+                        title="Add"
+                        to={
+                            Object {
+                                "pathname": "/residents/0",
+                                "state": Object {
+                                  "model": Object {
+                                    "first_name": "",
+                                    "id": 0,
+                                    "is_a": "",
+                                    "last_name": "",
+                                    "occupied_on": "",
+                                    "owner_id": 0,
+                                    "vacated_on": "",
+                                  },
+                                },
+                              }
+                        }
+                    >
+                        <MdAdd />
+                    </Link>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th
+                    scope="row"
+                >
+                    1
+                </th>
+                <td>
+                    tg1
+                </td>
+                <td />
+                <td />
+                <td />
+                <td />
+                <td />
+                <td>
+                    <Link
+                        replace={false}
+                        title="Edit"
+                        to={
+                            Object {
+                                "pathname": "/residents/1",
+                                "state": Object {
+                                  "model": Object {
+                                    "firstName": "guest",
+                                    "id": 1,
+                                    "lastName": "user",
+                                    "name": "guest",
+                                    "occupiedOn": "2018-03-31",
+                                    "residentType": "guest",
+                                    "vacatedOn": "2020-03-31",
+                                  },
+                                },
+                              }
+                        }
+                    >
+                        <MdEdit />
+                    </Link>
+                    <Button
+                        color="link"
+                        hidden={false}
+                        onClick={[Function]}
+                        tag="button"
+                        title="Delete"
+                    >
+                        <MdDelete
+                            color="red"
+                        />
+                    </Button>
+                </td>
+            </tr>
+            <tr>
+                <th
+                    scope="row"
+                >
+                    2
+                </th>
+                <td>
+                    tg1
+                </td>
+                <td />
+                <td />
+                <td />
+                <td />
+                <td />
+                <td>
+                    <Link
+                        replace={false}
+                        title="Edit"
+                        to={
+                            Object {
+                                "pathname": "/residents/2",
+                                "state": Object {
+                                  "model": Object {
+                                    "firstName": "g1",
+                                    "id": 2,
+                                    "lastName": "user",
+                                    "name": "og1",
+                                    "occupiedOn": "2018-04-31",
+                                    "residentType": "owner",
+                                    "vacatedOn": "2020-04-31",
+                                  },
+                                },
+                              }
+                        }
+                    >
+                        <MdEdit />
+                    </Link>
+                    <Button
+                        color="link"
+                        hidden={false}
+                        onClick={[Function]}
+                        tag="button"
+                        title="Delete"
+                    >
+                        <MdDelete
+                            color="red"
+                        />
+                    </Button>
+                </td>
+            </tr>
+            <tr>
+                <th
+                    scope="row"
+                >
+                    3
+                </th>
+                <td>
+                    tg1
+                </td>
+                <td />
+                <td />
+                <td />
+                <td />
+                <td />
+                <td>
+                    <Link
+                        replace={false}
+                        title="Edit"
+                        to={
+                            Object {
+                                "pathname": "/residents/3",
+                                "state": Object {
+                                  "model": Object {
+                                    "firstName": "t1",
+                                    "id": 3,
+                                    "lastName": "user",
+                                    "name": "tg1",
+                                    "occupiedOn": "2018-05-31",
+                                    "residentType": "tenant",
+                                    "vacatedOn": "2020-05-31",
+                                  },
+                                },
+                              }
+                        }
+                    >
+                        <MdEdit />
+                    </Link>
+                    <Button
+                        color="link"
+                        hidden={false}
+                        onClick={[Function]}
+                        tag="button"
+                        title="Delete"
+                    >
+                        <MdDelete
+                            color="red"
+                        />
+                    </Button>
+                </td>
+            </tr>
+        </tbody>
+    </Table>
+    <Router
+        history={Object {}}
+    >
+        <div>
+            <PrivateRoute
+                component={[Function]}
+                path="/residents/:id"
+            />
+        </div>
+    </Router>
+</div>,
+]
+`;
