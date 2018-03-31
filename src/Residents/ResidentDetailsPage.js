@@ -12,16 +12,16 @@ import {
     Label,
 } from 'reactstrap'
 
-import { residentActions as actions, alertActions,userActions } from '../_actions'
+import { residentActions as actions, alertActions, userActions } from '../_actions'
 import { RESIDENT_TYPES } from '../_constants'
 
 let module = 'residents' // module name
 
-class ResidentDetailsPage extends React.Component {
+export class ResidentDetails extends React.Component {
 
   constructor(props) {
     super(props)
-    const { dispatch, match, location } = props
+    const { location } = props
     let model = location.state.model // model supplied from list page
 //    let ops = model.operations?model.operations:''
     let initializeModel = {
@@ -36,19 +36,21 @@ class ResidentDetailsPage extends React.Component {
     this.state = {
       model: initializeModel,           // model to edit
       submitted: false,
-      adding: match.params.id === "0"
+      adding: model.id === "0"
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleUserNameChange = this.handleUserNameChange.bind(this)
     this.handleResidentTypeChange = this.handleResidentTypeChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
 
-    dispatch(alertActions.clear())  // clear alert messages from other pages
+    //dispatch(alertActions.clear())  // clear alert messages from other pages
+    this.props.clearAlert()
   }
 
   componentDidMount() {
-    console.log('state now: ', this.state)
-    this.props.dispatch(userActions.getAll())
+    //console.log('state now: ', this.state)
+    //this.props.dispatch(userActions.getAll())
+    //this.props.getAllUser()
   }
 
   canBeSaved() { // check for changes in model, if changes present, it can save
@@ -66,15 +68,32 @@ class ResidentDetailsPage extends React.Component {
       <div>
         <h2>Resident Details</h2>
         {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
+        {this.validateForm()}
         {users.items && this.show()}
       </div>
     )
   }
+  validateForm() {
+    if ( this.changedProps().length === 0 ) {
+      this.validationMsg = 'No changes to save'
+      this.formValid = false
+      return null
+    }
+    if( this.canBeSaved() ) {
+      this.validationMsg = 'Save Changes'
+      this.formValid = true
+      return null
+    }
+    // finally, if reached here
+    this.validationMsg = 'Missing "Required Data"...'
+    this.formValid = false
+  }
+
   show(){
     const { adding } = this.state
     const { authzn } = this.props
     let title = adding?'Add':authzn.allowsEdit?'Edit':'View'
-    return <Form onSubmit={this.handleSubmit} className="grid-form">
+    return <Form id="residentDetailsForm" onSubmit={this.handleSubmit} className="grid-form">
       <fieldset>
   			<legend>{title}</legend>
         <div data-row-span="2">
@@ -91,18 +110,31 @@ class ResidentDetailsPage extends React.Component {
         </div>
       </fieldset>
       <br/>
-      <Button type="submit" color="primary" hidden={!authzn.allowsEdit} title="Save changes">Save</Button>
-      <Button color="link"><Link to="/residents" className="text-danger" title="Go to Residents">Cancel</Link></Button>
+      <Button
+        type="submit"
+        color="primary"
+        disabled={!this.formValid}
+        hidden={!authzn.allowsEdit}
+        title="Save changes"
+        >Save</Button>
+      <Button
+        color="link"
+        ><Link
+          to="/residents"
+          className="text-danger"
+          title="Go to Residents"
+          >Cancel</Link></Button>
     </Form>
   }
 
   handleSubmit(event) {
     const { model } = this.state
-    const { dispatch } = this.props
+    //const { dispatch } = this.props
 
     event.preventDefault()
     this.setState({ submitted: true })
-
+    this.props.saveChanges(model)
+/*
     if ( this.changedProps().length === 0 ) {
       dispatch(alertActions.error('No changes found...'))
     } else if(this.canBeSaved()){
@@ -111,6 +143,7 @@ console.log('Resident model to be saved: ', model)
     } else {
       dispatch(alertActions.error('Missing data'))
     }
+*/
   }
 
   changedProps() {
@@ -135,7 +168,8 @@ console.log('Resident model to be saved: ', model)
     return <div data-field-span="1">
 				<Label>User Name</Label>
         <Select
-          name="form-field-name"
+          id="ownerId"
+          name="ownerId"
           value={model.owner_id}
           multi={false}
           joinValues={false}
@@ -164,8 +198,9 @@ console.log('Resident model to be saved: ', model)
     return <div data-field-span="1">
 				<Label>First Name</Label>
         <Input
+          id="firstName"
           type="text"
-          name="first_name"
+          name="firstName"
           value={model.first_name}
           placeholder="First Name here"
           className="inputField"
@@ -192,8 +227,9 @@ console.log('Resident model to be saved: ', model)
     return <div data-field-span="1">
 				<Label>Last Name</Label>
         <Input
+          id="lastName"
           type="text"
-          name="last_name"
+          name="lastName"
           value={model.last_name}
           placeholder="Last Name here"
           className="inputField"
@@ -208,7 +244,8 @@ console.log('Resident model to be saved: ', model)
     return <div data-field-span="1">
 				<Label>Resident Type</Label>
         <Select
-          name="form-field-name"
+          id="isA"
+          name="isA"
           value={model.is_a}
           multi={false}
           joinValues={false}
@@ -238,6 +275,7 @@ console.log('Resident model to be saved: ', model)
     return <div data-field-span="1">
 				<Label>Occupied On</Label>
         <Input
+          id="occupiedOn"
           type="date"
           name="occupied_on"
           value={model.occupied_on}
@@ -252,6 +290,7 @@ console.log('Resident model to be saved: ', model)
     return <div data-field-span="1">
 				<Label>Vacated On</Label>
         <Input
+          id="vacatedOn"
           type="date"
           name="vacated_on"
           value={model.vacated_on}
@@ -276,5 +315,23 @@ function mapStateToProps(state) {
   }
 }
 
-const connectedDetailsPage = connect(mapStateToProps)(ResidentDetailsPage)
-export { connectedDetailsPage as ResidentDetailsPage }
+function mapDispatchToProps(dispatch) {
+  return {
+    clearAlert: () => {
+      dispatch(alertActions.clear())
+    },
+    saveChanges: (model) => {
+      dispatch(actions.saveChanges(model))
+    },
+    error: (msg) => {
+      dispatch(alertActions.error(msg))
+    },
+    getAllUser: () => {
+      dispatch(userActions.getAll())
+    }
+  }
+}
+
+//const connectedDetailsPage = connect(mapStateToProps)(ResidentDetailsPage)
+//export { connectedDetailsPage as ResidentDetailsPage }
+export default connect(mapStateToProps, mapDispatchToProps)(ResidentDetails)

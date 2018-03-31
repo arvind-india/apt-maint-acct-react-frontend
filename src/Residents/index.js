@@ -1,2 +1,2 @@
-export * from './ResidentsPage'
-export * from './ResidentDetailsPage'
+export { default as ResidentsPage } from './ResidentsPage'
+export { default as ResidentDetailsPage } from './ResidentDetailsPage'

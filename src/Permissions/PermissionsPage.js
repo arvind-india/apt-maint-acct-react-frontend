@@ -18,12 +18,12 @@ import {
 import { history } from '../_helpers'
 import { PrivateRoute, FlashMessage } from '../_components'
 import { permissionActions as actions } from '../_actions'
-import { PermissionDetailsPage as detailsPage } from './PermissionDetailsPage'
+import { default as detailsPage } from './PermissionDetailsPage'
 
 let url = '/permissions'
 let module = 'permissions'
 
-class PermissionsPage extends React.Component {
+export class Permissions extends React.Component {
 
   constructor(props) {
     super(props)
@@ -31,13 +31,15 @@ class PermissionsPage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(actions.getAll())
+    //this.props.dispatch(actions.getAll())
+    this.props.getAll()
   }
 
   render() {
-    console.log('Props in PermissionsPage: ', this.props)
-    const { permissions, alert, authzn } = this.props
+    //console.log('Props in PermissionsPage: ', this.props)
+    const { permissions, alert, authzn, trackHistory } = this.props
     let models = permissions
+    let hist = trackHistory?history:{}
     return (
       <div>
         <h3>Permissions List</h3>
@@ -45,7 +47,7 @@ class PermissionsPage extends React.Component {
         {models.loading && <em>Loading models...}</em>}
         {models.error && <span className="text-danger">ERROR: {models.error}</span>}
         {models.items && authzn && this.showList(models) }
-        <Router history={history}>
+        <Router history={hist}>
           <div>
             <PrivateRoute path={`${url}/:id`} component={detailsPage} />
           </div>
@@ -123,8 +125,10 @@ class PermissionsPage extends React.Component {
   handleDeleteModel(id) {
     if( window.confirm('Are you sure?') ) {
       console.log('Delete confirmed')
-      this.props.dispatch(actions.delete(id))
-      this.props.dispatch(actions.getAll()) // get list after deletion of a model
+      //this.props.dispatch(actions.delete(id))
+      //this.props.dispatch(actions.getAll()) // get list after deletion of a model
+      this.props.delete(id)
+      this.props.getAll()
     }
   }
 
@@ -135,13 +139,27 @@ function mapStateToProps(state) {
   const { permissions, alert, authorizations } = state
   // const { user } = authentication
   const authzn = authorizations[module]
+  const trackHistory = true  // added for unit testing; snapshot to be precise
   return {
 //    user,
     permissions,
     alert,
-    authzn
+    authzn,
+    trackHistory
   }
 }
 
-const connectedPermissionsPage = connect(mapStateToProps)(PermissionsPage)
-export { connectedPermissionsPage as PermissionsPage }
+function mapDispatchToProps(dispatch) {
+  return {
+    getAll: () => {
+      dispatch(actions.getAll())
+    },
+    delete: (id) => {
+      dispatch(actions.delete(id))
+    }
+  }
+}
+
+//const connectedPermissionsPage = connect(mapStateToProps)(PermissionsPage)
+//export { connectedPermissionsPage as PermissionsPage }
+export default connect(mapStateToProps, mapDispatchToProps)(Permissions)

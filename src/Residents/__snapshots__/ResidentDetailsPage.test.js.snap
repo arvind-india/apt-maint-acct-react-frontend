@@ -1,0 +1,347 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ResidentsPage params test should render initial layout 1`] = `
+Array [
+  <div>
+    <h2>
+        Resident Details
+    </h2>
+    <div
+        className="alert undefined"
+    >
+        testingAlert
+    </div>
+    <Form
+        className="grid-form"
+        id="residentDetailsForm"
+        onSubmit={[Function]}
+        tag="form"
+    >
+        <fieldset>
+            <legend>
+                Edit
+            </legend>
+            <div
+                data-row-span="2"
+            >
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        User Name
+                    </Label>
+                    <Select
+                        arrowRenderer={[Function]}
+                        autosize={true}
+                        backspaceRemoves={true}
+                        backspaceToRemoveMessage="Press backspace to remove {label}"
+                        clearAllText="Clear all"
+                        clearRenderer={[Function]}
+                        clearValueText="Clear value"
+                        clearable={true}
+                        closeOnSelect={true}
+                        deleteRemoves={true}
+                        delimiter=","
+                        disabled={false}
+                        escapeClearsValue={true}
+                        filterOptions={[Function]}
+                        id="ownerId"
+                        ignoreAccents={true}
+                        ignoreCase={true}
+                        inputProps={Object {}}
+                        isLoading={false}
+                        joinValues={false}
+                        labelKey="name"
+                        matchPos="any"
+                        matchProp="any"
+                        menuBuffer={0}
+                        menuRenderer={[Function]}
+                        multi={false}
+                        name="ownerId"
+                        noResultsText="No results found"
+                        onBlurResetsInput={true}
+                        onChange={[Function]}
+                        onCloseResetsInput={true}
+                        onSelectResetsInput={true}
+                        openOnClick={true}
+                        optionComponent={[Function]}
+                        options={
+                            Array [
+                                Object {
+                                  "name": "guest",
+                                },
+                                Object {
+                                  "name": "og1",
+                                },
+                                Object {
+                                  "name": "tg1",
+                                },
+                              ]
+                        }
+                        pageSize={5}
+                        placeholder="Select User name..."
+                        removeSelected={true}
+                        required={false}
+                        rtl={false}
+                        scrollMenuIntoView={true}
+                        searchable={true}
+                        simpleValue={true}
+                        tabSelectsValue={true}
+                        trimFilter={true}
+                        value="guest"
+                        valueComponent={[Function]}
+                        valueKey="id"
+                    />
+                </div>
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Resident Type
+                    </Label>
+                    <Select
+                        arrowRenderer={[Function]}
+                        autosize={true}
+                        backspaceRemoves={true}
+                        backspaceToRemoveMessage="Press backspace to remove {label}"
+                        clearAllText="Clear all"
+                        clearRenderer={[Function]}
+                        clearValueText="Clear value"
+                        clearable={true}
+                        closeOnSelect={true}
+                        deleteRemoves={true}
+                        delimiter=","
+                        disabled={false}
+                        escapeClearsValue={true}
+                        filterOptions={[Function]}
+                        id="isA"
+                        ignoreAccents={true}
+                        ignoreCase={true}
+                        inputProps={Object {}}
+                        isLoading={false}
+                        joinValues={false}
+                        labelKey="label"
+                        matchPos="any"
+                        matchProp="any"
+                        menuBuffer={0}
+                        menuRenderer={[Function]}
+                        multi={false}
+                        name="isA"
+                        noResultsText="No results found"
+                        onBlurResetsInput={true}
+                        onChange={[Function]}
+                        onCloseResetsInput={true}
+                        onSelectResetsInput={true}
+                        openOnClick={true}
+                        optionComponent={[Function]}
+                        options={
+                            Array [
+                                Object {
+                                  "label": "Owner",
+                                  "name": "owner",
+                                },
+                                Object {
+                                  "label": "Tenant",
+                                  "name": "tenant",
+                                },
+                                Object {
+                                  "label": "Relative",
+                                  "name": "relative",
+                                },
+                                Object {
+                                  "label": "Friend",
+                                  "name": "friend",
+                                },
+                                Object {
+                                  "label": "Guest",
+                                  "name": "guest",
+                                },
+                              ]
+                        }
+                        pageSize={5}
+                        placeholder="Select Resident Type..."
+                        removeSelected={true}
+                        required={false}
+                        rtl={false}
+                        scrollMenuIntoView={true}
+                        searchable={true}
+                        simpleValue={true}
+                        tabSelectsValue={true}
+                        trimFilter={true}
+                        value="guest"
+                        valueComponent={[Function]}
+                        valueKey="name"
+                    />
+                </div>
+            </div>
+            <div
+                data-row-span="2"
+            >
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        First Name
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="firstName"
+                        name="firstName"
+                        onChange={[Function]}
+                        placeholder="First Name here"
+                        tag="p"
+                        type="text"
+                        value="guest"
+                    />
+                </div>
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Last Name
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="lastName"
+                        name="lastName"
+                        onChange={[Function]}
+                        placeholder="Last Name here"
+                        tag="p"
+                        type="text"
+                        value="user"
+                    />
+                </div>
+            </div>
+            <div
+                data-row-span="2"
+            >
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Occupied On
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="occupiedOn"
+                        name="occupied_on"
+                        onChange={[Function]}
+                        placeholder="Date of occupation of premise"
+                        tag="p"
+                        type="date"
+                        value="2018-03-31"
+                    />
+                </div>
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Vacated On
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="vacatedOn"
+                        name="vacated_on"
+                        onChange={[Function]}
+                        placeholder="Date of vacation of premise"
+                        tag="p"
+                        type="date"
+                        value="2020-03-31"
+                    />
+                </div>
+            </div>
+        </fieldset>
+        <br />
+        <Button
+            color="primary"
+            disabled={true}
+            hidden={false}
+            tag="button"
+            title="Save changes"
+            type="submit"
+        >
+            Save
+        </Button>
+        <Button
+            color="link"
+            tag="button"
+        >
+            <Link
+                className="text-danger"
+                replace={false}
+                title="Go to Residents"
+                to="/residents"
+            >
+                Cancel
+            </Link>
+        </Button>
+    </Form>
+</div>,
+]
+`;

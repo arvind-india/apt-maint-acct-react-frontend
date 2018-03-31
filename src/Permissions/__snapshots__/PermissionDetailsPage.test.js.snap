@@ -1,0 +1,394 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PermissionsPage params test should render initial layout 1`] = `
+Array [
+  <div>
+    <h2>
+        Permission Details
+    </h2>
+    <div
+        className="alert undefined"
+    >
+        testingAlert
+    </div>
+    <Form
+        className="grid-form"
+        id="permissionDetailsForm"
+        onSubmit={[Function]}
+        tag="form"
+    >
+        <fieldset>
+            <legend>
+                Edit
+            </legend>
+            <div
+                data-row-span="2"
+            >
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Operations
+                    </Label>
+                    <FormGroup
+                        check={true}
+                        inline={true}
+                        tag="div"
+                    >
+                        <Label
+                            check={true}
+                            tag="label"
+                            widths={
+                                Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                            }
+                        >
+                            <Input
+                                checked={false}
+                                className="operations"
+                                id="createOperations"
+                                name="operations"
+                                onChange={[Function]}
+                                tag="p"
+                                type="checkbox"
+                                value="C"
+                            />
+                             Create
+                        </Label>
+                    </FormGroup>
+                    <FormGroup
+                        check={true}
+                        inline={true}
+                        tag="div"
+                    >
+                        <Label
+                            check={true}
+                            tag="label"
+                            widths={
+                                Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                            }
+                        >
+                            <Input
+                                checked={true}
+                                className="operations"
+                                id="readOperations"
+                                name="operations"
+                                onChange={[Function]}
+                                tag="p"
+                                type="checkbox"
+                                value="R"
+                            />
+                             Read
+                        </Label>
+                    </FormGroup>
+                    <FormGroup
+                        check={true}
+                        inline={true}
+                        tag="div"
+                    >
+                        <Label
+                            check={true}
+                            tag="label"
+                            widths={
+                                Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                            }
+                        >
+                            <Input
+                                checked={false}
+                                className="operations"
+                                id="updateOperations"
+                                name="operations"
+                                onChange={[Function]}
+                                tag="p"
+                                type="checkbox"
+                                value="U"
+                            />
+                             Update
+                        </Label>
+                    </FormGroup>
+                    <FormGroup
+                        check={true}
+                        inline={true}
+                        tag="div"
+                    >
+                        <Label
+                            check={true}
+                            tag="label"
+                            widths={
+                                Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                            }
+                        >
+                            <Input
+                                checked={false}
+                                className="operations"
+                                id="deleteOperations"
+                                name="operations"
+                                onChange={[Function]}
+                                tag="p"
+                                type="checkbox"
+                                value="D"
+                            />
+                             Delete
+                        </Label>
+                    </FormGroup>
+                </div>
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Resource
+                    </Label>
+                    <Select
+                        arrowRenderer={[Function]}
+                        autosize={true}
+                        backspaceRemoves={true}
+                        backspaceToRemoveMessage="Press backspace to remove {label}"
+                        clearAllText="Clear all"
+                        clearRenderer={[Function]}
+                        clearValueText="Clear value"
+                        clearable={true}
+                        closeOnSelect={true}
+                        deleteRemoves={true}
+                        delimiter=","
+                        disabled={false}
+                        escapeClearsValue={true}
+                        filterOptions={[Function]}
+                        id="resource"
+                        ignoreAccents={true}
+                        ignoreCase={true}
+                        inputProps={Object {}}
+                        isLoading={false}
+                        joinValues={false}
+                        labelKey="label"
+                        matchPos="any"
+                        matchProp="any"
+                        menuBuffer={0}
+                        menuRenderer={[Function]}
+                        multi={false}
+                        name="form-field-name"
+                        noResultsText="No results found"
+                        onBlurResetsInput={true}
+                        onChange={[Function]}
+                        onCloseResetsInput={true}
+                        onSelectResetsInput={true}
+                        openOnClick={true}
+                        optionComponent={[Function]}
+                        options={
+                            Array [
+                                Object {
+                                  "isAdmin": false,
+                                  "label": "ACCOUNT",
+                                  "name": "accounts",
+                                },
+                                Object {
+                                  "isAdmin": false,
+                                  "label": "ACCOUNT_SUMMARY",
+                                  "name": "account-summary",
+                                },
+                                Object {
+                                  "isAdmin": true,
+                                  "label": "USER",
+                                  "name": "users",
+                                },
+                                Object {
+                                  "isAdmin": true,
+                                  "label": "FLAT",
+                                  "name": "flats",
+                                },
+                                Object {
+                                  "isAdmin": true,
+                                  "label": "RESIDENT",
+                                  "name": "residents",
+                                },
+                                Object {
+                                  "isAdmin": true,
+                                  "label": "ROLE",
+                                  "name": "roles",
+                                },
+                                Object {
+                                  "isAdmin": true,
+                                  "label": "PERMISSION",
+                                  "name": "permissions",
+                                },
+                                Object {
+                                  "isAdmin": true,
+                                  "label": "FLAT_RESIDENT",
+                                  "name": "flats-residents",
+                                },
+                                Object {
+                                  "isAdmin": true,
+                                  "label": "USER_ROLE",
+                                  "name": "users-roles",
+                                },
+                                Object {
+                                  "isAdmin": true,
+                                  "label": "ROLE_PERMISSION",
+                                  "name": "roles-permissions",
+                                },
+                                Object {
+                                  "isAdmin": false,
+                                  "label": "USER_PROFILE",
+                                  "name": "user-profile",
+                                },
+                                Object {
+                                  "isAdmin": false,
+                                  "label": "BALANCE",
+                                  "name": "balance",
+                                },
+                              ]
+                        }
+                        pageSize={5}
+                        placeholder="Select a Resource..."
+                        removeSelected={true}
+                        required={false}
+                        rtl={false}
+                        scrollMenuIntoView={true}
+                        searchable={true}
+                        simpleValue={true}
+                        tabSelectsValue={true}
+                        trimFilter={true}
+                        value="ACCOUNT"
+                        valueComponent={[Function]}
+                        valueKey="name"
+                    />
+                </div>
+            </div>
+            <div
+                data-row-span="1"
+            >
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Conditions (optional)
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="condition"
+                        name="condition"
+                        onChange={[Function]}
+                        placeholder="<conditional script here>"
+                        tag="p"
+                        title="Short condition on Permission"
+                        type="text"
+                        value=""
+                    />
+                </div>
+            </div>
+            <div
+                data-row-span="1"
+            >
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Description
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="description"
+                        name="description"
+                        onChange={[Function]}
+                        placeholder="Description here"
+                        tag="p"
+                        type="text"
+                        value="Grands Read-only permission on ACCOUNT"
+                    />
+                </div>
+            </div>
+        </fieldset>
+        <br />
+        <Button
+            color="primary"
+            disabled={true}
+            hidden={false}
+            tag="button"
+            title="No changes to save"
+            type="submit"
+        >
+            Save
+        </Button>
+        <Button
+            color="link"
+            tag="button"
+        >
+            <Link
+                className="text-danger"
+                replace={false}
+                title="Go to Permissions"
+                to="/permissions"
+            >
+                Cancel
+            </Link>
+        </Button>
+    </Form>
+</div>,
+]
+`;
