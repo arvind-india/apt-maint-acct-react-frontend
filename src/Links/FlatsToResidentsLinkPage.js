@@ -22,7 +22,7 @@ import { flatActions,  residentActions } from '../_actions'
 let module = 'flats-residents' // module name
 
 
-class FlatsToResidentsLinkPage extends React.Component {
+export class FlatsToResidentsLink extends React.Component {
 
   constructor(props) {
     super(props)
@@ -39,8 +39,10 @@ class FlatsToResidentsLinkPage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(flatActions.getAll())
-    this.props.dispatch(residentActions.getAll())
+    // this.props.dispatch(flatActions.getAll())
+    //this.props.dispatch(residentActions.getAll())
+    this.props.getAllFlats()
+    this.props.getAllResidents()
   }
 
   render() {
@@ -101,7 +103,8 @@ class FlatsToResidentsLinkPage extends React.Component {
     this.setState({
       selectedOptionInLeftList: value
     })
-    this.props.dispatch(flatActions.getMyResidents(value))
+    //this.props.dispatch(flatActions.getMyResidents(value))
+    this.props.getMyResidents(value)
   }
 
   showLeftButton() {
@@ -218,7 +221,7 @@ class FlatsToResidentsLinkPage extends React.Component {
 
 
   detachItems() {
-    const { dispatch, flatsToResidents } = this.props
+    const { flatsToResidents } = this.props
     const { selectedOptionsInAList, selectedOptionInLeftList } = this.state
 
     let id = selectedOptionInLeftList
@@ -226,7 +229,8 @@ class FlatsToResidentsLinkPage extends React.Component {
     let ids = flatsToResidents.items.map(e => e.id.toString())
     let ids_toBeRetained = ids.filter(each => !ids_toBeRemoved.includes(each))
 
-    dispatch(flatActions.updateMyResidents(id, ids_toBeRetained))
+    //dispatch(flatActions.updateMyResidents(id, ids_toBeRetained))
+    this.props.updateMyResidents(id, ids_toBeRetained)
     this.setState({ selectedOptionsInAList: [] })
   }
 
@@ -333,7 +337,7 @@ class FlatsToResidentsLinkPage extends React.Component {
 */
 
   attachItems() {
-    const { dispatch, flatsToResidents } = this.props
+    const { flatsToResidents } = this.props
     const { selectedOptionsInDList, selectedOptionInLeftList } = this.state
 
     let id = selectedOptionInLeftList
@@ -341,7 +345,8 @@ class FlatsToResidentsLinkPage extends React.Component {
     let ids_toBeAdded = selectedOptionsInDList.map(e => e.value)
     let new_ids = ids.concat(ids_toBeAdded)
 
-    dispatch(flatActions.updateMyResidents(id, new_ids))
+    //dispatch(flatActions.updateMyResidents(id, new_ids))
+    this.props.updateMyResidents(id, new_ids)
     this.setState({ selectedOptionsInDList: [] })
   }
 }
@@ -360,5 +365,23 @@ function mapStateToProps(state) {
   }
 }
 
-const connectedLinkPage = connect(mapStateToProps)(FlatsToResidentsLinkPage)
-export { connectedLinkPage as FlatsToResidentsLinkPage }
+function mapDispatchToProps(dispatch) {
+  return {
+    getAllFlats: () => {
+      dispatch(flatActions.getAll())
+    },
+    getAllResidents: () => {
+      dispatch(residentActions.getAll())
+    },
+    getMyResidents: (value) => {
+      dispatch(flatActions.getMyResidents(value))
+    },
+    updateMyResidents: (id, ids) => {
+      dispatch(flatActions.updateMyResidents(id, ids))
+    }
+  }
+}
+
+//const connectedLinkPage = connect(mapStateToProps)(FlatsToResidentsLinkPage)
+//export { connectedLinkPage as FlatsToResidentsLinkPage }
+export default connect(mapStateToProps, mapDispatchToProps)(FlatsToResidentsLink)

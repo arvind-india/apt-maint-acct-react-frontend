@@ -22,7 +22,7 @@ import { roleActions,  permissionActions } from '../_actions'
 let module = 'roles-permissions' // module name
 
 
-class RolesToPermissionsLinkPage extends React.Component {
+export class RolesToPermissionsLink extends React.Component {
 
   constructor(props) {
     super(props)
@@ -39,8 +39,10 @@ class RolesToPermissionsLinkPage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(roleActions.getAll())
-    this.props.dispatch(permissionActions.getAll())
+    //this.props.dispatch(roleActions.getAll())
+    //this.props.dispatch(permissionActions.getAll())
+    this.props.getAllRoles()
+    this.props.getAllPermissions()
   }
 
   render() {
@@ -100,7 +102,8 @@ class RolesToPermissionsLinkPage extends React.Component {
     this.setState({
       selectedOptionInLeftList: value
     })
-    this.props.dispatch(roleActions.getMyPermissions(value))
+    //this.props.dispatch(roleActions.getMyPermissions(value))
+    this.props.getMyPermissions(value)
   }
   showLeftButton() {
     // className="homeButton"
@@ -227,7 +230,7 @@ class RolesToPermissionsLinkPage extends React.Component {
 */
 
   detachItems() {
-    const { dispatch, rolesToPermissions } = this.props
+    const { rolesToPermissions } = this.props
     const { selectedOptionsInAList, selectedOptionInLeftList } = this.state
 
     let id = selectedOptionInLeftList
@@ -235,7 +238,8 @@ class RolesToPermissionsLinkPage extends React.Component {
     let ids = rolesToPermissions.items.map(e => e.id.toString())
     let ids_toBeRetained = ids.filter(each => !ids_toBeRemoved.includes(each))
 
-    dispatch(roleActions.updateMyPermissions(id, ids_toBeRetained))
+    //dispatch(roleActions.updateMyPermissions(id, ids_toBeRetained))
+    this.props.updateMyPermissions(id, ids_toBeRetained)
     this.setState({ selectedOptionsInAList: [] })
   }
 
@@ -346,7 +350,7 @@ class RolesToPermissionsLinkPage extends React.Component {
 
 
   attachItems() {
-    const { dispatch, rolesToPermissions } = this.props
+    const { rolesToPermissions } = this.props
     const { selectedOptionsInDList, selectedOptionInLeftList } = this.state
 
     let id = selectedOptionInLeftList
@@ -354,7 +358,8 @@ class RolesToPermissionsLinkPage extends React.Component {
     let ids_toBeAdded = selectedOptionsInDList.map(e => e.value)
     let new_ids = ids.concat(ids_toBeAdded)
 
-    dispatch(roleActions.updateMyPermissions(id, new_ids))
+    //dispatch(roleActions.updateMyPermissions(id, new_ids))
+    this.props.updateMyPermissions(id, new_ids)
     this.setState({ selectedOptionsInDList: [] })
   }
 }
@@ -373,5 +378,23 @@ function mapStateToProps(state) {
   }
 }
 
-const connectedLinkPage = connect(mapStateToProps)(RolesToPermissionsLinkPage)
-export { connectedLinkPage as RolesToPermissionsLinkPage }
+function mapDispatchToProps(dispatch) {
+  return {
+    getAllRoles: () => {
+      dispatch(roleActions.getAll())
+    },
+    getAllPermissions: () => {
+      dispatch(permissionActions.getAll())
+    },
+    getMyPermissions: (value) => {
+      dispatch(roleActions.getMyPermissions(value))
+    },
+    updateMyPermissions: (id, ids) => {
+      dispatch(roleActions.updateMyPermissions(id, ids))
+    }
+  }
+}
+
+//const connectedLinkPage = connect(mapStateToProps)(RolesToPermissionsLinkPage)
+//export { connectedLinkPage as RolesToPermissionsLinkPage }
+export default connect(mapStateToProps, mapDispatchToProps)(RolesToPermissionsLink)

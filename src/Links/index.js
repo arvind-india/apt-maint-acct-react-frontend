@@ -1,3 +1,3 @@
-export * from './RolesToPermissionsLinkPage'
-export * from './UsersToRolesLinkPage'
-export * from './FlatsToResidentsLinkPage'
+export { default as RolesToPermissionsLinkPage } from './RolesToPermissionsLinkPage'
+export { default as UsersToRolesLinkPage } from './UsersToRolesLinkPage'
+export { default as FlatsToResidentsLinkPage } from './FlatsToResidentsLinkPage'

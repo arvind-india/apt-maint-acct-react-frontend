@@ -36,19 +36,22 @@ export class Login extends React.Component { // exports unconnected component; u
     this.setState({ [name]: value })
   }
   handleSubmit(e) {
+    const { email, password } = this.state
     e.preventDefault()
     this.setState({ submitted: true })
-    const { email, password } = this.state
+    this.props.login(email, password)
+/*
     if(email && password) {
       this.props.login(email, password)
-    }
+    } */
   }
   render() {
     const { alert } = this.props
     return (
       <div>
         <h2 align="center">Login</h2>
-        {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
+        { alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div> }
+        { this.validateForm() }
         <Form id="loginForm" onSubmit={this.handleSubmit}>
           { this.emailId() }
           { this.password() }
@@ -57,6 +60,19 @@ export class Login extends React.Component { // exports unconnected component; u
         </Form>
       </div>
     )
+  }
+
+  validateForm() {
+    const { email, password } = this.state
+
+    if(email && password) {
+        this.validationMsg = 'Save Changes'
+        this.formValid = true
+        return null
+      }
+    // if reached here
+    this.validationMsg = 'Missing "Required Data"...'
+    this.formValid = false
   }
 
   emailId() {
@@ -103,7 +119,8 @@ export class Login extends React.Component { // exports unconnected component; u
           type="submit"
           color="primary"
           bssize="large"
-          title="Go to App"
+          disabled={!this.formValid}
+          title={this.validationMsg}
           >Login</Button>
         <Button color="link" title="Go to home">
           <Link

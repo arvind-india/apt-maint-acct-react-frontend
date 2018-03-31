@@ -22,7 +22,7 @@ import { userActions, roleActions } from '../_actions'
 let module = 'users-roles' // module name
 
 
-class UsersToRolesLinkPage extends React.Component {
+export class UsersToRolesLink extends React.Component {
 
   constructor(props) {
     super(props)
@@ -39,8 +39,10 @@ class UsersToRolesLinkPage extends React.Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(userActions.getAll())
-    this.props.dispatch(roleActions.getAll())
+    //this.props.dispatch(userActions.getAll())
+    //this.props.dispatch(roleActions.getAll())
+    this.props.getAllUsers()
+    this.props.getAllRoles()
   }
 
   render() {
@@ -83,9 +85,9 @@ class UsersToRolesLinkPage extends React.Component {
   showLeftInput() {
     const { users } = this.props
     return <Input
+      id="leftItem"
       type="select"
       name="leftItem"
-      id="leftItem"
       size="20"
       className="lselect"
       onChange={this.handleChangeInLeftList}
@@ -101,7 +103,9 @@ class UsersToRolesLinkPage extends React.Component {
     this.setState({
       selectedOptionInLeftList: value
     })
-    this.props.dispatch(userActions.getMyRoles(value))
+
+    //this.props.dispatch(userActions.getMyRoles(value))
+    this.props.getMyRoles(value)
   }
   showLeftButton() {
     return <div class="homeButton">
@@ -145,9 +149,9 @@ class UsersToRolesLinkPage extends React.Component {
     const { selectedOptionInLeftList } = this.state
 
     return <Input
+      id="attachedItems"
       type="select"
       name="attachedItems"
-      id="attachedItems"
       size="20"
       className="aselect"
       onChange={this.handleChangeInAttachedList}
@@ -172,6 +176,7 @@ class UsersToRolesLinkPage extends React.Component {
     const { selectedOptionsInAList } = this.state
 
     return <Button
+      id="detachButton"
       color="danger"
       className="dbutton"
       onClick={this.detachItems}
@@ -220,7 +225,7 @@ class UsersToRolesLinkPage extends React.Component {
 
 
   detachItems() {
-    const { dispatch, usersToRoles } = this.props
+    const { usersToRoles } = this.props
     const { selectedOptionsInAList, selectedOptionInLeftList } = this.state
 
     let id = selectedOptionInLeftList
@@ -228,7 +233,8 @@ class UsersToRolesLinkPage extends React.Component {
     let ids = usersToRoles.items.map(e => e.id.toString())
     let ids_toBeRetained = ids.filter(each => !ids_toBeRemoved.includes(each))
 
-    dispatch(userActions.updateMyRoles(id, ids_toBeRetained))
+    //dispatch(userActions.updateMyRoles(id, ids_toBeRetained))
+    this.props.updateMyRoles(id, ids_toBeRetained)
     this.setState({ selectedOptionsInAList: [] })
   }
 
@@ -252,9 +258,9 @@ class UsersToRolesLinkPage extends React.Component {
         roles.items
     }
     return <Input
+      id="detachedItems"
       type="select"
       name="detachedItems"
-      id="detachedItems"
       size="20"
       className="dselect"
       onChange={this.handleChangeInDetachedList}
@@ -278,6 +284,7 @@ class UsersToRolesLinkPage extends React.Component {
     const { selectedOptionsInDList } = this.state
 
     return <Button
+      id="attachButton"
       color="success"
       className="abutton"
       onClick={this.attachItems}
@@ -335,7 +342,7 @@ class UsersToRolesLinkPage extends React.Component {
 */
 
   attachItems() {
-    const { dispatch, usersToRoles } = this.props
+    const { usersToRoles } = this.props
     const { selectedOptionsInDList, selectedOptionInLeftList } = this.state
 
     let id = selectedOptionInLeftList
@@ -343,7 +350,8 @@ class UsersToRolesLinkPage extends React.Component {
     let ids_toBeAdded = selectedOptionsInDList.map(e => e.value)
     let new_ids = ids.concat(ids_toBeAdded)
 
-    dispatch(userActions.updateMyRoles(id, new_ids))
+    //dispatch(userActions.updateMyRoles(id, new_ids))
+    this.props.updateMyRoles(id, new_ids)
     this.setState({ selectedOptionsInDList: [] })
   }
 }
@@ -362,5 +370,23 @@ function mapStateToProps(state) {
   }
 }
 
-const connectedLinkPage = connect(mapStateToProps)(UsersToRolesLinkPage)
-export { connectedLinkPage as UsersToRolesLinkPage }
+function mapDispatchToProps(dispatch) {
+  return {
+    getAllRoles: () => {
+      dispatch(roleActions.getAll())
+    },
+    getAllUsers: () => {
+      dispatch(userActions.getAll())
+    },
+    getMyRoles: (value) => {
+      dispatch(userActions.getMyRoles(value))
+    },
+    updateMyRoles: (id, ids) => {
+      dispatch(userActions.updateMyRoles(id, ids))
+    }
+  }
+}
+
+//const connectedLinkPage = connect(mapStateToProps)(UsersToRolesLinkPage)
+//export { connectedLinkPage as UsersToRolesLinkPage }
+export default connect(mapStateToProps, mapDispatchToProps)(UsersToRolesLink)

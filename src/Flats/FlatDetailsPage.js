@@ -133,7 +133,7 @@ export class FlatDetails extends React.Component {
         color="primary"
         disabled={!this.formValid}
         hidden={!authzn.allowsEdit}
-        title="Save changes"
+        title={this.validationMsg}
         >Save</Button>
       <Button
         color="link"

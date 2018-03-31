@@ -140,9 +140,10 @@ Array [
                 <Button
                     bssize="large"
                     color="primary"
+                    disabled={false}
                     id="submitButton"
                     tag="button"
-                    title="Go to App"
+                    title="Save Changes"
                     type="submit"
                 >
                     Login
