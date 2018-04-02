@@ -85,9 +85,9 @@ export class FlatsToResidentsLink extends React.Component {
   showLeftInput() {
     const { flats } = this.props
     return <Input
+      id="leftItem"
       type="select"
       name="leftItem"
-      id="leftItem"
       size="20"
       className="lselect"
       onChange={this.handleChangeInLeftList}
@@ -254,9 +254,9 @@ export class FlatsToResidentsLink extends React.Component {
         residents.items
     }
     return <Input
+      id="detachedItems"      
       type="select"
       name="detachedItems"
-      id="detachedItems"
       size="20"
       className="dselect"
       onChange={this.handleChangeInDetachedList}

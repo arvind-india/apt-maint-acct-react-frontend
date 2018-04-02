@@ -1,0 +1,172 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FlatsToResidentsLinkPage params test should render initial layout 1`] = `
+Array [
+  <div>
+    <h3>
+        Flats To Residents Link
+    </h3>
+    <FlashMessage
+        delay={5000}
+        text="testingAlert"
+    />
+    <div
+        className="list-to-list"
+    >
+        <Label
+            className="llabel"
+            for="leftItem"
+            tag="label"
+            widths={
+                Array [
+                    "xs",
+                    "sm",
+                    "md",
+                    "lg",
+                    "xl",
+                  ]
+            }
+        >
+            Select a Flat
+        </Label>
+        <Input
+            className="lselect"
+            id="leftItem"
+            name="leftItem"
+            onChange={[Function]}
+            size="20"
+            tag="p"
+            type="select"
+        >
+            <option
+                title={undefined}
+                value={1}
+            >
+                0
+                -
+                G1
+            </option>
+            <option
+                title={undefined}
+                value={2}
+            >
+                0
+                -
+                G2
+            </option>
+        </Input>
+        <div
+            class="homeButton"
+        >
+            <Button
+                color="link"
+                tag="button"
+            >
+                <Link
+                    replace={false}
+                    to="/home"
+                >
+                    <MdHome />
+                     Home
+                </Link>
+            </Button>
+        </div>
+        <Label
+            className="alabel"
+            for="attachedItems"
+            tag="label"
+            widths={
+                Array [
+                    "xs",
+                    "sm",
+                    "md",
+                    "lg",
+                    "xl",
+                  ]
+            }
+        >
+            Attached Residents
+        </Label>
+        <Input
+            className="aselect"
+            id="attachedItems"
+            multiple={true}
+            name="attachedItems"
+            onChange={[Function]}
+            size="20"
+            tag="p"
+            type="select"
+        >
+            
+        </Input>
+        <Button
+            className="dbutton"
+            color="danger"
+            disabled={true}
+            hidden={false}
+            onClick={[Function]}
+            tag="button"
+            title="Detach selected items"
+        >
+            <MdThumbDown />
+             Detach
+        </Button>
+        <Label
+            className="dlabel"
+            for="detachedItems"
+            tag="label"
+            widths={
+                Array [
+                    "xs",
+                    "sm",
+                    "md",
+                    "lg",
+                    "xl",
+                  ]
+            }
+        >
+            Available Residents
+        </Label>
+        <Input
+            className="dselect"
+            id="detachedItems"
+            multiple={true}
+            name="detachedItems"
+            onChange={[Function]}
+            size="20"
+            tag="p"
+            type="select"
+        >
+            <option
+                title="owner;test user1"
+                value={1}
+            >
+                user1
+                 
+                test
+            </option>
+            <option
+                title="owner;test user2"
+                value={2}
+            >
+                user2
+                 
+                test
+            </option>
+        </Input>
+        <Button
+            className="abutton"
+            color="success"
+            disabled={false}
+            hidden={false}
+            onClick={[Function]}
+            tag="button"
+            title="Attach selected items"
+        >
+            <MdThumbUp />
+             Attach
+        </Button>
+    </div>
+</div>,
+]
+`;
