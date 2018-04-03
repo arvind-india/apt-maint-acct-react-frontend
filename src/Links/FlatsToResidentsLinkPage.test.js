@@ -31,19 +31,6 @@ const mockProps = [
     getAllResidents: jest.fn(),
     getMyResidents: jest.fn(),
     updateMyResidents: jest.fn()
-  },
-  {
-    alert: {message: "testingAlert"},
-    authzn: {
-      allowsAdd: true,
-      allowsEdit: true,
-      allowsDelete: true,
-      condition: ''
-    },
-    getAllFlats: jest.fn(),
-    getAllResidents: jest.fn(),
-    getMyResidents: jest.fn(),
-    updateMyResidents: jest.fn()
   }
 ]
 
@@ -67,7 +54,7 @@ describe('FlatsToResidentsLinkPage params test', () => {
   })
 })
 
-describe('FlatsToResidentsLinkPage test on selections, attach, and detach', () => {
+describe('FlatsToResidentsLinkPage test on selections, attach and detach selected items', () => {
 
   component.find('#leftItem').simulate('change', {target: {name:'id', value: mockFlats[0].id}})
 
@@ -82,10 +69,22 @@ describe('FlatsToResidentsLinkPage test on selections, attach, and detach', () =
                             name: 'id',
                             selectedOptions: [mockResidents[0].id, mockResidents[1].id]
                           }
-                        }
-    )
+                        })
+
   it('should check options in detached list', () => {
     expect(component.state('selectedOptionsInDList'))
       .toEqual([mockResidents[0].id, mockResidents[1].id])
   })
+
+  let attachButton = component.find('Button.abutton')
+  it('check attachButton is found or not', () => {
+    expect(attachButton.length).toEqual(1)
+  })
+  attachButton.simulate('click')
+  it('should now check options in attached list', () => {
+    expect(component.state('selectedOptionsInAList'))
+      .toEqual([mockResidents[0].id, mockResidents[1].id])
+  })
+
+
 })
