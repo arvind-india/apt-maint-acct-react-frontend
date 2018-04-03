@@ -54,7 +54,10 @@ describe('FlatsToResidentsLinkPage params test', () => {
   })
 })
 
-describe('FlatsToResidentsLinkPage test on selections, attach and detach selected items', () => {
+
+const selectedOptions = [mockResidents[0].id, mockResidents[1].id]
+
+describe('FlatsToResidentsLinkPage test: select a flat and select two residents', () => {
 
   component.find('#leftItem').simulate('change', {target: {name:'id', value: mockFlats[0].id}})
 
@@ -67,24 +70,73 @@ describe('FlatsToResidentsLinkPage test on selections, attach and detach selecte
     .simulate('change', {
                           target: {
                             name: 'id',
-                            selectedOptions: [mockResidents[0].id, mockResidents[1].id]
+                            selectedOptions: selectedOptions
                           }
                         })
 
   it('should check options in detached list', () => {
     expect(component.state('selectedOptionsInDList'))
-      .toEqual([mockResidents[0].id, mockResidents[1].id])
+      .toEqual(selectedOptions)
   })
 
-  let attachButton = component.find('Button.abutton')
-  it('check attachButton is found or not', () => {
-    expect(attachButton.length).toEqual(1)
-  })
-  attachButton.simulate('click')
-  it('should now check options in attached list', () => {
-    expect(component.state('selectedOptionsInAList'))
-      .toEqual([mockResidents[0].id, mockResidents[1].id])
+})
+
+
+
+const component2 = shallow(<FlatsToResidentsLink {...mockProps[0]} />)
+
+describe('FlatsToResidentsLinkPage test: Attach selected items', () => {
+
+  component2
+    .find('#leftItem')
+    .simulate('change', {target: {name:'id', value: mockFlats[0].id} })
+
+  component2
+    .find('#detachedItems')
+    .simulate('change', {target: {name: 'id', selectedOptions: selectedOptions} })
+
+  const dList = component2.state('selectedOptionsInDList')
+
+  it('should have two options in the detached list', () => {
+    expect(dList).toEqual(selectedOptions)
   })
 
+  component2
+    .find('Button.abutton')
+    .simulate('click')
+
+  it('should now remove two options from detached list', () => {
+    expect(component2.state('selectedOptionsInDList')).toEqual([])
+  })
+
+})
+
+
+
+const component3 = shallow(<FlatsToResidentsLink {...mockProps[0]} />)
+
+describe('FlatsToResidentsLinkPage test: Detach selected items', () => {
+
+  component3
+    .find('#leftItem')
+    .simulate('change', { target: {name:'id', value: mockFlats[0].id} })
+
+  component3
+    .find('#attachedItems')
+    .simulate('change', { target: {name: 'id', selectedOptions: selectedOptions} })
+
+  const aList = component3.state('selectedOptionsInAList')
+
+  it('should have two options in the attached list', () => {
+    expect(aList).toEqual(selectedOptions)
+  })
+
+  component3
+    .find('Button.dbutton')
+    .simulate('click')
+
+  it('should now remove two options from attached list', () => {
+    expect(component3.state('selectedOptionsInAList')).toEqual([])
+  })
 
 })
