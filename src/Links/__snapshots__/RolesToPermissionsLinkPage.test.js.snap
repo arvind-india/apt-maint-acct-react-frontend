@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`FlatsToResidentsLinkPage params test should render initial layout 1`] = `
+exports[`RolesToPermissionsLinkPage params test should render initial layout 1`] = `
 Array [
   <div>
     <h3>
-        Flats To Residents Link
+        Roles To Permissions Link
     </h3>
     <FlashMessage
         delay={5000}
@@ -27,7 +27,7 @@ Array [
                   ]
             }
         >
-            Select a Flat
+            Select a Role
         </Label>
         <Input
             className="lselect"
@@ -39,20 +39,16 @@ Array [
             type="select"
         >
             <option
-                title={undefined}
+                title="guest role"
                 value={1}
             >
-                0
-                -
-                G1
+                guest
             </option>
             <option
-                title={undefined}
+                title="tenant role"
                 value={2}
             >
-                0
-                -
-                G2
+                tenant
             </option>
         </Input>
         <div
@@ -85,7 +81,7 @@ Array [
                   ]
             }
         >
-            Attached Residents
+            Granted Permissions
         </Label>
         <Input
             className="aselect"
@@ -106,10 +102,10 @@ Array [
             hidden={false}
             onClick={[Function]}
             tag="button"
-            title="Detach selected items"
+            title="Revoke selected roles"
         >
             <MdThumbDown />
-             Detach
+             Revoke
         </Button>
         <Label
             className="dlabel"
@@ -125,7 +121,7 @@ Array [
                   ]
             }
         >
-            Available Residents
+            Available Permissions
         </Label>
         <Input
             className="dselect"
@@ -138,20 +134,24 @@ Array [
             type="select"
         >
             <option
-                title="owner;test user1"
+                title="Read only operations on Accounts module"
                 value={1}
             >
-                user1
+                accounts
                  
-                test
+                
+                 with 
+                R
             </option>
             <option
-                title="owner;test user2"
+                title="Read and Update own records in Users module"
                 value={2}
             >
-                user2
+                users
                  
-                test
+                 (restricted)
+                 with 
+                RU
             </option>
         </Input>
         <Button
@@ -161,10 +161,10 @@ Array [
             hidden={false}
             onClick={[Function]}
             tag="button"
-            title="Attach selected items"
+            title="Grant selected roles"
         >
             <MdThumbUp />
-             Attach
+             Grant
         </Button>
     </div>
 </div>,

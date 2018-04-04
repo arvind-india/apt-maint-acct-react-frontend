@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`FlatsToResidentsLinkPage params test should render initial layout 1`] = `
+exports[`UsersToRolesLinkPage params test should render initial layout 1`] = `
 Array [
   <div>
     <h3>
-        Flats To Residents Link
+        Users To Roles Link
     </h3>
     <FlashMessage
         delay={5000}
@@ -27,7 +27,7 @@ Array [
                   ]
             }
         >
-            Select a Flat
+            Select an User
         </Label>
         <Input
             className="lselect"
@@ -39,19 +39,15 @@ Array [
             type="select"
         >
             <option
-                title={undefined}
+                title="test on G1"
                 value={1}
             >
-                0
-                -
                 G1
             </option>
             <option
-                title={undefined}
+                title="test on G2"
                 value={2}
             >
-                0
-                -
                 G2
             </option>
         </Input>
@@ -85,7 +81,7 @@ Array [
                   ]
             }
         >
-            Attached Residents
+            Assigned Roles
         </Label>
         <Input
             className="aselect"
@@ -104,12 +100,13 @@ Array [
             color="danger"
             disabled={false}
             hidden={false}
+            id="detachButton"
             onClick={[Function]}
             tag="button"
-            title="Detach selected items"
+            title="Unassign selected roles"
         >
             <MdThumbDown />
-             Detach
+             Unassign
         </Button>
         <Label
             className="dlabel"
@@ -125,7 +122,7 @@ Array [
                   ]
             }
         >
-            Available Residents
+            Available Roles
         </Label>
         <Input
             className="dselect"
@@ -138,20 +135,20 @@ Array [
             type="select"
         >
             <option
-                title="owner;test user1"
+                title="test user1"
                 value={1}
             >
                 user1
                  
-                test
+                 (inherits test)
             </option>
             <option
-                title="owner;test user2"
+                title="test user2"
                 value={2}
             >
                 user2
                  
-                test
+                 (inherits test)
             </option>
         </Input>
         <Button
@@ -159,12 +156,13 @@ Array [
             color="success"
             disabled={false}
             hidden={false}
+            id="attachButton"
             onClick={[Function]}
             tag="button"
-            title="Attach selected items"
+            title="Assign selected roles"
         >
             <MdThumbUp />
-             Attach
+             Assign
         </Button>
     </div>
 </div>,

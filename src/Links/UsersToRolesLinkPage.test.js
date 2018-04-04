@@ -1,18 +1,18 @@
-// FlatsToResidentsLinkPage.test.js0]
+// UsersToRolesLinkPage.test.js0]
 
 import React from 'react'
 import { shallow } from 'enzyme'
 
-import { FlatsToResidentsLink } from './FlatsToResidentsLinkPage'
+import { UsersToRolesLink } from './UsersToRolesLinkPage'
 
-const mockFlats = [
-  { id: 1, block_number: '0', flat_number: 'G1', remarks: 'test on G1' },
-  { id: 2, block_number: '0', flat_number: 'G2', remarks: 'test on G2' }
+const mockUsers = [
+  { id: 1, name: '0', first_name: 'G1', email: 'test on G1' },
+  { id: 2, name: '0', first_name: 'G2', email: 'test on G2' }
 ]
 
-const mockResidents = [
-  { id: 1, first_name: 'user1', last_name: 'test', is_a: 'owner', remark: 'test user1' },
-  { id: 2, first_name: 'user2', last_name: 'test', is_a: 'owner', remark: 'test user2' }
+const mockRoles = [
+  { id: 1, name: 'user1', inherits: 'test', description: 'test user1' },
+  { id: 2, name: 'user2', inherits: 'test', description: 'test user2' }
 ]
 
 const mockProps = [
@@ -24,20 +24,20 @@ const mockProps = [
       allowsDelete: true,
       condition: ''
     },
-    flats: { items: mockFlats },
-    flatsToResidents: { items: [] },
-    residents: { items: mockResidents },
-    getAllFlats: jest.fn(),
-    getAllResidents: jest.fn(),
-    getMyResidents: jest.fn(),
-    updateMyResidents: jest.fn()
+    users: { items: mockUsers },
+    usersToRoles: { items: [] },
+    roles: { items: mockRoles },
+    getAllUsers: jest.fn(),
+    getAllRoles: jest.fn(),
+    getMyRoles: jest.fn(),
+    updateMyRoles: jest.fn()
   }
 ]
 
-const component = shallow(<FlatsToResidentsLink {...mockProps[0]} />)
+const component = shallow(<UsersToRolesLink {...mockProps[0]} />)
 
-describe('FlatsToResidentsLinkPage params test', () => {
-  it('should render FlatsPage without crashing', () => {
+describe('UsersToRolesLinkPage params test', () => {
+  it('should render UsersPage without crashing', () => {
     component
   })
   it('should render initial layout', () => {
@@ -55,14 +55,14 @@ describe('FlatsToResidentsLinkPage params test', () => {
 })
 
 
-const selectedOptions = [mockResidents[0].id, mockResidents[1].id]
+const selectedOptions = [mockRoles[0].id, mockRoles[1].id]
 
-describe('FlatsToResidentsLinkPage test: select a flat and select two residents', () => {
+describe('UsersToRolesLinkPage test: select a user and select two roles', () => {
 
-  component.find('#leftItem').simulate('change', {target: {name:'id', value: mockFlats[0].id}})
+  component.find('#leftItem').simulate('change', {target: {name:'id', value: mockUsers[0].id}})
 
   it('should check options in Left List', () => {
-    expect(component.state('selectedOptionInLeftList')).toEqual(mockFlats[0].id)
+    expect(component.state('selectedOptionInLeftList')).toEqual(mockUsers[0].id)
   })
 
   component
@@ -87,13 +87,13 @@ describe('FlatsToResidentsLinkPage test: select a flat and select two residents'
 
 
 
-const component2 = shallow(<FlatsToResidentsLink {...mockProps[0]} />)
+const component2 = shallow(<UsersToRolesLink {...mockProps[0]} />)
 
-describe('FlatsToResidentsLinkPage test: Attach selected items', () => {
+describe('UsersToRolesLinkPage test: Attach selected items', () => {
 
   component2
     .find('#leftItem')
-    .simulate('change', {target: {name:'id', value: mockFlats[0].id} })
+    .simulate('change', {target: {name:'id', value: mockUsers[0].id} })
 
   component2
     .find('#detachedItems')
@@ -111,13 +111,13 @@ describe('FlatsToResidentsLinkPage test: Attach selected items', () => {
 
 
 
-const component3 = shallow(<FlatsToResidentsLink {...mockProps[0]} />)
+const component3 = shallow(<UsersToRolesLink {...mockProps[0]} />)
 
-describe('FlatsToResidentsLinkPage test: Detach selected items', () => {
+describe('UsersToRolesLinkPage test: Detach selected items', () => {
 
   component3
     .find('#leftItem')
-    .simulate('change', { target: {name:'id', value: mockFlats[0].id} })
+    .simulate('change', { target: {name:'id', value: mockUsers[0].id} })
 
   component3
     .find('#attachedItems')
