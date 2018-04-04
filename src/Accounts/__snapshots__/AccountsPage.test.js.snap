@@ -1,0 +1,366 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AccountsPage params test should render initial layout 1`] = `
+Array [
+  <div>
+    <h3>
+        Accounts List
+    </h3>
+    <FlashMessage
+        delay={5000}
+        text="testingAlert"
+    />
+    <div
+        className="grid-form"
+    >
+        <div
+            data-row-span="6"
+        >
+            <div
+                data-field-span="1"
+            >
+                <Label
+                    tag="label"
+                    widths={
+                        Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                    }
+                >
+                    From
+                </Label>
+                <Input
+                    name="fromDate"
+                    onChange={[Function]}
+                    placeholder="Accounts from this date"
+                    tag="p"
+                    type="date"
+                    value="2018-02-04"
+                />
+            </div>
+            <div
+                data-field-span="1"
+            >
+                <Label
+                    tag="label"
+                    widths={
+                        Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                    }
+                >
+                    To
+                </Label>
+                <Input
+                    name="toDate"
+                    onChange={[Function]}
+                    placeholder="Accounts from this date"
+                    tag="p"
+                    type="date"
+                    value="2018-04-04"
+                />
+            </div>
+        </div>
+    </div>
+    <Table
+        responsiveTag="div"
+        tag="table"
+    >
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Txn Date
+                </th>
+                <th>
+                    Flat#
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Mth
+                </th>
+                <th>
+                    Yr
+                </th>
+                <th>
+                    Cr/Dr
+                </th>
+                <th>
+                    Amt in ₹
+                </th>
+                <th>
+                    ₹ Balance
+                </th>
+                <th>
+                    Category
+                </th>
+                <th>
+                    Actions 
+                    <Link
+                        replace={false}
+                        title="Add"
+                        to={
+                            Object {
+                                "pathname": "/accounts/0",
+                                "state": Object {
+                                  "model": Object {
+                                    "amount": "",
+                                    "balance": "",
+                                    "category": "",
+                                    "crdr": "",
+                                    "flat_number": "",
+                                    "for_month": "",
+                                    "for_year": "",
+                                    "id": 0,
+                                    "item": "",
+                                    "name": "",
+                                    "recorded_at": "",
+                                    "remarks": "",
+                                  },
+                                },
+                              }
+                        }
+                    >
+                        <MdAdd />
+                    </Link>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    1
+                </td>
+                <td>
+                    2018-04-04
+                </td>
+                <td>
+                    G1
+                </td>
+                <td>
+                    tester
+                </td>
+                <td>
+                    04
+                </td>
+                <td>
+                    2018
+                </td>
+                <td>
+                    cr
+                </td>
+                <td>
+                    600
+                </td>
+                <td />
+                <td>
+                    maintenance
+                </td>
+                <td>
+                    <Link
+                        replace={false}
+                        title="Edit"
+                        to={
+                            Object {
+                                "pathname": "/accounts/1",
+                                "state": Object {
+                                  "model": Object {
+                                    "amount": "600",
+                                    "balance": "",
+                                    "category": "maintenance",
+                                    "crdr": "cr",
+                                    "flat_number": "G1",
+                                    "for_month": "04",
+                                    "for_year": "2018",
+                                    "id": 1,
+                                    "item": "maintenance fee",
+                                    "name": "tester",
+                                    "recorded_at": "2018-04-04",
+                                    "remarks": "maintenance for the month april 2018",
+                                  },
+                                },
+                              }
+                        }
+                    >
+                        <MdEdit />
+                    </Link>
+                    <Button
+                        color="link"
+                        hidden={false}
+                        onClick={[Function]}
+                        tag="button"
+                        title="Delete"
+                    >
+                        <MdDelete
+                            color="red"
+                        />
+                    </Button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    2
+                </td>
+                <td>
+                    2018-04-01
+                </td>
+                <td>
+                    NA
+                </td>
+                <td>
+                    Sewage Truck Service
+                </td>
+                <td>
+                    04
+                </td>
+                <td>
+                    2018
+                </td>
+                <td>
+                    dr
+                </td>
+                <td>
+                    2200
+                </td>
+                <td />
+                <td>
+                    sewage disposal
+                </td>
+                <td>
+                    <Link
+                        replace={false}
+                        title="Edit"
+                        to={
+                            Object {
+                                "pathname": "/accounts/2",
+                                "state": Object {
+                                  "model": Object {
+                                    "amount": "2200",
+                                    "balance": "",
+                                    "category": "sewage disposal",
+                                    "crdr": "dr",
+                                    "flat_number": "NA",
+                                    "for_month": "04",
+                                    "for_year": "2018",
+                                    "id": 2,
+                                    "item": "sewage clearance",
+                                    "name": "Sewage Truck Service",
+                                    "recorded_at": "2018-04-01",
+                                    "remarks": "septic tank clearance",
+                                  },
+                                },
+                              }
+                        }
+                    >
+                        <MdEdit />
+                    </Link>
+                    <Button
+                        color="link"
+                        hidden={false}
+                        onClick={[Function]}
+                        tag="button"
+                        title="Delete"
+                    >
+                        <MdDelete
+                            color="red"
+                        />
+                    </Button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    3
+                </td>
+                <td>
+                    2018-03-31
+                </td>
+                <td>
+                    NA
+                </td>
+                <td>
+                    Panchayat Garbage disposal Service
+                </td>
+                <td>
+                    04
+                </td>
+                <td>
+                    2018
+                </td>
+                <td>
+                    dr
+                </td>
+                <td>
+                    200
+                </td>
+                <td />
+                <td>
+                    maintenance
+                </td>
+                <td>
+                    <Link
+                        replace={false}
+                        title="Edit"
+                        to={
+                            Object {
+                                "pathname": "/accounts/3",
+                                "state": Object {
+                                  "model": Object {
+                                    "amount": "200",
+                                    "balance": "",
+                                    "category": "maintenance",
+                                    "crdr": "dr",
+                                    "flat_number": "NA",
+                                    "for_month": "04",
+                                    "for_year": "2018",
+                                    "id": 3,
+                                    "item": "Garbage clearance",
+                                    "name": "Panchayat Garbage disposal Service",
+                                    "recorded_at": "2018-03-31",
+                                    "remarks": "Garbage clearance",
+                                  },
+                                },
+                              }
+                        }
+                    >
+                        <MdEdit />
+                    </Link>
+                    <Button
+                        color="link"
+                        hidden={false}
+                        onClick={[Function]}
+                        tag="button"
+                        title="Delete"
+                    >
+                        <MdDelete
+                            color="red"
+                        />
+                    </Button>
+                </td>
+            </tr>
+        </tbody>
+    </Table>
+    <Router
+        history={Object {}}
+    >
+        <div>
+            <PrivateRoute
+                component={[Function]}
+                path="/accounts/:id"
+            />
+        </div>
+    </Router>
+</div>,
+]
+`;

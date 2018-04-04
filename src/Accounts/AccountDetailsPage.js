@@ -21,11 +21,11 @@ import { CATEGORIES, MONTHS } from '../_constants'
 
 let module = 'accounts' // module name
 
-class AccountDetailsPage extends React.Component {
+export class AccountDetails extends React.Component {
 
   constructor(props) {
     super(props)
-    const { dispatch, match, location } = props
+    const { location } = props
     let model = location.state.model // model supplied from list page
     let initializeModel = {
       id: model.id,
@@ -44,7 +44,7 @@ class AccountDetailsPage extends React.Component {
     this.state = {
       model: initializeModel,           // model to edit
       submitted: false,
-      adding: match.params.id === "0"
+      adding: model.id === "0"
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleCategoryChange = this.handleCategoryChange.bind(this)
@@ -52,8 +52,10 @@ class AccountDetailsPage extends React.Component {
     this.handleMonthChange = this.handleMonthChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
 
-    dispatch(flatActions.getAll())
-    dispatch(alertActions.clear())  // clear alert messages from other pages
+    //dispatch(flatActions.getAll())
+    //dispatch(alertActions.clear())  // clear alert messages from other pages
+    this.props.getAllFlats()
+    this.props.clearAlert()
   }
 
   canBeSaved() { // check for changes in model, if changes present, it can save
@@ -78,6 +80,7 @@ class AccountDetailsPage extends React.Component {
       <div>
         <h2>Account Details</h2>
         { alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div> }
+        { this.validateForm() }
         { this.show() }
       </div>
     )
@@ -87,7 +90,7 @@ class AccountDetailsPage extends React.Component {
     const { adding } = this.state
     const { authzn } = this.props
     let title = adding?'Add':authzn.allowsEdit?'Edit':'View'
-    return <Form onSubmit={this.handleSubmit} className="grid-form">
+    return <Form id="accountDetailsForm" onSubmit={this.handleSubmit} className="grid-form">
       <fieldset>
   			<legend>{title}</legend>
         <div data-row-span="2">
@@ -112,8 +115,19 @@ class AccountDetailsPage extends React.Component {
         </div>
       </fieldset>
       <br/>
-      <Button type="submit" color="primary" hidden={!authzn.allowsEdit} title="Save Changes">Save</Button>
-      <Button color="link"><Link to="/accounts" className="text-danger" title="Go to Accounts">Cancel</Link></Button>
+      <Button
+        type="submit"
+        color="primary"
+        disabled={!this.formValid}
+        hidden={!authzn.allowsEdit}
+        title={this.validationMsg}
+        >Save</Button>
+      <Button color="link">
+        <Link
+          to="/accounts"
+          className="text-danger"
+          title="Go to Accounts"
+          >Cancel</Link></Button>
     </Form>
   }
 
@@ -122,6 +136,7 @@ class AccountDetailsPage extends React.Component {
     return <div data-field-span="1">
 				<Label>Txn Date</Label>
         <Input
+          id="recorded_at"
           type="date"
           name="recorded_at"
           value={model.recorded_at}
@@ -150,6 +165,7 @@ class AccountDetailsPage extends React.Component {
     return <div data-field-span="1">
 				<Label>Item</Label>
         <Input
+          id="item"
           type="text"
           name="item"
           value={model.item}
@@ -164,18 +180,46 @@ class AccountDetailsPage extends React.Component {
 
   handleSubmit(event) {
     const { model } = this.state
-    const { dispatch } = this.props
+    //const { dispatch } = this.props
 
     event.preventDefault()
     this.setState({ submitted: true })
+    this.props.saveChanges(model)
 
-    if ( this.changedProps().length === 0 ) {
-      dispatch(alertActions.error('No changes found...'))
+/*    if ( this.changedProps().length === 0 ) {
+      //dispatch(alertActions.error('No changes found...'))
+      this.props.error('No changes found...')
     } else if(this.canBeSaved()){
-      dispatch(actions.saveChanges(model))
+      //dispatch(actions.saveChanges(model))
+      this.props.saveChanges(model)
     } else {
-      dispatch(alertActions.error('Missing data'))
+      //dispatch(alertActions.error('Missing data'))
+      this.props.error('Missing data')
+    } */
+  }
+
+  validateForm() {
+    if ( this.changedProps().length === 0 ) {
+      //dispatch(alertActions.error('No changes found...'))
+      //this.props.error('No changes found...')
+      this.validationMsg = 'No changes to save'
+      this.formValid = false
+      return null
     }
+    if( this.canBeSaved() ) {
+      //dispatch(actions.saveChanges(model))
+      //this.props.saveChanges(model)
+      this.validationMsg = 'Save Changes'
+      this.formValid = true
+      return null
+    }
+
+    //dispatch(alertActions.error('Missing data'))
+    //this.props.error('Missing data')
+    // finally, if reached here
+    this.validationMsg = 'Missing "Required Data"...'
+    this.formValid = false
+
   }
 
   changedProps() {
@@ -199,6 +243,7 @@ class AccountDetailsPage extends React.Component {
     return <div data-field-span="1">
 				<Label>Category</Label>
         <Select
+          id="category"
           name="form-field-name"
           value={model.category}
           multi={false}
@@ -233,6 +278,7 @@ class AccountDetailsPage extends React.Component {
     return <div data-field-span="1">
 				<Label>Flat Number (optional)</Label>
         <Select
+          id="flat_number"
           name="form-field-name"
           value={model.flat_number}
           multi={false}
@@ -262,6 +308,7 @@ class AccountDetailsPage extends React.Component {
     return <div data-field-span="1">
 				<Label>Name</Label>
         <Input
+          id="name"
           type="text"
           name="name"
           value={model.name}
@@ -279,6 +326,7 @@ class AccountDetailsPage extends React.Component {
     return <div data-field-span="1">
 				<Label>Month</Label>
         <Select
+          id="for_month"
           name="form-field-name"
           value={model.for_month}
           multi={false}
@@ -309,6 +357,7 @@ class AccountDetailsPage extends React.Component {
     return <div data-field-span="1">
 				<Label>Year</Label>
         <Input
+          id="for_year"
           type="number"
           name="for_year"
           value={model.for_year}
@@ -328,6 +377,7 @@ class AccountDetailsPage extends React.Component {
     return <div data-field-span="1">
 				<Label>Amount</Label>
         <Input
+          id="amount"
           type="number"
           step="0.01"
           name="amount"
@@ -350,6 +400,7 @@ class AccountDetailsPage extends React.Component {
         <FormGroup check inline>
           <Label check>
             <Input
+              className="crdr"
               type="radio"
               name="crdr"
               value="cr"
@@ -361,6 +412,7 @@ class AccountDetailsPage extends React.Component {
         <FormGroup check inline>
           <Label check>
             <Input
+              className="crdr"
               type="radio"
               name="crdr"
               value="dr"
@@ -377,6 +429,7 @@ class AccountDetailsPage extends React.Component {
     return <div data-field-span="1">
 				<Label>Remarks</Label>
         <Input
+          id="remarks"
           type="text"
           name="remarks"
           value={model.remarks}
@@ -402,5 +455,23 @@ function mapStateToProps(state) {
   }
 }
 
-const connectedDetailsPage = connect(mapStateToProps)(AccountDetailsPage)
-export { connectedDetailsPage as AccountDetailsPage }
+function mapDispatchToProps(dispatch) {
+  return {
+    getAllFlats: () => {
+      dispatch(flatActions.getAll())
+    },
+    clearAlert: () => {
+      dispatch(alertActions.clear())
+    },
+    saveChanges: (model) => {
+      dispatch(actions.saveChanges(model))
+    },
+    error: (msg) => {
+      dispatch(alertActions.error(msg))
+    }
+  }
+}
+
+//const connectedDetailsPage = connect(mapStateToProps)(AccountDetailsPage)
+//export { connectedDetailsPage as AccountDetailsPage }
+export default connect(mapStateToProps, mapDispatchToProps)(AccountDetails)

@@ -1,0 +1,623 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AccountsPage params test should render initial layout 1`] = `
+Array [
+  <div>
+    <h2>
+        Account Details
+    </h2>
+    <div
+        className="alert undefined"
+    >
+        testingAlert
+    </div>
+    <Form
+        className="grid-form"
+        id="accountDetailsForm"
+        onSubmit={[Function]}
+        tag="form"
+    >
+        <fieldset>
+            <legend>
+                Edit
+            </legend>
+            <div
+                data-row-span="2"
+            >
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Txn Date
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="recorded_at"
+                        name="recorded_at"
+                        onChange={[Function]}
+                        placeholder="Transaction Date here"
+                        tag="p"
+                        type="date"
+                        value="2018-04-04"
+                    />
+                </div>
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Item
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="item"
+                        name="item"
+                        onChange={[Function]}
+                        placeholder="Item details here"
+                        tag="p"
+                        type="text"
+                        value="maintenance fee"
+                    />
+                </div>
+            </div>
+            <div
+                data-row-span="1"
+            >
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Category
+                    </Label>
+                    <Select
+                        arrowRenderer={[Function]}
+                        autosize={true}
+                        backspaceRemoves={true}
+                        backspaceToRemoveMessage="Press backspace to remove {label}"
+                        clearAllText="Clear all"
+                        clearRenderer={[Function]}
+                        clearValueText="Clear value"
+                        clearable={true}
+                        closeOnSelect={true}
+                        deleteRemoves={true}
+                        delimiter=","
+                        disabled={false}
+                        escapeClearsValue={true}
+                        filterOptions={[Function]}
+                        id="category"
+                        ignoreAccents={true}
+                        ignoreCase={true}
+                        inputProps={Object {}}
+                        isLoading={false}
+                        joinValues={false}
+                        labelKey="name"
+                        matchPos="any"
+                        matchProp="any"
+                        menuBuffer={0}
+                        menuRenderer={[Function]}
+                        multi={false}
+                        name="form-field-name"
+                        noResultsText="No results found"
+                        onBlurResetsInput={true}
+                        onChange={[Function]}
+                        onCloseResetsInput={true}
+                        onSelectResetsInput={true}
+                        openOnClick={true}
+                        optionComponent={[Function]}
+                        options={
+                            Array [
+                                Object {
+                                  "name": "Electrical",
+                                },
+                                Object {
+                                  "name": "Garbage",
+                                },
+                                Object {
+                                  "name": "Monthly Maintenance",
+                                },
+                                Object {
+                                  "name": "Major Maintenance",
+                                },
+                                Object {
+                                  "name": "Plumbing",
+                                },
+                                Object {
+                                  "name": "Seasonal Gift",
+                                },
+                                Object {
+                                  "name": "Septic Tank",
+                                },
+                                Object {
+                                  "name": "Sweeping",
+                                },
+                                Object {
+                                  "name": "Water Tank - Overhead",
+                                },
+                                Object {
+                                  "name": "Water Tank - Sump",
+                                },
+                                Object {
+                                  "name": "Others",
+                                },
+                              ]
+                        }
+                        pageSize={5}
+                        placeholder="Select Category..."
+                        removeSelected={true}
+                        required={false}
+                        rtl={false}
+                        scrollMenuIntoView={true}
+                        searchable={true}
+                        simpleValue={true}
+                        tabSelectsValue={true}
+                        trimFilter={true}
+                        value="maintenance"
+                        valueComponent={[Function]}
+                        valueKey="name"
+                    />
+                </div>
+            </div>
+            <div
+                data-row-span="2"
+            >
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Flat Number (optional)
+                    </Label>
+                    <Select
+                        arrowRenderer={[Function]}
+                        autosize={true}
+                        backspaceRemoves={true}
+                        backspaceToRemoveMessage="Press backspace to remove {label}"
+                        clearAllText="Clear all"
+                        clearRenderer={[Function]}
+                        clearValueText="Clear value"
+                        clearable={true}
+                        closeOnSelect={true}
+                        deleteRemoves={true}
+                        delimiter=","
+                        disabled={false}
+                        escapeClearsValue={true}
+                        filterOptions={[Function]}
+                        id="flat_number"
+                        ignoreAccents={true}
+                        ignoreCase={true}
+                        inputProps={Object {}}
+                        isLoading={false}
+                        joinValues={false}
+                        labelKey="flat_number"
+                        matchPos="any"
+                        matchProp="any"
+                        menuBuffer={0}
+                        menuRenderer={[Function]}
+                        multi={false}
+                        name="form-field-name"
+                        noResultsText="No results found"
+                        onBlurResetsInput={true}
+                        onChange={[Function]}
+                        onCloseResetsInput={true}
+                        onSelectResetsInput={true}
+                        openOnClick={true}
+                        optionComponent={[Function]}
+                        options={
+                            Array [
+                                Object {
+                                  "flat_number": "G1",
+                                  "id": 1,
+                                },
+                                Object {
+                                  "flat_number": "G2",
+                                  "id": 2,
+                                },
+                              ]
+                        }
+                        pageSize={5}
+                        placeholder="Select a Flat Number..."
+                        removeSelected={true}
+                        required={false}
+                        rtl={false}
+                        scrollMenuIntoView={true}
+                        searchable={true}
+                        simpleValue={true}
+                        tabSelectsValue={true}
+                        trimFilter={true}
+                        value="G1"
+                        valueComponent={[Function]}
+                        valueKey="flat_number"
+                    />
+                </div>
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Name
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="name"
+                        name="name"
+                        onChange={[Function]}
+                        placeholder="Name here"
+                        tag="p"
+                        type="text"
+                        value="tester"
+                    />
+                </div>
+            </div>
+            <div
+                data-row-span="4"
+            >
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Month
+                    </Label>
+                    <Select
+                        arrowRenderer={[Function]}
+                        autosize={true}
+                        backspaceRemoves={true}
+                        backspaceToRemoveMessage="Press backspace to remove {label}"
+                        clearAllText="Clear all"
+                        clearRenderer={[Function]}
+                        clearValueText="Clear value"
+                        clearable={true}
+                        closeOnSelect={true}
+                        deleteRemoves={true}
+                        delimiter=","
+                        disabled={false}
+                        escapeClearsValue={true}
+                        filterOptions={[Function]}
+                        id="for_month"
+                        ignoreAccents={true}
+                        ignoreCase={true}
+                        inputProps={Object {}}
+                        isLoading={false}
+                        joinValues={false}
+                        labelKey="name"
+                        matchPos="any"
+                        matchProp="any"
+                        menuBuffer={0}
+                        menuRenderer={[Function]}
+                        multi={false}
+                        name="form-field-name"
+                        noResultsText="No results found"
+                        onBlurResetsInput={true}
+                        onChange={[Function]}
+                        onCloseResetsInput={true}
+                        onSelectResetsInput={true}
+                        openOnClick={true}
+                        optionComponent={[Function]}
+                        options={
+                            Array [
+                                Object {
+                                  "name": "Jan",
+                                  "number": 1,
+                                },
+                                Object {
+                                  "name": "Feb",
+                                  "number": 2,
+                                },
+                                Object {
+                                  "name": "Mar",
+                                  "number": 3,
+                                },
+                                Object {
+                                  "name": "Apr",
+                                  "number": 4,
+                                },
+                                Object {
+                                  "name": "May",
+                                  "number": 5,
+                                },
+                                Object {
+                                  "name": "Jun",
+                                  "number": 6,
+                                },
+                                Object {
+                                  "name": "Jul",
+                                  "number": 7,
+                                },
+                                Object {
+                                  "name": "Aug",
+                                  "number": 8,
+                                },
+                                Object {
+                                  "name": "Sep",
+                                  "number": 9,
+                                },
+                                Object {
+                                  "name": "Oct",
+                                  "number": 10,
+                                },
+                                Object {
+                                  "name": "Nov",
+                                  "number": 11,
+                                },
+                                Object {
+                                  "name": "Dec",
+                                  "number": 12,
+                                },
+                              ]
+                        }
+                        pageSize={5}
+                        placeholder="Select a Month..."
+                        removeSelected={true}
+                        required={false}
+                        rtl={false}
+                        scrollMenuIntoView={true}
+                        searchable={true}
+                        simpleValue={true}
+                        tabSelectsValue={true}
+                        trimFilter={true}
+                        value="04"
+                        valueComponent={[Function]}
+                        valueKey="number"
+                    />
+                </div>
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Year
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="for_year"
+                        max="2030"
+                        min="2013"
+                        name="for_year"
+                        onChange={[Function]}
+                        placeholder="Year here"
+                        tag="p"
+                        type="number"
+                        value="2018"
+                    />
+                </div>
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Amount
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="amount"
+                        name="amount"
+                        onChange={[Function]}
+                        placeholder="Amount here"
+                        step="0.01"
+                        tag="p"
+                        type="number"
+                        value="600"
+                    />
+                </div>
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Collection/Expenditure
+                    </Label>
+                    <FormGroup
+                        check={true}
+                        inline={true}
+                        tag="div"
+                    >
+                        <Label
+                            check={true}
+                            tag="label"
+                            widths={
+                                Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                            }
+                        >
+                            <Input
+                                checked={true}
+                                className="crdr"
+                                name="crdr"
+                                onChange={[Function]}
+                                tag="p"
+                                type="radio"
+                                value="cr"
+                            />
+                             Cr
+                        </Label>
+                    </FormGroup>
+                    <FormGroup
+                        check={true}
+                        inline={true}
+                        tag="div"
+                    >
+                        <Label
+                            check={true}
+                            tag="label"
+                            widths={
+                                Array [
+                                    "xs",
+                                    "sm",
+                                    "md",
+                                    "lg",
+                                    "xl",
+                                  ]
+                            }
+                        >
+                            <Input
+                                checked={false}
+                                className="crdr"
+                                name="crdr"
+                                onChange={[Function]}
+                                tag="p"
+                                type="radio"
+                                value="dr"
+                            />
+                             Dr
+                        </Label>
+                    </FormGroup>
+                </div>
+            </div>
+            <div
+                data-row-span="1"
+            >
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Remarks
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="remarks"
+                        name="remarks"
+                        onChange={[Function]}
+                        placeholder="Remarks here"
+                        tag="p"
+                        type="text"
+                        value="maintenance for the month april 2018"
+                    />
+                </div>
+            </div>
+        </fieldset>
+        <br />
+        <Button
+            color="primary"
+            disabled={true}
+            hidden={false}
+            tag="button"
+            title="No changes to save"
+            type="submit"
+        >
+            Save
+        </Button>
+        <Button
+            color="link"
+            tag="button"
+        >
+            <Link
+                className="text-danger"
+                replace={false}
+                title="Go to Accounts"
+                to="/accounts"
+            >
+                Cancel
+            </Link>
+        </Button>
+    </Form>
+</div>,
+]
+`;

@@ -20,13 +20,13 @@ import {
 import { history } from '../_helpers'
 import { PrivateRoute, FlashMessage } from '../_components'
 import { accountActions as actions, userActions } from '../_actions'
-import { AccountDetailsPage as detailsPage } from './AccountDetailsPage'
+import { default as detailsPage } from './AccountDetailsPage'
 import { DEFAULTS } from '../_constants'
 
 let url = '/accounts'
 let module = 'accounts'
 
-class AccountsPage extends React.Component {
+export class Accounts extends React.Component {
 
   constructor(props) {
     super(props)
@@ -37,20 +37,34 @@ class AccountsPage extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleDeleteModel = this.handleDeleteModel.bind(this)
   }
-  fromDate() {
+/*  fromDate() {
     let date = sessionStorage.getItem('fromDate')
     if(!date) {
       date = this.date(DEFAULTS.AccountsInMonths)
     }
     return date
+  } */
+  fromDate() {
+    return this.props.trackHistory ?
+        sessionStorage.getItem('fromDate') :
+        this.date(DEFAULTS.AccountsInMonths)
   }
+/*
   toDate() {
     let date = sessionStorage.getItem('toDate')
     if(!date) {
       date = this.date()
     }
     return date
+  } */
+
+  toDate() {
+    return this.props.trackHistory ?
+      sessionStorage.getItem('toDate') :
+      this.date()
   }
+
+
   date(deduct=0) {
     let today = new Date()
     if(deduct > 0) {
@@ -62,19 +76,21 @@ class AccountsPage extends React.Component {
 
   componentDidMount() {
     this.getAccounts()
-    this.props.dispatch(userActions.getAll())
+    //this.props.dispatch(userActions.getAll())
+    this.props.getAll()
   }
 
   render() {
-    const { accounts, alert, authzn, users } = this.props
+    const { accounts, alert, authzn, users, trackHistory } = this.props
     let models = accounts
+    let hist = trackHistory?history:{}
     return (
       <div>
         <h3>Accounts List</h3>
         {alert.message && <FlashMessage text={alert.message} delay={5000}/>}
         <div className="grid-form">{ this.showDates() }</div>
         {models.items && authzn && users.items && this.showList() }
-        <Router history={history}>
+        <Router history={hist}>
           <div>
             <PrivateRoute path={`${url}/:id`} component={detailsPage} />
           </div>
@@ -115,10 +131,13 @@ class AccountsPage extends React.Component {
   }
   getAccounts() {
     const { fromDate, toDate } = this.state
-    const { dispatch } = this.props
-    sessionStorage.setItem('fromDate', fromDate)
-    sessionStorage.setItem('toDate', toDate)
-    dispatch(actions.getListFor(fromDate, toDate))
+    //const { dispatch } = this.props
+    //sessionStorage.setItem('fromDate', fromDate)
+    this.props.setSessionStorage('fromDate', fromDate)
+    //sessionStorage.setItem('toDate', toDate)
+    this.props.setSessionStorage('toDate', toDate)
+    //dispatch(actions.getListFor(fromDate, toDate))
+    this.props.getListFor(fromDate, toDate)
   }
   showList(){
     const { accounts } = this.props
@@ -206,8 +225,10 @@ class AccountsPage extends React.Component {
   handleDeleteModel(id) {
     const { fromDate, toDate } = this.state
     if( window.confirm('Are you sure?') ) {
-      this.props.dispatch(actions.delete(id))
-      this.props.dispatch(actions.getListFor(fromDate, toDate))
+      //this.props.dispatch(actions.delete(id))
+      //this.props.dispatch(actions.getListFor(fromDate, toDate))
+      this.props.delete(id)
+      this.props.getListFor(fromDate, toDate)
     }
   }
 
@@ -216,13 +237,33 @@ class AccountsPage extends React.Component {
 function mapStateToProps(state) {
   const { accounts, alert, authorizations, users } = state
   const authzn = authorizations[module]
+  const trackHistory = true  // added for unit testing; snapshot to be precise
   return {
     accounts,
     alert,
     authzn,
-    users
+    users,
+    trackHistory
   }
 }
 
-const connectedAccountsPage = connect(mapStateToProps)(AccountsPage)
-export { connectedAccountsPage as AccountsPage }
+function mapDispatchToProps(dispatch) {
+  return {
+    getAll: () => {
+      dispatch(userActions.getAll())
+    },
+    getListFor: (fromDate, toDate) => {
+      dispatch(actions.getListFor(fromDate, toDate))
+    },
+    delete: (id) => {
+      dispatch(actions.delete(id))
+    },
+    setSessionStorage: (key, value) => {
+      sessionStorage.setItem(key, value)
+    }
+  }
+}
+
+//const connectedAccountsPage = connect(mapStateToProps)(AccountsPage)
+//export { connectedAccountsPage as AccountsPage }
+export default connect(mapStateToProps, mapDispatchToProps)(Accounts)
