@@ -12,10 +12,10 @@ Features:
 
 
 #### [Demo (read-only)](https://react-demo.eastgate.in)  
-#### [Backend, written in NodeJS/ExpressJS](https://github.com/mohankumaranna/apt-maintenance-account-backend)  
+#### [Backend, written in NodeJS/ExpressJS](https://github.com/mohankumaranna/apt-maintenance-account-backend)   
 #### [Installation Guide](https://github.com/mohankumaranna/apt-maint-acct-react-frontend/wiki/Installation-Guide)  
-#### [User Guide](https://github.com/mohankumaranna/apt-maint-acct-react-frontend/wiki/User-Guide)
-#### [Technical Guide](https://github.com/mohankumaranna/apt-maint-acct-react-frontend/wiki/Technical-Guide)
+#### [User Guide](https://github.com/mohankumaranna/apt-maint-acct-react-frontend/wiki/User-Guide)  
+#### [Technical Guide](https://github.com/mohankumaranna/apt-maint-acct-react-frontend/wiki/Technical-Guide)  
 
 #### License  
 MIT  
