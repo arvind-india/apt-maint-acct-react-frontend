@@ -6,11 +6,13 @@ import { FlashMessage } from '../_components'
 import { accountActions as actions, userActions } from '../_actions'
 
 
-class SummaryPage extends React.Component {
+export class Summary extends React.Component {
 
   componentDidMount() {
-    this.props.dispatch(actions.getSummaryList())
-    this.props.dispatch(userActions.getAll())
+    // this.props.dispatch(actions.getSummaryList())
+    // this.props.dispatch(userActions.getAll())
+    this.props.getSummaryList()
+    this.props.getAll()
   }
 
   render() {
@@ -69,5 +71,17 @@ function mapStateToProps(state) {
   }
 }
 
-const connectedSummaryPage = connect(mapStateToProps)(SummaryPage)
-export { connectedSummaryPage as SummaryPage }
+function mapDispatchToProps(dispatch) {
+  return {
+    getSummaryList: () => {
+      dispatch(actions.getSummaryList())
+    },
+    getAll: () => {
+      dispatch(userActions.getAll())
+    }
+  }
+}
+
+//const connectedSummaryPage = connect(mapStateToProps)(SummaryPage)
+//export { connectedSummaryPage as SummaryPage }
+export default connect(mapStateToProps, mapDispatchToProps)(Summary)

@@ -19,32 +19,15 @@ Array [
         tag="form"
     >
         <FormGroup
-            row={true}
             tag="div"
         >
-            <Label
-                for="email"
+            <Col
                 sm={
                     Object {
                         "offset": 4,
-                        "size": 1,
+                        "size": 4,
                       }
                 }
-                tag="label"
-                widths={
-                    Array [
-                        "xs",
-                        "sm",
-                        "md",
-                        "lg",
-                        "xl",
-                      ]
-                }
-            >
-                Email_Id
-            </Label>
-            <Col
-                sm={3}
                 tag="div"
                 widths={
                     Array [
@@ -56,43 +39,42 @@ Array [
                       ]
                 }
             >
+                <Label
+                    for="email"
+                    tag="label"
+                    widths={
+                        Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                    }
+                >
+                    Email id
+                </Label>
                 <Input
                     defaultValue="guest@eastgate.in"
                     id="email"
                     name="email"
                     onChange={[Function]}
-                    placeholder="email id here"
                     tag="p"
+                    title="email id here"
                     type="email"
                 />
             </Col>
         </FormGroup>
         <FormGroup
-            row={true}
             tag="div"
         >
-            <Label
+            <Col
                 sm={
                     Object {
                         "offset": 4,
-                        "size": 1,
+                        "size": 4,
                       }
                 }
-                tag="label"
-                widths={
-                    Array [
-                        "xs",
-                        "sm",
-                        "md",
-                        "lg",
-                        "xl",
-                      ]
-                }
-            >
-                Password
-            </Label>
-            <Col
-                sm={3}
                 tag="div"
                 widths={
                     Array [
@@ -104,26 +86,40 @@ Array [
                       ]
                 }
             >
+                <Label
+                    for="password"
+                    tag="label"
+                    widths={
+                        Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                    }
+                >
+                    Password
+                </Label>
                 <Input
                     defaultValue="password123"
                     id="password"
                     name="password"
                     onChange={[Function]}
-                    placeholder="password here"
                     tag="p"
+                    title="password here"
                     type="password"
                 />
             </Col>
         </FormGroup>
         <FormGroup
-            row={true}
             tag="div"
         >
             <Col
                 sm={
                     Object {
-                        "offset": 5,
-                        "size": 3,
+                        "offset": 4,
+                        "size": 4,
                       }
                 }
                 tag="div"
@@ -165,14 +161,13 @@ Array [
             </Col>
         </FormGroup>
         <FormGroup
-            row={true}
             tag="div"
         >
             <Col
                 sm={
                     Object {
-                        "offset": 5,
-                        "size": 3,
+                        "offset": 4,
+                        "size": 4,
                       }
                 }
                 tag="div"

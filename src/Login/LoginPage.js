@@ -77,14 +77,14 @@ export class Login extends React.Component { // exports unconnected component; u
 
   emailId() {
     const { email, submitted } = this.state
-    return <FormGroup row>
-      <Label for="email" sm={{size: 1, offset: 4}}>Email_Id</Label>
-      <Col sm={3}>
+    return <FormGroup>
+      <Col sm={{size: 4, offset: 4}}>
+        <Label for="email" >Email id</Label>
         <Input
           id="email"
           type="email"
           name="email"
-          placeholder="email id here"
+          title="email id here"
           defaultValue={email}
           onChange={this.handleChange.bind(this)}
         />
@@ -95,14 +95,14 @@ export class Login extends React.Component { // exports unconnected component; u
 
   password() {
     const { password, submitted } = this.state
-    return <FormGroup row>
-      <Label sm={{size: 1, offset: 4}}>Password</Label>
-      <Col sm={3}>
+    return <FormGroup>
+      <Col sm={{size: 4, offset: 4}}>
+        <Label for="password">Password</Label>
         <Input
           id="password"
           type="password"
           name="password"
-          placeholder="password here"
+          title="password here"
           defaultValue={password}
           onChange={this.handleChange.bind(this)}
         />
@@ -112,8 +112,8 @@ export class Login extends React.Component { // exports unconnected component; u
   }
 
   buttons1() {
-    return <FormGroup row>
-      <Col sm={{size: 3, offset: 5}}>
+    return <FormGroup>
+      <Col sm={{size: 4, offset: 4}}>
         <Button
           id="submitButton"
           type="submit"
@@ -134,8 +134,8 @@ export class Login extends React.Component { // exports unconnected component; u
   }
 
   buttons2() {
-    return <FormGroup row>
-      <Col sm={{size: 3, offset: 5}}>
+    return <FormGroup>
+      <Col sm={{size: 4, offset: 4}}>
         <Button
           id="newUser"
           color="link"

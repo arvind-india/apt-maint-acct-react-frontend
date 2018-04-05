@@ -80,11 +80,9 @@ export class Register extends React.Component {
         { this.validateForm() }
         <Form id="registerForm" onSubmit={this.handleSubmit}>
           { this.userName() }
-          { this.firstName() }
-          { this.lastName() }
           { this.email() }
+          { this.firstAndLastName() }
           { this.password() }
-          { this.repeatPassword() }
           { this.buttons() }
         </Form>
       </div>
@@ -110,49 +108,47 @@ export class Register extends React.Component {
     this.validationMsg = 'Missing "Required Data"...'
     this.formValid = false
   }
-
+// <Label sm={{size: 1, offset: 4}}>User name</Label>
   userName() {
     const { submitted, user } = this.state
     return <FormGroup row>
-      <Label sm={{size: 1, offset: 4}}>UserName</Label>
-      <Col sm={3}>
+      <Col sm={{size: 4, offset: 4}}>
+        <Label for="userName" size="sm">User name</Label>
         <Input
+          size="sm"
           id="userName"
           type="text"
           name="name"
-          placeholder="User name here"
+          title="User name here"
           onChange={this.handleChange}
         />
         {submitted && !user.name && <FormText color="danger">UserName is required</FormText>}
       </Col>
     </FormGroup>
   }
-  firstName() {
+  firstAndLastName() {
     const { submitted, user } = this.state
     return <FormGroup row>
-      <Label sm={{size: 1, offset: 4}}>FirstName</Label>
-      <Col sm={3}>
+      <Col sm={{size: 2, offset: 4}}>
+        <Label for="firstName" size="sm">First name</Label>
         <Input
+          size="sm"
           id="firstName"
           type="text"
           name="first_name"
-          placeholder="First name here"
+          title="First name here"
           onChange={this.handleChange}
         />
         {submitted && !user.first_name && <FormText color="danger">First Name is required</FormText>}
       </Col>
-    </FormGroup>
-  }
-  lastName() {
-    const { submitted, user } = this.state
-    return <FormGroup row>
-      <Label sm={{size: 1, offset: 4}}>LastName</Label>
-      <Col sm={3}>
+      <Col sm={{size: 2}}>
+        <Label for="lastName" size="sm">Last name</Label>
         <Input
+          size="sm"
           id="lastName"
           type="text"
           name="last_name"
-          placeholder="Last name here"
+          title="Last name here"
           onChange={this.handleChange}
         />
         {submitted && !user.last_name && <FormText color="danger">Last Name is required</FormText>}
@@ -163,13 +159,14 @@ export class Register extends React.Component {
   email() {
     const { submitted, user } = this.state
     return <FormGroup row>
-      <Label sm={{size: 1, offset: 4}}>Email_Id</Label>
-      <Col sm={3}>
+      <Col sm={{size: 4, offset: 4}}>
+        <Label for="email" size="sm">Email id</Label>
         <Input
+          size="sm"
           id="email"
           type="email"
           name="email"
-          placeholder="email id here"
+          title="email id here"
           onChange={this.handleChange}
         />
         {submitted && !user.email && <FormText color="danger">Email-id is required</FormText>}
@@ -177,31 +174,28 @@ export class Register extends React.Component {
     </FormGroup>
   }
   password() {
-    const { submitted, user } = this.state
+    const { submitted, user, confirmPassword } = this.state
     return <FormGroup row>
-      <Label sm={{size: 1, offset: 4}}>Password</Label>
-      <Col sm={3}>
+      <Col sm={{size: 2, offset: 4}}>
+        <Label for="password" size="sm">Password</Label>
         <Input
+          size="sm"
           id="password"
           type="password"
           name="password"
-          placeholder="password here"
+          title="password here"
           onChange={this.handleChange}
         />
         {submitted && !user.password && <FormText color="danger">Password is required</FormText>}
       </Col>
-    </FormGroup>
-  }
-  repeatPassword() {
-    const { submitted, user, confirmPassword } = this.state
-    return <FormGroup row>
-      <Label sm={{size: 1, offset: 4}} title="Repeat password">Repeat_Pwd</Label>
-      <Col sm={3}>
+      <Col sm={{size: 2}}>
+        <Label for="confirmPassword" size="sm">Repeat password</Label>
         <Input
+          size="sm"
           id="confirmPassword"
           type="password"
           name="confirmPassword"
-          placeholder="Repeat password here"
+          title="Repeat password here"
           onChange={this.handleConfirmPasswordChange}
         />
         {submitted && !confirmPassword && <FormText color="danger">Repeat Password is required</FormText>}
@@ -212,7 +206,7 @@ export class Register extends React.Component {
 
   buttons() {
     return <FormGroup row>
-      <Col sm={{size: 3, offset: 5}}>
+      <Col sm={{size: 4, offset: 4}}>
         <Button
           type="submit"
           color="primary"
@@ -228,6 +222,7 @@ export class Register extends React.Component {
         </Button>
         <SocialLoginPage />
       </Col>
+
     </FormGroup>
   }
 

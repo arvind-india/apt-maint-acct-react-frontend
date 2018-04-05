@@ -39,7 +39,7 @@ Array [
                     placeholder="Accounts from this date"
                     tag="p"
                     type="date"
-                    value="2018-02-04"
+                    value="2018-02-05"
                 />
             </div>
             <div
@@ -65,7 +65,7 @@ Array [
                     placeholder="Accounts from this date"
                     tag="p"
                     type="date"
-                    value="2018-04-04"
+                    value="2018-04-05"
                 />
             </div>
         </div>
