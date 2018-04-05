@@ -12,6 +12,7 @@ import {
         } from 'reactstrap'
 
 import { userActions, alertActions } from '../_actions'
+import { FlashMessage } from '../_components'
 
 
 export class ForgotPassword extends React.Component {
@@ -44,7 +45,7 @@ export class ForgotPassword extends React.Component {
     return (
       <div>
         <h2 align="center">Forgot Password</h2>
-        {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
+        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={4000}/>}
         <Form id="forgotPasswordForm" onSubmit={this.handleSubmit}>
           { this.emailId() }
           { this.buttons() }

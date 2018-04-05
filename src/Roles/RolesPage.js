@@ -43,7 +43,7 @@ export class Roles extends React.Component {
     return (
       <div>
         <h3>Roles List</h3>
-        {alert.message && <FlashMessage text={alert.message} delay={5000}/>}
+        {alert.message && <FlashMessage text={alert.message} delay={4000}/>}
         {models.loading && <em>Loading models...}</em>}
         {models.error && <span className="text-danger">ERROR: {models.error}</span>}
         {models.items && authzn && this.showList(models) }

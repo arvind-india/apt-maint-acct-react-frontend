@@ -84,10 +84,11 @@ export class Accounts extends React.Component {
     const { accounts, alert, authzn, users, trackHistory } = this.props
     let models = accounts
     let hist = trackHistory?history:{}
+    // {alert.message && <FlashMessage text={alert.message} delay={3000}/>}
     return (
       <div>
         <h3>Accounts List</h3>
-        {alert.message && <FlashMessage text={alert.message} delay={5000}/>}
+        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={3000}/>}
         <div className="grid-form">{ this.showDates() }</div>
         {models.items && authzn && users.items && this.showList() }
         <Router history={hist}>

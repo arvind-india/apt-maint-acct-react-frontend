@@ -12,6 +12,7 @@ import {
 
 import { userActions as actions, alertActions } from '../_actions'
 import { arrToObj, objToArr } from '../_helpers'
+import { FlashMessage } from '../_components'
 
 let module = 'users' // module name
 
@@ -192,7 +193,7 @@ export class UserDetails extends React.Component {
     return (
       <div>
         <h2>{title}</h2>
-        {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
+        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={4000}/>}
         {this.validateForm()}
         {this.show(model, infos)}
       </div>

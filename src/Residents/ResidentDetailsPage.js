@@ -14,6 +14,7 @@ import {
 
 import { residentActions as actions, alertActions, userActions } from '../_actions'
 import { RESIDENT_TYPES } from '../_constants'
+import { FlashMessage } from '../_components'
 
 let module = 'residents' // module name
 
@@ -67,7 +68,7 @@ export class ResidentDetails extends React.Component {
     return (
       <div>
         <h2>Resident Details</h2>
-        {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
+        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={4000}/>}
         {this.validateForm()}
         {users.items && this.show()}
       </div>

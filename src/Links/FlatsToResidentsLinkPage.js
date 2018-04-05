@@ -50,7 +50,7 @@ export class FlatsToResidentsLink extends React.Component {
     return (
       <div>
         <h3>Flats To Residents Link</h3>
-        {alert.message && <FlashMessage text={alert.message} delay={5000}/>}
+        {alert.message && <FlashMessage text={alert.message} delay={4000}/>}
         {this.show()}
       </div>
     )
@@ -254,7 +254,7 @@ export class FlatsToResidentsLink extends React.Component {
         residents.items
     }
     return <Input
-      id="detachedItems"      
+      id="detachedItems"
       type="select"
       name="detachedItems"
       size="20"

@@ -5,7 +5,7 @@ import jwtDecode from 'jwt-decode'
 
 import { userActions as actions } from '../_actions'
 import { UserDetailsPage } from './'
-
+import { FlashMessage } from '../_components'
 
 export class UserProfile extends React.Component {
 
@@ -21,7 +21,7 @@ export class UserProfile extends React.Component {
     const { alert, userProfile } = this.props
     return (
       <div>
-        { alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div> }
+        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={4000}/>}
         { userProfile.loading && <em>User Profile is loading ....</em> }
         { userProfile.error && <span className="text-danger">ERROR: {userProfile.error}</span> }
         { userProfile.data && <UserDetailsPage location={this.location()} />}

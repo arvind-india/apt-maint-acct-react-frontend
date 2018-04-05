@@ -54,11 +54,12 @@ class AppNavbar extends React.Component {
   }
 
   render() {
-    const { user, location, match } = this.props
-    if(location) console.log('location: ', location)
-    else console.log('location NOT AVAILABLE')
-    if(match) console.log('match: ', match)
-    else console.log('match NOT AVAILABLE')
+    const { user } = this.props
+    //const { user, location, match } = this.props
+    //if(location) console.log('location: ', location)
+    //else console.log('location NOT AVAILABLE')
+    //if(match) console.log('match: ', match)
+    //else console.log('match NOT AVAILABLE')
     const baz = () => <NavLink
                         className="navbar-brand"
                         tag={NavLinkRRD}

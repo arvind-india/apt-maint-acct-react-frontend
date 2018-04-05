@@ -13,6 +13,7 @@ import {
 
 import { userActions, alertActions } from '../_actions'
 import { SocialLoginPage } from '../Login'
+import { FlashMessage } from '../_components'
 
 export class Register extends React.Component {
   constructor(props) {
@@ -72,11 +73,12 @@ export class Register extends React.Component {
   }
   render() {
     // const { user, submitted, confirmPassword } = this.state
+    //{ alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div> }
     const { alert } = this.props
     return (
       <div>
         <h2 align="center">Register</h2>
-        { alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div> }
+        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={4000}/>}
         { this.validateForm() }
         <Form id="registerForm" onSubmit={this.handleSubmit}>
           { this.userName() }

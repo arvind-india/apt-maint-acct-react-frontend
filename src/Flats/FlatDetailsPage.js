@@ -13,6 +13,7 @@ import {
 } from 'reactstrap'
 
 import { flatActions as actions, alertActions } from '../_actions'
+import { FlashMessage } from '../_components'
 //import { MODULES } from '../_constants'
 
 let module = 'flats' // module name
@@ -94,7 +95,7 @@ export class FlatDetails extends React.Component {
     return (
       <div>
         <h2>Flat Details</h2>
-        {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
+        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={3000}/>}
         {this.validateForm()}
         {this.show()}
       </div>

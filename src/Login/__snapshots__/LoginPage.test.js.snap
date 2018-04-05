@@ -8,11 +8,11 @@ Array [
     >
         Login
     </h2>
-    <div
-        className="alert undefined"
-    >
-        testingAlert
-    </div>
+    <FlashMessage
+        color={undefined}
+        delay={4000}
+        text="testingAlert"
+    />
     <Form
         id="loginForm"
         onSubmit={[Function]}

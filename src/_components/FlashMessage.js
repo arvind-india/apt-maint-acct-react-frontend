@@ -40,7 +40,7 @@ export class FlashMessage extends React.Component {
     return (
       <div>
         <Alert
-          color="info"
+          color={this.props.color}
           isOpen={this.state.visible}
           toggle={this.onDismiss}
           >{this.props.text}</Alert>

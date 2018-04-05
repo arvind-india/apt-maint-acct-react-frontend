@@ -12,6 +12,7 @@ import {
         } from 'reactstrap'
 
 import { userActions, alertActions } from '../_actions'
+import { FlashMessage } from '../_components'
 
 export class ResetPassword extends React.Component {
   constructor(props) {
@@ -50,7 +51,7 @@ export class ResetPassword extends React.Component {
     return (
       <div>
         <h2 align="center">Reset Password</h2>
-        {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
+        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={4000}/>}
         <Form id="resetPasswordForm" onSubmit={this.handleSubmit}>
           { this.password() }
           { this.repeatPassword() }

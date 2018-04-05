@@ -15,6 +15,7 @@ import {
 } from 'reactstrap'
 
 import { roleActions as actions, alertActions } from '../_actions'
+import { FlashMessage } from '../_components'
 
 let module = 'roles' // module name
 
@@ -48,7 +49,7 @@ export class RoleDetails extends React.Component {
     return (
       <div>
         <h2>Role Details</h2>
-        {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
+        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={4000}/>}
         {this.validateForm()}
         {this.show()}
       </div>

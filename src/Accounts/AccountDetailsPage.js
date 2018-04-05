@@ -18,6 +18,7 @@ import { accountActions as actions,
 } from '../_actions'
 
 import { CATEGORIES, MONTHS } from '../_constants'
+import { FlashMessage } from '../_components'
 
 let module = 'accounts' // module name
 
@@ -73,13 +74,13 @@ export class AccountDetails extends React.Component {
 
     return true // can save changes
   }
-
+//{ alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div> }
   render() {
     const { alert } = this.props
     return (
       <div>
         <h2>Account Details</h2>
-        { alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div> }
+        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={3000}/>}
         { this.validateForm() }
         { this.show() }
       </div>

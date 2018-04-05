@@ -7,7 +7,7 @@ Array [
         Users List
     </h3>
     <FlashMessage
-        delay={5000}
+        delay={4000}
         text="testingAlert"
     />
     <Table

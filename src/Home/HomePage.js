@@ -6,6 +6,7 @@ import jwtDecode from 'jwt-decode'
 import moment from 'moment'
 
 import { userActions, alertActions } from '../_actions'
+import { FlashMessage } from '../_components'
 
 class HomePage extends React.Component {
 
@@ -46,7 +47,7 @@ class HomePage extends React.Component {
     return (
       <div>
         <h2>Welcome to Account Tracking Website</h2>
-        {alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div>}
+        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={4000}/>}
         {user && this.showDecodedJWT(user.id_token)}
         <p>
           {user

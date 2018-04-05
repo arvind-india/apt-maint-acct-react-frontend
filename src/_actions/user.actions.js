@@ -34,9 +34,12 @@ function login(username, password) {
           dispatch(authzn.getAll()) // get all authorizations/permissions for this logged user
         },
         error => {
+          console.error(error.response)
           dispatch(failure(error.response))
-          // dispatch(alertActions.error(error.response.statusText))
-          dispatch(alertActions.error(error.response))
+          dispatch(alertActions.error(error.response.statusText))
+          //dispatch(alertActions.error(error.response))
+          //dispatch(failure(error.response))
+          //dispatch(alertActions.error(error.response.statusText))
         }
       )
   }

@@ -7,7 +7,8 @@ Array [
         Accounts List
     </h3>
     <FlashMessage
-        delay={5000}
+        color={undefined}
+        delay={3000}
         text="testingAlert"
     />
     <div

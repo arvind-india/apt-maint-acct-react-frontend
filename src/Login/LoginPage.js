@@ -13,6 +13,7 @@ import {
 
 import { userActions, alertActions } from '../_actions'
 import SocialLoginPage  from './SocialLoginPage'
+import { FlashMessage } from '../_components'
 
 export class Login extends React.Component { // exports unconnected component; used in unit testing
   constructor(props) {
@@ -45,12 +46,16 @@ export class Login extends React.Component { // exports unconnected component; u
       this.props.login(email, password)
     } */
   }
+
+//{ alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div> }
+
   render() {
     const { alert } = this.props
+    //console.log('alert object: ', alert)
     return (
       <div>
         <h2 align="center">Login</h2>
-        { alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div> }
+        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={4000}/>}
         { this.validateForm() }
         <Form id="loginForm" onSubmit={this.handleSubmit}>
           { this.emailId() }

@@ -6,11 +6,11 @@ Array [
     <h2>
         Flat Details
     </h2>
-    <div
-        className="alert undefined"
-    >
-        testingAlert
-    </div>
+    <FlashMessage
+        color={undefined}
+        delay={3000}
+        text="testingAlert"
+    />
     <Form
         className="grid-form"
         id="flatDetailsForm"
