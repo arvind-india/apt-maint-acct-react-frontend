@@ -37,33 +37,23 @@ export class Accounts extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleDeleteModel = this.handleDeleteModel.bind(this)
   }
-/*  fromDate() {
-    let date = sessionStorage.getItem('fromDate')
+  fromDate() {
+    // let date = sessionStorage.getItem('fromDate')
+    let date = this.props.getSessionStorage('fromDate')
     if(!date) {
       date = this.date(DEFAULTS.AccountsInMonths)
     }
     return date
-  } */
-  fromDate() {
-    return this.props.trackHistory ?
-        sessionStorage.getItem('fromDate') :
-        this.date(DEFAULTS.AccountsInMonths)
   }
-/*
+
   toDate() {
-    let date = sessionStorage.getItem('toDate')
+    // let date = sessionStorage.getItem('toDate')
+    let date = this.props.getSessionStorage('toDate')
     if(!date) {
       date = this.date()
     }
     return date
-  } */
-
-  toDate() {
-    return this.props.trackHistory ?
-      sessionStorage.getItem('toDate') :
-      this.date()
   }
-
 
   date(deduct=0) {
     let today = new Date()
@@ -261,6 +251,9 @@ function mapDispatchToProps(dispatch) {
     },
     setSessionStorage: (key, value) => {
       sessionStorage.setItem(key, value)
+    },
+    getSessionStorage: (key) => {
+      sessionStorage.getItem(key)
     }
   }
 }

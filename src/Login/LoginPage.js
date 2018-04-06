@@ -84,8 +84,9 @@ export class Login extends React.Component { // exports unconnected component; u
     const { email, submitted } = this.state
     return <FormGroup>
       <Col sm={{size: 4, offset: 4}}>
-        <Label for="email" >Email id</Label>
+        <Label for="email" size="sm">Email id</Label>
         <Input
+          size="sm"
           id="email"
           type="email"
           name="email"
@@ -102,8 +103,9 @@ export class Login extends React.Component { // exports unconnected component; u
     const { password, submitted } = this.state
     return <FormGroup>
       <Col sm={{size: 4, offset: 4}}>
-        <Label for="password">Password</Label>
+        <Label for="password" size="sm">Password</Label>
         <Input
+          size="sm"
           id="password"
           type="password"
           name="password"

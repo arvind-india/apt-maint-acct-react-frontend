@@ -67,7 +67,8 @@ const mockProps = {
   getAll: jest.fn(),
   delete: jest.fn(),
   getListFor: jest.fn(),
-  setSessionStorage: jest.fn()
+  setSessionStorage: jest.fn(),
+  getSessionStorage: jest.fn()
 }
 
 const component = shallow(<Accounts {...mockProps} />)

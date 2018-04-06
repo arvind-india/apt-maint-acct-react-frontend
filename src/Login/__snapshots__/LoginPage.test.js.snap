@@ -41,6 +41,7 @@ Array [
             >
                 <Label
                     for="email"
+                    size="sm"
                     tag="label"
                     widths={
                         Array [
@@ -59,6 +60,7 @@ Array [
                     id="email"
                     name="email"
                     onChange={[Function]}
+                    size="sm"
                     tag="p"
                     title="email id here"
                     type="email"
@@ -88,6 +90,7 @@ Array [
             >
                 <Label
                     for="password"
+                    size="sm"
                     tag="label"
                     widths={
                         Array [
@@ -106,6 +109,7 @@ Array [
                     id="password"
                     name="password"
                     onChange={[Function]}
+                    size="sm"
                     tag="p"
                     title="password here"
                     type="password"
