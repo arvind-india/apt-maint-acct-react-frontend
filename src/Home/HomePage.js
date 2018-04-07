@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Jumbotron, Container } from 'reactstrap'
+import { Jumbotron, Container, Row, Col } from 'reactstrap'
 import jwtDecode from 'jwt-decode'
 import moment from 'moment'
 
@@ -50,11 +50,12 @@ export class Home extends React.Component {
         {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={2100}/>}
         <Jumbotron fluid>
           <Container fluid>
+            <Col sm={{offset: 2, size: 8}}>
             <h1 className="display-5 text-center">Welcome</h1>
             <h1 className="display-6 text-center">to</h1>
             <h1 className="display-5 text-center">Apartment Maintenance Account</h1>
             <hr/>
-            <p className="lead">A demo application developed in React, Redux</p>
+            <p className="lead text-center">A demo application developed in React, Redux, ...</p>
             <hr/>
             <h5>It is intended</h5>
             <ul>
@@ -62,17 +63,29 @@ export class Home extends React.Component {
               <li>To ensure any-time-access to transactions in the maintenance account<br/></li>
               <li>To enable transparency<br/></li>
             </ul>
+          </Col>
           </Container>
         </Jumbotron>
-        {user && this.showDecodedJWT(user.id_token)}
-        <p>
-          {user && this.isJWTExpired(user.id_token) && this.exitApp()}
-        </p>
-        <DisqusThread
-          id="12345-12335-123123-1231312-1"
-          title="React Demo"
-          path="/blog/123-disquss-integration"
-        />
+        <Container>
+          <Row>
+            <Col sm={{offset: 2, size: 8}}>
+              {user && this.showDecodedJWT(user.id_token)}
+              <p>
+                {user && this.isJWTExpired(user.id_token) && this.exitApp()}
+              </p>
+            </Col>
+          </Row>
+
+          <Row>
+            <Col sm={{offset: 3, size: 6}}>
+              <DisqusThread
+                id="12345-12335-123123-1231312-1"
+                title="React Demo"
+                path="/blog/123-disquss-integration"
+              />
+            </Col>
+          </Row>
+        </Container>
       </div>
     )
   }
