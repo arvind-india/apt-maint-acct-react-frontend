@@ -56,7 +56,7 @@ export class UserDetails extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
 
     //dispatch(alertActions.clear())  // clear alert messages from other pages
-    this.props.clearAlert() // clear alert messages from other pages
+    //this.props.clearAlert() // clear alert messages from other pages
   }
   componentDidMount() {
     //const { dispatch, location, getById } = this.props
@@ -193,7 +193,7 @@ export class UserDetails extends React.Component {
     return (
       <div>
         <h2>{title}</h2>
-        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={4000}/>}
+        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={2100}/>}
         {this.validateForm()}
         {this.show(model, infos)}
       </div>

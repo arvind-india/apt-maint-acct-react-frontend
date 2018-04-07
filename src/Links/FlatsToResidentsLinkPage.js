@@ -50,7 +50,7 @@ export class FlatsToResidentsLink extends React.Component {
     return (
       <div>
         <h3>Flats To Residents Link</h3>
-        {alert.message && <FlashMessage text={alert.message} delay={4000}/>}
+        {alert.message && <FlashMessage text={alert.message} delay={2100}/>}
         {this.show()}
       </div>
     )

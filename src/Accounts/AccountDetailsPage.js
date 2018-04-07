@@ -45,7 +45,7 @@ export class AccountDetails extends React.Component {
     this.state = {
       model: initializeModel,           // model to edit
       submitted: false,
-      adding: model.id === "0"
+      adding: model.id === 0
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleCategoryChange = this.handleCategoryChange.bind(this)
@@ -56,7 +56,7 @@ export class AccountDetails extends React.Component {
     //dispatch(flatActions.getAll())
     //dispatch(alertActions.clear())  // clear alert messages from other pages
     this.props.getAllFlats()
-    this.props.clearAlert()
+    //this.props.clearAlert()
   }
 
   canBeSaved() { // check for changes in model, if changes present, it can save
@@ -80,7 +80,7 @@ export class AccountDetails extends React.Component {
     return (
       <div>
         <h2>Account Details</h2>
-        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={3000}/>}
+        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={2100}/>}
         { this.validateForm() }
         { this.show() }
       </div>
@@ -461,9 +461,9 @@ function mapDispatchToProps(dispatch) {
     getAllFlats: () => {
       dispatch(flatActions.getAll())
     },
-    clearAlert: () => {
+/*    clearAlert: () => {
       dispatch(alertActions.clear())
-    },
+    }, */
     saveChanges: (model) => {
       dispatch(actions.saveChanges(model))
     },

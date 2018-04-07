@@ -11,7 +11,7 @@ import {
           Col
         } from 'reactstrap'
 
-import { userActions, alertActions } from '../_actions'
+import { userActions } from '../_actions'
 import SocialLoginPage  from './SocialLoginPage'
 import { FlashMessage } from '../_components'
 
@@ -21,7 +21,7 @@ export class Login extends React.Component { // exports unconnected component; u
 
     // reset login status
     this.props.logout()
-    this.props.clearAlert()
+/*    this.props.clearAlert() */
 
     this.state = {
       email: 'guest@eastgate.in',
@@ -55,7 +55,7 @@ export class Login extends React.Component { // exports unconnected component; u
     return (
       <div>
         <h2 align="center">Login</h2>
-        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={4000}/>}
+        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={2100}/>}
         { this.validateForm() }
         <Form id="loginForm" onSubmit={this.handleSubmit}>
           { this.emailId() }
@@ -183,10 +183,11 @@ function mapDispatchToProps(dispatch) {
     },
     logout: () => {
       dispatch(userActions.logout())
-    },
+    }
+    /*,
     clearAlert: () => {
       dispatch(alertActions.clear())
-    }
+    }*/
   }
 }
 

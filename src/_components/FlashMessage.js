@@ -50,5 +50,5 @@ export class FlashMessage extends React.Component {
 }
 
 FlashMessage.defaultProps = {
-  delay: 1000  // in milliseconds
+  delay: 2000  // in milliseconds
 }

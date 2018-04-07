@@ -78,7 +78,7 @@ export class Register extends React.Component {
     return (
       <div>
         <h2 align="center">Register</h2>
-        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={4000}/>}
+        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={2100}/>}
         { this.validateForm() }
         <Form id="registerForm" onSubmit={this.handleSubmit}>
           { this.userName() }

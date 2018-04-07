@@ -33,13 +33,13 @@ export class FlatDetails extends React.Component {
     this.state = {
       model: initializeModel,           // model to edit
       submitted: false,
-      adding: model.id === "0"
+      adding: model.id === 0
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
 
     //dispatch(alertActions.clear())  // clear alert messages from other pages
-    this.props.clearAlert()
+    //this.props.clearAlert()
   }
   handleSubmit(event) {
     const { model } = this.state
@@ -95,7 +95,7 @@ export class FlatDetails extends React.Component {
     return (
       <div>
         <h2>Flat Details</h2>
-        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={3000}/>}
+        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={2100}/>}
         {this.validateForm()}
         {this.show()}
       </div>
@@ -152,7 +152,7 @@ export class FlatDetails extends React.Component {
         <Input
           id="blockNumber"
           type="text"
-          name="blockNumber"
+          name="block_number"
           value={model.block_number}
           placeholder="<block number here>"
           title="Block Number"
@@ -170,7 +170,7 @@ export class FlatDetails extends React.Component {
         <Input
           id="flatNumber"
           type="text"
-          name="flatNumber"
+          name="flat_number"
           value={model.flat_number}
           placeholder="Description here"
           className="inputField"
@@ -195,9 +195,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    clearAlert: () => {
+/*    clearAlert: () => {
       dispatch(alertActions.clear())
-    },
+    }, */
     saveChanges: (model) => {
       dispatch(actions.saveChanges(model))
     },

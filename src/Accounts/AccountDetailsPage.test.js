@@ -50,7 +50,7 @@ const mockProps = [
       condition: ''
     },
     getAllFlats: jest.fn(),
-    clearAlert: jest.fn(),
+//    clearAlert: jest.fn(),
     saveChanges: jest.fn(),
     error: jest.fn(),
     accounts: {
@@ -117,10 +117,10 @@ describe('AccountsPage params test', () => {
 
 
 describe('AccountDetailsPage events test 1', () => {
-  it('should call clearAlert on submit and no crash', () => {
+/*  it('should call clearAlert on submit and no crash', () => {
     component.find('#accountDetailsForm').simulate('submit', { preventDefault() {} })
     expect(mockProps[0].clearAlert.mock.calls.length).toEqual(1)
-  })
+  }) */
 
   it('should be called with required states as arguments', () => {
     component.find('#recorded_at').simulate('change', {target: mocks[0].recorded_at})
@@ -134,7 +134,7 @@ describe('AccountDetailsPage events test 1', () => {
     component.find('#category').simulate('change', mocks[0].category)
     component.find('#remarks').simulate('change', {target: mocks[0].remarks})
     component.find('#accountDetailsForm').simulate('submit', { preventDefault() {} })
-    expect(mockProps[0].saveChanges.mock.calls[1][0]).toEqual(mockAccounts[0])
+    expect(mockProps[0].saveChanges.mock.calls[0][0]).toEqual(mockAccounts[0])
   })
 
 

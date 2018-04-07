@@ -37,7 +37,7 @@ export class ResidentDetails extends React.Component {
     this.state = {
       model: initializeModel,           // model to edit
       submitted: false,
-      adding: model.id === "0"
+      adding: model.id === 0
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleUserNameChange = this.handleUserNameChange.bind(this)
@@ -45,7 +45,7 @@ export class ResidentDetails extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
 
     //dispatch(alertActions.clear())  // clear alert messages from other pages
-    this.props.clearAlert()
+    //this.props.clearAlert()
   }
 
   componentDidMount() {
@@ -68,7 +68,7 @@ export class ResidentDetails extends React.Component {
     return (
       <div>
         <h2>Resident Details</h2>
-        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={4000}/>}
+        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={2100}/>}
         {this.validateForm()}
         {users.items && this.show()}
       </div>
@@ -170,7 +170,7 @@ console.log('Resident model to be saved: ', model)
 				<Label>User Name</Label>
         <Select
           id="ownerId"
-          name="ownerId"
+          name="owner_id"
           value={model.owner_id}
           multi={false}
           joinValues={false}
@@ -196,12 +196,13 @@ console.log('Resident model to be saved: ', model)
   }
   showFirstName() {
     const { submitted, model } = this.state
+    //console.log('model is:..... ', model)
     return <div data-field-span="1">
 				<Label>First Name</Label>
         <Input
           id="firstName"
           type="text"
-          name="firstName"
+          name="first_name"
           value={model.first_name}
           placeholder="First Name here"
           className="inputField"
@@ -230,7 +231,7 @@ console.log('Resident model to be saved: ', model)
         <Input
           id="lastName"
           type="text"
-          name="lastName"
+          name="last_name"
           value={model.last_name}
           placeholder="Last Name here"
           className="inputField"
@@ -246,7 +247,7 @@ console.log('Resident model to be saved: ', model)
 				<Label>Resident Type</Label>
         <Select
           id="isA"
-          name="isA"
+          name="is_a"
           value={model.is_a}
           multi={false}
           joinValues={false}
@@ -318,9 +319,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    clearAlert: () => {
+/*    clearAlert: () => {
       dispatch(alertActions.clear())
-    },
+    }, */
     saveChanges: (model) => {
       dispatch(actions.saveChanges(model))
     },

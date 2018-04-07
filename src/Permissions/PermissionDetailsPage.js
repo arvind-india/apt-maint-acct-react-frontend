@@ -35,7 +35,7 @@ export class PermissionDetails extends React.Component {
     this.state = {
       model: initializeModel,           // model to edit
       submitted: false,
-      adding: model.id === "0",
+      adding: model.id === 0,
       cPerm: ops.includes('C'), // create permission
       rPerm: ops.includes('R'), // read permission
       uPerm: ops.includes('U'), // update permission
@@ -47,7 +47,7 @@ export class PermissionDetails extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this)
 
     //dispatch(alertActions.clear())  // clear alert messages from other pages
-    this.props.clearAlert()
+    //this.props.clearAlert()
   }
   handleSubmit(event) {
     const { model } = this.state
@@ -153,7 +153,7 @@ export class PermissionDetails extends React.Component {
     return (
       <div>
         <h2>Permission Details</h2>
-        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={4000}/>}
+        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={2100}/>}
         {this.validateForm()}
         {this.show()}
       </div>
@@ -262,7 +262,7 @@ export class PermissionDetails extends React.Component {
       <Label>Resource</Label>
       <Select
         id="resource"
-        name="form-field-name"
+        name="resource"
         value={model.resource}
         simpleValue={true}
         placeholder="Select a Resource..."
@@ -323,9 +323,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    clearAlert: () => {
+/*    clearAlert: () => {
       dispatch(alertActions.clear())
-    },
+    }, */
     saveChanges: (model) => {
       dispatch(actions.saveChanges(model))
     },

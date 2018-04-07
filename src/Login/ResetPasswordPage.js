@@ -51,7 +51,7 @@ export class ResetPassword extends React.Component {
     return (
       <div>
         <h2 align="center">Reset Password</h2>
-        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={4000}/>}
+        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={2100}/>}
         <Form id="resetPasswordForm" onSubmit={this.handleSubmit}>
           { this.password() }
           { this.repeatPassword() }

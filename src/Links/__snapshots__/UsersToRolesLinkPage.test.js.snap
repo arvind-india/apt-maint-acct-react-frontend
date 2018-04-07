@@ -7,7 +7,7 @@ Array [
         Users To Roles Link
     </h3>
     <FlashMessage
-        delay={4000}
+        delay={2100}
         text="testingAlert"
     />
     <div

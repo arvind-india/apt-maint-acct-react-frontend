@@ -8,7 +8,7 @@ Array [
     </h2>
     <FlashMessage
         color={undefined}
-        delay={3000}
+        delay={2100}
         text="testingAlert"
     />
     <Form
@@ -44,7 +44,7 @@ Array [
                     <Input
                         className="inputField"
                         id="blockNumber"
-                        name="blockNumber"
+                        name="block_number"
                         onChange={[Function]}
                         placeholder="<block number here>"
                         tag="p"
@@ -73,7 +73,7 @@ Array [
                     <Input
                         className="inputField"
                         id="flatNumber"
-                        name="flatNumber"
+                        name="flat_number"
                         onChange={[Function]}
                         placeholder="Description here"
                         tag="p"

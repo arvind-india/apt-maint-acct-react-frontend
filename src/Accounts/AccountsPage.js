@@ -78,7 +78,7 @@ export class Accounts extends React.Component {
     return (
       <div>
         <h3>Accounts List</h3>
-        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={3000}/>}
+        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={2100}/>}
         <div className="grid-form">{ this.showDates() }</div>
         {models.items && authzn && users.items && this.showList() }
         <Router history={hist}>

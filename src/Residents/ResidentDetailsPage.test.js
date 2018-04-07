@@ -35,7 +35,7 @@ const mockProps = [
       allowsDelete: true,
       condition: ''
     },
-    clearAlert: jest.fn(),
+//    clearAlert: jest.fn(),
     saveChanges: jest.fn(),
     error: jest.fn(),
     residents: {
@@ -57,7 +57,7 @@ const mockProps = [
       allowsDelete: true,
       condition: ''
     },
-    clearAlert: jest.fn(),
+//    clearAlert: jest.fn(),
     saveChanges: jest.fn(),
     error: jest.fn(),
     residents: {
@@ -129,10 +129,10 @@ describe('ResidentsPage params test', () => {
 
 
 describe('ResidentDetailsPage events test 1', () => {
-  it('should call clearAlert on submit and no crash', () => {
+/*  it('should call clearAlert on submit and no crash', () => {
     component.find('#residentDetailsForm').simulate('submit', {preventDefault() {}})
     expect(mockProps[0].clearAlert.mock.calls.length).toEqual(1)
-  })
+  }) */
 
   it('should be called with required states as arguments', () => {
     component.find('#ownerId').simulate('change', mocks[0].ownerId)
@@ -142,7 +142,7 @@ describe('ResidentDetailsPage events test 1', () => {
     component.find('#occupiedOn').simulate('change', {target: mocks[0].occupiedOn})
     component.find('#vacatedOn').simulate('change', {target: mocks[0].vacatedOn})
     component.find('#residentDetailsForm').simulate('submit', {preventDefault() {}})
-    expect(mockProps[0].saveChanges.mock.calls[1][0]).toEqual(mockResidents[0])
+    expect(mockProps[0].saveChanges.mock.calls[0][0]).toEqual(mockResidents[0])
   })
 
 })

@@ -8,7 +8,7 @@ Array [
     </h2>
     <FlashMessage
         color={undefined}
-        delay={4000}
+        delay={2100}
         text="testingAlert"
     />
     <Form
@@ -68,7 +68,7 @@ Array [
                         menuBuffer={0}
                         menuRenderer={[Function]}
                         multi={false}
-                        name="ownerId"
+                        name="owner_id"
                         noResultsText="No results found"
                         onBlurResetsInput={true}
                         onChange={[Function]}
@@ -148,7 +148,7 @@ Array [
                         menuBuffer={0}
                         menuRenderer={[Function]}
                         multi={false}
-                        name="isA"
+                        name="is_a"
                         noResultsText="No results found"
                         onBlurResetsInput={true}
                         onChange={[Function]}
@@ -219,7 +219,7 @@ Array [
                     <Input
                         className="inputField"
                         id="firstName"
-                        name="firstName"
+                        name="first_name"
                         onChange={[Function]}
                         placeholder="First Name here"
                         tag="p"
@@ -247,7 +247,7 @@ Array [
                     <Input
                         className="inputField"
                         id="lastName"
-                        name="lastName"
+                        name="last_name"
                         onChange={[Function]}
                         placeholder="Last Name here"
                         tag="p"

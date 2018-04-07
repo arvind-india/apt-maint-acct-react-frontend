@@ -45,7 +45,7 @@ export class Residents extends React.Component {
     return (
       <div>
         <h3>Residents List</h3>
-        {alert.message && <FlashMessage text={alert.message} delay={5000}/>}
+        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={2100}/>}
         {models.loading && <em>Loading models...}</em>}
         {models.error && <span className="text-danger">ERROR: {models.error}</span>}
         {models.items && authzn && users.items && this.showList() }

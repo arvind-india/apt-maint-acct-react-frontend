@@ -34,14 +34,14 @@ export class RoleDetails extends React.Component {
     this.state = {
       model: initializeModel,           // model to edit
       submitted: false,
-      adding: model.id==="0"
+      adding: model.id===0
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleInheritsChange = this.handleInheritsChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
 
     //dispatch(alertActions.clear())  // clear alert messages from other pages
-    this.props.clearAlert()
+    //this.props.clearAlert()
   }
 
   render() {
@@ -49,7 +49,7 @@ export class RoleDetails extends React.Component {
     return (
       <div>
         <h2>Role Details</h2>
-        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={4000}/>}
+        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={2100}/>}
         {this.validateForm()}
         {this.show()}
       </div>
@@ -242,9 +242,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    clearAlert: () => {
+/*    clearAlert: () => {
       dispatch(alertActions.clear())
-    },
+    }, */
     saveChanges: (model) => {
       dispatch(actions.saveChanges(model))
     },

@@ -11,7 +11,7 @@ import {
           Col
         } from 'reactstrap'
 
-import { userActions, alertActions } from '../_actions'
+import { userActions } from '../_actions'
 import { FlashMessage } from '../_components'
 
 
@@ -20,7 +20,7 @@ export class ForgotPassword extends React.Component {
     super(props)
     // reset login status
     this.props.logout()
-    this.props.clearAlert()
+/*    this.props.clearAlert() */
     this.state = {
       email: '',
       submitted: false
@@ -45,7 +45,7 @@ export class ForgotPassword extends React.Component {
     return (
       <div>
         <h2 align="center">Forgot Password</h2>
-        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={4000}/>}
+        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={2100}/>}
         <Form id="forgotPasswordForm" onSubmit={this.handleSubmit}>
           { this.emailId() }
           { this.buttons() }
@@ -100,10 +100,11 @@ function mapDispatchToProps(dispatch) {
     },
     logout: () => {
       dispatch(userActions.logout())
-    },
+    }
+    /*,
     clearAlert: () => {
       dispatch(alertActions.clear())
-    }
+    }  */
   }
 }
 

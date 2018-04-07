@@ -21,7 +21,7 @@ export class Summary extends React.Component {
     return (
       <div>
         <h3>Accounts Summary</h3>
-        {alert.message && <FlashMessage text={alert.message} delay={5000}/>}
+        {alert.message && <FlashMessage text={alert.message} delay={2100}/>}
         {models.items && users.items && this.showList() }
       </div>
     )

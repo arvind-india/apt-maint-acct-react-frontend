@@ -6,7 +6,7 @@ import { Router, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 import { history } from './_helpers'
-//import { alertActions } from './_actions'
+import { alertActions } from './_actions'
 import { PrivateRoute } from './_components'
 import { HomePage } from './Home'
 import { LoginPage, ForgotPasswordPage, ResetPasswordPage } from './Login'
@@ -26,10 +26,10 @@ import { AppNavbar } from './AppNavbar'
 class App extends Component {
   constructor(props) {
     super(props)
-//    const { dispatch } = this.props
+    const { dispatch } = this.props
     history.listen((location, action) => {
       // clear alert on location change
-      // dispatch(alertActions.clear())
+      dispatch(alertActions.clear())
     })
   }
 

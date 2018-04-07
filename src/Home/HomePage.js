@@ -8,19 +8,29 @@ import moment from 'moment'
 import { userActions, alertActions } from '../_actions'
 import { FlashMessage } from '../_components'
 
-class HomePage extends React.Component {
+export class Home extends React.Component {
 
   constructor(props) {
     super(props)
     this.handleLogout = this.handleLogout.bind(this)
   }
+/*  componentDidMount() {
+    const { alert } = this.props
+    this.alertMessage = alert.message
+    this.alertColor = alert.color
+    //this.props.clearAlert() // after extracting alert data, clear it so as to prevent it from re-appearing
+  } */
   handleLogout() {
-    this.props.dispatch(userActions.logout())
-    this.props.dispatch(alertActions.error('You are now Logged out!!'))
+    //this.props.dispatch(userActions.logout())
+    //this.props.dispatch(alertActions.error('You are now Logged out!!'))
+    this.props.logout()
+    this.props.error('You are now logged out!!')
   }
   exitApp() {
-    this.props.dispatch(userActions.logout())
-    this.props.dispatch(alertActions.error('JWT Expired, re-login the Application!'))
+    //this.props.dispatch(userActions.logout())
+    //this.props.dispatch(alertActions.error('JWT Expired, re-login the Application!'))
+    this.props.logout()
+    this.props.error('JWT Expired, re-login the Application!')
   }
   isJWTExpired(token) {
       let tokenExpiration = jwtDecode(token).exp
@@ -40,6 +50,7 @@ class HomePage extends React.Component {
   }
   render() {
     const { user, alert } = this.props
+
     if(user) {
       let jwtDecodedToken = jwtDecode(user.id_token)
       console.log('jwtDecodedToken: ', jwtDecodedToken)
@@ -47,7 +58,7 @@ class HomePage extends React.Component {
     return (
       <div>
         <h2>Welcome to Account Tracking Website</h2>
-        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={4000}/>}
+        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={2100}/>}
         {user && this.showDecodedJWT(user.id_token)}
         <p>
           {user
@@ -71,5 +82,20 @@ function mapStateToProps(state) {
   }
 }
 
-const connectedHomePage = connect(mapStateToProps)(HomePage)
-export { connectedHomePage as HomePage }
+function mapDispatchToProps(dispatch) {
+  return {
+    logout: () => {
+      dispatch(userActions.logout())
+    },
+/*    clearAlert: () => {
+      dispatch(alertActions.clear())
+    }, */
+    error: (msg) => {
+      dispatch(alertActions.error(msg))
+    }
+  }
+}
+
+//const connectedHomePage = connect(mapStateToProps)(HomePage)
+//export { connectedHomePage as HomePage }
+export default connect(mapStateToProps, mapDispatchToProps)(Home)

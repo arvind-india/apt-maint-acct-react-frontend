@@ -7,7 +7,7 @@ Array [
         Accounts Summary
     </h3>
     <FlashMessage
-        delay={5000}
+        delay={2100}
         text="testingAlert"
     />
     <Table

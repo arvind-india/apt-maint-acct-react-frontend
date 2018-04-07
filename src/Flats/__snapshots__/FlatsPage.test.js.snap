@@ -8,7 +8,7 @@ Array [
     </h3>
     <FlashMessage
         color={undefined}
-        delay={3000}
+        delay={2100}
         text="testingAlert"
     />
     <Table

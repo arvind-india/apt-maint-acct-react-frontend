@@ -7,7 +7,7 @@ import {
           FaGithub
 } from 'react-icons/lib/fa' // material design icons
 
-import { userActions, alertActions } from '../_actions'
+import { userActions } from '../_actions'
 
 let hello = require('hellojs/dist/hello.all.js')
 
@@ -26,7 +26,7 @@ export class SocialLogin extends React.Component {
     super(props)
     // reset login status
     this.props.logout()
-    this.props.clearAlert()
+/*    this.props.clearAlert() */
   }
 
   render() {
@@ -103,10 +103,11 @@ function mapDispatchToProps(dispatch) {
     },
     logout: () => {
       dispatch(userActions.logout())
-    },
+    }
+    /*,
     clearAlert: () => {
       dispatch(alertActions.clear())
-    }
+    } */
   }
 }
 

@@ -27,7 +27,7 @@ const mockProps = [
       allowsDelete: true,
       condition: ''
     },
-    clearAlert: jest.fn(),
+//    clearAlert: jest.fn(),
     saveChanges: jest.fn(),
     error: jest.fn(),
     flats: {
@@ -42,7 +42,7 @@ const mockProps = [
       allowsDelete: true,
       condition: ''
     },
-    clearAlert: jest.fn(),
+//    clearAlert: jest.fn(),
     saveChanges: jest.fn(),
     error: jest.fn(),
     flats: {
@@ -100,16 +100,16 @@ describe('FlatsPage params test', () => {
 
 
 describe('FlatDetailsPage events test 1', () => {
-  it('should call clearAlert on submit and no crash', () => {
+/*  it('should call clearAlert on submit and no crash', () => {
     component.find('#flatDetailsForm').simulate('submit', { preventDefault() {} })
     expect(mockProps[0].clearAlert.mock.calls.length).toEqual(1)
-  })
+  })*/
 
   it('should be called with required states as arguments', () => {
     component.find('#blockNumber').simulate('change', {target: mocks[0].blockNumber})
     component.find('#flatNumber').simulate('change', {target: mocks[0].flatNumber}) // calling again to toggle from '' to 'R'
     component.find('#flatDetailsForm').simulate('submit', { preventDefault() {} })
-    expect(mockProps[0].saveChanges.mock.calls[1][0]).toEqual(mockFlats[0])
+    expect(mockProps[0].saveChanges.mock.calls[0][0]).toEqual(mockFlats[0])
   })
 
 })

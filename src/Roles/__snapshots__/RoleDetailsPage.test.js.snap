@@ -8,7 +8,7 @@ Array [
     </h2>
     <FlashMessage
         color={undefined}
-        delay={4000}
+        delay={2100}
         text="testingAlert"
     />
     <Form

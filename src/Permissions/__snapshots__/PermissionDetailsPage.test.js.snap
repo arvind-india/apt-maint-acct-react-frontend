@@ -8,7 +8,7 @@ Array [
     </h2>
     <FlashMessage
         color={undefined}
-        delay={4000}
+        delay={2100}
         text="testingAlert"
     />
     <Form
@@ -210,7 +210,7 @@ Array [
                         menuBuffer={0}
                         menuRenderer={[Function]}
                         multi={false}
-                        name="form-field-name"
+                        name="resource"
                         noResultsText="No results found"
                         onBlurResetsInput={true}
                         onChange={[Function]}

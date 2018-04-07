@@ -95,7 +95,7 @@ export class Flats extends React.Component {
     return (
       <div>
         <h3>Flats List</h3>
-        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={3000}/>}
+        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={2100}/>}
         {models.loading && <em>Loading models...}</em>}
         {models.error && <span className="text-danger">ERROR: {models.error}</span>}
         {models.items && authzn && this.showList(models) }

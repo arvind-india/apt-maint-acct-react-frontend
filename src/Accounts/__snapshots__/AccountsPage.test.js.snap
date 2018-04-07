@@ -8,7 +8,7 @@ Array [
     </h3>
     <FlashMessage
         color={undefined}
-        delay={3000}
+        delay={2100}
         text="testingAlert"
     />
     <div
@@ -40,7 +40,7 @@ Array [
                     placeholder="Accounts from this date"
                     tag="p"
                     type="date"
-                    value="2018-02-06"
+                    value="2018-02-07"
                 />
             </div>
             <div
@@ -66,7 +66,7 @@ Array [
                     placeholder="Accounts from this date"
                     tag="p"
                     type="date"
-                    value="2018-04-06"
+                    value="2018-04-07"
                 />
             </div>
         </div>
