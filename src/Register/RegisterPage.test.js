@@ -7,7 +7,6 @@ import { Register } from './RegisterPage'
 
 const mockUsers = [
   {
-    //id: 1,
     name: 'user1',
     first_name:'user1',
     last_name: 'test',
@@ -16,7 +15,6 @@ const mockUsers = [
     infos: []
   },
   {
-    // id: 2,
     name: 'user2',
     first_name:'user2',
     last_name: 'test',
@@ -24,7 +22,6 @@ const mockUsers = [
     password: 'secret',
     infos: []
   }
-
 ]
 
 const mockProps = [
@@ -78,6 +75,7 @@ const mocks = [
     password: {name: 'password', value: mockUsers[1].password}
   }
 ]
+
 const component = shallow(<Register {...mockProps[0]} location={mockLocations[0]}/>)
 
 describe('UsersPage params test', () => {
@@ -96,9 +94,7 @@ describe('UsersPage params test', () => {
   it('should have submitted state', () => {
     expect(component.state('submitted')).toBeDefined()
   })
-
 })
-
 
 describe('RegisterPage events test1', () => {
   it('should call register on submit and no crash', () => {

@@ -1,12 +1,6 @@
 import { userConstants as constants } from '../_constants'
 
-/*
-let user = JSON.parse(sessionStorage.getItem('user'))
-const initialState = user ? { loggedIn: true, user } : {}
-
-export function authentication(state = initialState, action) {
-  */
-export function authentication(state = {}, action) {  
+export function authentication(state = {}, action) {
   switch(action.type) {
     case constants.LOGIN_REQUEST:
       return {

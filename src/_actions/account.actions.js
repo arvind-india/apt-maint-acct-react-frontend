@@ -4,29 +4,12 @@ import { alertActions } from './'
 import { history } from '../_helpers'
 
 export const accountActions = {
-//  getAll,
   getListFor,
   delete: _delete,
   getById,
   getSummaryList,
   saveChanges
 }
-
-/*
-function getAll() {
-  return dispatch => {
-    dispatch(request())
-    service.getAll()
-      .then(
-        models => dispatch(success(models)),
-        error => dispatch(failure(error+' getting all account models'))
-      )
-  }
-  function request() { return { type: constants.GETALL_REQUEST } }
-  function success(models) { return { type: constants.GETALL_SUCCESS, models } }
-  function failure(error) { return { type: constants.GETALL_FAILURE, error } }
-}
-*/
 
 function getListFor(fromDate, toDate) {
   return dispatch => {
@@ -46,7 +29,7 @@ function getListFor(fromDate, toDate) {
 function _delete(id) {
   return dispatch => {
     dispatch(request(id))
-    console.log('delete request in progress...')
+    // console.log('delete request in progress...')
     service.delete(id)
       .then(
         model => dispatch(success(id)),
@@ -109,8 +92,8 @@ function saveChanges(model) {
           },
           error => {
             let data = error.response.data
-            console.log('error response...')
-            console.log(error.response.data)
+            // console.log('error response...')
+            // console.log(error.response.data)
             let appData;
             if(data.error) { // check if there is a application specific error data enclosed
               appData = data.data
@@ -141,8 +124,8 @@ function saveChanges(model) {
           },
           error => {
             let data = error.response.data
-            console.log('error response...')
-            console.log(error.response.data)
+            // console.log('error response...')
+            // console.log(error.response.data)
             let appData;
             if(data.error) { // check if there is a application specific error data enclosed
               appData = data.data

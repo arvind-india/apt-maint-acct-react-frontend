@@ -49,7 +49,6 @@ describe('FlatsPage params test', () => {
   })
 })
 
-
 describe('FlatsPage rows test', () => {
   let numberOfMockFlats = mockProps.flats.items.length
   let tbody = component.find('tbody')
@@ -57,5 +56,4 @@ describe('FlatsPage rows test', () => {
   it('should have '+numberOfMockFlats+' rows', () => {
     expect(rows.length).toEqual(numberOfMockFlats)
   })
-
 })

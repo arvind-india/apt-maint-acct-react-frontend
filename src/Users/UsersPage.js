@@ -32,7 +32,6 @@ export class Users extends React.Component {
   }
 
   componentDidMount() {
-    // this.props.dispatch(actions.getAll())
     this.props.getAll()
   }
 
@@ -40,7 +39,6 @@ export class Users extends React.Component {
     const { users, alert, authzn, trackHistory } = this.props
     let models = users
     let hist = trackHistory?history:{}
-    //console.log('Users: ', users)
     return (
       <div>
         <h3>Users List</h3>
@@ -57,12 +55,7 @@ export class Users extends React.Component {
     )
   }
 
-/*  handleDeleteModel(id) {
-    this.props.dispatch(actions.delete(id))
-    this.props.dispatch(actions.getAll()) // get list after deletion of a model
-  } */
   showList(models){
-    //const { authzn } = this.props
     return <Table>
       <thead>
         <tr>
@@ -143,9 +136,6 @@ export class Users extends React.Component {
 
   handleDeleteModel(id) {
     if( window.confirm('Are you sure?') ) {
-      console.log('Delete confirmed')
-      // this.props.dispatch(actions.delete(id))
-      // this.props.dispatch(actions.getAll()) // get list after deletion of a model
       this.props.delete(id)
       this.props.getAll() // get list after deletion of a model
     }
@@ -155,7 +145,6 @@ export class Users extends React.Component {
 
 function mapStateToProps(state) {
   const { users, alert, authorizations, authentication } = state
-  //const { user } = authentication
   const user = jwtDecode(authentication.user.id_token) // logged user
   const authzn = authorizations[module]
   const trackHistory = true  // added for unit testing; snapshot to be precise
@@ -178,8 +167,5 @@ function mapDispatchToProps(dispatch) {
     }
   }
 }
-
-// const connectedUsersPage = connect(mapStateToProps)(UsersPage)
-// export { connectedUsersPage as UsersPage }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Users)

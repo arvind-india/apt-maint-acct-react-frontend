@@ -2,7 +2,6 @@ import { axiosClient } from './axios.instance'
 import  'url-search-params-polyfill'
 
 export const accountService = {
-//  getAll,
   getListFor,
   getById,
   getSummaryList,
@@ -16,14 +15,6 @@ let url = '/maintenance-accounts'
 function http() {
   return axiosClient.instance()
 }
-
-/*
-function getAll() {
-  return http().get(url)
-    .then(handleResponse)
-    .catch(handleError)
-}
-*/
 
 function getListFor(fromDate, toDate) {
 
@@ -46,7 +37,7 @@ function getById(id) {
 }
 
 function getSummaryList() {
-  console.log('account service >> getSummaryList()................')
+  // console.log('account service >> getSummaryList()................')
   return http().get(url + '/summary/list')
     .then(handleResponse)
     .catch(handleError)
@@ -72,7 +63,7 @@ function _delete(id) {
 }
 
 function handleResponse(response) {
-  console.log('account service >> handleResponse.......', response)
+  // console.log('account service >> handleResponse.......', response)
   if(!response.data) {
     return Promise.reject(response.statusText)
   }

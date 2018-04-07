@@ -6,12 +6,9 @@ import Select from 'react-select';
 import {
     Form,
     Button,
-//    FormGroup,
     FormText,
     Input,
-    Label,
-//    Col,
-//    FormFeedback
+    Label
 } from 'reactstrap'
 
 import { roleActions as actions, alertActions } from '../_actions'
@@ -39,9 +36,6 @@ export class RoleDetails extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleInheritsChange = this.handleInheritsChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-
-    //dispatch(alertActions.clear())  // clear alert messages from other pages
-    //this.props.clearAlert()
   }
 
   render() {
@@ -170,23 +164,11 @@ export class RoleDetails extends React.Component {
 
   handleSubmit(event) {
     const { model } = this.state
-    //const { dispatch } = this.props
-
     event.preventDefault()
     this.setState({ submitted: true })
     this.props.saveChanges(model)
-/*
-    if ( this.changedProps().length === 0 ) {
-      dispatch(alertActions.error('No changes found...'))
-    } else if( this.canBeSaved() ) {
-      dispatch(actions.saveChanges(model))
-    } else {
-      dispatch(alertActions.error('Missing data'))
-    } */
   }
   validateForm() {
-    //const { password, confirmPassword } = this.state
-
     if ( this.changedProps().length === 0 ) {
       this.validationMsg = 'No changes to save'
       this.formValid = false
@@ -200,7 +182,6 @@ export class RoleDetails extends React.Component {
     // finally, if reached here
     this.validationMsg = 'Missing "Required Data"...'
     this.formValid = false
-
   }
   canBeSaved() { // check for changes in model, if changes present, it can save
     const { model } = this.state
@@ -230,10 +211,8 @@ export class RoleDetails extends React.Component {
 
 function mapStateToProps(state) {
   const { roles, alert, authorizations } = state
-//  const { user } = authentication
   const authzn = authorizations[module]
   return {
-//    user,
     roles,
     alert,
     authzn
@@ -242,9 +221,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-/*    clearAlert: () => {
-      dispatch(alertActions.clear())
-    }, */
     saveChanges: (model) => {
       dispatch(actions.saveChanges(model))
     },
@@ -253,8 +229,5 @@ function mapDispatchToProps(dispatch) {
     }
   }
 }
-
-//const connectedDetailsPage = connect(mapStateToProps)(RoleDetailsPage)
-//export { connectedDetailsPage as RoleDetailsPage }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RoleDetails)

@@ -38,7 +38,6 @@ export class Accounts extends React.Component {
     this.handleDeleteModel = this.handleDeleteModel.bind(this)
   }
   fromDate() {
-    // let date = sessionStorage.getItem('fromDate')
     let date = this.props.getSessionStorage('fromDate')
     if(!date) {
       date = this.date(DEFAULTS.AccountsInMonths)
@@ -47,7 +46,6 @@ export class Accounts extends React.Component {
   }
 
   toDate() {
-    // let date = sessionStorage.getItem('toDate')
     let date = this.props.getSessionStorage('toDate')
     if(!date) {
       date = this.date()
@@ -66,7 +64,6 @@ export class Accounts extends React.Component {
 
   componentDidMount() {
     this.getAccounts()
-    //this.props.dispatch(userActions.getAll())
     this.props.getAll()
   }
 
@@ -74,7 +71,6 @@ export class Accounts extends React.Component {
     const { accounts, alert, authzn, users, trackHistory } = this.props
     let models = accounts
     let hist = trackHistory?history:{}
-    // {alert.message && <FlashMessage text={alert.message} delay={3000}/>}
     return (
       <div>
         <h3>Accounts List</h3>
@@ -122,12 +118,8 @@ export class Accounts extends React.Component {
   }
   getAccounts() {
     const { fromDate, toDate } = this.state
-    //const { dispatch } = this.props
-    //sessionStorage.setItem('fromDate', fromDate)
     this.props.setSessionStorage('fromDate', fromDate)
-    //sessionStorage.setItem('toDate', toDate)
     this.props.setSessionStorage('toDate', toDate)
-    //dispatch(actions.getListFor(fromDate, toDate))
     this.props.getListFor(fromDate, toDate)
   }
   showList(){
@@ -216,8 +208,6 @@ export class Accounts extends React.Component {
   handleDeleteModel(id) {
     const { fromDate, toDate } = this.state
     if( window.confirm('Are you sure?') ) {
-      //this.props.dispatch(actions.delete(id))
-      //this.props.dispatch(actions.getListFor(fromDate, toDate))
       this.props.delete(id)
       this.props.getListFor(fromDate, toDate)
     }
@@ -258,6 +248,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-//const connectedAccountsPage = connect(mapStateToProps)(AccountsPage)
-//export { connectedAccountsPage as AccountsPage }
 export default connect(mapStateToProps, mapDispatchToProps)(Accounts)

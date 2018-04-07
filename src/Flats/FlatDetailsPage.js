@@ -1,12 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-//import Select from 'react-select';
 
 import {
     Form,
     Button,
-//    FormGroup,
     FormText,
     Input,
     Label,
@@ -14,7 +12,6 @@ import {
 
 import { flatActions as actions, alertActions } from '../_actions'
 import { FlashMessage } from '../_components'
-//import { MODULES } from '../_constants'
 
 let module = 'flats' // module name
 
@@ -24,7 +21,6 @@ export class FlatDetails extends React.Component {
     super(props)
     const { location } = props
     let model = location.state.model // model supplied from list page
-//    let ops = model.operations?model.operations:''
     let initializeModel = {
       id: model.id,
       block_number: model.block_number,
@@ -37,25 +33,13 @@ export class FlatDetails extends React.Component {
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-
-    //dispatch(alertActions.clear())  // clear alert messages from other pages
-    //this.props.clearAlert()
   }
+
   handleSubmit(event) {
     const { model } = this.state
-    //const { dispatch } = this.props
-
     event.preventDefault()
     this.setState({ submitted: true })
     this.props.saveChanges(model)
-
-/*    if ( this.changedProps().length === 0 ) {
-      dispatch(alertActions.error('No changes found...'))
-    } else if(this.canBeSaved()){
-      dispatch(actions.saveChanges(model))
-    } else {
-      dispatch(alertActions.error('Missing data'))
-    } */
   }
 
   canBeSaved() { // check for changes in mModel, if changes present, it can save
@@ -184,10 +168,8 @@ export class FlatDetails extends React.Component {
 
 function mapStateToProps(state) {
   const { alert, authorizations } = state
-//  const { user } = authentication
   const authzn = authorizations[module]
   return {
-//    user,
     alert,
     authzn
   }
@@ -195,9 +177,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-/*    clearAlert: () => {
-      dispatch(alertActions.clear())
-    }, */
     saveChanges: (model) => {
       dispatch(actions.saveChanges(model))
     },
@@ -207,6 +186,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-//const connectedDetailsPage = connect(mapStateToProps)(FlatDetailsPage)
-//export { connectedDetailsPage as FlatDetailsPage }
 export default connect(mapStateToProps, mapDispatchToProps)(FlatDetails)

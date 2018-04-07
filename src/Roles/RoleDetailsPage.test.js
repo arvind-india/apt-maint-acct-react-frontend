@@ -18,7 +18,6 @@ const mockRoles = [
     description:'owner of the flat',
     inherits: 'tenant'
   }
-
 ]
 
 const mockProps = [
@@ -30,7 +29,6 @@ const mockProps = [
       allowsDelete: true,
       condition: ''
     },
-//    clearAlert: jest.fn(),
     saveChanges: jest.fn(),
     error: jest.fn(),
     roles: {
@@ -45,7 +43,6 @@ const mockProps = [
       allowsDelete: true,
       condition: ''
     },
-//    clearAlert: jest.fn(),
     saveChanges: jest.fn(),
     error: jest.fn(),
     roles: {
@@ -103,10 +100,6 @@ describe('RolesPage params test', () => {
 })
 
 describe('RoleDetailsPage events test 1', () => {
-/*  it('should call clearAlert on submit and no crash', () => {
-    component.find('#roleDetailsForm').simulate('submit', {preventDefault() {}})
-    expect(mockProps[0].clearAlert.mock.calls.length).toEqual(1)
-  }) */
   it('should be called with required states as arguments', () => {
     component.find('#name').simulate('change', {target: mocks[0].name})
     component.find('#description').simulate('change', {target: mocks[0].description})

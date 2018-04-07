@@ -6,7 +6,6 @@ import Select from 'react-select';
 import {
     Form,
     Button,
-//    FormGroup,
     FormText,
     Input,
     Label,
@@ -24,7 +23,6 @@ export class ResidentDetails extends React.Component {
     super(props)
     const { location } = props
     let model = location.state.model // model supplied from list page
-//    let ops = model.operations?model.operations:''
     let initializeModel = {
       id: model.id,
       owner_id: model.owner_id,
@@ -35,7 +33,7 @@ export class ResidentDetails extends React.Component {
       vacated_on: model.vacated_on
     }
     this.state = {
-      model: initializeModel,           // model to edit
+      model: initializeModel, // model to edit
       submitted: false,
       adding: model.id === 0
     }
@@ -43,15 +41,6 @@ export class ResidentDetails extends React.Component {
     this.handleUserNameChange = this.handleUserNameChange.bind(this)
     this.handleResidentTypeChange = this.handleResidentTypeChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-
-    //dispatch(alertActions.clear())  // clear alert messages from other pages
-    //this.props.clearAlert()
-  }
-
-  componentDidMount() {
-    //console.log('state now: ', this.state)
-    //this.props.dispatch(userActions.getAll())
-    //this.props.getAllUser()
   }
 
   canBeSaved() { // check for changes in model, if changes present, it can save
@@ -130,21 +119,9 @@ export class ResidentDetails extends React.Component {
 
   handleSubmit(event) {
     const { model } = this.state
-    //const { dispatch } = this.props
-
     event.preventDefault()
     this.setState({ submitted: true })
     this.props.saveChanges(model)
-/*
-    if ( this.changedProps().length === 0 ) {
-      dispatch(alertActions.error('No changes found...'))
-    } else if(this.canBeSaved()){
-console.log('Resident model to be saved: ', model)
-      dispatch(actions.saveChanges(model))
-    } else {
-      dispatch(alertActions.error('Missing data'))
-    }
-*/
   }
 
   changedProps() {
@@ -196,7 +173,6 @@ console.log('Resident model to be saved: ', model)
   }
   showFirstName() {
     const { submitted, model } = this.state
-    //console.log('model is:..... ', model)
     return <div data-field-span="1">
 				<Label>First Name</Label>
         <Input
@@ -307,10 +283,8 @@ console.log('Resident model to be saved: ', model)
 
 function mapStateToProps(state) {
   const { alert, authorizations, users } = state
-//  const { user } = authentication
   const authzn = authorizations[module]
   return {
-//    user,
     alert,
     authzn,
     users
@@ -319,9 +293,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-/*    clearAlert: () => {
-      dispatch(alertActions.clear())
-    }, */
     saveChanges: (model) => {
       dispatch(actions.saveChanges(model))
     },
@@ -334,6 +305,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-//const connectedDetailsPage = connect(mapStateToProps)(ResidentDetailsPage)
-//export { connectedDetailsPage as ResidentDetailsPage }
 export default connect(mapStateToProps, mapDispatchToProps)(ResidentDetails)

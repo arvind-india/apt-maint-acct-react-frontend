@@ -86,7 +86,6 @@ describe('RolesToPermissionsLinkPage test: select a role and select two permissi
 })
 
 
-
 const component2 = shallow(<RolesToPermissionsLink {...mockProps[0]} />)
 
 describe('RolesToPermissionsLinkPage test: Attach selected items', () => {

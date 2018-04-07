@@ -1,9 +1,5 @@
 import { authorizationConstants as constants } from '../_constants'
-/*
-let authzns = JSON.parse(sessionStorage.getItem('authorizations'))
-const initialState = authzns ? authzns : {}
 
-export function authorizations(state = initialState, action) { */
 export function authorizations(state = {}, action) {
   switch(action.type) {
     case constants.GETALL_REQUEST:

@@ -30,7 +30,7 @@ function getAll() {
 function _delete(id) {
   return dispatch => {
     dispatch(request(id))
-    console.log('delete request in progress...')
+    // console.log('delete request in progress...')
     service.delete(id)
       .then(
         model => dispatch(success(id)),
@@ -108,8 +108,8 @@ function saveChanges(model) {
           },
           error => {
             let data = error.response.data
-            console.log('error response...')
-            console.log(error.response.data)
+            // console.log('error response...')
+            // console.log(error.response.data)
             let appData;
             if(data.error) { // check if there is a application specific error data enclosed
               appData = data.data
@@ -140,8 +140,8 @@ function saveChanges(model) {
           },
           error => {
             let data = error.response.data
-            console.log('error response...')
-            console.log(error.response.data)
+            // console.log('error response...')
+            // console.log(error.response.data)
             let appData;
             if(data.error) { // check if there is a application specific error data enclosed
               appData = data.data

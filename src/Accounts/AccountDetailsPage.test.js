@@ -1,4 +1,4 @@
-// AccountsPage.test.js0]
+// AccountsPage.test.js
 
 import React from 'react'
 import { shallow } from 'enzyme'
@@ -50,7 +50,6 @@ const mockProps = [
       condition: ''
     },
     getAllFlats: jest.fn(),
-//    clearAlert: jest.fn(),
     saveChanges: jest.fn(),
     error: jest.fn(),
     accounts: {
@@ -117,10 +116,6 @@ describe('AccountsPage params test', () => {
 
 
 describe('AccountDetailsPage events test 1', () => {
-/*  it('should call clearAlert on submit and no crash', () => {
-    component.find('#accountDetailsForm').simulate('submit', { preventDefault() {} })
-    expect(mockProps[0].clearAlert.mock.calls.length).toEqual(1)
-  }) */
 
   it('should be called with required states as arguments', () => {
     component.find('#recorded_at').simulate('change', {target: mocks[0].recorded_at})
@@ -137,17 +132,4 @@ describe('AccountDetailsPage events test 1', () => {
     expect(mockProps[0].saveChanges.mock.calls[0][0]).toEqual(mockAccounts[0])
   })
 
-
 })
-
-/*
-const component2 = shallow(<AccountDetails {...mockProps[1]} location={mockLocations[1]}/>)
-describe('AccountDetailsPage events test 2', () => {
-  it('should be called with required states as arguments', () => {
-    component2.find('#blockNumber').simulate('change', {target: mocks[1].blockNumber})
-    component2.find('#accountNumber').simulate('change', {target: mocks[1].accountNumber}) // calling again to toggle from '' to 'R'
-    component2.find('#accountDetailsForm').simulate('submit', { preventDefault() {} })
-    expect(mockProps[1].saveChanges.mock.calls[0][0]).toEqual(mockAccounts[1])
-  })
-})
-*/

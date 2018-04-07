@@ -39,8 +39,6 @@ export class UsersToRolesLink extends React.Component {
   }
 
   componentDidMount() {
-    //this.props.dispatch(userActions.getAll())
-    //this.props.dispatch(roleActions.getAll())
     this.props.getAllUsers()
     this.props.getAllRoles()
   }
@@ -57,10 +55,6 @@ export class UsersToRolesLink extends React.Component {
   }
 
   show() {
-    // {this.showLeftList()}
-    // {this.showAttachedList()}
-    // {this.showDetachedList()}
-
     return <div className="list-to-list">
       { this.showLeftLabel() }
       { this.showLeftInput() }
@@ -104,7 +98,6 @@ export class UsersToRolesLink extends React.Component {
       selectedOptionInLeftList: value
     })
 
-    //this.props.dispatch(userActions.getMyRoles(value))
     this.props.getMyRoles(value)
   }
   showLeftButton() {
@@ -114,29 +107,6 @@ export class UsersToRolesLink extends React.Component {
       ><Link to="/home"><MdHome/> Home</Link></Button>
     </div>
   }
-
-/*
-  showLeftList() {
-    const { users } = this.props
-    return <div>
-      <Label for="leftItem" className="llabel">Select an User</Label>
-      <Input
-        type="select"
-        name="leftItem"
-        id="leftItem"
-        size="20"
-        className="lselect"
-        onChange={this.handleChangeInLeftList}
-      >
-      { users.items && users.items.map(each =>
-        <option value={each.id} title={each.email} key={each.id}
-          >{each.first_name?each.first_name:each.name}</option>)
-      }
-      </Input>
-      <Button color="link" className="homeButton"><Link to="/home"><MdHome/> Home</Link></Button>
-    </div>
-  }
-*/
 
   showAttachedLabel() {
     return <Label
@@ -186,44 +156,6 @@ export class UsersToRolesLink extends React.Component {
     ><MdThumbDown/> Unassign</Button>
   }
 
-/*
-  showAttachedList() {
-    const { usersToRoles, authzn } = this.props
-    const { selectedOptionInLeftList, selectedOptionsInAList } = this.state
-    return <div>
-      <Label
-        for="attachedItems"
-        className="alabel"
-      >Assigned Roles</Label>
-      <Input
-        type="select"
-        name="attachedItems"
-        id="attachedItems"
-        size="20"
-        className="aselect"
-        onChange={this.handleChangeInAttachedList}
-        multiple
-      >
-      { selectedOptionInLeftList &&
-        usersToRoles.items &&
-        usersToRoles.items.map(each =>
-        <option value={each.id} title={each.description} key={each.id}
-          >{each.name} {each.inherits?' (inherits '+each.inherits+')':''}</option>)
-      }
-      </Input>
-      <Button
-        color="danger"
-        className="dbutton"
-        onClick={this.detachItems}
-        disabled={selectedOptionsInAList.length === 0}
-        hidden={!authzn.allowsEdit}
-        title="Unassign selected roles"
-      ><MdThumbDown/> Unassign</Button>
-    </div>
-  }
-*/
-
-
   detachItems() {
     const { usersToRoles } = this.props
     const { selectedOptionsInAList, selectedOptionInLeftList } = this.state
@@ -233,7 +165,6 @@ export class UsersToRolesLink extends React.Component {
     let ids = usersToRoles.items.map(e => e.id.toString())
     let ids_toBeRetained = ids.filter(each => !ids_toBeRemoved.includes(each))
 
-    //dispatch(userActions.updateMyRoles(id, ids_toBeRetained))
     this.props.updateMyRoles(id, ids_toBeRetained)
     this.setState({ selectedOptionsInAList: [] })
   }
@@ -294,53 +225,6 @@ export class UsersToRolesLink extends React.Component {
     ><MdThumbUp/> Assign</Button>
   }
 
-/*
-  showDetachedList() {
-    const { usersToRoles, roles, authzn } = this.props
-    const { selectedOptionInLeftList, selectedOptionsInDList } = this.state
-
-    let available = [];
-    let grantedIDs = []
-    if(usersToRoles.items) {
-      grantedIDs = usersToRoles.items.map(each => each.id)
-    }
-    if(roles.items && selectedOptionInLeftList) {
-      available = grantedIDs.length ?
-        roles.items.filter(each => !grantedIDs.includes(each.id)) :
-        roles.items
-    }
-    return <div>
-      <Label
-        for="detachedItems"
-        className="dlabel"
-      >Available Roles</Label>
-      <Input
-        type="select"
-        name="detachedItems"
-        id="detachedItems"
-        size="20"
-        className="dselect"
-        onChange={this.handleChangeInDetachedList}
-        multiple
-      >
-      {
-        available.map(each =>
-        <option value={each.id} title={each.description} key={each.id}
-          >{each.name} {each.inherits?' (inherits '+each.inherits+')':''}</option>)
-      }
-      </Input>
-      <Button
-        color="success"
-        className="abutton"
-        onClick={this.attachItems}
-        disabled={selectedOptionsInDList.length === 0}
-        hidden={!authzn.allowsEdit}
-        title="Assign selected roles"
-      ><MdThumbUp/> Assign</Button>
-    </div>
-  }
-*/
-
   attachItems() {
     const { usersToRoles } = this.props
     const { selectedOptionsInDList, selectedOptionInLeftList } = this.state
@@ -350,7 +234,6 @@ export class UsersToRolesLink extends React.Component {
     let ids_toBeAdded = selectedOptionsInDList.map(e => e.value)
     let new_ids = ids.concat(ids_toBeAdded)
 
-    //dispatch(userActions.updateMyRoles(id, new_ids))
     this.props.updateMyRoles(id, new_ids)
     this.setState({ selectedOptionsInDList: [] })
   }
@@ -358,11 +241,9 @@ export class UsersToRolesLink extends React.Component {
 
 function mapStateToProps(state) {
   const { alert, users, usersToRoles, roles, authorizations } = state
-//  const { user } = authentication
   const authzn = authorizations[module]
   return {
     alert,
-//    user,
     users,
     usersToRoles,
     roles,
@@ -387,6 +268,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-//const connectedLinkPage = connect(mapStateToProps)(UsersToRolesLinkPage)
-//export { connectedLinkPage as UsersToRolesLinkPage }
 export default connect(mapStateToProps, mapDispatchToProps)(UsersToRolesLink)

@@ -26,7 +26,6 @@ export class SocialLogin extends React.Component {
     super(props)
     // reset login status
     this.props.logout()
-/*    this.props.clearAlert() */
   }
 
   render() {
@@ -104,10 +103,6 @@ function mapDispatchToProps(dispatch) {
     logout: () => {
       dispatch(userActions.logout())
     }
-    /*,
-    clearAlert: () => {
-      dispatch(alertActions.clear())
-    } */
   }
 }
 

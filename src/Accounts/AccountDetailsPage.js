@@ -53,10 +53,7 @@ export class AccountDetails extends React.Component {
     this.handleMonthChange = this.handleMonthChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
 
-    //dispatch(flatActions.getAll())
-    //dispatch(alertActions.clear())  // clear alert messages from other pages
     this.props.getAllFlats()
-    //this.props.clearAlert()
   }
 
   canBeSaved() { // check for changes in model, if changes present, it can save
@@ -74,7 +71,7 @@ export class AccountDetails extends React.Component {
 
     return true // can save changes
   }
-//{ alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div> }
+
   render() {
     const { alert } = this.props
     return (
@@ -181,46 +178,26 @@ export class AccountDetails extends React.Component {
 
   handleSubmit(event) {
     const { model } = this.state
-    //const { dispatch } = this.props
-
     event.preventDefault()
     this.setState({ submitted: true })
     this.props.saveChanges(model)
-
-/*    if ( this.changedProps().length === 0 ) {
-      //dispatch(alertActions.error('No changes found...'))
-      this.props.error('No changes found...')
-    } else if(this.canBeSaved()){
-      //dispatch(actions.saveChanges(model))
-      this.props.saveChanges(model)
-    } else {
-      //dispatch(alertActions.error('Missing data'))
-      this.props.error('Missing data')
-    } */
   }
 
   validateForm() {
     if ( this.changedProps().length === 0 ) {
-      //dispatch(alertActions.error('No changes found...'))
-      //this.props.error('No changes found...')
       this.validationMsg = 'No changes to save'
       this.formValid = false
       return null
     }
     if( this.canBeSaved() ) {
-      //dispatch(actions.saveChanges(model))
-      //this.props.saveChanges(model)
       this.validationMsg = 'Save Changes'
       this.formValid = true
       return null
     }
 
-    //dispatch(alertActions.error('Missing data'))
-    //this.props.error('Missing data')
     // finally, if reached here
     this.validationMsg = 'Missing "Required Data"...'
     this.formValid = false
-
   }
 
   changedProps() {
@@ -461,9 +438,6 @@ function mapDispatchToProps(dispatch) {
     getAllFlats: () => {
       dispatch(flatActions.getAll())
     },
-/*    clearAlert: () => {
-      dispatch(alertActions.clear())
-    }, */
     saveChanges: (model) => {
       dispatch(actions.saveChanges(model))
     },
@@ -473,6 +447,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-//const connectedDetailsPage = connect(mapStateToProps)(AccountDetailsPage)
-//export { connectedDetailsPage as AccountDetailsPage }
 export default connect(mapStateToProps, mapDispatchToProps)(AccountDetails)

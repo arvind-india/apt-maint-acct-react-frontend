@@ -32,8 +32,6 @@ export class UserDetails extends React.Component {
       email: model.email
     }
     let initializeInfos = arrToObj(model.infos)
-    //let validationMsg = 'No changes to save'
-    //let formValid = false
 
     this.state = {
       model: initializeModel,
@@ -54,13 +52,8 @@ export class UserDetails extends React.Component {
     this.handlePasswordMatch = this.handlePasswordMatch.bind(this)
     this.handleConfirmPasswordMatch = this.handleConfirmPasswordMatch.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-
-    //dispatch(alertActions.clear())  // clear alert messages from other pages
-    //this.props.clearAlert() // clear alert messages from other pages
   }
   componentDidMount() {
-    //const { dispatch, location, getById } = this.props
-    //dispatch(actions.getById(location.state.model.id))
     this.props.getById(this.props.location.state.model.id)
   }
   changedProps() {
@@ -99,33 +92,10 @@ export class UserDetails extends React.Component {
   handleSubmit(event) {
     event.preventDefault()
     this.setState({ submitted: true })
-
     const { model, infos } = this.state
-    //const { model, infos, password, confirmPassword } = this.state
-    //const { dispatch } = this.props
-
     let infosArray = objToArr(infos)
-
     if(infosArray.length > 0) model.infos = infosArray
-
-    //console.log('User to be updated: ', model)
     this.props.saveChanges(model)
-/*
-    if ( this.changedProps().length === 0 ) {
-      // dispatch(alertActions.error('No changes found...'))
-      this.props.error('No changes found...')
-    } else if (password !== confirmPassword) {
-      // dispatch(alertActions.error('Passwords Do Not Match'))
-      this.props.error('Passwords Do Not Match')
-    } else if( this.canBeSaved() ) {
-      //dispatch(actions.saveChanges(model))
-      this.props.saveChanges(model)
-    } else {
-      //dispatch(alertActions.error('Missing Data...'))
-      this.props.error('Missing Data...')
-    }
-  */
-
   }
 
   handlePasswordChange(event) {
@@ -178,7 +148,6 @@ export class UserDetails extends React.Component {
   handleInfosChange(event) {
     const { name, value } = event.target
     const { infos } = this.state
-    //console.log('handle infos change name: ', name); console.log('handle info change value: ', value)
     this.setState({
       infos: {
         ...infos,
@@ -200,34 +169,6 @@ export class UserDetails extends React.Component {
     )
   }
 
-  /**
-   * Converts Array into object
-   */
-/*  arrToObj(array) {
-    let obj = {}
-    if(!array || array.length === 0) {
-      return obj
-    }
-    array.forEach(eachInfo => {
-      obj[eachInfo.key] = eachInfo.value
-    })
-    return obj
-  }
-*/
-
-  /**
-   * Converts Object to Array
-   */
-/*   objToArr(obj) {
-     let arr = []
-     let val;
-     Object.keys(obj).forEach(key => {
-       val = obj[key]
-       arr.push({key: key, value: val})
-     })
-     return arr
-   }
-*/
   validateForm() {
     const { password, confirmPassword } = this.state
 
@@ -246,11 +187,9 @@ export class UserDetails extends React.Component {
       this.formValid = true
       return null
     }
-
     // finally, if reached here
     this.validationMsg = 'Missing "Required Data"...'
     this.formValid = false
-
   }
 
   show(model, infos){
@@ -324,7 +263,6 @@ export class UserDetails extends React.Component {
 			</div>
   }
   showFlatNumber(infos) {
-    // const { infos } = this.state
     let value = infos && infos.flatNumber?infos.flatNumber:''
     return <div data-field-span="1">
         <Label>Flat/Apartment Number</Label>
@@ -340,7 +278,6 @@ export class UserDetails extends React.Component {
       </div>
   }
   showResidentType(infos) {
-    //const { infos } = this.state
     let rtype = infos && infos.residentType?infos.residentType:''
 
     return <div data-field-span="1">
@@ -470,7 +407,6 @@ export class UserDetails extends React.Component {
     </div>
   }
   showOtherEmails(infos){
-    //const { infos } = this.state
     let value = infos && infos.otherEmails?infos.otherEmails:''
     return <div data-field-span="1">
         <Label>Other email-ids</Label>
@@ -488,7 +424,6 @@ export class UserDetails extends React.Component {
       </div>
   }
   showMobileNumbers(infos) {
-    //const { infos } = this.state
     let value = infos && infos.cellNumbers?infos.cellNumbers:''
     return <div data-field-span="1">
       <Label>Cell/Mobile/Landline Numbers</Label>
@@ -506,7 +441,6 @@ export class UserDetails extends React.Component {
     </div>
   }
   show2WheelerNumbers(infos) {
-    //const { infos } = this.state
     let value = infos && infos.twoWheelers?infos.twoWheelers:''
     return <div data-field-span="1">
       <Label>Regn No. of 2-wheeler(s) parked</Label>
@@ -524,7 +458,6 @@ export class UserDetails extends React.Component {
     </div>
   }
   show4WheelerNumbers(infos) {
-    //const { infos } = this.state
     let value = infos && infos.fourWheelers?infos.fourWheelers:''
     return <div data-field-span="1">
       <Label>Regn No. of 4-wheeler(s) parked</Label>
@@ -542,7 +475,6 @@ export class UserDetails extends React.Component {
     </div>
   }
   showEmergencyContacts(infos) {
-    //const { infos } = this.state
     let value = infos && infos.emergencyContacts?infos.emergencyContacts:''
     return <div data-field-span="1">
       <Label>Emergency Contact Details</Label>
@@ -564,11 +496,8 @@ export class UserDetails extends React.Component {
 
 function mapStateToProps(state) {
   const { alert, authorizations } = state
-//  const { user } = authentication
   const authzn = authorizations[module]
   return {
-//    user,
-//    userDetails,
     alert,
     authzn
   }
@@ -576,9 +505,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    clearAlert: () => {
-      dispatch(alertActions.clear())
-    },
     getById: (id) => {
       dispatch(actions.getById(id))
     },
@@ -590,9 +516,5 @@ function mapDispatchToProps(dispatch) {
     }
   }
 }
-
-
-//const connectedDetailsPage = connect(mapStateToProps)(UserDetailsPage)
-//export { connectedDetailsPage as UserDetailsPage }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserDetails)

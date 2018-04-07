@@ -14,21 +14,12 @@ export class Home extends React.Component {
     super(props)
     this.handleLogout = this.handleLogout.bind(this)
   }
-/*  componentDidMount() {
-    const { alert } = this.props
-    this.alertMessage = alert.message
-    this.alertColor = alert.color
-    //this.props.clearAlert() // after extracting alert data, clear it so as to prevent it from re-appearing
-  } */
+
   handleLogout() {
-    //this.props.dispatch(userActions.logout())
-    //this.props.dispatch(alertActions.error('You are now Logged out!!'))
     this.props.logout()
     this.props.error('You are now logged out!!')
   }
   exitApp() {
-    //this.props.dispatch(userActions.logout())
-    //this.props.dispatch(alertActions.error('JWT Expired, re-login the Application!'))
     this.props.logout()
     this.props.error('JWT Expired, re-login the Application!')
   }
@@ -74,7 +65,6 @@ export class Home extends React.Component {
 
 function mapStateToProps(state) {
   const { alert, authentication, authenticationSocial } = state
-  // const { user } = authentication
   let user = authentication.user || authenticationSocial.user
   return {
     alert,
@@ -87,15 +77,10 @@ function mapDispatchToProps(dispatch) {
     logout: () => {
       dispatch(userActions.logout())
     },
-/*    clearAlert: () => {
-      dispatch(alertActions.clear())
-    }, */
     error: (msg) => {
       dispatch(alertActions.error(msg))
     }
   }
 }
 
-//const connectedHomePage = connect(mapStateToProps)(HomePage)
-//export { connectedHomePage as HomePage }
 export default connect(mapStateToProps, mapDispatchToProps)(Home)

@@ -34,7 +34,6 @@ import {
   MdLocationCity,
   MdAccountCircle,
   MdList,
-//  MdFilterList,
   MdViewHeadline,
   MdEdit
 } from 'react-icons/lib/md' // material design icons
@@ -55,17 +54,11 @@ class AppNavbar extends React.Component {
 
   render() {
     const { user } = this.props
-    //const { user, location, match } = this.props
-    //if(location) console.log('location: ', location)
-    //else console.log('location NOT AVAILABLE')
-    //if(match) console.log('match: ', match)
-    //else console.log('match NOT AVAILABLE')
     const baz = () => <NavLink
                         className="navbar-brand"
                         tag={NavLinkRRD}
                         to="/"
                         ><FaBuildingO/> Apartment Maintenance</NavLink>
-
     return (
       <div>
         <Navbar color="light" light expand="md">
@@ -246,7 +239,6 @@ class AppNavbar extends React.Component {
   }
 
   showLogin() {
-    // <NavLink href='/login'><FaSignIn/> Login</NavLink>
     return <NavItem>
               <NavLink
                 tag={NavLinkRRD}
@@ -311,7 +303,6 @@ class AppNavbar extends React.Component {
 
 function mapStateToProps(state) {
   const { authentication, authenticationSocial, authorizations } = state
-  //const { user } = authentication
   let user = authentication.user || authenticationSocial.user
   return {
     user,

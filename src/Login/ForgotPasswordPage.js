@@ -20,7 +20,6 @@ export class ForgotPassword extends React.Component {
     super(props)
     // reset login status
     this.props.logout()
-/*    this.props.clearAlert() */
     this.state = {
       email: '',
       submitted: false
@@ -101,10 +100,6 @@ function mapDispatchToProps(dispatch) {
     logout: () => {
       dispatch(userActions.logout())
     }
-    /*,
-    clearAlert: () => {
-      dispatch(alertActions.clear())
-    }  */
   }
 }
 

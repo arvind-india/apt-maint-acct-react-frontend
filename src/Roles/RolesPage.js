@@ -31,12 +31,10 @@ export class Roles extends React.Component {
   }
 
   componentDidMount() {
-//     this.props.dispatch(actions.getAll())
     this.props.getAll()
   }
 
   render() {
-    //console.log('Props in RolesPage: ', this.props)
     const {  roles, alert, authzn, trackHistory } = this.props
     let models = roles
     let hist = trackHistory?history:{}
@@ -56,18 +54,7 @@ export class Roles extends React.Component {
     )
   }
 
-/*
-  handleDeleteModel(id) {
-    console.log('Deleting Role with id: ', id)
-    //return (e) => this.props.dispatch(actions.delete(id))
-    this.props.dispatch(actions.delete(id))
-    this.props.dispatch(actions.getAll()) // get list after deletion of a model
-  }
-*/
-
   showList(models){
-    //const { authzn } = this.props
-    //console.log('authzn in roles page: ', authzn)
     return <Table>
       <thead>
         <tr>
@@ -127,24 +114,18 @@ export class Roles extends React.Component {
 
   handleDeleteModel(id) {
     if( window.confirm('Are you sure?') ) {
-      console.log('Delete confirmed')
-      //this.props.dispatch(actions.delete(id))
-      //this.props.dispatch(actions.getAll()) // get list after deletion of a model
       this.props.delete(id)
       this.props.getAll()
     }
   }
 
-
 }
 
 function mapStateToProps(state) {
   const { roles, alert, authorizations } = state
-//  const { user } = authentication
   const authzn = authorizations[module]
   const trackHistory = true  // added for unit testing; snapshot to be precise
   return {
-//    user,
     roles,
     alert,
     authzn,
@@ -163,6 +144,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-// const connectedRolesPage = connect(mapStateToProps)(RolesPage)
-// export { connectedRolesPage as RolesPage }
 export default connect(mapStateToProps, mapDispatchToProps)(Roles)

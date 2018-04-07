@@ -35,7 +35,6 @@ const mockProps = [
       allowsDelete: true,
       condition: ''
     },
-//    clearAlert: jest.fn(),
     saveChanges: jest.fn(),
     error: jest.fn(),
     residents: {
@@ -57,7 +56,6 @@ const mockProps = [
       allowsDelete: true,
       condition: ''
     },
-//    clearAlert: jest.fn(),
     saveChanges: jest.fn(),
     error: jest.fn(),
     residents: {
@@ -129,10 +127,6 @@ describe('ResidentsPage params test', () => {
 
 
 describe('ResidentDetailsPage events test 1', () => {
-/*  it('should call clearAlert on submit and no crash', () => {
-    component.find('#residentDetailsForm').simulate('submit', {preventDefault() {}})
-    expect(mockProps[0].clearAlert.mock.calls.length).toEqual(1)
-  }) */
 
   it('should be called with required states as arguments', () => {
     component.find('#ownerId').simulate('change', mocks[0].ownerId)

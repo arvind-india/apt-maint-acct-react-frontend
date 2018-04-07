@@ -31,7 +31,6 @@ const mockProps = [
       allowsDelete: true,
       condition: ''
     },
-//    clearAlert: jest.fn(),
     saveChanges: jest.fn(),
     error: jest.fn(),
     permissions: {
@@ -46,7 +45,6 @@ const mockProps = [
       allowsDelete: true,
       condition: ''
     },
-//    clearAlert: jest.fn(),
     saveChanges: jest.fn(),
     error: jest.fn(),
     permissions: {
@@ -106,10 +104,6 @@ describe('PermissionsPage params test', () => {
 })
 
 describe('PermissionDetailsPage events test 1', () => {
-/*  it('should call clearAlert on submit and no crash', () => {
-    component.find('#permissionDetailsForm').simulate('submit', {preventDefault() {}})
-    expect(mockProps[0].clearAlert.mock.calls.length).toEqual(1)
-  }) */
   it('should be called with required states as arguments', () => {
     component.find('.operations [checked=true]').simulate('change', {target: mocks[0].operations}) // toggles from 'R' to ''
     component.find('#readOperations').simulate('change', {target: mocks[0].operations}) // calling again to toggle from '' to 'R'
@@ -119,7 +113,6 @@ describe('PermissionDetailsPage events test 1', () => {
     component.find('#permissionDetailsForm').simulate('submit', {preventDefault() {}})
     expect(mockProps[0].saveChanges.mock.calls[0][0]).toEqual(mockPermissions[0])
   })
-
 })
 
 const component2 = shallow(<PermissionDetails {...mockProps[1]} location={mockLocations[1]}/>)
@@ -127,7 +120,6 @@ describe('PermissionDetailsPage events test 2', () => {
   it('should be called with required states as arguments', () => {
     // yet to explore below statement; it works!!! Even though 'Create' checkbox is searched and is simulated to 'RU'
     component2.find('#createOperations').simulate('change', {target: mocks[1].operations})
-    //component2.find('#readOperations').simulate('change', {target: mocks[1].operations})
     component2.find('Select').simulate('change', mocks[1].resource)
     component2.find('#condition').simulate('change', {target: mocks[1].condition})
     component2.find('#description').simulate('change', {target: mocks[1].description})

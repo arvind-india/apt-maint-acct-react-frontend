@@ -9,8 +9,6 @@ import { accountActions as actions, userActions } from '../_actions'
 export class Summary extends React.Component {
 
   componentDidMount() {
-    // this.props.dispatch(actions.getSummaryList())
-    // this.props.dispatch(userActions.getAll())
     this.props.getSummaryList()
     this.props.getAll()
   }
@@ -82,6 +80,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-//const connectedSummaryPage = connect(mapStateToProps)(SummaryPage)
-//export { connectedSummaryPage as SummaryPage }
 export default connect(mapStateToProps, mapDispatchToProps)(Summary)

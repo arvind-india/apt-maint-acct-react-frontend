@@ -70,7 +70,6 @@ describe('ResidentsPage params test', () => {
   })
 })
 
-
 describe('ResidentsPage rows test', () => {
   let numberOfMockResidents = mockProps.residents.items.length
   let tbody = component.find('tbody')
@@ -78,5 +77,4 @@ describe('ResidentsPage rows test', () => {
   it('should have '+numberOfMockResidents+' rows', () => {
     expect(rows.length).toEqual(numberOfMockResidents)
   })
-
 })

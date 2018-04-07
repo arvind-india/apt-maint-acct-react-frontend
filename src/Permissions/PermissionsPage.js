@@ -31,12 +31,10 @@ export class Permissions extends React.Component {
   }
 
   componentDidMount() {
-    //this.props.dispatch(actions.getAll())
     this.props.getAll()
   }
 
   render() {
-    //console.log('Props in PermissionsPage: ', this.props)
     const { permissions, alert, authzn, trackHistory } = this.props
     let models = permissions
     let hist = trackHistory?history:{}
@@ -56,14 +54,7 @@ export class Permissions extends React.Component {
     )
   }
 
-/*  handleDeleteModel(id) {
-    console.log('Deleting Permission with id: ', id)
-    //return (e) => this.props.dispatch(actions.delete(id))
-    this.props.dispatch(actions.delete(id))
-    this.props.dispatch(actions.getAll()) // get list after deletion of a model
-  } */
   showList(models){
-    //const { authzn } = this.props
     return <Table>
       <thead>
         <tr>
@@ -124,9 +115,6 @@ export class Permissions extends React.Component {
 
   handleDeleteModel(id) {
     if( window.confirm('Are you sure?') ) {
-      console.log('Delete confirmed')
-      //this.props.dispatch(actions.delete(id))
-      //this.props.dispatch(actions.getAll()) // get list after deletion of a model
       this.props.delete(id)
       this.props.getAll()
     }
@@ -137,11 +125,9 @@ export class Permissions extends React.Component {
 
 function mapStateToProps(state) {
   const { permissions, alert, authorizations } = state
-  // const { user } = authentication
   const authzn = authorizations[module]
   const trackHistory = true  // added for unit testing; snapshot to be precise
   return {
-//    user,
     permissions,
     alert,
     authzn,
@@ -160,6 +146,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-//const connectedPermissionsPage = connect(mapStateToProps)(PermissionsPage)
-//export { connectedPermissionsPage as PermissionsPage }
 export default connect(mapStateToProps, mapDispatchToProps)(Permissions)

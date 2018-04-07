@@ -45,34 +45,15 @@ export class PermissionDetails extends React.Component {
     this.handleOperationsChange = this.handleOperationsChange.bind(this)
     this.handleResourceChange = this.handleResourceChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
-
-    //dispatch(alertActions.clear())  // clear alert messages from other pages
-    //this.props.clearAlert()
   }
   handleSubmit(event) {
     const { model } = this.state
-    //const { dispatch } = this.props
-
     event.preventDefault()
     this.setState({ submitted: true })
     this.props.saveChanges(model)
-/*
-    if ( this.changedProps().length === 0 ) {
-      //dispatch(alertActions.error('No changes found...'))
-      this.props.error('No changes found...')
-    } else if(this.canBeSaved()){
-      //dispatch(actions.saveChanges(model))
-      this.props.saveChanges(model)
-    } else {
-      //dispatch(alertActions.error('Missing data'))
-      this.props.error('Missing data...')
-    }
-*/
-
   }
 
   validateForm() {
-
     if ( this.changedProps().length === 0 ) {
       this.validationMsg = 'No changes to save'
       this.formValid = false
@@ -312,10 +293,8 @@ export class PermissionDetails extends React.Component {
 
 function mapStateToProps(state) {
   const { alert, authorizations } = state
-//  const { user } = authentication
   const authzn = authorizations[module]
   return {
-//    user,
     alert,
     authzn
   }
@@ -323,9 +302,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-/*    clearAlert: () => {
-      dispatch(alertActions.clear())
-    }, */
     saveChanges: (model) => {
       dispatch(actions.saveChanges(model))
     },
@@ -335,6 +311,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-//const connectedDetailsPage = connect(mapStateToProps)(PermissionDetailsPage)
-//export { connectedDetailsPage as PermissionDetailsPage }
 export default connect(mapStateToProps, mapDispatchToProps)(PermissionDetails)

@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-//import logo from './logo.svg';
-//import './App.css';
-
 import { Router, Route, Switch } from 'react-router-dom'
 import { connect } from 'react-redux'
 
@@ -10,7 +7,6 @@ import { alertActions } from './_actions'
 import { PrivateRoute } from './_components'
 import { HomePage } from './Home'
 import { LoginPage, ForgotPasswordPage, ResetPasswordPage } from './Login'
-//import LoginPage, { ForgotPasswordPage, ResetPasswordPage } from './Login'
 import { RegisterPage } from './Register'
 import { AccountsPage, AccountDetailsPage, SummaryPage } from './Accounts'
 import { ResidentsPage, ResidentDetailsPage } from './Residents'

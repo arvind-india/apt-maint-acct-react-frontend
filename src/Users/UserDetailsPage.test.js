@@ -1,4 +1,4 @@
-// UsersPage.test.js
+// UserDetailsPage.test.js
 
 import React from 'react'
 import { shallow } from 'enzyme'
@@ -24,7 +24,6 @@ const mockUsers = [
       {key: 'residentType', value: 'owner'}
     ]
   }
-
 ]
 
 const mockProps = [
@@ -36,7 +35,6 @@ const mockProps = [
       allowsDelete: true,
       condition: ''
     },
-    clearAlert: jest.fn(),
     getById: jest.fn(),
     saveChanges: jest.fn(),
     error: jest.fn()
@@ -49,7 +47,6 @@ const mockProps = [
       allowsDelete: true,
       condition: ''
     },
-    clearAlert: jest.fn(),
     getById: jest.fn(),
     saveChanges: jest.fn(),
     error: jest.fn()

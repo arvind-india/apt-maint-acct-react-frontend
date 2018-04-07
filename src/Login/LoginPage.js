@@ -18,17 +18,13 @@ import { FlashMessage } from '../_components'
 export class Login extends React.Component { // exports unconnected component; used in unit testing
   constructor(props) {
     super(props)
-
     // reset login status
     this.props.logout()
-/*    this.props.clearAlert() */
-
     this.state = {
       email: 'guest@eastgate.in',
       password: 'password123',
       submitted: false
     }
-
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -41,17 +37,10 @@ export class Login extends React.Component { // exports unconnected component; u
     e.preventDefault()
     this.setState({ submitted: true })
     this.props.login(email, password)
-/*
-    if(email && password) {
-      this.props.login(email, password)
-    } */
   }
-
-//{ alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div> }
 
   render() {
     const { alert } = this.props
-    //console.log('alert object: ', alert)
     return (
       <div>
         <h2 align="center">Login</h2>
@@ -184,10 +173,6 @@ function mapDispatchToProps(dispatch) {
     logout: () => {
       dispatch(userActions.logout())
     }
-    /*,
-    clearAlert: () => {
-      dispatch(alertActions.clear())
-    }*/
   }
 }
 

@@ -10,10 +10,6 @@ import { FlashMessage } from '../_components'
 export class UserProfile extends React.Component {
 
   componentDidMount() {
-    //const { dispatch, user } = this.props
-    //console.log('user from jwt.......', user)
-    //dispatch(actions.getProfile(user.id))
-    console.log('user from jwt......', this.props.user)
     this.props.getProfile(this.props.user.id)
   }
 
@@ -42,7 +38,6 @@ export class UserProfile extends React.Component {
 
 }
 
-
 function mapStateToProps(state) {
   const { alert, authentication, authorizations, userProfile } = state
   const user = jwtDecode(authentication.user.id_token) // logged user
@@ -62,8 +57,5 @@ function mapDispatchToProps(dispatch) {
     }
   }
 }
-
-// const connectedProfilePage = connect(mapStateToProps)(UserProfilePage)
-// export { connectedProfilePage as UserProfilePage }
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfile)

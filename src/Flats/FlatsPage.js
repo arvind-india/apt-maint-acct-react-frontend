@@ -31,17 +31,14 @@ export class Flats extends React.Component {
   }
 
   componentDidMount() {
-    //this.props.dispatch(actions.getAll())
     this.props.getAll()
   }
+
   handleDeleteModel(id) {
-    console.log('Deleting Flat with id: ', id)
-    //return (e) => this.props.dispatch(actions.delete(id))
-    //this.props.dispatch(actions.delete(id))
-    //this.props.dispatch(actions.getAll()) // get list after deletion of a model
     this.props.delete(id)
     this.props.getAll()
   }
+
   showList(models){
     const { authzn } = this.props
 
@@ -88,7 +85,6 @@ export class Flats extends React.Component {
   }
 
   render() {
-    //console.log('Props in FlatsPage: ', this.props)
     const { flats, alert, authzn, trackHistory } = this.props
     let models = flats
     let hist = trackHistory?history:{}
@@ -111,11 +107,9 @@ export class Flats extends React.Component {
 
 function mapStateToProps(state) {
   const { flats, alert, authorizations } = state
-  // const { user } = authentication
   const authzn = authorizations[module]
   const trackHistory = true  // added for unit testing; snapshot to be precise
   return {
-//    user,
     flats,
     alert,
     authzn,
@@ -134,6 +128,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-//const connectedFlatsPage = connect(mapStateToProps)(FlatsPage)
-//export { connectedFlatsPage as FlatsPage }
 export default connect(mapStateToProps, mapDispatchToProps)(Flats)

@@ -39,8 +39,6 @@ export class RolesToPermissionsLink extends React.Component {
   }
 
   componentDidMount() {
-    //this.props.dispatch(roleActions.getAll())
-    //this.props.dispatch(permissionActions.getAll())
     this.props.getAllRoles()
     this.props.getAllPermissions()
   }
@@ -57,9 +55,6 @@ export class RolesToPermissionsLink extends React.Component {
   }
 
   show() {
-    // {this.showLeftList()}
-    // {this.showAttachedList()}
-    // {this.showDetachedList()}
     return <div className="list-to-list">
       { this.showLeftLabel() }
       { this.showLeftInput() }
@@ -102,45 +97,14 @@ export class RolesToPermissionsLink extends React.Component {
     this.setState({
       selectedOptionInLeftList: value
     })
-    //this.props.dispatch(roleActions.getMyPermissions(value))
     this.props.getMyPermissions(value)
   }
   showLeftButton() {
-    // className="homeButton"
     return <div class="homeButton"><Button
       color="link"
       ><Link to="/home"><MdHome/> Home</Link></Button>
     </div>
   }
-
-/*
-  showLeftList() {
-    const { roles } = this.props
-    return <div>
-      <Label
-        for="leftItem"
-        className="llabel"
-        >Select a Role</Label>
-      <Input
-        type="select"
-        name="leftItem"
-        id="leftItem"
-        size="20"
-        className="lselect"
-        onChange={this.handleChangeInLeftList}
-      >
-      { roles.items && roles.items.map(each =>
-        <option value={each.id} title={each.description} key={each.id}
-          >{each.name}</option>)
-      }
-      </Input>
-      <Button
-        color="link"
-        className="homeButton"
-        ><Link to="/home"><MdHome/> Home</Link></Button>
-    </div>
-  }
-*/
 
   showAttachedLabel() {
     return <Label
@@ -192,43 +156,6 @@ export class RolesToPermissionsLink extends React.Component {
     ><MdThumbDown/> Revoke</Button>
   }
 
-/*
-  showAttachedList() {
-    const { rolesToPermissions, authzn } = this.props
-    const { selectedOptionInLeftList, selectedOptionsInAList } = this.state
-    return <div>
-      <Label
-        for="attachedItems"
-        className="alabel"
-      >Granted Permissions</Label>
-      <Input
-        type="select"
-        name="attachedItems"
-        id="attachedItems"
-        size="20"
-        className="aselect"
-        onChange={this.handleChangeInAttachedList}
-        multiple
-      >
-      { selectedOptionInLeftList &&
-        rolesToPermissions.items &&
-        rolesToPermissions.items.map(each =>
-        <option value={each.id} title={each.description} key={each.id}
-          >{each.operations} on {each.resource} {each.condition?' (restricted)':''}</option>)
-      }
-      </Input>
-      <Button
-        color="danger"
-        className="dbutton"
-        onClick={this.detachItems}
-        disabled={selectedOptionsInAList.length === 0}
-        hidden={!authzn.allowsEdit}
-        title="Revoke selected roles"
-      ><MdThumbDown/> Revoke</Button>
-    </div>
-  }
-*/
-
   detachItems() {
     const { rolesToPermissions } = this.props
     const { selectedOptionsInAList, selectedOptionInLeftList } = this.state
@@ -238,7 +165,6 @@ export class RolesToPermissionsLink extends React.Component {
     let ids = rolesToPermissions.items.map(e => e.id.toString())
     let ids_toBeRetained = ids.filter(each => !ids_toBeRemoved.includes(each))
 
-    //dispatch(roleActions.updateMyPermissions(id, ids_toBeRetained))
     this.props.updateMyPermissions(id, ids_toBeRetained)
     this.setState({ selectedOptionsInAList: [] })
   }
@@ -300,55 +226,6 @@ export class RolesToPermissionsLink extends React.Component {
     ><MdThumbUp/> Grant</Button>
   }
 
-
-/*
-  showDetachedList() {
-    const { rolesToPermissions, permissions, authzn } = this.props
-    const { selectedOptionInLeftList, selectedOptionsInDList } = this.state
-
-    let available = [];
-    let grantedIDs = []
-    if(rolesToPermissions.items) {
-      grantedIDs = rolesToPermissions.items.map(each => each.id)
-    }
-    if(permissions.items && selectedOptionInLeftList) {
-      available = grantedIDs.length ?
-        permissions.items.filter(each => !grantedIDs.includes(each.id)) :
-        permissions.items
-    }
-    return <div>
-      <Label
-        for="detachedItems"
-        className="dlabel"
-      >Available Permissions</Label>
-      <Input
-        type="select"
-        name="detachedItems"
-        id="detachedItems"
-        size="20"
-        className="dselect"
-        onChange={this.handleChangeInDetachedList}
-        multiple
-      >
-      {
-        available.map(each =>
-        <option value={each.id} title={each.description} key={each.id}
-          >{each.operations} on {each.resource} {each.condition?' (restricted)':''}</option>)
-      }
-      </Input>
-      <Button
-        color="success"
-        className="abutton"
-        onClick={this.attachItems}
-        disabled={selectedOptionsInDList.length === 0}
-        hidden={!authzn.allowsEdit}
-        title="Grant selected roles"
-      ><MdThumbUp/> Grant</Button>
-    </div>
-  }
-*/
-
-
   attachItems() {
     const { rolesToPermissions } = this.props
     const { selectedOptionsInDList, selectedOptionInLeftList } = this.state
@@ -358,7 +235,6 @@ export class RolesToPermissionsLink extends React.Component {
     let ids_toBeAdded = selectedOptionsInDList.map(e => e.value)
     let new_ids = ids.concat(ids_toBeAdded)
 
-    //dispatch(roleActions.updateMyPermissions(id, new_ids))
     this.props.updateMyPermissions(id, new_ids)
     this.setState({ selectedOptionsInDList: [] })
   }
@@ -366,11 +242,9 @@ export class RolesToPermissionsLink extends React.Component {
 
 function mapStateToProps(state) {
   const { alert, roles, rolesToPermissions, permissions, authorizations } = state
-//  const { user } = authentication
   const authzn = authorizations[module]
   return {
     alert,
-//    user,
     roles,
     rolesToPermissions,
     permissions,
@@ -395,6 +269,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-//const connectedLinkPage = connect(mapStateToProps)(RolesToPermissionsLinkPage)
-//export { connectedLinkPage as RolesToPermissionsLinkPage }
 export default connect(mapStateToProps, mapDispatchToProps)(RolesToPermissionsLink)

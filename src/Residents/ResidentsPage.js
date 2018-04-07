@@ -31,14 +31,11 @@ export class Residents extends React.Component {
   }
 
   componentDidMount() {
-    //this.props.dispatch(actions.getAll())
-    //this.props.dispatch(userActions.getAll())
     this.props.getAll()
     this.props.getAllUser()
   }
 
   render() {
-    //console.log('Props in ResidentsPage: ', this.props)
     const { residents, alert, authzn, users, trackHistory } = this.props
     let models = residents
     let hist = trackHistory?history:{}
@@ -58,18 +55,9 @@ export class Residents extends React.Component {
     )
   }
 
-/*
-  handleDeleteModel(id) {
-    console.log('Deleting Resident with id: ', id)
-    //return (e) => this.props.dispatch(actions.delete(id))
-    this.props.dispatch(actions.delete(id))
-    this.props.dispatch(actions.getAll()) // get list after deletion of a model
-  } */
   showList(){
     const { residents } = this.props
     let models = residents
-    // make userId -> name array
-
     return <Table>
       <thead>{ this.headerRow() }</thead>
       <tbody>
@@ -92,9 +80,7 @@ export class Residents extends React.Component {
   bodyRow(model, index) {
     const { users } = this.props
     let userNames = []
-    //console.log('users : ', users)
     users.items.forEach(each => userNames[each.id] = each.name)
-    //console.log('userNames: ', userNames)
 
     return <tr key={model.id}>
       <th scope="row">{index+1}</th>
@@ -146,24 +132,18 @@ export class Residents extends React.Component {
 
   handleDeleteModel(id) {
     if( window.confirm('Are you sure?') ) {
-      console.log('Delete confirmed')
-      //this.props.dispatch(actions.delete(id))
-      //this.props.dispatch(actions.getAll()) // get list after deletion of a model
       this.props.delete(id)
       this.props.getAll() // get list after deletion of a model
     }
   }
 
-
 }
 
 function mapStateToProps(state) {
   const { residents, alert, authorizations, users } = state
-  // const { user } = authentication
   const authzn = authorizations[module]
   const trackHistory = true  // added for unit testing; snapshot to be precise
   return {
-//    user,
     residents,
     alert,
     authzn,
@@ -186,6 +166,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-//const connectedResidentsPage = connect(mapStateToProps)(ResidentsPage)
-//export { connectedResidentsPage as ResidentsPage }
 export default connect(mapStateToProps, mapDispatchToProps)(Residents)

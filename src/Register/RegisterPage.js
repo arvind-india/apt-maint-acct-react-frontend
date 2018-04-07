@@ -54,26 +54,8 @@ export class Register extends React.Component {
     event.preventDefault()
     this.setState({ submitted: true })
     this.props.register(user)
-    //const { user, confirmPassword } = this.state
-    //const { dispatch } = this.props
-/*    if(user.name &&
-        user.first_name &&
-        user.last_name &&
-        user.email &&
-        user.password &&
-        confirmPassword &&
-        user.password === confirmPassword
-      ) {
-          //dispatch(userActions.register(user))
-          this.props.register(user)
-        } else {
-          //dispatch(alertActions.error('Missing data...'))
-          this.props.error('Missing data...')
-        } */
   }
   render() {
-    // const { user, submitted, confirmPassword } = this.state
-    //{ alert.message && <div className={`alert ${alert.type}`}>{alert.message}</div> }
     const { alert } = this.props
     return (
       <div>
@@ -110,7 +92,7 @@ export class Register extends React.Component {
     this.validationMsg = 'Missing "Required Data"...'
     this.formValid = false
   }
-// <Label sm={{size: 1, offset: 4}}>User name</Label>
+
   userName() {
     const { submitted, user } = this.state
     return <FormGroup row>
@@ -228,7 +210,6 @@ export class Register extends React.Component {
     </FormGroup>
   }
 
-
 }
 
 function mapStateToProps(state) {
@@ -251,6 +232,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-//const connectedRegisterPage = connect(mapStateToProps)(RegisterPage)
-//export { connectedRegisterPage as RegisterPage }
 export default connect(mapStateToProps, mapDispatchToProps)(Register)

@@ -21,7 +21,7 @@ export const userActions = {
 }
 
 function login(username, password) {
-  console.log('User Actions: ', 'login process...for username: '+username+', password: '+password)
+  // console.log('User Actions: ', 'login process...for username: '+username+', password: '+password)
   return dispatch => {
     dispatch(request({ username }))
 
@@ -34,12 +34,9 @@ function login(username, password) {
           dispatch(authzn.getAll()) // get all authorizations/permissions for this logged user
         },
         error => {
-          console.error(error.response)
+          // console.error(error.response)
           dispatch(failure(error.response))
           dispatch(alertActions.error(error.response.statusText))
-          //dispatch(alertActions.error(error.response))
-          //dispatch(failure(error.response))
-          //dispatch(alertActions.error(error.response.statusText))
         }
       )
   }
@@ -270,8 +267,8 @@ function saveChanges(model) {
           },
           error => {
             let data = error.response.data
-            console.log('error response...')
-            console.log(error.response.data)
+            // console.log('error response...')
+            // console.log(error.response.data)
             let appData;
             if(data.error) { // check if there is a application specific error data enclosed
               appData = data.data
@@ -302,8 +299,8 @@ function saveChanges(model) {
           },
           error => {
             let data = error.response.data
-            console.log('error response...')
-            console.log(error.response.data)
+            // console.log('error response...')
+            // console.log(error.response.data)
             let appData;
             if(data.error) { // check if there is a application specific error data enclosed
               appData = data.data
@@ -336,8 +333,8 @@ function saveProfileChanges(model) {
         },
         error => {
           let data = error.response.data
-          console.log('error response...')
-          console.log(error.response.data)
+          // console.log('error response...')
+          // console.log(error.response.data)
           let appData;
           if(data.error) { // check if there is a application specific error data enclosed
             appData = data.data
