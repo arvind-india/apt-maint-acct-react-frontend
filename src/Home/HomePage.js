@@ -1,12 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Button } from 'reactstrap'
+import { Jumbotron, Container } from 'reactstrap'
 import jwtDecode from 'jwt-decode'
 import moment from 'moment'
 
 import { userActions, alertActions } from '../_actions'
-import { FlashMessage } from '../_components'
+import { FlashMessage, DisqusThread } from '../_components'
 
 export class Home extends React.Component {
 
@@ -48,16 +47,32 @@ export class Home extends React.Component {
     }
     return (
       <div>
-        <h2>Welcome to Account Tracking Website</h2>
         {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={2100}/>}
+        <Jumbotron fluid>
+          <Container fluid>
+            <h1 className="display-5 text-center">Welcome</h1>
+            <h1 className="display-6 text-center">to</h1>
+            <h1 className="display-5 text-center">Apartment Maintenance Account</h1>
+            <hr/>
+            <p className="lead">A demo application developed in React, Redux</p>
+            <hr/>
+            <h5>It is intended</h5>
+            <ul>
+              <li>To track the collections and expenses towards maintenance of flats in the Apartment<br/></li>
+              <li>To ensure any-time-access to transactions in the maintenance account<br/></li>
+              <li>To enable transparency<br/></li>
+            </ul>
+          </Container>
+        </Jumbotron>
         {user && this.showDecodedJWT(user.id_token)}
         <p>
-          {user
-            ?<Button color="danger" onClick={this.handleLogout}>Logout</Button>
-            :<Link to="/login">Login</Link>}
-            <br/>
           {user && this.isJWTExpired(user.id_token) && this.exitApp()}
         </p>
+        <DisqusThread
+          id="12345-12335-123123-1231312-1"
+          title="React Demo"
+          path="/blog/123-disquss-integration"
+        />
       </div>
     )
   }
