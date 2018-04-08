@@ -11,7 +11,8 @@ export const MODULES = [
   { label: 'USER_ROLE', name: 'users-roles', isAdmin: true },
   { label: 'ROLE_PERMISSION', name: 'roles-permissions', isAdmin: true },
   { label: 'USER_PROFILE', name: 'user-profile', isAdmin: false },
-  { label: 'BALANCE', name: 'balance', isAdmin: false }
+  { label: 'BALANCE', name: 'balance', isAdmin: false },
+  { label: 'DURATION', name: 'durations', isAdmin: true }
 ];
 
 // Resident Types as array
