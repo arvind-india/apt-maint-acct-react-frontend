@@ -1,0 +1,223 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DurationsPage params test should render initial layout 1`] = `
+Array [
+  <div>
+    <h3>
+        Durations List
+    </h3>
+    <FlashMessage
+        color={undefined}
+        delay={2100}
+        text="testingAlert"
+    />
+    <Table
+        responsiveTag="div"
+        tag="table"
+    >
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Key
+                </th>
+                <th>
+                    Value
+                </th>
+                <th>
+                    Effective From
+                </th>
+                <th>
+                    Effective To
+                </th>
+                <th>
+                    Actions 
+                    <Link
+                        replace={false}
+                        title="Add"
+                        to={
+                            Object {
+                                "pathname": "/durations/0",
+                                "state": Object {
+                                  "model": Object {
+                                    "effective_from": "",
+                                    "effective_to": "",
+                                    "id": 0,
+                                    "key": "",
+                                    "remarks": "",
+                                    "value": "",
+                                  },
+                                },
+                              }
+                        }
+                    >
+                        <MdAdd />
+                    </Link>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th
+                    scope="row"
+                >
+                    1
+                </th>
+                <td>
+                    guest
+                </td>
+                <td>
+                    guest
+                </td>
+                <td />
+                <td />
+                <td>
+                    <Link
+                        replace={false}
+                        title="Edit"
+                        to={
+                            Object {
+                                "pathname": "/durations/1",
+                                "state": Object {
+                                  "model": Object {
+                                    "effectiveFrom": "2018-03-31",
+                                    "effectiveTo": "2020-03-31",
+                                    "id": 1,
+                                    "key": "guest",
+                                    "remarks": "testing",
+                                    "value": "guest",
+                                  },
+                                },
+                              }
+                        }
+                    >
+                        <MdEdit />
+                    </Link>
+                    <Button
+                        color="link"
+                        hidden={false}
+                        onClick={[Function]}
+                        tag="button"
+                        title="Delete"
+                    >
+                        <MdDelete
+                            color="red"
+                        />
+                    </Button>
+                </td>
+            </tr>
+            <tr>
+                <th
+                    scope="row"
+                >
+                    2
+                </th>
+                <td>
+                    og1
+                </td>
+                <td>
+                    g1
+                </td>
+                <td />
+                <td />
+                <td>
+                    <Link
+                        replace={false}
+                        title="Edit"
+                        to={
+                            Object {
+                                "pathname": "/durations/2",
+                                "state": Object {
+                                  "model": Object {
+                                    "effectiveFrom": "2018-04-31",
+                                    "effectiveTo": "2020-04-31",
+                                    "id": 2,
+                                    "key": "og1",
+                                    "remarks": "testing",
+                                    "value": "g1",
+                                  },
+                                },
+                              }
+                        }
+                    >
+                        <MdEdit />
+                    </Link>
+                    <Button
+                        color="link"
+                        hidden={false}
+                        onClick={[Function]}
+                        tag="button"
+                        title="Delete"
+                    >
+                        <MdDelete
+                            color="red"
+                        />
+                    </Button>
+                </td>
+            </tr>
+            <tr>
+                <th
+                    scope="row"
+                >
+                    3
+                </th>
+                <td>
+                    tg1
+                </td>
+                <td>
+                    t1
+                </td>
+                <td />
+                <td />
+                <td>
+                    <Link
+                        replace={false}
+                        title="Edit"
+                        to={
+                            Object {
+                                "pathname": "/durations/3",
+                                "state": Object {
+                                  "model": Object {
+                                    "effectiveFrom": "2018-05-31",
+                                    "effectiveTo": "2020-05-31",
+                                    "id": 3,
+                                    "key": "tg1",
+                                    "remarks": "testing",
+                                    "value": "t1",
+                                  },
+                                },
+                              }
+                        }
+                    >
+                        <MdEdit />
+                    </Link>
+                    <Button
+                        color="link"
+                        hidden={false}
+                        onClick={[Function]}
+                        tag="button"
+                        title="Delete"
+                    >
+                        <MdDelete
+                            color="red"
+                        />
+                    </Button>
+                </td>
+            </tr>
+        </tbody>
+    </Table>
+    <Router
+        history={Object {}}
+    >
+        <div>
+            <PrivateRoute
+                component={[Function]}
+                path="/durations/:id"
+            />
+        </div>
+    </Router>
+</div>,
+]
+`;

@@ -18,6 +18,7 @@ import { RolesToPermissionsLinkPage } from './Links'
 import { UsersToRolesLinkPage } from './Links'
 import { UsersPage, UserDetailsPage, UserProfilePage } from './Users'
 import { AppNavbar } from './AppNavbar'
+import { DurationsPage, DurationDetailsPage } from './Durations'
 
 class App extends Component {
   constructor(props) {
@@ -71,6 +72,10 @@ class App extends Component {
             </Switch>
             <PrivateRoute path="/usersToRoles" component={UsersToRolesLinkPage} />
             <PrivateRoute path="/userprofile" component={UserProfilePage} />
+            <Switch>
+              <PrivateRoute path="/durations/:id" component={DurationDetailsPage} />
+              <PrivateRoute path="/durations" component={DurationsPage} />
+            </Switch>
           </div>
         </Router>
     );

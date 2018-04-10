@@ -280,6 +280,11 @@ Array [
                                   "label": "BALANCE",
                                   "name": "balance",
                                 },
+                                Object {
+                                  "isAdmin": true,
+                                  "label": "DURATION",
+                                  "name": "durations",
+                                },
                               ]
                         }
                         pageSize={5}

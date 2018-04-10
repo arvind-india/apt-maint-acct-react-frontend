@@ -1,0 +1,204 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DurationsPage params test should render initial layout 1`] = `
+Array [
+  <div>
+    <h2>
+        Duration Details
+    </h2>
+    <FlashMessage
+        color={undefined}
+        delay={2100}
+        text="testingAlert"
+    />
+    <Form
+        className="grid-form"
+        id="durationDetailsForm"
+        onSubmit={[Function]}
+        tag="form"
+    >
+        <fieldset>
+            <legend>
+                Edit
+            </legend>
+            <div
+                data-row-span="2"
+            >
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Key
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="key"
+                        name="key"
+                        onChange={[Function]}
+                        placeholder="Key string here"
+                        tag="p"
+                        type="text"
+                        value="guest"
+                    />
+                </div>
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Value
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="value"
+                        name="value"
+                        onChange={[Function]}
+                        placeholder="Value string here"
+                        tag="p"
+                        type="text"
+                        value="guest"
+                    />
+                </div>
+            </div>
+            <div
+                data-row-span="2"
+            >
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Effective From Date
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="effectiveFrom"
+                        name="effective_from"
+                        onChange={[Function]}
+                        placeholder="Effective Start Date of Key and its Value"
+                        tag="p"
+                        type="date"
+                        value="user"
+                    />
+                </div>
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Effective To Date
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="effectiveTo"
+                        name="effective_to"
+                        onChange={[Function]}
+                        placeholder="Effective End Date of Key and its Value"
+                        tag="p"
+                        type="date"
+                        value="guest"
+                    />
+                </div>
+            </div>
+            <div
+                data-row-span="1"
+            >
+                <div
+                    data-field-span="1"
+                >
+                    <Label
+                        tag="label"
+                        widths={
+                            Array [
+                                "xs",
+                                "sm",
+                                "md",
+                                "lg",
+                                "xl",
+                              ]
+                        }
+                    >
+                        Remarks
+                    </Label>
+                    <Input
+                        className="inputField"
+                        id="remarks"
+                        name="remarks"
+                        onChange={[Function]}
+                        placeholder="Remarks string here"
+                        tag="p"
+                        type="text"
+                        value="2018-03-31"
+                    />
+                </div>
+            </div>
+        </fieldset>
+        <br />
+        <Button
+            color="primary"
+            disabled={true}
+            hidden={false}
+            tag="button"
+            title="No changes to save"
+            type="submit"
+        >
+            Save
+        </Button>
+        <Button
+            color="link"
+            tag="button"
+        >
+            <Link
+                className="text-danger"
+                replace={false}
+                title="Go to Durations"
+                to="/durations"
+            >
+                Cancel
+            </Link>
+        </Button>
+    </Form>
+</div>,
+]
+`;

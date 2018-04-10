@@ -19,7 +19,8 @@ import {
   FaBuildingO,
   FaSignIn,
   FaSignOut,
-  FaBook
+  FaBook,
+  FaArrowsH
 } from 'react-icons/lib/fa' // font-awesome icons
 import {
   MdHome,
@@ -143,6 +144,8 @@ class AppNavbar extends React.Component {
           { this.flatsLink() }
           { this.flatsToResidentsLink() }
           <DropdownItem divider />
+          { this.durationsLink() }
+          <DropdownItem divider />
           { this.rolesLink() }
           { this.permissionsLink() }
           { this.rolesToPermissionsLink() }
@@ -179,7 +182,15 @@ class AppNavbar extends React.Component {
         ><MdAttachment/> Flats-Residents</NavLink>
     </DropdownItem>
   }
-
+  durationsLink() {
+    if( !this.authorizes('durations') ) return ''
+    return <DropdownItem>
+      <NavLink
+        tag={NavLinkRRD}
+        to="/durations"
+        ><FaArrowsH/> Durations</NavLink>
+    </DropdownItem>
+  }
   rolesLink() {
     if( !this.authorizes('roles') ) return ''
     return <DropdownItem>

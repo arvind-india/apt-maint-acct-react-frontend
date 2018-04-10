@@ -32,6 +32,9 @@ import { accounts } from './accounts.reducer'
 import { accountDetails } from './accountDetails.reducer'
 import { summaries } from './summaries.reducer'
 
+import { durations } from './durations.reducer'
+import { durationDetails } from './durationDetails.reducer'
+
 const rootReducer = combineReducers({
   authentication,
   authenticationSocial,
@@ -56,7 +59,9 @@ const rootReducer = combineReducers({
   residentDetails,
   accounts,
   accountDetails,
-  summaries
+  summaries,
+  durations,
+  durationDetails
 })
 
 export default rootReducer
