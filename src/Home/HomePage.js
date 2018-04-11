@@ -78,7 +78,7 @@ export class Home extends React.Component {
 
           <Row>
             <Col sm={{offset: 3, size: 6}}>
-              <DisqusThread
+              < DisqusThread
                 id="12345-12335-123123-1231312-1"
                 title="React Demo"
                 path="/blog/123-disquss-integration"

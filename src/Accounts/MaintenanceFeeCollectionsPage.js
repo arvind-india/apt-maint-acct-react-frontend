@@ -3,14 +3,13 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Table } from 'reactstrap'
 import { Router } from 'react-router-dom'
-
+import Select from 'react-select';
 import {
   MdAdd,
   MdVisibility,
   MdEdit,
   MdDelete
 } from 'react-icons/lib/md' // material design icons
-
 import {
   Button,
   Input,
@@ -19,14 +18,16 @@ import {
 
 import { history } from '../_helpers'
 import { PrivateRoute, FlashMessage } from '../_components'
+import { default as detailsPage } from './AccountDetailsPage'
+import { DEFAULTS, MONTHS } from '../_constants'
+import './accounts.css'
 import {
   accountActions as actions,
   userActions,
   durationActions,
   flatActions
 } from '../_actions'
-import { default as detailsPage } from './AccountDetailsPage'
-import { DEFAULTS } from '../_constants'
+
 
 let url = '/accounts'
 let module = 'accounts'
@@ -79,36 +80,45 @@ export class MaintenanceFeeCollections extends React.Component {
       <div>
         <h3>Maintenance Fee Collections</h3>
         {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={2100}/>}
-        <div className="grid-form">{ this.showMonthAndYear() }</div>
+        { this.showMonth() }
+        { this.showYear()}
         {flats.items && authzn && this.showFlatsGrid() }
       </div>
     )
   }
 
-  showMonthAndYear() {
-    const { fromDate, toDate } = this.state
-    return <div data-row-span="6">
-      <div data-field-span="1">
-        <Label>From</Label>
-        <Input
-          type="date"
-          name="fromDate"
-          value={fromDate}
-          placeholder="Accounts from this date"
+  showMonth() {
+    const { for_month } = this.state
+    let current = new Date().getMonth()
+    return <Select
+          id="forMonth"
+          name="forMonth"
+          value={current}
+          multi={false}
+          joinValues={false}
+          simpleValue={true}
+          placeholder="Select a Month..."
+          onChange={this.handleChange}
+          valueKey="number"
+          labelKey="name"
+          options={MONTHS}
+        />
+  }
+
+  showYear() {
+    const { for_year } = this.state
+    let current = new Date().getFullYear()
+    return <Input
+          id="forYear"
+          type="number"
+          name="forYear"
+          value={current}
+          placeholder="Year here"
+          className="inputField"
+          min="2013"
+          max="2030"
           onChange={this.handleChange}
         />
-      </div>
-      <div data-field-span="1">
-        <Label>To</Label>
-        <Input
-          type="date"
-          name="toDate"
-          value={toDate}
-          placeholder="Accounts from this date"
-          onChange={this.handleChange}
-        />
-      </div>
-    </div>
   }
 
   handleChange(event) {
@@ -116,15 +126,42 @@ export class MaintenanceFeeCollections extends React.Component {
     this.setState( { [name]: value }, this.getAccounts )
   }
   showFlatsGrid(){
-    const { accounts, flats } = this.props
-
-    return <div>
+    const { flats } = this.props
+    const paidFlats = this.accountsByFlat()
+    return <ul className="grid">
       {flats.items.map( (flat, index) =>
-        <p>{flat.flat_number}</p>
+        <li
+          key={flat.id}
+          className="box"
+          role="button"
+          onClick={event => this.doRemittance(event, flat)}>
+            <div className="flat-number">{ flat.flat_number }</div>
+            <div className="payment">
+              <span>&#10004; Paid</span>
+            </div>
+            <div className="recorded-at">{ flat.flat_number }</div>
+        </li>
       )}
-    </div>
+    </ul>
   }
-
+  accountsByFlat() {
+    const { accounts } = this.props
+    const { for_month, for_year } = this.state
+    let filteredAccounts = accounts.items.filter( (acct) =>
+      acct.category === "Monthly Maintenance" &&
+      acct.for_month === for_month &&
+      acct.for_year  === for_year)
+    let results = filteredAccounts.map( (acct, index) => {
+      results[acct.flat_number] = acct.recorded_at
+    })
+    console.log('accountsByFlat: ', results)
+    return results
+  }
+  doRemittance(event, model) {
+    //const { name, value } = event.target
+    console.log('click event target: ', event.target)
+    console.log('model ', model)
+  }
   addLink() {
     const { authzn } = this.props
     return authzn.allowsAdd ?
