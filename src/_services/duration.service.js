@@ -20,8 +20,8 @@ function getAll() {
     .then(handleResponse)
     .catch(handleError)
 }
-function getActive(key) {
-  return http().get(url + '/active/' + key)
+function getActive(key, date) {
+  return http().post(url, {key, date})
     .then(handleResponse)
     .catch(handleError)
 }

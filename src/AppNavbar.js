@@ -20,7 +20,8 @@ import {
   FaSignIn,
   FaSignOut,
   FaBook,
-  FaArrowsH
+  FaArrowsH,
+  FaInr
 } from 'react-icons/lib/fa' // font-awesome icons
 import {
   MdHome,
@@ -108,6 +109,7 @@ class AppNavbar extends React.Component {
               </DropdownToggle>
               <DropdownMenu>
                 { this.accountsLink() }
+                { this.maintenanceFeeCollectionsLink() }
                 { this.accountSummaryLink() }
               </DropdownMenu>
             </UncontrolledDropdown>
@@ -121,6 +123,16 @@ class AppNavbar extends React.Component {
         to="/accounts"
         title="Show Accounts (all records)"
         ><MdList/> All Records</NavLink>
+    </DropdownItem>
+  }
+  maintenanceFeeCollectionsLink() {
+    if( !this.authorizes('accounts') ) return ''
+    return <DropdownItem>
+      <NavLink
+        tag={NavLinkRRD}
+        to="/maintenance-fee-collections"
+        title="Maintenance Fee Collections in a month"
+        ><FaInr/> Maintenance Fee Collections</NavLink>
     </DropdownItem>
   }
   accountSummaryLink() {

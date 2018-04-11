@@ -8,7 +8,12 @@ import { PrivateRoute } from './_components'
 import { HomePage } from './Home'
 import { LoginPage, ForgotPasswordPage, ResetPasswordPage } from './Login'
 import { RegisterPage } from './Register'
-import { AccountsPage, AccountDetailsPage, SummaryPage } from './Accounts'
+import {
+  AccountsPage,
+  AccountDetailsPage,
+  SummaryPage,
+  MaintenanceFeeCollectionsPage
+} from './Accounts'
 import { ResidentsPage, ResidentDetailsPage } from './Residents'
 import { FlatsPage, FlatDetailsPage } from './Flats'
 import { FlatsToResidentsLinkPage } from './Links'
@@ -48,6 +53,7 @@ class App extends Component {
               <PrivateRoute path="/accounts/:id" component={AccountDetailsPage} />
               <PrivateRoute path="/accounts" component={AccountsPage} />
             </Switch>
+            <PrivateRoute path="/maintenance-fee-collections" component={MaintenanceFeeCollectionsPage} />
             <Switch>
               <PrivateRoute path="/residents/:id" component={ResidentDetailsPage} />
               <PrivateRoute path="/residents" component={ResidentsPage} />

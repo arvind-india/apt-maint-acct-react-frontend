@@ -55,16 +55,16 @@ function getById(id) {
   function failure(id, error) { return { type: constants.GETBYID_FAILURE, id, error } }
 }
 
-function getActive(key) {
+function getActive(key, date) {
   return dispatch => {
-    dispatch(request(key))
-    service.getActive(key)
+    dispatch(request(key, date))
+    service.getActive(key, date)
       .then(
         model => dispatch(success(model)),
-        error => dispatch(failure(error+' in get active duration model by key: '+key))
+        error => dispatch(failure(error+' in get active duration model by key: '+key+' for '+date))
       )
   }
-  function request(key) { return { type: constants.GETACTIVE_REQUEST, key } }
+  function request(key, date) { return { type: constants.GETACTIVE_REQUEST, key, date } }
   function success(model) { return { type: constants.GETACTIVE_SUCCESS, model } }
   function failure(key, error) { return { type: constants.GETACTIVE_FAILURE, key, error } }
 }

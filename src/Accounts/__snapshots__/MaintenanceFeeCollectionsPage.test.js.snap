@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MaintenanceFeeCollectionsPage params test should render initial layout 1`] = `
+Array [
+  <div>
+    <h3>
+        Maintenance Fee Collections
+    </h3>
+    <FlashMessage
+        color={undefined}
+        delay={2100}
+        text="testingAlert"
+    />
+    <div
+        className="grid-form"
+    >
+        <div
+            data-row-span="6"
+        >
+            <div
+                data-field-span="1"
+            >
+                <Label
+                    tag="label"
+                    widths={
+                        Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                    }
+                >
+                    From
+                </Label>
+                <Input
+                    name="fromDate"
+                    onChange={[Function]}
+                    placeholder="Accounts from this date"
+                    tag="p"
+                    type="date"
+                    value={undefined}
+                />
+            </div>
+            <div
+                data-field-span="1"
+            >
+                <Label
+                    tag="label"
+                    widths={
+                        Array [
+                            "xs",
+                            "sm",
+                            "md",
+                            "lg",
+                            "xl",
+                          ]
+                    }
+                >
+                    To
+                </Label>
+                <Input
+                    name="toDate"
+                    onChange={[Function]}
+                    placeholder="Accounts from this date"
+                    tag="p"
+                    type="date"
+                    value={undefined}
+                />
+            </div>
+        </div>
+    </div>
+    Maintenance Fee Collection
+</div>,
+]
+`;
