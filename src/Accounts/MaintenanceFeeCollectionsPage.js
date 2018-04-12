@@ -38,7 +38,7 @@ export class MaintenanceFeeCollections extends React.Component {
     super(props)
     let today = new Date()
     this.state = {
-      forMonth: today.getMonth() + 1,
+      forMonth: today.getMonth()+1,
       forYear: today.getFullYear()
     }
     this.handleChange = this.handleChange.bind(this)
@@ -46,13 +46,14 @@ export class MaintenanceFeeCollections extends React.Component {
   }
   fromDate() {
     const { forMonth, forYear } = this.state
-    return new Date(1, forMonth, forYear)
+    return new Date(forYear, forMonth, 1)
   }
 
   toDate() {
     const { forMonth, forYear } = this.state
     let day = this.noOfDays()
-    return new Date(day, forMonth, forYear)
+    console.log('No of days in '+forMonth+' month is: '+day)
+    return new Date(forYear, forMonth, day)
   }
 
   noOfDays() {
@@ -68,6 +69,8 @@ export class MaintenanceFeeCollections extends React.Component {
   }
 
   componentDidMount() {
+    console.log('Get Accounts from: ', this.fromDate());
+    console.log('Get Accounts to: ', this.toDate())
     this.props.getAccountsFor(this.fromDate(), this.toDate())
     this.props.getFlats()
   }
@@ -88,12 +91,11 @@ export class MaintenanceFeeCollections extends React.Component {
   }
 
   showMonth() {
-    const { for_month } = this.state
-    let current = new Date().getMonth()
+    const { forMonth } = this.state
     return <Select
           id="forMonth"
           name="forMonth"
-          value={current}
+          value={forMonth}
           multi={false}
           joinValues={false}
           simpleValue={true}
@@ -106,13 +108,12 @@ export class MaintenanceFeeCollections extends React.Component {
   }
 
   showYear() {
-    const { for_year } = this.state
-    let current = new Date().getFullYear()
+    const { forYear } = this.state
     return <Input
           id="forYear"
           type="number"
           name="forYear"
-          value={current}
+          value={forYear}
           placeholder="Year here"
           className="inputField"
           min="2013"
@@ -136,9 +137,9 @@ export class MaintenanceFeeCollections extends React.Component {
           role="button"
           onClick={event => this.doRemittance(event, flat)}>
             <div className="flat-number">{ flat.flat_number }</div>
-            <div className="payment">
-              <span>&#10004; Paid</span>
-            </div>
+            {paidFlats.length > 0 && <div className="payment">
+              <span>&#10004; Paid2</span>
+            </div>}
             <div className="recorded-at">{ flat.flat_number }</div>
         </li>
       )}
@@ -146,11 +147,12 @@ export class MaintenanceFeeCollections extends React.Component {
   }
   accountsByFlat() {
     const { accounts } = this.props
-    const { for_month, for_year } = this.state
+    const { forMonth, forYear } = this.state
+    if(!accounts.items) return []
     let filteredAccounts = accounts.items.filter( (acct) =>
       acct.category === "Monthly Maintenance" &&
-      acct.for_month === for_month &&
-      acct.for_year  === for_year)
+      acct.for_month === forMonth &&
+      acct.for_year  === forYear)
     let results = filteredAccounts.map( (acct, index) => {
       results[acct.flat_number] = acct.recorded_at
     })
