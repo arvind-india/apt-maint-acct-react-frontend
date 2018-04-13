@@ -42,8 +42,8 @@ export class MaintenanceFeeCollections extends React.Component {
       forYear: today.getFullYear()
     }
     this.handleChange = this.handleChange.bind(this)
-//    this.handleDeleteModel = this.handleDeleteModel.bind(this)
   }
+
   fromDate() {
     const { forMonth, forYear } = this.state
     return new Date(forYear, forMonth, 1)
@@ -69,15 +69,12 @@ export class MaintenanceFeeCollections extends React.Component {
   }
 
   componentDidMount() {
-    //console.log('Get Accounts from: ', this.fromDate());
-    //console.log('Get Accounts to: ', this.toDate())
     this.props.getAccountsFor(this.fromDate(), this.toDate())
-    this.props.getFlats()
+    this.props.getAllFlats()
   }
 
   render() {
     const { accounts, flats, alert, authzn, trackHistory } = this.props
-    //let models = accounts
     let hist = trackHistory?history:{}
     return (
       <div>
@@ -93,33 +90,33 @@ export class MaintenanceFeeCollections extends React.Component {
   showMonth() {
     const { forMonth } = this.state
     return <Select
-          id="forMonth"
-          name="forMonth"
-          value={forMonth}
-          multi={false}
-          joinValues={false}
-          simpleValue={true}
-          placeholder="Select a Month..."
-          onChange={this.handleChange}
-          valueKey="number"
-          labelKey="name"
-          options={MONTHS}
-        />
+      id="forMonth"
+      name="forMonth"
+      value={forMonth}
+      multi={false}
+      joinValues={false}
+      simpleValue={true}
+      placeholder="Select a Month..."
+      onChange={this.handleChange}
+      valueKey="number"
+      labelKey="name"
+      options={MONTHS}
+    />
   }
 
   showYear() {
     const { forYear } = this.state
     return <Input
-          id="forYear"
-          type="number"
-          name="forYear"
-          value={forYear}
-          placeholder="Year here"
-          className="inputField"
-          min="2013"
-          max="2030"
-          onChange={this.handleChange}
-        />
+      id="forYear"
+      type="number"
+      name="forYear"
+      value={forYear}
+      placeholder="Year here"
+      className="inputField"
+      min="2013"
+      max="2030"
+      onChange={this.handleChange}
+    />
   }
 
   handleChange(event) {
@@ -129,26 +126,12 @@ export class MaintenanceFeeCollections extends React.Component {
   showFlatsGrid(){
     const { flats } = this.props
     const paid = this.paidStatus()
-//console.log('paid status: ', paid)
-// <div className="flat-number">{ flat.flat_number }</div>
-/*
-{paid[flat.flat_number] && <div className="payment">
-  <span>&#10004; Paid</span>
-</div>}
-
-{paid[flat.flat_number] && <div className="recorded-at">
-  <span>{paid[flat.flat_number].recorded_at}</span>
-</div>}
-onClick={event => this.toggleRemittance(event, flat, paid[flat.flat_number])}
-*/
-
     return <ul className="grid">
       {flats.items.map( (flat, index) =>
         <li
           key={flat.id}
           className="box"
-          role="button"
-          >
+          role="button">
             { this.showFlatNumber(flat.flat_number, paid[flat.flat_number]) }
             { this.showPaidStatus(flat, paid[flat.flat_number]) }
             { this.showPaidDate(flat, paid[flat.flat_number]) }
@@ -158,25 +141,37 @@ onClick={event => this.toggleRemittance(event, flat, paid[flat.flat_number])}
   }
   showFlatNumber(flat_number, accountModel) {
     const { authzn } = this.props
-    let model = accountModel ? accountModel : this.newModel()
+    let model = accountModel ? accountModel : this.newModel(flat_number)
+    let title = authzn.allowsAdd && model.id === 0 ? 'Add' :
+      authzn.allowsEdit ? 'Edit' : 'View'
     return <Link
       to={{ pathname: `${url}/${model.id}`, state:{model: model} }}
-      title={authzn.allowsEdit?"Edit":"View"}
-    >{flat_number}</Link>
+      title={title}>{flat_number}</Link>
   }
   showPaidStatus(flat, accountModel) {
-    let status = accountModel? <span>&#10004; Paid</span> : 'x'
+    let status = accountModel? <span>&#10004; Paid</span> : <span>x</span>
     return <div
       className="payment"
       role="button"
       onClick={event => this.toggleRemittance(event, accountModel)}
       >{status}</div>
   }
-  showPaidDate(flat, accountModel) {
-    let date = accountModel ? <span>{accountModel.recorded_at}</span> : ''
+/*  showPaidDate(flat, accountModel) {
+    let date = accountModel ? <span>{accountModel.recorded_at}</span> : <span>-</span>
     return <div
       className='recorded-at'
       >{date}</div>
+  } */
+  showPaidDate(flat, accountModel) {
+    let date = accountModel ? accountModel.recorded_at : null
+    return <Input
+      id="recorded_at"
+      type="date"
+      name="recorded_at"
+      value={date}
+      className="inputField"
+      onChange={(event) => this.updatePaidDate(event, accountModel)}
+    />
   }
   paidStatus() {
     // builds association between flat number and remittance made for that flat
@@ -201,45 +196,45 @@ onClick={event => this.toggleRemittance(event, flat, paid[flat.flat_number])}
       acct.for_year  === forYear)
     return remittances
   }
-  toggleRemittance(event, accountModel, remittance) {
-    //const { name, value } = event.target
-    console.log('click event target: ', event.target)
-    console.log('accountModel ', accountModel)
-    remittance ?
-      window.confirm('Confirm REMOVAL of PAID status') ?
-        console.log('Removal confirmed') :
-        console.log('Removal NOT confirmed') :
-      window.confirm('Confirm ADDITION of PAID status') ?
-        console.log('Addition confimed') :
-        console.log('Addition NOT confirmed')
-  }
-  addLink() {
+
+  toggleRemittance(event, accountModel) {
     const { authzn } = this.props
-    return authzn.allowsAdd ?
-      <Link to={{ pathname: `${url}/0`, state: this.newModel() }} title="Add"><MdAdd/></Link> :
-      ''
-  }
-  newModel() {
-    return {
-      model: {
-        id: 0,
-        recorded_at: '',
-        item: '',
-        flat_number:'',
-        name: '',
-        for_month: '',
-        for_year: '',
-        crdr: '',
-        amount: '',
-        balance: '',
-        category: '',
-        remarks: ''
+    if(!authzn.allowsAdd && !authzn.allowsEdit) {
+      return null // no authorization for add or edit, then do nothing, just return
+    }
+    if (accountModel) {
+      if (window.confirm('Confirm REMOVAL of PAID status')) {
+        console.log('Removal confirmed')
+        this.props.delete(accountModel.id)
+      }
+    } else {
+      let newModel = this.newModel(accountModel.flat_number)
+      if (window.confirm('Confirm ADDITION of PAID status')) {
+        console.log('Addition confimed')
+        this.props.saveChanges(newModel)
       }
     }
   }
+  newModel(flat_number='') {
+    const { forMonth, forYear } = this.state
+    let today = new Date().toISOString().split('T')[0];
+    return {
+      id: 0,
+      recorded_at: today,
+      item: 'Monthly Maintenance Fee',
+      flat_number: flat_number,
+      name: '',
+      for_month: forMonth,
+      for_year: forYear,
+      crdr: 'cr',
+      amount: '600',
+      balance: '',
+      category: 'Monthly Maintenance',
+      remarks: 'Remitting monthly maintenance'
+    }
+  }
 
-
-}
+} // end of class
 
 function mapStateToProps(state) {
   const { accounts, alert, authorizations, users, flats } = state
@@ -257,17 +252,20 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getFlats: () => {
+    getAllFlats: () => {
       dispatch(flatActions.getAll())
     },
     getAccountsFor: (fromDate, toDate) => {
       dispatch(actions.getListFor(fromDate, toDate))
     },
-    delete: (id) => {
-      dispatch(actions.delete(id))
-    },
     getActive: (key, date) => {
       dispatch(durationActions.getActive(key, date))
+    },
+    saveChanges: (model) => {
+      dispatch(actions.saveChanges(model))
+    },
+    delete: (id) => {
+      dispatch(actions.delete(id))
     }
   }
 }

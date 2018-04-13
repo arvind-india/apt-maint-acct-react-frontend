@@ -19,6 +19,7 @@ import { accountActions as actions,
 
 import { CATEGORIES, MONTHS } from '../_constants'
 import { FlashMessage } from '../_components'
+//import { history } from '../_helpers'
 
 let module = 'accounts' // module name
 
@@ -125,9 +126,21 @@ export class AccountDetails extends React.Component {
           to="/accounts"
           className="text-danger"
           title="Go to Accounts"
-          >Cancel</Link></Button>
+          >Cancel</Link>
+      </Button>
+
+      <Button
+        color="link"
+        className="text-danger"
+        title="Go back"
+        onClick={this.props.history.back}
+      >Go Back</Button>
     </Form>
   }
+
+/*
+
+*/
 
   showRecordedAt() {
     const { submitted, model } = this.state

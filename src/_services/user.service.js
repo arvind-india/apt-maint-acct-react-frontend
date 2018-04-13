@@ -133,7 +133,8 @@ function authorizationsByResource(models) {
   // console.log('user service >> authorizationsByResource(models)..........', models)
   models.forEach(model => {
     let existingPermission = result[model.resource]
-    let currentPermission = extractPermission(model, existingPermission)
+    //let currentPermission = extractPermission(model, existingPermission)
+    let currentPermission = extractPermission(model)
     result[model.resource] = existingPermission ?
       mergePermissions(existingPermission, currentPermission) :
       currentPermission
@@ -141,7 +142,8 @@ function authorizationsByResource(models) {
   sessionStorage.setItem('authorizations', JSON.stringify(result))
   return result;
 }
-function extractPermission(model, existingPermission=null) {
+//function extractPermission(model, existingPermission=null) {
+function extractPermission(model) {
   return {
     allowsAdd: model.operations.includes('C'),
     allowsView: model.operations.includes('R'),
