@@ -57,6 +57,9 @@ const mockProps = {
   users: {
     items: []
   },
+  flats: {
+    items: []
+  },
   alert: {message: "testingAlert"},
   authzn: {
     allowsAdd: true,

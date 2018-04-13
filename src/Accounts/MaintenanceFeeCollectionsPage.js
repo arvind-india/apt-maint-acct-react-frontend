@@ -69,8 +69,8 @@ export class MaintenanceFeeCollections extends React.Component {
   }
 
   componentDidMount() {
-    console.log('Get Accounts from: ', this.fromDate());
-    console.log('Get Accounts to: ', this.toDate())
+    //console.log('Get Accounts from: ', this.fromDate());
+    //console.log('Get Accounts to: ', this.toDate())
     this.props.getAccountsFor(this.fromDate(), this.toDate())
     this.props.getFlats()
   }
@@ -128,41 +128,90 @@ export class MaintenanceFeeCollections extends React.Component {
   }
   showFlatsGrid(){
     const { flats } = this.props
-    const paidFlats = this.accountsByFlat()
+    const paid = this.paidStatus()
+//console.log('paid status: ', paid)
+// <div className="flat-number">{ flat.flat_number }</div>
+/*
+{paid[flat.flat_number] && <div className="payment">
+  <span>&#10004; Paid</span>
+</div>}
+
+{paid[flat.flat_number] && <div className="recorded-at">
+  <span>{paid[flat.flat_number].recorded_at}</span>
+</div>}
+onClick={event => this.toggleRemittance(event, flat, paid[flat.flat_number])}
+*/
+
     return <ul className="grid">
       {flats.items.map( (flat, index) =>
         <li
           key={flat.id}
           className="box"
           role="button"
-          onClick={event => this.doRemittance(event, flat)}>
-            <div className="flat-number">{ flat.flat_number }</div>
-            {paidFlats.length > 0 && <div className="payment">
-              <span>&#10004; Paid2</span>
-            </div>}
-            <div className="recorded-at">{ flat.flat_number }</div>
+          >
+            { this.showFlatNumber(flat.flat_number, paid[flat.flat_number]) }
+            { this.showPaidStatus(flat, paid[flat.flat_number]) }
+            { this.showPaidDate(flat, paid[flat.flat_number]) }
         </li>
       )}
     </ul>
   }
-  accountsByFlat() {
+  showFlatNumber(flat_number, accountModel) {
+    const { authzn } = this.props
+    let model = accountModel ? accountModel : this.newModel()
+    return <Link
+      to={{ pathname: `${url}/${model.id}`, state:{model: model} }}
+      title={authzn.allowsEdit?"Edit":"View"}
+    >{flat_number}</Link>
+  }
+  showPaidStatus(flat, accountModel) {
+    let status = accountModel? <span>&#10004; Paid</span> : 'x'
+    return <div
+      className="payment"
+      role="button"
+      onClick={event => this.toggleRemittance(event, accountModel)}
+      >{status}</div>
+  }
+  showPaidDate(flat, accountModel) {
+    let date = accountModel ? <span>{accountModel.recorded_at}</span> : ''
+    return <div
+      className='recorded-at'
+      >{date}</div>
+  }
+  paidStatus() {
+    // builds association between flat number and remittance made for that flat
+    // null if no remittance made for a flat in the month and year
+    const { flats } = this.props
+    const remittances = this.remittances()
+    let results = {}
+    flats.items.map((flat) => {
+      let pflat = remittances.find((each) => each.flat_number === flat.flat_number)
+      results[flat.flat_number] = pflat ? pflat : null
+    })
+    return results
+  }
+  remittances() {
+    // Answers accounts with monthly maintenance fee remitted for the month, year
     const { accounts } = this.props
     const { forMonth, forYear } = this.state
     if(!accounts.items) return []
-    let filteredAccounts = accounts.items.filter( (acct) =>
+    let remittances = accounts.items.filter( (acct) =>
       acct.category === "Monthly Maintenance" &&
       acct.for_month === forMonth &&
       acct.for_year  === forYear)
-    let results = filteredAccounts.map( (acct, index) => {
-      results[acct.flat_number] = acct.recorded_at
-    })
-    console.log('accountsByFlat: ', results)
-    return results
+    return remittances
   }
-  doRemittance(event, model) {
+  toggleRemittance(event, accountModel, remittance) {
     //const { name, value } = event.target
     console.log('click event target: ', event.target)
-    console.log('model ', model)
+    console.log('accountModel ', accountModel)
+    remittance ?
+      window.confirm('Confirm REMOVAL of PAID status') ?
+        console.log('Removal confirmed') :
+        console.log('Removal NOT confirmed') :
+      window.confirm('Confirm ADDITION of PAID status') ?
+        console.log('Addition confimed') :
+        console.log('Addition NOT confirmed')
   }
   addLink() {
     const { authzn } = this.props
