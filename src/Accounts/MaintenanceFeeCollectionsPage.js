@@ -146,7 +146,9 @@ export class MaintenanceFeeCollections extends React.Component {
       authzn.allowsEdit ? 'Edit' : 'View'
     return <Link
       to={{ pathname: `${url}/${model.id}`, state:{model: model} }}
-      title={title}>{flat_number}</Link>
+      title={title}
+      className="flat-number"
+      >{flat_number}</Link>
   }
   showPaidStatus(flat, accountModel) {
     let status = accountModel? <span>&#10004; Paid</span> : <span>x</span>
@@ -156,12 +158,15 @@ export class MaintenanceFeeCollections extends React.Component {
       onClick={event => this.toggleRemittance(event, accountModel)}
       >{status}</div>
   }
-/*  showPaidDate(flat, accountModel) {
+  showPaidDate(flat, accountModel) {
     let date = accountModel ? <span>{accountModel.recorded_at}</span> : <span>-</span>
     return <div
       className='recorded-at'
+      role="button"
+      onClick={() => alert('Change Date')}
       >{date}</div>
-  } */
+  }
+/*
   showPaidDate(flat, accountModel) {
     let date = accountModel ? accountModel.recorded_at : null
     return <Input
@@ -169,10 +174,11 @@ export class MaintenanceFeeCollections extends React.Component {
       type="date"
       name="recorded_at"
       value={date}
-      className="inputField"
+      className="recorded-at date-input"
       onChange={(event) => this.updatePaidDate(event, accountModel)}
     />
   }
+  */
   paidStatus() {
     // builds association between flat number and remittance made for that flat
     // null if no remittance made for a flat in the month and year

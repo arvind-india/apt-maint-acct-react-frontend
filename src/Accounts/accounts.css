@@ -45,3 +45,11 @@
   align-self: end;
   font-size: 70%;
 }
+.date-input {
+    border: none;
+    background: none;
+    color: #fff;
+    width: 100px;
+    margin: 0;
+    padding: 0, 10px;
+}
