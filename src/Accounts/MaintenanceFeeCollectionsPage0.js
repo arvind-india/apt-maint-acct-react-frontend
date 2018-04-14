@@ -27,7 +27,7 @@ import {
   durationActions,
   flatActions
 } from '../_actions'
-import { default as MonthlyFeePage } from './MonthlyFeePage'
+
 
 let url = '/accounts'
 let module = 'accounts'
@@ -36,16 +36,17 @@ export class MaintenanceFeeCollections extends React.Component {
 
   constructor(props) {
     super(props)
-    this.today = new Date()
+    let today = new Date()
+    this.payNow = today.toISOString().substr(0,10)
+    this.storedModels = [] // holds edited account models
     this.state = {
-      forMonth: this.today.getMonth()+1,
-      forYear: this.today.getFullYear()
+      forMonth: today.getMonth()+1,
+      forYear: today.getFullYear(),
+      editDateForFlat: ''
     }
     this.handleChange = this.handleChange.bind(this)
-    this.remittanceAccount = this.remittanceAccount.bind(this)
   }
 
-/*
   fromDate() {
     const { forMonth, forYear } = this.state
     return new Date(forYear, forMonth, 1)
@@ -57,7 +58,6 @@ export class MaintenanceFeeCollections extends React.Component {
     console.log('No of days in '+forMonth+' month is: '+day)
     return new Date(forYear, forMonth, day)
   }
-*/
 
   noOfDays() {
     const { forMonth, forYear } = this.state
@@ -72,10 +72,7 @@ export class MaintenanceFeeCollections extends React.Component {
   }
 
   componentDidMount() {
-    const { forMonth, forYear } = this.state
-    let from = new Date(forYear, forMonth, 1)
-    let to = new Date(forYear, forMonth, this.noOfDays())
-    this.props.getAccountsFor(from, to)
+    this.props.getAccountsFor(this.fromDate(), this.toDate())
     this.props.getAllFlats()
   }
 
@@ -131,47 +128,26 @@ export class MaintenanceFeeCollections extends React.Component {
   }
   showFlatsGrid(){
     const { flats } = this.props
-    //const paid = this.paidStatus()
+    const paid = this.paidStatus()
     return <ul className="grid">
-      { flats.items.map((flat, index) => {
-          let account = this.remittanceAccount(flat.flat_number)
-          if(!account) {
-            account = this.newModel(flat.flat_number)
-          }
-          return <li
-            key={flat.id}
-            className="box"
-            role="button">
-              <MonthlyFeePage flat={flat} account={account}/>
-          </li>
-        })
-      }
+      {flats.items.map( (flat, index) =>
+        this.showListItem(flat, index, paid[flat.flat_number]) )}
     </ul>
   }
-
-/*
-  showListItem(flat, index) {
-    const { accounts } = this.props
-    const { forMonth, forYear } = this.state
-    //const { editDateForFlat } = this.state
-    //let model = accountModel ? accountModel : this.newModel(flat.flat_number)
-    let account = this.remittanceAccount(flat.flat_number)
+  showListItem(flat, index, accountModel) {
+    const { editDateForFlat } = this.state
+    let model = accountModel ? accountModel : this.newModel(flat.flat_number)
     return <li
       key={flat.id}
       className="box"
       role="button">
-        <MonthlyFeePage flat={flat} account={account}/>
+        { this.showFlatNumber(flat, model) }
+        { this.showPaidStatus(flat, model) }
+        { editDateForFlat === flat.flat_number ?
+            this.editPaidDate(flat, model) :
+            this.showPaidDate(flat, model) }
     </li>
   }
-*/
-
-/*
-{ this.showFlatNumber(flat, model) }
-{ this.showPaidStatus(flat, model) }
-{ this.showPaidDate(flat, model) }
-*/
-
-/*
   showFlatNumber(flat, accountModel) {
     const { authzn } = this.props
     //let model = accountModel ? accountModel : this.newModel(flat.flat_number)
@@ -246,10 +222,6 @@ export class MaintenanceFeeCollections extends React.Component {
     })
     return results
   }
-*/
-  remittanceAccount(flatNumber) {
-    return this.remittances().find((each) => each.flat_number === flatNumber)
-  }
   remittances() {
     // Answers accounts with monthly maintenance fee remitted for the month, year
     const { accounts } = this.props
@@ -262,7 +234,6 @@ export class MaintenanceFeeCollections extends React.Component {
     return remittances
   }
 
-/*
   toggleRemittance(event, accountModel) {
     const { authzn } = this.props
     if(!authzn.allowsAdd && !authzn.allowsEdit) {
@@ -281,12 +252,20 @@ export class MaintenanceFeeCollections extends React.Component {
       }
     }
   }
-*/
   newModel(flat_number) {
     const { forMonth, forYear } = this.state
+    let model = null
+    if(flat_number) {
+      model = this.storedModels.find((each) => each.flat_number === flat_number)
+    }
+    if(model) { // if found in storedModels, return it
+      console.log('storedModels: ', model)
+      return model
+    }
+    // else create a new account model
     let newAccountModel = {
       id: 0,
-      recorded_at: this.today.toISOString().substr(0,10),
+      recorded_at: this.payNow,
       item: 'Monthly Maintenance Fee',
       flat_number: flat_number,
       name: '',
@@ -298,10 +277,10 @@ export class MaintenanceFeeCollections extends React.Component {
       category: 'Monthly Maintenance',
       remarks: 'Remitting monthly maintenance'
     }
+    console.log('Created new account model: ', newAccountModel)
+    this.storedModels.push(newAccountModel)
     return newAccountModel
   }
-
-
 
 } // end of class
 
