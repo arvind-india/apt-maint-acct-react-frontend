@@ -121,20 +121,12 @@ export class AccountDetails extends React.Component {
         hidden={!authzn.allowsEdit}
         title={this.validationMsg}
         >Save</Button>
-      <Button color="link">
-        <Link
-          to="/accounts"
-          className="text-danger"
-          title="Go to Accounts"
-          >Cancel</Link>
-      </Button>
-
       <Button
         color="link"
         className="text-danger"
         title="Go back"
-        onClick={this.props.history.back}
-      >Go Back</Button>
+        onClick={this.props.history.goBack}
+      >Cancel</Button>
     </Form>
   }
 

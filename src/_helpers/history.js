@@ -1,7 +1,7 @@
-// import { createBrowserHistory } from 'history'
+import { createBrowserHistory } from 'history'
 
-// export const history = createBrowserHistory()
+export const history = createBrowserHistory()
 
-import { createMemoryHistory } from 'history'
+//import { createMemoryHistory } from 'history'
 
-export const history = createMemoryHistory()
+//export const history = createMemoryHistory()
