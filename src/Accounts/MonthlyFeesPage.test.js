@@ -1,9 +1,9 @@
-// MaintenanceFeeCollectionsPage.test.js
+// MonthlyFeesPage.test.js
 
 import React from 'react'
 import { shallow } from 'enzyme'
 
-import { MaintenanceFeeCollections } from './MaintenanceFeeCollectionsPage'
+import { MonthlyFeesPage } from './MonthlyFeesPage'
 
 const mockProps = {
   trackHistory: false,  // for unit testing history is NOT required as it has 'keys' that are dynamic
@@ -74,10 +74,10 @@ const mockProps = {
   getSessionStorage: jest.fn()
 }
 
-const component = shallow(<MaintenanceFeeCollections {...mockProps} />)
+const component = shallow(<MonthlyFeesPage {...mockProps} />)
 
-describe('MaintenanceFeeCollectionsPage params test', () => {
-  it('should render MaintenanceFeeCollectionsPage without crashing', () => {
+describe('MonthlyFeesPage params test', () => {
+  it('should render MonthlyFeesPage without crashing', () => {
     component
   })
 
@@ -87,12 +87,12 @@ describe('MaintenanceFeeCollectionsPage params test', () => {
 })
 
 /*
-describe('MaintenanceFeeCollectionsPage rows test', () => {
-  let numberOfMockMaintenanceFeeCollections = mockProps.accounts.items.length
+describe('MonthlyFeesPage rows test', () => {
+  let numberOfMockMonthlyFees = mockProps.accounts.items.length
   let tbody = component.find('tbody')
   let rows = tbody.find('tr')
-  it('should have '+numberOfMockMaintenanceFeeCollections+' rows', () => {
-    expect(rows.length).toEqual(numberOfMockMaintenanceFeeCollections)
+  it('should have '+numberOfMockMonthlyFees+' rows', () => {
+    expect(rows.length).toEqual(numberOfMockMonthlyFees)
   })
 })
 */

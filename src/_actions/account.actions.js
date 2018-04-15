@@ -5,6 +5,7 @@ import { history } from '../_helpers'
 
 export const accountActions = {
   getListFor,
+  getMonthlyListFor,
   delete: _delete,
   getById,
   getSummaryList,
@@ -24,6 +25,21 @@ function getListFor(fromDate, toDate) {
   function success(models) { return { type: constants.GETRANGE_SUCCESS, models } }
   function failure(error) { return { type: constants.GETRANGE_FAILURE, error } }
 }
+
+function getMonthlyListFor(month, year) {
+  return dispatch => {
+    dispatch(request())
+    service.getMonthlyListFor(month, year)
+      .then(
+        models => dispatch(success(models)),
+        error => dispatch(failure(error+' getting MONTHLY account models for the given month and year'))
+      )
+  }
+  function request() { return { type: constants.GETMONTHLY_REQUEST } }
+  function success(models) { return { type: constants.GETMONTHLY_SUCCESS, models } }
+  function failure(error) { return { type: constants.GETMONTHLY_FAILURE, error } }
+}
+
 
 // prefixed function name with underscore because delete is a reserved word in javascript
 function _delete(id) {

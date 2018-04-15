@@ -32,21 +32,18 @@ import { default as MonthlyFeePage } from './MonthlyFeePage'
 let url = '/accounts'
 let module = 'accounts'
 
-export class MaintenanceFeeCollections extends React.Component {
+export class MonthlyFees extends React.Component {
 
   constructor(props) {
     super(props)
     this.today = new Date()
-console.log('Today is: ', this.today)
-console.log('getMonth: ', this.today.getMonth())
-console.log('getYear: ', this.today.getFullYear())
     this.state = {
       forMonth: this.today.getMonth(),
       forYear: this.today.getFullYear()
     }
-    this.remittances = []
+//    this.remittances = []
     this.handleChange = this.handleChange.bind(this)
-    this.remittanceAccount = this.remittanceAccount.bind(this)
+//    this.remittanceAccount = this.remittanceAccount.bind(this)
   }
 
 /*
@@ -61,7 +58,6 @@ console.log('getYear: ', this.today.getFullYear())
     console.log('No of days in '+forMonth+' month is: '+day)
     return new Date(forYear, forMonth, day)
   }
-*/
 
   noOfDays() {
     const { forMonth, forYear } = this.state
@@ -75,15 +71,16 @@ console.log('getYear: ', this.today.getFullYear())
         return forYear%4 ? 28 : 29
     }
   }
-
+*/
   componentDidMount() {
     const { forMonth, forYear } = this.state
-    let mo = forMonth + 1 // convert to 1 to 12 based months
+/*    let mo = forMonth + 1 // convert to 1 to 12 based months
     let prefix = mo < 10 ? '0' : ''
     let yyyymm = forYear.toString()+'-'+prefix+mo.toString()+'-'
     let from = yyyymm +'01'
-    let to = yyyymm + this.noOfDays().toString()
-    this.props.getAccountsFor(from, to)
+    let to = yyyymm + this.noOfDays().toString() */
+    //this.props.getAccountsFor(from, to)
+    this.props.getMonthlyAccountsFor(forMonth+1, forYear)
     this.props.getAllFlats()
   }
 
@@ -92,7 +89,7 @@ console.log('getYear: ', this.today.getFullYear())
     let hist = trackHistory?history:{}
     return (
       <div>
-        <h3>Maintenance Fee Collections</h3>
+        <h3>Monthly Maintenance Fees Collection</h3>
         {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={2100}/>}
         { this.showMonth() }
         { this.showYear()}
@@ -138,14 +135,15 @@ console.log('getYear: ', this.today.getFullYear())
     this.setState( { [name]: value }, this.getAccounts )
   }
   showFlatsGrid(){
-    const { flats } = this.props
+    const { flats, accounts } = this.props
     //const paid = this.paidStatus()
     return <ul className="grid">
       { flats.items.map((flat, index) => {
-          let account = this.remittanceAccount(flat.flat_number)
-          if(!account) {
+          //let account = this.remittanceAccount(flat.flat_number)
+          let account = accounts.items.find((acct) => acct.flat_number === flat.flat_number)
+/*          if(!account) {
             account = this.newModel(flat.flat_number)
-          }
+          } */
           return <li
             key={flat.id}
             className="box"
@@ -254,7 +252,7 @@ console.log('getYear: ', this.today.getFullYear())
     })
     return results
   }
-*/
+
   remittanceAccount(flatNumber) {
     return this.getRemittances().find((each) => each.flat_number === flatNumber)
   }
@@ -284,7 +282,7 @@ console.log('forYear: ', forYear)
     return this.remittances
   }
 
-/*
+
   toggleRemittance(event, accountModel) {
     const { authzn } = this.props
     if(!authzn.allowsAdd && !authzn.allowsEdit) {
@@ -303,7 +301,7 @@ console.log('forYear: ', forYear)
       }
     }
   }
-*/
+
   newModel(flat_number) {
     const { forMonth, forYear } = this.state
     let newAccountModel = {
@@ -322,7 +320,7 @@ console.log('forYear: ', forYear)
     }
     return newAccountModel
   }
-
+*/
 
 
 } // end of class
@@ -346,8 +344,11 @@ function mapDispatchToProps(dispatch) {
     getAllFlats: () => {
       dispatch(flatActions.getAll())
     },
-    getAccountsFor: (fromDate, toDate) => {
+/*    getAccountsFor: (fromDate, toDate) => {
       dispatch(actions.getListFor(fromDate, toDate))
+    }, */
+    getMonthlyAccountsFor: (month, year) => {
+      dispatch(actions.getMonthlyListFor(month, year))
     },
     getActive: (key, date) => {
       dispatch(durationActions.getActive(key, date))
@@ -361,4 +362,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MaintenanceFeeCollections)
+export default connect(mapStateToProps, mapDispatchToProps)(MonthlyFees)

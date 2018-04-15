@@ -19,18 +19,36 @@ export class MonthlyFee extends React.Component {
     constructor(props) {
       const { flat, account } = props
       super(props)
-      let today = new Date()
-      this.payNow = today.toISOString().substr(0,10)
+      //let today = new Date()
+      //this.payNow = today.toISOString().substr(0,10)
       //let date = flat && flat.recorded_at ? flat.recorded_at : this.payNow
       //let acct = account ? account : this.newAccount()
       this.state = {
         editDate: false,
-        paid: account.id > 0,
-        paidOn: account.recorded_at,
-        model: account
+        //paid: account.id > 0,
+        //paidOn: account.recorded_at,
+        model: this.initAccount(account)
       }
       this.handleChange = this.handleChange.bind(this)
       this.handleDateChange = this.handleDateChange.bind(this)
+    }
+    initAccount(account) {
+      return account.id > 0 ?
+        account :
+        {
+          id: account.id || 0,
+          recorded_at: account.recorded_at || new Date().toISOString().substr(0,10),
+          item: account.item || 'Monthly Maintenance Fee',
+          flat_number: account.flat_number,
+          name: account.name || account.flat_number+' Resident',
+          for_month: account.for_month,
+          for_year: account.for_year,
+          crdr: account.crdr || 'cr',
+          amount: account.amount || '600',
+          balance: account.balance || '',
+          category: account.category || 'Monthly Maintenance',
+          remarks: account.remarks || 'Remitting monthly maintenance'
+        }
     }
 
     render() {
@@ -47,19 +65,28 @@ export class MonthlyFee extends React.Component {
       //let model = account
       let title = authzn.allowsAdd && model.id === 0 ? 'Add' :
         authzn.allowsEdit ? 'Edit' : 'View'
-      return <Link
+      let link = <Link
         to={{ pathname: `${url}/${model.id}`, state:{model: model} }}
         title={title}
         className="flat-number"
         >{flat.flat_number}</Link>
+
+      return authzn.allowsAdd || authzn.allowsEdit || authzn.allowsView ?
+        link : <span>{flat.flat_number}</span>
     }
     showPaidStatus() {
       const { model } = this.state
+      const { authzn } = this.props
       let status = model.id > 0 ? <span>&#10004; Paid</span> : <span>x</span>
+
+      let style = authzn.allowsAdd || authzn.allowsEdit ?
+                    { cursor: "pointer" } :
+                    { cursor: "default" }
       return <div
         className="payment"
         role="button"
         onClick={() => this.toggleRemittance()}
+        style={style}
         >{status}</div>
     }
     toggleRemittance() {
@@ -68,17 +95,9 @@ export class MonthlyFee extends React.Component {
       if(!authzn.allowsAdd && !authzn.allowsEdit) {
         return null // no authorization for add or edit, then do nothing, just return
       }
-      if (model.id > 0) {
-        if (window.confirm('Confirm REMOVAL of PAID status')) {
-          console.log('Removal confirmed')
-          this.props.delete(model.id)
-        }
-      } else {
-        if (window.confirm('Confirm ADDITION of PAID status')) {
-          console.log('Addition confimed')
-          this.props.saveChanges(model)
-        }
-      }
+      model.id > 0 ?
+        this.props.delete(model.id) :
+        this.props.saveChanges(model)
     }
     showPaidDate() {
       const { editDate } = this.state
@@ -88,10 +107,18 @@ export class MonthlyFee extends React.Component {
     }
     showDate() {
       const { model } = this.state
+      const { authzn } = this.props
+      let style = authzn.allowsAdd || authzn.allowsEdit ?
+        { cursor: "pointer" } :
+        { cursor: "default" }
+      let clickFunction = () =>
+        authzn.allowsAdd || authzn.allowsEdit ?
+          this.setState({editDate: true}) : null;
       return <div
           className="paid-date"
           role="button"
-          onClick={() => this.setState({editDate: true})}
+          onClick={clickFunction}
+          style={style}
         >{model.recorded_at}</div>
     }
     showDateField() {
@@ -124,8 +151,8 @@ export class MonthlyFee extends React.Component {
       this.setState({
         model: {
           ...model,
-          [name]: value
-        }
+          [name]: value },
+        editDate: false
       })
     }
 } // end of MonthlyFee class

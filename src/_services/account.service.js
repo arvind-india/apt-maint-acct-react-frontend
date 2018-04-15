@@ -3,6 +3,7 @@ import  'url-search-params-polyfill'
 
 export const accountService = {
   getListFor,
+  getMonthlyListFor,
   getById,
   getSummaryList,
   update,
@@ -11,13 +12,14 @@ export const accountService = {
 }
 
 let url = '/maintenance-accounts'
+let urlPeriodic = '/maintenance-accounts-periodic'
 
 function http() {
   return axiosClient.instance()
 }
 
 function getListFor(fromDate, toDate) {
-
+console.log('getListFor: '+fromDate+' to '+toDate)
   let urlParams = {
                     params: {
                       fromDate: fromDate.toString(),
@@ -26,6 +28,20 @@ function getListFor(fromDate, toDate) {
                   }
   return http()
     .get(url, urlParams)
+    .then(handleResponse)
+    .catch(this.handleError)
+}
+
+function getMonthlyListFor(month, year) {
+console.log('getMonthlyListFor month: '+month+' year: '+year)
+  let urlParams = {
+                    params: {
+                      month: month,
+                      year: year
+                    }
+                  }
+  return http()
+    .get(urlPeriodic, urlParams)
     .then(handleResponse)
     .catch(this.handleError)
 }
