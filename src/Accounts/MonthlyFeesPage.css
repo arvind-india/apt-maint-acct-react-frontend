@@ -11,6 +11,9 @@
   border-radius: 5px;
   padding: 0;
 }
+.moYr {
+  display: flex;
+}
 /*
 .box:nth-child(even) {
   background-color: #ccc;

@@ -605,17 +605,13 @@ Array [
             Save
         </Button>
         <Button
+            className="text-danger"
             color="link"
+            onClick={[Function]}
             tag="button"
+            title="Go back"
         >
-            <Link
-                className="text-danger"
-                replace={false}
-                title="Go to Accounts"
-                to="/accounts"
-            >
-                Cancel
-            </Link>
+            Cancel
         </Button>
     </Form>
 </div>,

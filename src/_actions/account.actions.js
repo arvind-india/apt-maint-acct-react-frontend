@@ -103,7 +103,8 @@ function saveChanges(model) {
         .then(
           res => {
             dispatch(success())
-            history.push('/accounts', {prevPathname: '/accounts/'+model.id})
+            //history.push('/accounts', {prevPathname: '/accounts/'+model.id})
+            //history.goBack()
             dispatch(alertActions.success('Updated Successfully'))
           },
           error => {
@@ -135,7 +136,8 @@ function saveChanges(model) {
         .then(
           model => {
             dispatch(success())
-            history.push('/accounts')
+            //history.push('/accounts')
+            //history.goBack()
             dispatch(alertActions.success('Added new Flat Details Successfully'))
           },
           error => {

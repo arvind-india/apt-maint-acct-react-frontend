@@ -20,14 +20,14 @@ import { history } from '../_helpers'
 import { PrivateRoute, FlashMessage } from '../_components'
 import { default as detailsPage } from './AccountDetailsPage'
 import { DEFAULTS, MONTHS } from '../_constants'
-import './accounts.css'
+import './MonthlyFeesPage.css'
 import {
   accountActions as actions,
   userActions,
   durationActions,
   flatActions
 } from '../_actions'
-import { default as MonthlyFeePage } from './MonthlyFeePage'
+import { default as Fee } from './Fee'
 
 let url = '/accounts'
 let module = 'accounts'
@@ -39,10 +39,12 @@ export class MonthlyFees extends React.Component {
     this.today = new Date()
     this.state = {
       forMonth: this.today.getMonth(),
-      forYear: this.today.getFullYear()
+      forYear: this.today.getFullYear(),
+      feeChanged: false
     }
 //    this.remittances = []
     this.handleChange = this.handleChange.bind(this)
+    this.handleFeeChanged = this.handleFeeChanged.bind(this)
 //    this.remittanceAccount = this.remittanceAccount.bind(this)
   }
 
@@ -91,9 +93,11 @@ export class MonthlyFees extends React.Component {
       <div>
         <h3>Monthly Maintenance Fees Collection</h3>
         {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={2100}/>}
-        { this.showMonth() }
-        { this.showYear()}
-        { authzn && flats.items && accounts.items && this.showFlatsGrid() }
+        <div className="moYr">
+          { this.showMonth() }
+          { this.showYear()}
+        </div>
+        { accounts.items && flats.items && authzn && this.showFlatsGrid() }
       </div>
     )
   }
@@ -135,20 +139,29 @@ export class MonthlyFees extends React.Component {
     this.setState( { [name]: value }, this.getAccounts )
   }
   showFlatsGrid(){
-    const { flats, accounts } = this.props
+    const { flats, accounts, authzn } = this.props
     //const paid = this.paidStatus()
+    console.log('MonthlyFeesPage::showFlatsGrid().........')
     return <ul className="grid">
       { flats.items.map((flat, index) => {
           //let account = this.remittanceAccount(flat.flat_number)
           let account = accounts.items.find((acct) => acct.flat_number === flat.flat_number)
-/*          if(!account) {
+          console.log('account for flat #'+flat.flat_number); console.log('account: ', account)
+          if(!account || account.id === 0) {
             account = this.newModel(flat.flat_number)
-          } */
+          }
           return <li
             key={flat.id}
             className="box"
             role="button">
-              <MonthlyFeePage flat={flat} account={account}/>
+              <Fee
+                flatNumber={flat.flat_number}
+                account={account}
+                authzn={authzn}
+                cancel={this.handleFeeCancel}
+                remit={this.handleFeeRemit}
+                paidOn={this.handleFeePaidOn}
+              />
           </li>
         })
       }
@@ -301,7 +314,7 @@ console.log('forYear: ', forYear)
       }
     }
   }
-
+*/
   newModel(flat_number) {
     const { forMonth, forYear } = this.state
     let newAccountModel = {
@@ -309,8 +322,8 @@ console.log('forYear: ', forYear)
       recorded_at: this.today.toISOString().substr(0,10),
       item: 'Monthly Maintenance Fee',
       flat_number: flat_number,
-      name: '',
-      for_month: forMonth,
+      name: flat_number+' Resident',
+      for_month: forMonth+1,
       for_year: forYear,
       crdr: 'cr',
       amount: '600',
@@ -320,8 +333,14 @@ console.log('forYear: ', forYear)
     }
     return newAccountModel
   }
-*/
-
+  handleFeeChanged() {
+    const { forMonth, forYear } = this.state
+    console.log('handling fee status...')
+    this.props.getMonthlyAccountsFor(forMonth+1, forYear)
+    this.setState({
+      feeChanged: !this.state.feeChanged
+    })
+  }
 
 } // end of class
 

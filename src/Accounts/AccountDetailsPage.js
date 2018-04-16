@@ -125,7 +125,7 @@ export class AccountDetails extends React.Component {
         color="link"
         className="text-danger"
         title="Go back"
-        onClick={this.props.history.goBack}
+        onClick={() => this.props.history.goBack()}
       >Cancel</Button>
     </Form>
   }

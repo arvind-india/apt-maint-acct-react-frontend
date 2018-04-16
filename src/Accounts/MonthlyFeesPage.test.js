@@ -3,7 +3,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 
-import { MonthlyFeesPage } from './MonthlyFeesPage'
+import { MonthlyFees } from './MonthlyFeesPage'
 
 const mockProps = {
   trackHistory: false,  // for unit testing history is NOT required as it has 'keys' that are dynamic
@@ -67,14 +67,14 @@ const mockProps = {
     allowsDelete: true,
     condition: ''
   },
-  getAll: jest.fn(),
+  getAllFlats: jest.fn(),
   delete: jest.fn(),
-  getListFor: jest.fn(),
-  setSessionStorage: jest.fn(),
-  getSessionStorage: jest.fn()
+  getMonthlyAccountsFor: jest.fn(),
+  getActive: jest.fn(),
+  saveChanges: jest.fn()
 }
 
-const component = shallow(<MonthlyFeesPage {...mockProps} />)
+const component = shallow(<MonthlyFees {...mockProps} />)
 
 describe('MonthlyFeesPage params test', () => {
   it('should render MonthlyFeesPage without crashing', () => {

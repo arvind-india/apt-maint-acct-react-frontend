@@ -1,0 +1,134 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MonthlyFeesPage params test should render initial layout 1`] = `
+Array [
+  <div>
+    <h3>
+        Monthly Maintenance Fees Collection
+    </h3>
+    <FlashMessage
+        color={undefined}
+        delay={2100}
+        text="testingAlert"
+    />
+    <Select
+        arrowRenderer={[Function]}
+        autosize={true}
+        backspaceRemoves={true}
+        backspaceToRemoveMessage="Press backspace to remove {label}"
+        clearAllText="Clear all"
+        clearRenderer={[Function]}
+        clearValueText="Clear value"
+        clearable={true}
+        closeOnSelect={true}
+        deleteRemoves={true}
+        delimiter=","
+        disabled={false}
+        escapeClearsValue={true}
+        filterOptions={[Function]}
+        id="forMonth"
+        ignoreAccents={true}
+        ignoreCase={true}
+        inputProps={Object {}}
+        isLoading={false}
+        joinValues={false}
+        labelKey="name"
+        matchPos="any"
+        matchProp="any"
+        menuBuffer={0}
+        menuRenderer={[Function]}
+        multi={false}
+        name="forMonth"
+        noResultsText="No results found"
+        onBlurResetsInput={true}
+        onChange={[Function]}
+        onCloseResetsInput={true}
+        onSelectResetsInput={true}
+        openOnClick={true}
+        optionComponent={[Function]}
+        options={
+            Array [
+                Object {
+                  "name": "Jan",
+                  "number": 1,
+                },
+                Object {
+                  "name": "Feb",
+                  "number": 2,
+                },
+                Object {
+                  "name": "Mar",
+                  "number": 3,
+                },
+                Object {
+                  "name": "Apr",
+                  "number": 4,
+                },
+                Object {
+                  "name": "May",
+                  "number": 5,
+                },
+                Object {
+                  "name": "Jun",
+                  "number": 6,
+                },
+                Object {
+                  "name": "Jul",
+                  "number": 7,
+                },
+                Object {
+                  "name": "Aug",
+                  "number": 8,
+                },
+                Object {
+                  "name": "Sep",
+                  "number": 9,
+                },
+                Object {
+                  "name": "Oct",
+                  "number": 10,
+                },
+                Object {
+                  "name": "Nov",
+                  "number": 11,
+                },
+                Object {
+                  "name": "Dec",
+                  "number": 12,
+                },
+              ]
+        }
+        pageSize={5}
+        placeholder="Select a Month..."
+        removeSelected={true}
+        required={false}
+        rtl={false}
+        scrollMenuIntoView={true}
+        searchable={true}
+        simpleValue={true}
+        tabSelectsValue={true}
+        trimFilter={true}
+        value={4}
+        valueComponent={[Function]}
+        valueKey="number"
+    />
+    <Input
+        className="inputField"
+        id="forYear"
+        max="2030"
+        min="2013"
+        name="forYear"
+        onChange={[Function]}
+        placeholder="Year here"
+        tag="p"
+        type="number"
+        value={2018}
+    />
+    <ul
+        className="grid"
+    >
+        
+    </ul>
+</div>,
+]
+`;
