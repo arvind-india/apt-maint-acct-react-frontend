@@ -10,7 +10,7 @@ import {
   accountActions as actions,
   durationActions
 } from '../_actions'
-import './MonthlyFeePage.css'
+import './Fee.css'
 
 let url = '/accounts'
 let module = 'accounts'
@@ -22,7 +22,7 @@ export class Fee extends React.Component {
         editDate: false,
         recorded_at: this.props.account.recorded_at
       }
-      this.handleChange = this.handleChange.bind(this)
+      // this.handleChange = this.handleChange.bind(this)
       this.handleDateChange = this.handleDateChange.bind(this)
     }
 
@@ -56,22 +56,22 @@ export class Fee extends React.Component {
       return <div
         className="payment"
         role="button"
-        onClick={() => this.toggleRemittance()}
+        onClick={() => this.togglePayment()}
         style={style}
         >{status}</div>
     }
-    toggleRemittance() {
+    togglePayment() {
       const { authzn, flatNumber, account } = this.props
       if(!authzn.allowsAdd && !authzn.allowsEdit) {
         return null // no authorization for add or edit, then do nothing, just return
       }
       let cancelMsg = 'Confirm Cancel: ' + flatNumber
-      let remitMsg = 'Confirm Remittance: ' + flatNumber
+      let paidMsg = 'Confirm Payment: ' + flatNumber
       if(account.id > 0 && window.confirm(cancelMsg)) {
-        this.props.cancel(flatNumber)
+        this.props.cancel(account)
       }
-      if(account.id === 0 && window.confirm(remitMsg)) {
-        this.props.remit(flatNumber)
+      if(account.id === 0 && window.confirm(paidMsg)) {
+        this.props.paid(flatNumber)
       }
     }
     showPaidDate() {
@@ -122,12 +122,12 @@ export class Fee extends React.Component {
     } */
     handleDateChange(event) {
       const { name, value } = event.target
-      const { flatNumber } = this.props
+      const { account } = this.props
       this.setState({
         [name]: value,
         editDate: false
       })
-      this.props.paidOn(value, flatNumber)
+      this.props.paidOn(value, account)
     }
 } // end of MonthlyFee class
 
