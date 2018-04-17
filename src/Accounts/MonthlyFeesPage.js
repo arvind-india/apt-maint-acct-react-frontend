@@ -27,7 +27,7 @@ import {
   durationActions,
   flatActions
 } from '../_actions'
-import { Fee } from './Fee'
+import { default as Fee } from './Fee'
 
 let url = '/accounts'
 let module = 'accounts'
@@ -37,18 +37,17 @@ export class MonthlyFees extends React.Component {
   constructor(props) {
     super(props)
     this.today = new Date()
-    //let accounts = props.accounts && props.accounts.items ? props.accounts.items : []
     this.state = {
-      accounts: props.accounts.items,
       forMonth: this.today.getMonth(),
       forYear: this.today.getFullYear(),
-      feeChanged: false
+      accounts: props.accounts
     }
 //    this.remittances = []
     this.handleChange = this.handleChange.bind(this)
-    this.handleFeePaid = this.handleFeePaid.bind(this)
-    this.handleFeePaidOn = this.handleFeePaidOn.bind(this)
-    this.handleFeeCancel = this.handleFeeCancel.bind(this)
+    this.getMonthlyAccounts = this.getMonthlyAccounts.bind(this)
+//    this.handleFeePaid = this.handleFeePaid.bind(this)
+//    this.handleFeePaidOn = this.handleFeePaidOn.bind(this)
+//    this.handleFeeCancel = this.handleFeeCancel.bind(this)
 //    this.remittanceAccount = this.remittanceAccount.bind(this)
   }
 
@@ -59,8 +58,7 @@ export class MonthlyFees extends React.Component {
   }
 
   render() {
-    const { flats, alert, authzn, trackHistory } = this.props
-    const { accounts } = this.state
+    const { flats, alert, authzn, trackHistory, accounts } = this.props
     let hist = trackHistory?history:{}
     return (
       <div>
@@ -70,7 +68,8 @@ export class MonthlyFees extends React.Component {
           { this.showMonth() }
           { this.showYear()}
         </div>
-        { accounts && flats.items && authzn && this.showFlatsGrid() }
+        { accounts && accounts.loading && <div>loading...</div>}
+        { accounts.items && flats.items && authzn && this.showFlatsGrid() }
       </div>
     )
   }
@@ -109,22 +108,16 @@ export class MonthlyFees extends React.Component {
 
   handleChange(event) {
     const { name, value } = event.target
-    this.setState( { [name]: value }, this.getAccounts )
+    this.setState( { [name]: value }, this.getMonthlyAccounts )
   }
   showFlatsGrid(){
     const { flats, authzn } = this.props
     const { accounts } = this.state
-    //const paid = this.paidStatus()
-    console.log('MonthlyFeesPage::showFlatsGrid().........')
+    console.log('MonthlyFeesPage::showFlatsGrid().........', accounts)
     return <ul className="grid">
       { flats.items.map((flat, index) => {
-          //let account = this.remittanceAccount(flat.flat_number)
-          let account = accounts.find((acct) => acct.flat_number === flat.flat_number)
-          console.log('account for flat #'+flat.flat_number); console.log('account: ', account)
-          if(!account || account.id === 0) {
-            account = this.newModel(flat.flat_number)
-            accounts.push(account)
-          }
+          let account = accounts.items.find((acct) => acct.flat_number === flat.flat_number)
+          // console.log('account for flat #'+flat.flat_number); console.log('account: ', account)
           return <li
             key={flat.id}
             className="box"
@@ -132,10 +125,7 @@ export class MonthlyFees extends React.Component {
               <Fee
                 flatNumber={flat.flat_number}
                 account={account}
-                authzn={authzn}
-                cancel={this.handleFeeCancel}
-                paid={this.handleFeePaid}
-                paidOn={this.handleFeePaidOn}
+                refresh={this.getMonthlyAccounts}
               />
           </li>
         })
@@ -143,35 +133,37 @@ export class MonthlyFees extends React.Component {
     </ul>
   }
 
-  handleFeePaid(flatNumber) {
-    const { accounts } = this.state
-    console.log('handleFeePaid for '+flatNumber)
-    let acct = accounts.find((each) => each.flat_number === flatNumber)
-    if(acct) {
-      console.log('Saving New Account Details for '+flatNumber)
-      this.props.saveChanges(acct)
+  getMonthlyAccounts() {
+    const { forMonth, forYear } = this.state
+    this.props.getMonthlyAccountsFor(forMonth+1, forYear)
+  }
+/*
+  handleFeePaid(account) {
+    const { forMonth, forYear } = this.state
+    console.log('save new account ', account)
+    this.props.saveChanges(account)
+    this.props.getMonthlyAccountsFor(forMonth+1, forYear)
+    console.log('new accounts list: ', this.props.accounts)
+    if(this.props.accounts.items) {
+      console.log('setting new accounts in to local state....')
+      this.setState({
+        accounts: this.props.accounts
+      })
     } else {
-      console.error('No account details for '+flatNumber)
+      console.log('no setting of new accounts: ', this.props.accounts)
     }
   }
-  handleFeeCancel(account) {
-    console.log('handleFeeCancel for '+account.flat_number)
-    this.props.delete(account.id)
+  handleFeeCancel(accountId) {
+    const { forMonth, forYear } = this.state
+    console.log('delete account id ', accountId)
+    this.props.delete(accountId)
+    // this.props.getMonthlyAccountsFor(forMonth+1, forYear)
   }
-  handleFeePaidOn(newDate, account) {
-    account.recorded_at = newDate
-    if(account.id > 0) {
-      console.log('New Account added with fee paid on as '+account.recorded_at)
-      this.props.saveChanges(account)
-    } else {
-      const { accounts } = this.state
-      let acct = accounts.find((each) => each.id === account.id)
-      if(acct) {
-        acct.recorded_at = newDate
-        console.log('Existing account updated for recorded_at as '+newDate)
-      }
-    }
+  handleFeePaidOn(account) {
+    console.log('Save new paid date ', account)
+    this.props.saveChanges(account)
   }
+
 
   newModel(flat_number) {
     const { forMonth, forYear } = this.state
@@ -190,7 +182,7 @@ export class MonthlyFees extends React.Component {
       remarks: 'Paid monthly maintenance'
     }
     return newAccountModel
-  }
+  } */
 
 } // end of class
 
@@ -222,12 +214,12 @@ function mapDispatchToProps(dispatch) {
     getActive: (key, date) => {
       dispatch(durationActions.getActive(key, date))
     },
-    saveChanges: (model) => {
+/*    saveChanges: (model) => {
       dispatch(actions.saveChanges(model))
     },
     delete: (id) => {
       dispatch(actions.delete(id))
-    }
+    } */
   }
 }
 

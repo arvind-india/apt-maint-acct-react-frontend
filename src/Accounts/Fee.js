@@ -20,21 +20,22 @@ export class Fee extends React.Component {
       super(props)
       this.state = {
         editDate: false,
-        recorded_at: this.props.account.recorded_at
+        account: this.props.account
       }
       // this.handleChange = this.handleChange.bind(this)
       this.handleDateChange = this.handleDateChange.bind(this)
     }
 
     render() {
+      const { account } = this.props
       return <div className="fee">
-        { this.showFlatNumber() }
-        { this.showPaidStatus() }
-        { this.showPaidDate() }
+        { account && this.showFlatNumber() }
+        { account && this.showPaidStatus() }
+        { account && this.showPaidDate() }
       </div>
     }
     showFlatNumber() {
-      const { authzn, flat, flatNumber, account } = this.props
+      const { authzn, flatNumber, account } = this.props
       let title = authzn.allowsAdd && account.id === 0 ? 'Add' :
         authzn.allowsEdit ? 'Edit' : 'View'
       let link = <Link
@@ -47,7 +48,8 @@ export class Fee extends React.Component {
         link : <span>{flatNumber}</span>
     }
     showPaidStatus() {
-      const { authzn, account } = this.props
+      const { authzn } = this.props
+      const { account } = this.state
       let status = account.id > 0 ? <span>&#10004; Paid</span> : <span>x</span>
 
       let style = authzn.allowsAdd || authzn.allowsEdit ?
@@ -61,17 +63,20 @@ export class Fee extends React.Component {
         >{status}</div>
     }
     togglePayment() {
-      const { authzn, flatNumber, account } = this.props
+      const { authzn, flatNumber } = this.props
+      const { account } = this.state
       if(!authzn.allowsAdd && !authzn.allowsEdit) {
         return null // no authorization for add or edit, then do nothing, just return
       }
       let cancelMsg = 'Confirm Cancel: ' + flatNumber
       let paidMsg = 'Confirm Payment: ' + flatNumber
       if(account.id > 0 && window.confirm(cancelMsg)) {
-        this.props.cancel(account)
+        this.props.delete(account.id)
+        this.props.refresh()
       }
       if(account.id === 0 && window.confirm(paidMsg)) {
-        this.props.paid(flatNumber)
+        this.props.saveChanges(account)
+        this.props.refresh()
       }
     }
     showPaidDate() {
@@ -82,7 +87,7 @@ export class Fee extends React.Component {
     }
     showDate() {
       const { authzn } = this.props
-      const { recorded_at } = this.state
+      const { account } = this.state
       let style = authzn.allowsAdd || authzn.allowsEdit ?
         { cursor: "pointer" } :
         { cursor: "default" }
@@ -94,16 +99,16 @@ export class Fee extends React.Component {
           role="button"
           onClick={clickFunction}
           style={style}
-        >{recorded_at}</div>
+        >{account.recorded_at}</div>
     }
     showDateField() {
-      const { recorded_at } = this.state
+      const { account } = this.state
       return <div className="paid-date">
         <Input
           id="recordedAt"
           type="date"
           name="recorded_at"
-          value={recorded_at}
+          value={account.recorded_at}
           onChange={this.handleDateChange}
         />
         <Button
@@ -124,14 +129,18 @@ export class Fee extends React.Component {
       const { name, value } = event.target
       const { account } = this.props
       this.setState({
-        [name]: value,
+        account: {
+          ...account,
+          [name]: value},
         editDate: false
       })
-      this.props.paidOn(value, account)
+      if(account.id > 0) { // update date on existing account whose id is greater than 0
+        this.props.saveChanges(account)
+      }
     }
 } // end of MonthlyFee class
 
-/*
+
 function mapStateToProps(state) {
   const { alert, authorizations } = state
   const authzn = authorizations[module]
@@ -145,9 +154,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getActive: (key, date) => {
-      dispatch(durationActions.getActive(key, date))
-    },
     saveChanges: (model) => {
       dispatch(actions.saveChanges(model))
     },
@@ -158,4 +164,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Fee)
-*/

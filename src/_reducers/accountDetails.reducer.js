@@ -20,6 +20,7 @@ export function accountDetails(state = {}, action) {
       }
     case constants.UPDATE_SUCCESS:
       return {
+        updated: true,
         data: action.model
       }
     case constants.UPDATE_FAILURE:
@@ -32,6 +33,7 @@ export function accountDetails(state = {}, action) {
       }
     case constants.ADD_SUCCESS:
       return {
+        added: true,
         data: action.model
       }
     case constants.ADD_FAILURE:
