@@ -29,6 +29,7 @@ import { residents } from './residents.reducer'
 import { residentDetails } from './residentDetails.reducer'
 
 import { accounts } from './accounts.reducer'
+import { accountsMonthly } from './accountsMonthly.reducer'
 import { accountDetails } from './accountDetails.reducer'
 import { summaries } from './summaries.reducer'
 
@@ -58,6 +59,7 @@ const rootReducer = combineReducers({
   residents,
   residentDetails,
   accounts,
+  accountsMonthly,
   accountDetails,
   summaries,
   durations,

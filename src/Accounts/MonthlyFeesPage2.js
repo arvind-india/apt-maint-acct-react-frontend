@@ -22,7 +22,7 @@ import { default as detailsPage } from './AccountDetailsPage'
 import { DEFAULTS, MONTHS } from '../_constants'
 import './MonthlyFeesPage.css'
 import {
-  accountMonthlyActions as actions,
+  accountActions as actions,
   userActions,
   durationActions,
   flatActions
