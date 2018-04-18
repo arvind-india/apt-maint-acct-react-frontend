@@ -136,8 +136,9 @@ export class MonthlyFees extends React.Component {
   }
   handleAccountPayment(account) {
     if(window.confirm('Are you sure to add payment?')) {
-      this.props.saveChanges(account)
-      this.getMonthlyAccounts()
+      let result = this.props.saveChangesAndRefresh(account, {month: 4, year: 2018})
+      console.log('result of handleAccountPayment: ', result)
+      //this.getMonthlyAccounts()
     }
   }
   handleAccountUpdate(account) {
@@ -145,8 +146,9 @@ export class MonthlyFees extends React.Component {
   }
   handleAccountDelete(accountId) {
     if(window.confirm('Are you sure to Remove?')) {
-      this.props.delete(accountId)
-      this.getMonthlyAccounts()
+      let result = this.props.delete(accountId)
+      console.log('result of handleAccountDelete: ', result)
+      //this.getMonthlyAccounts()
     }
   }
 
@@ -179,6 +181,9 @@ function mapDispatchToProps(dispatch) {
     },
     saveChanges: (model) => {
       dispatch(actions.saveChanges(model))
+    },
+    saveChangesAndRefresh: (model, data) => {
+      dispatch(actions.saveChangesAndRefresh(model, data))
     },
     delete: (id) => {
       dispatch(actions.delete(id))
