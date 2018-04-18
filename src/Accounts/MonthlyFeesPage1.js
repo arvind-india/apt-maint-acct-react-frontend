@@ -27,7 +27,7 @@ import {
   durationActions,
   flatActions
 } from '../_actions'
-import { Fee } from './Fee'
+import { default as Fee } from './Fee'
 
 let url = '/accounts'
 let module = 'accounts'
@@ -40,16 +40,23 @@ export class MonthlyFees extends React.Component {
     this.state = {
       forMonth: this.today.getMonth(),
       forYear: this.today.getFullYear(),
+      // accounts: props.accounts
     }
+//    this.remittances = []
     this.handleChange = this.handleChange.bind(this)
-    //this.getMonthlyAccounts = this.getMonthlyAccounts.bind(this)
+    this.getMonthlyAccounts = this.getMonthlyAccounts.bind(this)
     this.handleAccountPayment = this.handleAccountPayment.bind(this)
     this.handleAccountUpdate = this.handleAccountUpdate.bind(this)
     this.handleAccountDelete = this.handleAccountDelete.bind(this)
+//    this.handleFeePaid = this.handleFeePaid.bind(this)
+//    this.handleFeePaidOn = this.handleFeePaidOn.bind(this)
+//    this.handleFeeCancel = this.handleFeeCancel.bind(this)
+//    this.remittanceAccount = this.remittanceAccount.bind(this)
   }
 
   componentDidMount() {
-    this.getMonthlyAccounts()
+    const { forMonth, forYear } = this.state
+    this.props.getMonthlyAccountsFor(forMonth+1, forYear)
     this.props.getAllFlats()
   }
 
@@ -108,10 +115,12 @@ export class MonthlyFees extends React.Component {
   }
   showFlatsGrid(){
     const { flats, authzn, accounts } = this.props
+    // const { accounts } = this.state
     console.log('MonthlyFeesPage::showFlatsGrid().........', accounts)
     return <ul className="grid">
       { flats.items.map((flat, index) => {
           let account = accounts.items.find((acct) => acct.flat_number === flat.flat_number)
+          // console.log('account for flat #'+flat.flat_number); console.log('account: ', account)
           return <li
             key={flat.id}
             className="box"
@@ -119,7 +128,7 @@ export class MonthlyFees extends React.Component {
               <Fee
                 flatNumber={flat.flat_number}
                 account={account}
-                authzn={authzn}
+                refresh={this.getMonthlyAccounts}
                 onPayment={() => this.handleAccountPayment(account)}
                 onUpdate={(acct) => this.handleAccountUpdate(acct)}
                 onDelete={() => this.handleAccountDelete(account.id)}
@@ -149,6 +158,52 @@ export class MonthlyFees extends React.Component {
       this.getMonthlyAccounts()
     }
   }
+/*
+  handleFeePaid(account) {
+    const { forMonth, forYear } = this.state
+    console.log('save new account ', account)
+    this.props.saveChanges(account)
+    this.props.getMonthlyAccountsFor(forMonth+1, forYear)
+    console.log('new accounts list: ', this.props.accounts)
+    if(this.props.accounts.items) {
+      console.log('setting new accounts in to local state....')
+      this.setState({
+        accounts: this.props.accounts
+      })
+    } else {
+      console.log('no setting of new accounts: ', this.props.accounts)
+    }
+  }
+  handleFeeCancel(accountId) {
+    const { forMonth, forYear } = this.state
+    console.log('delete account id ', accountId)
+    this.props.delete(accountId)
+    // this.props.getMonthlyAccountsFor(forMonth+1, forYear)
+  }
+  handleFeePaidOn(account) {
+    console.log('Save new paid date ', account)
+    this.props.saveChanges(account)
+  }
+
+
+  newModel(flat_number) {
+    const { forMonth, forYear } = this.state
+    let newAccountModel = {
+      id: 0,
+      recorded_at: this.today.toISOString().substr(0,10),
+      item: 'Monthly Maintenance Fee',
+      flat_number: flat_number,
+      name: flat_number+' Resident',
+      for_month: forMonth+1,
+      for_year: forYear,
+      crdr: 'cr',
+      amount: '600',
+      balance: '',
+      category: 'Monthly Maintenance',
+      remarks: 'Paid monthly maintenance'
+    }
+    return newAccountModel
+  } */
 
 } // end of class
 
@@ -171,6 +226,9 @@ function mapDispatchToProps(dispatch) {
     getAllFlats: () => {
       dispatch(flatActions.getAll())
     },
+/*    getAccountsFor: (fromDate, toDate) => {
+      dispatch(actions.getListFor(fromDate, toDate))
+    }, */
     getMonthlyAccountsFor: (month, year) => {
       dispatch(actions.getMonthlyListFor(month, year))
     },
