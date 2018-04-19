@@ -129,20 +129,24 @@ export class MonthlyFees extends React.Component {
       }
     </ul>
   }
-
-  getMonthlyAccounts() {
+  moYrData() {
     const { forMonth, forYear } = this.state
-    this.props.getMonthlyAccountsFor(forMonth+1, forYear)
+    return {
+      month: forMonth+1,
+      year: forYear
+    }
+  }
+  getMonthlyAccounts() {
+    //const { forMonth, forYear } = this.state
+    this.props.getMonthlyAccountsFor(this.moYrData())
   }
   handleAccountPayment(account) {
     if(window.confirm('Are you sure to add payment?')) {
-      let result = this.props.saveChangesAndRefresh(account, {month: 4, year: 2018})
-      console.log('result of handleAccountPayment: ', result)
-      //this.getMonthlyAccounts()
+      this.props.saveChangesAndGetMonthlyList(account, this.moYrData())
     }
   }
   handleAccountUpdate(account) {
-    this.props.saveChanges(account)
+    this.props.saveChangesAndGetMonthlyList(account)
   }
   handleAccountDelete(accountId) {
     if(window.confirm('Are you sure to Remove?')) {
@@ -173,17 +177,17 @@ function mapDispatchToProps(dispatch) {
     getAllFlats: () => {
       dispatch(flatActions.getAll())
     },
-    getMonthlyAccountsFor: (month, year) => {
-      dispatch(actions.getMonthlyListFor(month, year))
+    getMonthlyAccountsFor: (data) => {
+      dispatch(actions.getMonthlyListFor(data))
     },
     getActive: (key, date) => {
       dispatch(durationActions.getActive(key, date))
     },
-    saveChanges: (model) => {
+/*    saveChanges: (model) => {
       dispatch(actions.saveChanges(model))
-    },
-    saveChangesAndRefresh: (model, data) => {
-      dispatch(actions.saveChangesAndRefresh(model, data))
+    }, */
+    saveChangesAndGetMonthlyList: (model, data) => {
+      dispatch(actions.saveChangesAndGetMonthlyList(model, data))
     },
     delete: (id) => {
       dispatch(actions.delete(id))

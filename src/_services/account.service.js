@@ -32,12 +32,12 @@ console.log('getListFor: '+fromDate+' to '+toDate)
     .catch(this.handleError)
 }
 
-function getMonthlyListFor(month, year) {
-console.log('getMonthlyListFor month: '+month+' year: '+year)
+function getMonthlyListFor(data) {
+console.log('getMonthlyListFor month: '+data.month+' year: '+data.year)
   let urlParams = {
                     params: {
-                      month: month,
-                      year: year
+                      month: data.month,
+                      year: data.year
                     }
                   }
   return http()

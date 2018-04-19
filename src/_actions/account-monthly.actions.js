@@ -6,14 +6,14 @@ import { history } from '../_helpers'
 export const accountMonthlyActions = {
   getMonthlyListFor,
   delete: _delete,
-  saveChanges,
-  saveChangesAndRefresh
+  //saveChanges,
+  saveChangesAndGetMonthlyList
 }
 
-function getMonthlyListFor(month, year) {
+function getMonthlyListFor(data) {
   return dispatch => {
     dispatch(request())
-    service.getMonthlyListFor(month, year)
+    service.getMonthlyListFor(data)
       .then(
         models => dispatch(success(models)),
         error => dispatch(failure(error+' getting MONTHLY account models for the given month and year'))
@@ -41,6 +41,7 @@ function _delete(id) {
   function failure(id, error) { return { type: constants.DELETE_FAILURE, id, error } }
 }
 
+/*
 function saveChanges(model) {
   if(model.id === 0) {
     return add(model)
@@ -115,9 +116,9 @@ function saveChanges(model) {
   }
 
 } // end of saveChanges()
+*/
 
-
-function saveChangesAndRefresh(model, data=null) {
+function saveChangesAndGetMonthlyList(model, data=null) {
   if(model.id === 0) {
     return add(model)
   } else {
@@ -165,10 +166,8 @@ function saveChangesAndRefresh(model, data=null) {
         .then(
           model => {
             if(data) {
-              console.log('account >> add >> data is: ', data)
-              //dispatch(accountActions.getMonthlyListFor(data.month, data.year))
-            } else {
-              console.log('account >> add >> no data ', data)
+              //console.log('account >> add >> data is: ', data)
+              dispatch(accountMonthlyActions.getMonthlyListFor(data))
             }
             dispatch(success())
             //history.push('/accounts')
@@ -196,4 +195,4 @@ function saveChangesAndRefresh(model, data=null) {
     function failure(error) { return { type: constants.ADD_FAILURE, error } }
   }
 
-} // end of saveChangesAndRefresh()
+} // end of saveChangesAndGetMonthlyList()
