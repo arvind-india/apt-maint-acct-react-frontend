@@ -8,7 +8,7 @@ export const accountMonthlyActions = {
   getMonthlyListFor,
   delete: _delete,
   //saveChanges,
-  saveChangesAndGetMonthlyList
+  saveChangesAndGet
 }
 
 function getModelFor(data) {
@@ -61,7 +61,7 @@ function _delete(id, data) {
   function failure(id, error) { return { type: constants.DELETE_FAILURE, id, error } }
 }
 
-function saveChangesAndGetMonthlyList(model, data=null) {
+function saveChangesAndGet(model, data=null) {
   if(model.id === 0) {
     return add(model)
   } else {
@@ -141,4 +141,4 @@ function saveChangesAndGetMonthlyList(model, data=null) {
     function failure(error) { return { type: constants.ADD_FAILURE, error } }
   }
 
-} // end of saveChangesAndGetMonthlyList()
+} // end of saveChangesAndGet()

@@ -42,19 +42,23 @@ export class MonthlyFees extends React.Component {
       forYear: this.today.getFullYear(),
     }
     this.handleChange = this.handleChange.bind(this)
-    //this.getMonthlyAccounts = this.getMonthlyAccounts.bind(this)
-    //this.handleAccountPayment = this.handleAccountPayment.bind(this)
-    //this.handleAccountUpdate = this.handleAccountUpdate.bind(this)
-    //this.handleAccountDelete = this.handleAccountDelete.bind(this)
   }
 
   componentDidMount() {
-    this.getMonthlyAccounts()
+    const { flatNumber } = this.props
+    const { forMonth, forYear } = this.state
+    let data = {
+      flatNumber: flatNumber,
+      month: forMonth+1,
+      year: forYear
+    }
+    this.props.getMonthlyAccountsFor(data)
     this.props.getAllFlats()
   }
 
   render() {
     const { flats, alert, authzn, trackHistory, accounts } = this.props
+    console.log('accounts: ', accounts)
     let hist = trackHistory?history:{}
     return (
       <div>
@@ -108,48 +112,29 @@ export class MonthlyFees extends React.Component {
   }
   showFlatsGrid(){
     const { flats, authzn, accounts } = this.props
-    console.log('MonthlyFeesPage::showFlatsGrid().........', accounts)
+    const { forMonth, forYear } = this.state
+    //console.log('MonthlyFeesPage::showFlatsGrid().........', accounts)
+    //console.log('Flats: ', flats)
     return <ul className="grid">
       { flats.items.map((flat, index) => {
           let account = accounts.items.find((acct) => acct.flat_number === flat.flat_number)
+          console.log('MonthlyFeesPage >> Account: ', account)
           return <li
             key={flat.id}
             className="box"
             role="button">
-              <FeePage
-                flatNumber={flat.flat_number}
-                data={this.moYrData()}
-              />
+              <FeePage {...account} />
           </li>
         })
       }
     </ul>
   }
-  moYrData() {
-    const { forMonth, forYear } = this.state
-    return {
-      month: forMonth+1,
-      year: forYear
-    }
+/*
+  prepData(flatNumber) {
+
   }
   getMonthlyAccounts() {
-    //const { forMonth, forYear } = this.state
-    this.props.getMonthlyAccountsFor(this.moYrData())
-  }
-/*  handleAccountPayment(account) {
-    if(window.confirm('Are you sure to add payment?')) {
-      this.props.saveChangesAndGetMonthlyList(account, this.moYrData())
-    }
-  }
-  handleAccountUpdate(account) {
-    this.props.saveChangesAndGetMonthlyList(account, this.moYrData())
-  }
-  handleAccountDelete(account) {
-    if(window.confirm('Are you sure to Remove?')) {
-      this.props.delete(account.id, this.moYrData())
-      //console.log('result of handleAccountDelete: ', result)
-      //this.getMonthlyAccounts()
-    }
+    this.props.getMonthlyAccountsFor(this.prepData())
   } */
 
 } // end of class
@@ -178,16 +163,7 @@ function mapDispatchToProps(dispatch) {
     },
     getActive: (key, date) => {
       dispatch(durationActions.getActive(key, date))
-    },
-/*    saveChanges: (model) => {
-      dispatch(actions.saveChanges(model))
-    },
-    saveChangesAndGetMonthlyList: (model, data) => {
-      dispatch(actions.saveChangesAndGetMonthlyList(model, data))
-    },
-    delete: (id, data) => {
-      dispatch(actions.delete(id, data))
-    } */
+    }
   }
 }
 

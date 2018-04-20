@@ -7,7 +7,7 @@ import {
 } from 'reactstrap'
 
 import {
-  accountActions as actions,
+  accountMonthlyActions as actions,
   durationActions
 } from '../_actions'
 import './Fee.css'
@@ -19,31 +19,39 @@ export class Fee extends React.Component {
     constructor(props) {
       super(props)
       this.state = {
-        editDate: false
+        editDate: false,
+        account: {
+          ...this.props
+        }
       }
+      console.log('Fee >> account: ', this.state.account)
       this.handleDateChange = this.handleDateChange.bind(this)
     }
-
+/*    componentDidMount() {
+      const { data } = this.props
+      this.props.getAccount(data)
+    } */
     render() {
-      const { flatNumber } = this.props
+      const { account } = this.state
       return <div className="fee">
-        { this.showFlatNumber() }
+        { account && this.showFlatNumber() }
         { account && this.showPaidStatus() }
         { account && this.showPaidDate() }
       </div>
     }
     showFlatNumber() {
-      const { authzn, flatNumber, account } = this.props
+      const { authzn } = this.props
+      const { account } = this.state
       let title = authzn.allowsAdd && account.id === 0 ? 'Add' :
         authzn.allowsEdit ? 'Edit' : 'View'
       let link = <Link
         to={{ pathname: `${url}/${account.id}`, state:{account: account} }}
         title={title}
         className="flat-number"
-        >{flatNumber}</Link>
+        >{account.flat_number}</Link>
 
       return authzn.allowsAdd || authzn.allowsEdit || authzn.allowsView ?
-        link : <span>{flatNumber}</span>
+        link : <span>{account.flat_number}</span>
     }
     showPaidStatus() {
       const { authzn } = this.props
@@ -60,23 +68,17 @@ export class Fee extends React.Component {
         >{status}</div>
     }
     togglePayment() {
-      const { authzn, flatNumber } = this.props
+      const { authzn } = this.props
       const { account } = this.state
       if(!authzn.allowsAdd && !authzn.allowsEdit) {
         return null // no authorization for add or edit, then do nothing, just return
       }
-      if(account.id > 0) {
-        this.props.delete(account.id, this.moYrFlatNum())
-      } else {
-        this.props.saveChangesAndGetMonthlyList(account, this.moYrFlatNum())
+      let data = {
+        model: account
       }
-    }
-    moYrFlatNum() {
-      const { flatNumber, data } = this.props
-      return {
-        ...data,
-        flatNumber: flatNumber
-      }
+      account.id > 0 ?
+        this.props.delete(data) :
+        this.props.saveChangesAndGet(data)
     }
     showPaidDate() {
       const { editDate } = this.state
@@ -125,12 +127,16 @@ export class Fee extends React.Component {
       this.setState({
         account: {
           ...account,
-          [name]: value},
+          [name]: value
+        },
         editDate: false
       })
       if(account.id > 0) { // update date on existing account whose id is greater than 0
         //this.props.saveChanges(account)
-        this.props.saveChangesAndGetMonthlyList(account, this.moYrFlatNum())
+        let data = {
+          model: account
+        }
+        this.props.saveChangesAndGet(data)
       }
     }
 } // end of MonthlyFee class
@@ -146,8 +152,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    getAccount: (flatNumber, data) => {
-      dispatch(actions.getModelFor(flatNumber, data))
+    getAccount: (data) => {
+      dispatch(actions.getModelFor(data))
     },
     getActive: (key, date) => {
       dispatch(durationActions.getActive(key, date))
@@ -155,11 +161,11 @@ function mapDispatchToProps(dispatch) {
 /*    saveChanges: (model) => {
       dispatch(actions.saveChanges(model))
     }, */
-    saveChangesAndGet: (model, data) => {
-      dispatch(actions.saveChangesAndGet(model, data))
+    saveChangesAndGet: (data) => {
+      dispatch(actions.saveChangesAndGet(data))
     },
-    delete: (id, data) => {
-      dispatch(actions.delete(id, data))
+    delete: (data) => {
+      dispatch(actions.delete(data))
     }
   }
 }
