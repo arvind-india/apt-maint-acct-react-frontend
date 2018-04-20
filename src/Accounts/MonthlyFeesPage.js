@@ -146,12 +146,12 @@ export class MonthlyFees extends React.Component {
     }
   }
   handleAccountUpdate(account) {
-    this.props.saveChangesAndGetMonthlyList(account)
+    this.props.saveChangesAndGetMonthlyList(account, this.moYrData())
   }
-  handleAccountDelete(accountId) {
+  handleAccountDelete(account) {
     if(window.confirm('Are you sure to Remove?')) {
-      let result = this.props.delete(accountId)
-      console.log('result of handleAccountDelete: ', result)
+      this.props.delete(account.id, this.moYrData())
+      //console.log('result of handleAccountDelete: ', result)
       //this.getMonthlyAccounts()
     }
   }
@@ -189,8 +189,8 @@ function mapDispatchToProps(dispatch) {
     saveChangesAndGetMonthlyList: (model, data) => {
       dispatch(actions.saveChangesAndGetMonthlyList(model, data))
     },
-    delete: (id) => {
-      dispatch(actions.delete(id))
+    delete: (id, data) => {
+      dispatch(actions.delete(id, data))
     }
   }
 }
