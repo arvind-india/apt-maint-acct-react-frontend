@@ -4,10 +4,25 @@ import { alertActions } from './'
 import { history } from '../_helpers'
 
 export const accountMonthlyActions = {
+  getModelFor,
   getMonthlyListFor,
   delete: _delete,
   //saveChanges,
   saveChangesAndGetMonthlyList
+}
+
+function getModelFor(data) {
+  return dispatch => {
+    dispatch(request())
+    service.getModelFor(data)
+      .then(
+        model => dispatch(success(model)),
+        error => dispatch(failure(error+' getting account model for the given flatNumber, month and year'))
+      )
+  }
+  function request() { return { type: constants.GETMODEL_REQUEST } }
+  function success(model) { return { type: constants.GETMODEL_SUCCESS, model } }
+  function failure(error) { return { type: constants.GETMODEL_FAILURE, error } }
 }
 
 function getMonthlyListFor(data) {

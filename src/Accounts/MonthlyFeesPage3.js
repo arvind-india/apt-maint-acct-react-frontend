@@ -27,7 +27,7 @@ import {
   durationActions,
   flatActions
 } from '../_actions'
-import { default as FeePage } from './FeePage'
+import { Fee } from './Fee'
 
 let url = '/accounts'
 let module = 'accounts'
@@ -43,9 +43,9 @@ export class MonthlyFees extends React.Component {
     }
     this.handleChange = this.handleChange.bind(this)
     //this.getMonthlyAccounts = this.getMonthlyAccounts.bind(this)
-    //this.handleAccountPayment = this.handleAccountPayment.bind(this)
-    //this.handleAccountUpdate = this.handleAccountUpdate.bind(this)
-    //this.handleAccountDelete = this.handleAccountDelete.bind(this)
+    this.handleAccountPayment = this.handleAccountPayment.bind(this)
+    this.handleAccountUpdate = this.handleAccountUpdate.bind(this)
+    this.handleAccountDelete = this.handleAccountDelete.bind(this)
   }
 
   componentDidMount() {
@@ -116,9 +116,13 @@ export class MonthlyFees extends React.Component {
             key={flat.id}
             className="box"
             role="button">
-              <FeePage
+              <Fee
                 flatNumber={flat.flat_number}
-                data={this.moYrData()}
+                account={account}
+                authzn={authzn}
+                onPayment={() => this.handleAccountPayment(account)}
+                onUpdate={(acct) => this.handleAccountUpdate(acct)}
+                onDelete={() => this.handleAccountDelete(account.id)}
               />
           </li>
         })
@@ -136,7 +140,7 @@ export class MonthlyFees extends React.Component {
     //const { forMonth, forYear } = this.state
     this.props.getMonthlyAccountsFor(this.moYrData())
   }
-/*  handleAccountPayment(account) {
+  handleAccountPayment(account) {
     if(window.confirm('Are you sure to add payment?')) {
       this.props.saveChangesAndGetMonthlyList(account, this.moYrData())
     }
@@ -150,7 +154,7 @@ export class MonthlyFees extends React.Component {
       //console.log('result of handleAccountDelete: ', result)
       //this.getMonthlyAccounts()
     }
-  } */
+  }
 
 } // end of class
 
@@ -181,13 +185,13 @@ function mapDispatchToProps(dispatch) {
     },
 /*    saveChanges: (model) => {
       dispatch(actions.saveChanges(model))
-    },
+    }, */
     saveChangesAndGetMonthlyList: (model, data) => {
       dispatch(actions.saveChangesAndGetMonthlyList(model, data))
     },
     delete: (id, data) => {
       dispatch(actions.delete(id, data))
-    } */
+    }
   }
 }
 
