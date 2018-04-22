@@ -5,6 +5,7 @@ export const accountService = {
   getListFor,
   getMonthlyListFor,
   getById,
+  getMonthlyAccountsFor,
   getSummaryList,
   update,
   add,
@@ -13,6 +14,7 @@ export const accountService = {
 
 let url = '/maintenance-accounts'
 let urlPeriodic = '/maintenance-accounts-periodic'
+let urlMonthlyAccount = '/maintenance-accounts-for'
 
 function http() {
   return axiosClient.instance()
@@ -42,6 +44,21 @@ console.log('getMonthlyListFor month: '+data.month+' year: '+data.year)
                   }
   return http()
     .get(urlPeriodic, urlParams)
+    .then(handleResponse)
+    .catch(this.handleError)
+}
+
+function getMonthlyAccountsFor(data) {
+  console.log('getMonthlyAccountsFor: ', data)
+  let urlParams = {
+                    params: {
+                      flatNumber: data.flatNumber,
+                      month: data.forMonth,
+                      year: data.forYear
+                    }
+                  }
+  return http()
+    .get(urlMonthlyAccount, urlParams)
     .then(handleResponse)
     .catch(this.handleError)
 }

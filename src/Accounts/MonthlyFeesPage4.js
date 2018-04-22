@@ -45,10 +45,10 @@ export class MonthlyFees extends React.Component {
   }
 
   componentDidMount() {
-    const { flatNumber } = this.props
+    //const { flatNumber } = this.props
     const { forMonth, forYear } = this.state
     let data = {
-      flatNumber: flatNumber,
+      //flatNumber: flatNumber,
       month: forMonth+1,
       year: forYear
     }
@@ -123,12 +123,22 @@ export class MonthlyFees extends React.Component {
             key={flat.id}
             className="box"
             role="button">
-              <FeePage {...account} />
+              <FeePage location={this.location(account)} />
           </li>
         })
       }
     </ul>
   }
+  location(model) {
+    return {
+      state: {
+        model: model
+      }
+    }
+  }
+
+// <FeePage {...account} />
+
 /*
   prepData(flatNumber) {
 

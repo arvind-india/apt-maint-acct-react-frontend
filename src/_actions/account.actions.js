@@ -1,7 +1,6 @@
 import { accountConstants as constants } from '../_constants'
 import { accountService as service } from '../_services'
 import { alertActions } from './'
-import { history } from '../_helpers'
 
 export const accountActions = {
   getListFor,
@@ -25,21 +24,6 @@ function getListFor(fromDate, toDate) {
   function failure(error) { return { type: constants.GETRANGE_FAILURE, error } }
 }
 
-function getMonthlyListFor(month, year) {
-  return dispatch => {
-    dispatch(request())
-    service.getMonthlyListFor(month, year)
-      .then(
-        models => dispatch(success(models)),
-        error => dispatch(failure(error+' getting MONTHLY account models for the given month and year'))
-      )
-  }
-  function request() { return { type: constants.GETMONTHLY_REQUEST } }
-  function success(models) { return { type: constants.GETMONTHLY_SUCCESS, models } }
-  function failure(error) { return { type: constants.GETMONTHLY_FAILURE, error } }
-}
-
-
 // prefixed function name with underscore because delete is a reserved word in javascript
 function _delete(id) {
   return dispatch => {
@@ -47,7 +31,13 @@ function _delete(id) {
     // console.log('delete request in progress...')
     service.delete(id)
       .then(
-        model => dispatch(success(id)),
+        response => {
+          console.log('Response on delete: ', response)
+          if(response.error) {
+            throw new Error('Failed to delete account: '+response.message)
+          }
+          dispatch(success(id))
+        },
         error => dispatch(failure(id, error))
       )
   }
@@ -133,10 +123,12 @@ function saveChanges(model) {
 
       service.add(model)
         .then(
-          model => {
-            dispatch(success())
-            //history.push('/accounts')
-            //history.goBack()
+          response => {
+            console.log('Response on getMonthlyAccountsFor: ', response)
+            if(response.error) {
+              throw new Error('Failed to add Monthly Account: '+response.message)
+            }
+            dispatch(success(response))
             dispatch(alertActions.success('Added new Flat Details Successfully'))
           },
           error => {

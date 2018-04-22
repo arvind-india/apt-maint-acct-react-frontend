@@ -18,11 +18,13 @@ let module = 'accounts'
 export class Fee extends React.Component {
     constructor(props) {
       super(props)
+      const { location } = this.props
       this.state = {
         editDate: false,
-        account: {
+        account: location.state.model
+/*        account: {
           ...this.props
-        }
+        } */
       }
       console.log('Fee >> account: ', this.state.account)
       this.handleDateChange = this.handleDateChange.bind(this)
@@ -45,7 +47,7 @@ export class Fee extends React.Component {
       let title = authzn.allowsAdd && account.id === 0 ? 'Add' :
         authzn.allowsEdit ? 'Edit' : 'View'
       let link = <Link
-        to={{ pathname: `${url}/${account.id}`, state:{account: account} }}
+        to={{ pathname: `${url}/${account.id}`, state:{model: account} }}
         title={title}
         className="flat-number"
         >{account.flat_number}</Link>
@@ -68,7 +70,7 @@ export class Fee extends React.Component {
         >{status}</div>
     }
     togglePayment() {
-      const { authzn } = this.props
+      const { authzn, accountsMonthly } = this.props
       const { account } = this.state
       if(!authzn.allowsAdd && !authzn.allowsEdit) {
         return null // no authorization for add or edit, then do nothing, just return
@@ -76,9 +78,19 @@ export class Fee extends React.Component {
       let data = {
         model: account
       }
-      account.id > 0 ?
-        this.props.delete(data) :
+      if(account.id > 0) {
+        this.props.delete(data)
+        if(accountsMonthly.model) {
+          console.log('FEE PAGE: deleted model successfully...')
+          this.setState({
+            account: accountsMonthly.model
+          })
+        } else {
+          console.log('FEE PAGE: error in deletion...')
+        }
+      } else {
         this.props.saveChangesAndGet(data)
+      }
     }
     showPaidDate() {
       const { editDate } = this.state
@@ -142,10 +154,10 @@ export class Fee extends React.Component {
 } // end of MonthlyFee class
 
 function mapStateToProps(state) {
-  const { account, authorizations } = state
+  const { accountsMonthly, authorizations } = state
   const authzn = authorizations[module]
   return {
-    account,
+    accountsMonthly,
     authzn
   }
 }

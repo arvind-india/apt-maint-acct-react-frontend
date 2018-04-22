@@ -1,67 +1,61 @@
 import { accountConstants as constants } from '../_constants'
 import { accountService as service } from '../_services'
 import { alertActions } from './'
-import { history } from '../_helpers'
 
 export const accountMonthlyActions = {
-  getModelFor,
-  getMonthlyListFor,
+  getMonthlyAccountsFor,
   delete: _delete,
-  //saveChanges,
-  saveChangesAndGet
+  saveChanges
 }
 
-function getModelFor(data) {
+function getMonthlyAccountsFor(data) {
   return dispatch => {
     dispatch(request())
-    service.getModelFor(data)
+    service.getMonthlyAccountsFor(data)
       .then(
-        model => dispatch(success(model)),
+        response => {
+          console.log('Response on getMonthlyAccountsFor: ', response)
+          if(response.error) {
+            throw new Error('Failed to get Monthly Account for data: '+data.flatNumber)
+          }
+          dispatch(success(response))
+        },
         error => dispatch(failure(error+' getting account model for the given flatNumber, month and year'))
       )
   }
-  function request() { return { type: constants.GETMODEL_REQUEST } }
-  function success(model) { return { type: constants.GETMODEL_SUCCESS, model } }
-  function failure(error) { return { type: constants.GETMODEL_FAILURE, error } }
-}
-
-function getMonthlyListFor(data) {
-  return dispatch => {
-    dispatch(request())
-    service.getMonthlyListFor(data)
-      .then(
-        models => dispatch(success(models)),
-        error => dispatch(failure(error+' getting MONTHLY account models for the given month and year'))
-      )
-  }
-  function request() { return { type: constants.GETMONTHLY_REQUEST } }
-  function success(models) { return { type: constants.GETMONTHLY_SUCCESS, models } }
-  function failure(error) { return { type: constants.GETMONTHLY_FAILURE, error } }
+  function request() { return { type: constants.GETMODELS_REQUEST } }
+  function success(models) { return { type: constants.GETMODELS_SUCCESS, models } }
+  function failure(error) { return { type: constants.GETMODELS_FAILURE, error } }
 }
 
 
 // prefixed function name with underscore because delete is a reserved word in javascript
-function _delete(id, data) {
+function _delete(data) {
+  let model = data.model
+  let id = model.id
   return dispatch => {
     dispatch(request(id))
     // console.log('delete request in progress...')
     service.delete(id)
       .then(
         response => {
-          if(data) {
-            dispatch(accountMonthlyActions.getMonthlyListFor(data))
+          //dispatch(accountMonthlyActions.getLatest(model))
+          console.log('Response after delete request: ', response)
+          if(response.error) {
+            throw new Error('Failed to delete model id: '+id)
           }
-          dispatch(success(id))
+          dispatch(success(model))
         },
         error => dispatch(failure(id, error))
       )
   }
   function request(id) { return { type: constants.DELETE_REQUEST, id } }
-  function success(id) { return { type: constants.DELETE_SUCCESS, id } }
+  function success(deletedModel) { return { type: constants.DELETE_SUCCESS, deletedModel } }
   function failure(id, error) { return { type: constants.DELETE_FAILURE, id, error } }
 }
 
-function saveChangesAndGet(model, data=null) {
+function saveChanges(model) {
+  //let model = data.model
   if(model.id === 0) {
     return add(model)
   } else {
@@ -71,22 +65,19 @@ function saveChangesAndGet(model, data=null) {
   function update(model) {
     return dispatch => {
       dispatch(request(model))
-
       service.update(model)
         .then(
           res => {
-            if(data) {
-              dispatch(accountMonthlyActions.getMonthlyListFor(data))
+            //dispatch(accountMonthlyActions.getLatest(model))
+            console.log('Response after update request: ', res)
+            if(res.error){
+              throw new Error('Failed to update account id: '+model.id)
             }
-            dispatch(success())
-            //history.push('/accounts', {prevPathname: '/accounts/'+model.id})
-            //history.goBack()
+            dispatch(success(res.data.model))
             dispatch(alertActions.success('Updated Successfully'))
           },
           error => {
             let data = error.response.data
-            // console.log('error response...')
-            // console.log(error.response.data)
             let appData;
             if(data.error) { // check if there is a application specific error data enclosed
               appData = data.data
@@ -107,17 +98,15 @@ function saveChangesAndGet(model, data=null) {
   function add(model) {
     return dispatch => {
       dispatch(request(model))
-
       service.add(model)
         .then(
           response => {
-            if(data) {
-              //console.log('account >> add >> data is: ', data)
-              dispatch(accountMonthlyActions.getMonthlyListFor(data))
+            console.log('Response after add request: ', response)
+            if(response.error) {
+              throw new Error('Failed to add model for flat number: '+model.flat_number)
             }
-            dispatch(success())
-            //history.push('/accounts')
-            //history.goBack()
+            // dispatch(accountMonthlyActions.getLatest(data))
+            dispatch(success(response.data.model))
             dispatch(alertActions.success('Added new Flat Details Successfully'))
           },
           error => {
@@ -141,4 +130,4 @@ function saveChangesAndGet(model, data=null) {
     function failure(error) { return { type: constants.ADD_FAILURE, error } }
   }
 
-} // end of saveChangesAndGet()
+} // end of saveChanges()

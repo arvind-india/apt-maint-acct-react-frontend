@@ -109,7 +109,7 @@ class AppNavbar extends React.Component {
               </DropdownToggle>
               <DropdownMenu>
                 { this.accountsLink() }
-                { this.monthlyFeesLink() }
+                { this.monthlyAccountsLink() }
                 { this.accountSummaryLink() }
               </DropdownMenu>
             </UncontrolledDropdown>
@@ -125,16 +125,17 @@ class AppNavbar extends React.Component {
         ><MdList/> All Records</NavLink>
     </DropdownItem>
   }
-  monthlyFeesLink() {
+
+  monthlyAccountsLink() {
     if( !this.authorizes('accounts') ) return ''
     return <DropdownItem>
       <NavLink
         tag={NavLinkRRD}
-        to="/monthly-fees"
-        title="Monthly Maintenance Fee Collections"
-        ><FaInr/> Monthly Fees</NavLink>
+        to="/monthly-accounts"
+        title="Monthly Account"><FaInr/>Monthly Accounts</NavLink>
     </DropdownItem>
   }
+
   accountSummaryLink() {
     if( !this.authorizes('account-summary') ) return ''
     return <DropdownItem>
