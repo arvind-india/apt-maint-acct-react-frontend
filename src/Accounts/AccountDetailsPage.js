@@ -129,10 +129,6 @@ export class AccountDetails extends React.Component {
     </Form>
   }
 
-/*
-
-*/
-
   showRecordedAt() {
     const { submitted, model } = this.state
     return <div data-field-span="1">

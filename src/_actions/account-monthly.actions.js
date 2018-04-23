@@ -23,15 +23,15 @@ function getMonthlyAccountsFor(data) {
         error => dispatch(failure(error+' getting account model for the given flatNumber, month and year'))
       )
   }
-  function request() { return { type: constants.GETMODELS_REQUEST } }
-  function success(models) { return { type: constants.GETMODELS_SUCCESS, models } }
-  function failure(error) { return { type: constants.GETMODELS_FAILURE, error } }
+  function request() { return { type: constants.GETMONTHLYMODELS_REQUEST } }
+  function success(models) { return { type: constants.GETMONTHLYMODELS_SUCCESS, models } }
+  function failure(error) { return { type: constants.GETMONTHLYMODELS_FAILURE, error } }
 }
 
 
 // prefixed function name with underscore because delete is a reserved word in javascript
-function _delete(data) {
-  let model = data.model
+function _delete(model) {
+  //let model = data.model
   let id = model.id
   return dispatch => {
     dispatch(request(id))
@@ -49,9 +49,9 @@ function _delete(data) {
         error => dispatch(failure(id, error))
       )
   }
-  function request(id) { return { type: constants.DELETE_REQUEST, id } }
-  function success(deletedModel) { return { type: constants.DELETE_SUCCESS, deletedModel } }
-  function failure(id, error) { return { type: constants.DELETE_FAILURE, id, error } }
+  function request(id) { return { type: constants.DELETEMONTHLY_REQUEST, id } }
+  function success(model) { return { type: constants.DELETEMONTHLY_SUCCESS, model } }
+  function failure(id, error) { return { type: constants.DELETEMONTHLY_FAILURE, id, error } }
 }
 
 function saveChanges(model) {
@@ -90,9 +90,9 @@ function saveChanges(model) {
           }
         )
     }
-    function request(model) { return { type: constants.UPDATE_REQUEST, model } }
-    function success(model) { return { type: constants.UPDATE_SUCCESS, model } }
-    function failure(error) { return { type: constants.UPDATE_FAILURE, error } }
+    function request(model) { return { type: constants.UPDATEMONTHLY_REQUEST, model } }
+    function success(model) { return { type: constants.UPDATEMONTHLY_SUCCESS, model } }
+    function failure(error) { return { type: constants.UPDATEMONTHLY_FAILURE, error } }
   }
 
   function add(model) {
@@ -125,9 +125,9 @@ function saveChanges(model) {
           }
         )
     }
-    function request(model) { return { type: constants.ADD_REQUEST, model } }
-    function success(model) { return { type: constants.ADD_SUCCESS, model } }
-    function failure(error) { return { type: constants.ADD_FAILURE, error } }
+    function request(model) { return { type: constants.ADDMONTHLY_REQUEST, model } }
+    function success(model) { return { type: constants.ADDMONTHLY_SUCCESS, model } }
+    function failure(error) { return { type: constants.ADDMONTHLY_FAILURE, error } }
   }
 
 } // end of saveChanges()
