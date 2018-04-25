@@ -8,7 +8,7 @@ export function accountsMonthly(state = {}, action) {
       return { loading: true }
 
     case constants.GETMONTHLYMODELS_SUCCESS:
-      return { items: action.models }
+      return { model: action.models.length > 0 ? action.models[0] : null }
 
     case constants.GETMONTHLYMODELS_FAILURE:
       return { error: action.error }
@@ -17,7 +17,7 @@ export function accountsMonthly(state = {}, action) {
       return { loading: true }
 
     case constants.ADDMONTHLY_SUCCESS:
-      return { added: true, data: action.model }
+      return { added: true, model: action.model }
 
     case constants.ADDMONTHLY_FAILURE:
       return { error: action.error }
@@ -26,7 +26,7 @@ export function accountsMonthly(state = {}, action) {
       return { loading: true }
 
     case constants.UPDATEMONTHLY_SUCCESS:
-      return { updated: true, data: action.model }
+      return { updated: true, model: action.model }
 
     case constants.UPDATEMONTHLY_FAILURE:
       return { error: action.error }

@@ -73,8 +73,7 @@ function mapStateToProps(state) {
   const { accountsMonthly, authorizations } = state
   const authzn = authorizations[module]
   console.log('MonthlyAccount >> mapStateToProps: ', accountsMonthly)
-  const accounts = accountsMonthly.items
-  const account = accounts && accounts.length > 0 ? accounts[0] : null
+  const account = accountsMonthly.model
   console.log('Monthly Account: ', account)
   return {
     account,
