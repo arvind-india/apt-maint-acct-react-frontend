@@ -52,15 +52,16 @@ export class MonthlyAccount extends React.Component {
     const { account } = this.props
     let id = account?account.id:0
     if(id > 0) {
-      //alert('Reverting payment')
+      console.log('Reverting payment for id: ', account.id)
+      this.props.delete(account)
       let temp = account
       temp.id = 0
       temp.recorded_at = this.recorded_at()
       this.setState({ accountCopy: temp })
-      this.props.delete(account)
     } else {
-      //alert('Adding payment')
       const { accountCopy } = this.state
+      console.log('Adding payment for id: ', accountCopy.id)
+      console.log('recorded_at: ', accountCopy.recorded_at)
       this.props.saveChanges(accountCopy)
     }
 

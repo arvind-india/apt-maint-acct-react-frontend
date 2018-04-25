@@ -90,6 +90,7 @@ function add(model) {
 
 // prefixed function name with underscore because delete is a reserved word in javascript
 function _delete(id) {
+  console.log('Deleting account id: ', id)
   return http().delete(url + '/' + id)
     .then(handleResponse)
     .catch(handleError)
