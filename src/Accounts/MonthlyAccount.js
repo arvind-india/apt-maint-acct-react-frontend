@@ -2,15 +2,24 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import { accountMonthlyActions as actions } from '../_actions'
+import {
+  Button,
+  Input
+} from 'reactstrap'
 import './MonthlyAccount.css'
+
+//let url = '/accounts'
+let module = 'accounts'
 
 export class MonthlyAccount extends React.Component {
 
   constructor(props) {
     super(props)
     this.state = {
+      editDate: false,
       accountCopy: this.newAccount()
     }
+    this.handleDateChange = this.handleDateChange.bind(this)
   }
   componentDidMount() {
     const { flatNumber, forMonth, forYear } = this.props
@@ -35,12 +44,19 @@ export class MonthlyAccount extends React.Component {
     }
   }
   render() {
+    return <div
+              className="monthly-account">
+                { this.showPaidStatus() }
+                { this.showPaidDate() }
+            </div>
+  }
+  showPaidStatus() {
     const { account, flatNumber } = this.props
     let id = account ? account.id : 0
     let recorded_at = account ? account.recorded_at : this.recorded_at()
     return <div
         role="button"
-        className="monthly-account"
+        className="paid-status"
         onClick={() => this.togglePaidStatus() }
       >{flatNumber}: {id > 0?'PAID':'UNPAID'} on {recorded_at} : 'Account ID: ' {id}
     </div>
@@ -64,9 +80,65 @@ export class MonthlyAccount extends React.Component {
       console.log('recorded_at: ', accountCopy.recorded_at)
       this.props.saveChanges(accountCopy)
     }
-
   }
-
+  showPaidDate() {
+    const { editDate } = this.state
+    return editDate ?
+      this.showDateInput() :
+      this.showDate()
+  }
+  showDate() {
+    const { accountCopy } = this.state
+    const { authzn } = this.props
+    let style = authzn.allowsAdd || authzn.allowsEdit ?
+      { cursor: "pointer" } :
+      { cursor: "default" }
+    let clickFunction = () =>
+      authzn.allowsAdd || authzn.allowsEdit ?
+        this.setState({editDate: true}) : null;
+    return <div
+        className="paid-date"
+        role="button"
+        onClick={clickFunction}
+        style={style}
+      >{accountCopy.recorded_at}</div>
+  }
+  showDateInput() {
+    const { accountCopy } = this.state
+    return <div className="paid-date">
+      <Input
+        id="recordedAt"
+        type="date"
+        name="recorded_at"
+        value={accountCopy.recorded_at}
+        onChange={this.handleDateChange}
+      />
+      <Button
+        size="sm"
+        color="danger"
+        title="Cancel"
+        onClick={() => this.setState({editDate: false})}
+      >x</Button>
+    </div>
+  }
+  handleDateChange(event) {
+    const { name, value } = event.target
+    const { account } = this.props
+    this.setState({
+      accountCopy: {
+        ...account,
+        [name]: value },
+      editDate: false
+    },
+    this.saveDateChange)
+  }
+  saveDateChange() {
+    const { accountCopy } = this.state
+    console.log('saving accountCopy: ', accountCopy)
+    if(accountCopy.id > 0) {
+      this.props.saveChanges(accountCopy)
+    }
+  }
 } // end of MonthlyAccount class
 
 function mapStateToProps(state) {
