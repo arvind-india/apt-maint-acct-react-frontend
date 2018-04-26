@@ -88,29 +88,36 @@ export class MonthlyAccount extends React.Component {
       this.showDate()
   }
   showDate() {
+    const { authzn, account } = this.props
     const { accountCopy } = this.state
-    const { authzn } = this.props
-    let style = authzn.allowsAdd || authzn.allowsEdit ?
+    let style = authzn && (authzn.allowsAdd || authzn.allowsEdit) ?
       { cursor: "pointer" } :
       { cursor: "default" }
     let clickFunction = () =>
-      authzn.allowsAdd || authzn.allowsEdit ?
+      authzn && (authzn.allowsAdd || authzn.allowsEdit) ?
         this.setState({editDate: true}) : null;
+    let paidDate = account && account.id > 0 ?
+                    account.recorded_at :
+                    accountCopy.recorded_at
     return <div
         className="paid-date"
         role="button"
         onClick={clickFunction}
         style={style}
-      >{accountCopy.recorded_at}</div>
+      >{paidDate}</div>
   }
   showDateInput() {
+    const { account } = this.props
     const { accountCopy } = this.state
+    let paidDate = account && account.id > 0 ?
+                    account.recorded_at :
+                    accountCopy.recorded_at
     return <div className="paid-date">
       <Input
         id="recordedAt"
         type="date"
         name="recorded_at"
-        value={accountCopy.recorded_at}
+        value={paidDate}
         onChange={this.handleDateChange}
       />
       <Button
@@ -124,9 +131,11 @@ export class MonthlyAccount extends React.Component {
   handleDateChange(event) {
     const { name, value } = event.target
     const { account } = this.props
+    const { accountCopy } = this.state
+    let acct = account && account.id > 0 ? account : accountCopy
     this.setState({
       accountCopy: {
-        ...account,
+        ...acct,
         [name]: value },
       editDate: false
     },
