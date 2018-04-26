@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-
+import { Link } from 'react-router-dom'
 import { accountMonthlyActions as actions } from '../_actions'
 import {
   Button,
@@ -8,7 +8,7 @@ import {
 } from 'reactstrap'
 import './MonthlyAccount.css'
 
-//let url = '/accounts'
+let url = '/accounts'
 let module = 'accounts'
 
 export class MonthlyAccount extends React.Component {
@@ -20,6 +20,8 @@ export class MonthlyAccount extends React.Component {
       accountCopy: this.newAccount()
     }
     this.handleDateChange = this.handleDateChange.bind(this)
+    this.handleDateClick = this.handleDateClick.bind(this)
+    this.togglePaidStatus = this.togglePaidStatus.bind(this)
   }
   componentDidMount() {
     const { flatNumber, forMonth, forYear } = this.props
@@ -33,7 +35,7 @@ export class MonthlyAccount extends React.Component {
       flat_number: flatNumber,
       for_month: forMonth,
       for_year: forYear,
-      recorded_at: this.recorded_at(),
+      recorded_at: this.today(),
       crdr: 'cr',
       item: 'Monthly Maintenance Fee',
       name: flatNumber+' Resident',
@@ -46,22 +48,38 @@ export class MonthlyAccount extends React.Component {
   render() {
     return <div
               className="monthly-account">
+                { this.showFlatNumber() }
                 { this.showPaidStatus() }
                 { this.showPaidDate() }
             </div>
   }
+  showFlatNumber() {
+    const { authzn, flatNumber, account } = this.props
+    const { accountCopy } = this.state
+    let model = account && account.id > 0 ? account : accountCopy
+    let title = authzn && authzn.allowsAdd && model.id === 0 ? 'Add' :
+      authzn && authzn.allowsEdit ? 'Edit' : 'View'
+    let link = <Link
+      to={{ pathname: `${url}/${model.id}`, state:{model: model} }}
+      title={title}
+      className="flat-number"
+      >{flatNumber}</Link>
+
+    return authzn && (authzn.allowsAdd || authzn.allowsEdit || authzn.allowsView) ?
+      link : <span>{flatNumber}</span>
+  }
   showPaidStatus() {
     const { account, flatNumber } = this.props
     let id = account ? account.id : 0
-    let recorded_at = account ? account.recorded_at : this.recorded_at()
+    let recorded_at = account ? account.recorded_at : this.today()
     return <div
         role="button"
         className="paid-status"
-        onClick={() => this.togglePaidStatus() }
-      >{flatNumber}: {id > 0?'PAID':'UNPAID'} on {recorded_at} : 'Account ID: ' {id}
-    </div>
+        onClick={this.togglePaidStatus}
+        style={this.getStyle()}
+      >{id > 0?'PAID':'x'} Acct ID: {id}</div>
   }
-  recorded_at(){
+  today(){
     return new Date().toISOString().substr(0,10)
   }
   togglePaidStatus() {
@@ -72,7 +90,7 @@ export class MonthlyAccount extends React.Component {
       this.props.delete(account)
       let temp = account
       temp.id = 0
-      temp.recorded_at = this.recorded_at()
+      temp.recorded_at = this.today()
       this.setState({ accountCopy: temp })
     } else {
       const { accountCopy } = this.state
@@ -88,23 +106,33 @@ export class MonthlyAccount extends React.Component {
       this.showDate()
   }
   showDate() {
-    const { authzn, account } = this.props
+    const { account } = this.props
     const { accountCopy } = this.state
-    let style = authzn && (authzn.allowsAdd || authzn.allowsEdit) ?
-      { cursor: "pointer" } :
-      { cursor: "default" }
-    let clickFunction = () =>
+/*    let clickFunction = () =>
       authzn && (authzn.allowsAdd || authzn.allowsEdit) ?
-        this.setState({editDate: true}) : null;
+        this.setState({editDate: true}) : null; */
     let paidDate = account && account.id > 0 ?
                     account.recorded_at :
                     accountCopy.recorded_at
     return <div
         className="paid-date"
         role="button"
-        onClick={clickFunction}
-        style={style}
+        onClick={this.handleDateClick}
+        style={this.getStyle()}
       >{paidDate}</div>
+  }
+  handleDateClick() {
+    const { authzn } = this.props
+    if(!authzn) return;
+    if(authzn.allowsAdd || authzn.allowsEdit) {
+      this.setState({editDate: true})
+    }
+  }
+  getStyle() {
+    const { authzn } = this.props
+    return authzn && (authzn.allowsAdd || authzn.allowsEdit) ?
+      { cursor: "pointer" } :
+      { cursor: "default" }
   }
   showDateInput() {
     const { account } = this.props

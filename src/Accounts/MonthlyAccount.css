@@ -11,6 +11,7 @@
   grid-row: 1;
   justify-self: start;
   align-self: start;
+  color: #fff;
 }
 .paid-status {
   grid-row: 2;
@@ -23,4 +24,9 @@
   justify-self: end;
   align-self: end;
   font-size: 70%;
+}
+.flat-number:hover,
+.paid-status:hover,
+.paid-date:hover {
+  color: yellow;
 }

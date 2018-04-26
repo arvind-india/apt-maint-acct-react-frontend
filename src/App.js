@@ -12,7 +12,7 @@ import {
   AccountsPage,
   AccountDetailsPage,
   SummaryPage,
-  MonthlyAccounts
+  MonthlyAccountsPage
 } from './Accounts'
 import { ResidentsPage, ResidentDetailsPage } from './Residents'
 import { FlatsPage, FlatDetailsPage } from './Flats'
@@ -53,7 +53,7 @@ class App extends Component {
               <PrivateRoute path="/accounts/:id" component={AccountDetailsPage} />
               <PrivateRoute path="/accounts" component={AccountsPage} />
             </Switch>
-              <PrivateRoute path="/monthly-accounts" component={MonthlyAccounts}/>
+              <PrivateRoute path="/monthly-accounts" component={MonthlyAccountsPage}/>
             <Switch>
               <PrivateRoute path="/residents/:id" component={ResidentDetailsPage} />
               <PrivateRoute path="/residents" component={ResidentsPage} />
