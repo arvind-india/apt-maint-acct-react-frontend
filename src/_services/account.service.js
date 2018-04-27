@@ -97,7 +97,7 @@ function _delete(id) {
 }
 
 function handleResponse(response) {
-  // console.log('account service >> handleResponse.......', response)
+  console.log('account service >> handleResponse.......', response)
   if(!response.data) {
     return Promise.reject(response.statusText)
   }

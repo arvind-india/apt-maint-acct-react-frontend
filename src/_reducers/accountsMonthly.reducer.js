@@ -13,6 +13,15 @@ export function accountsMonthly(state = {}, action) {
     case constants.GETMONTHLYMODELS_FAILURE:
       return { error: action.error }
 
+    case constants.GETMONTHLYLIST_REQUEST:
+      return { loading: true }
+
+    case constants.GETMONTHLYLIST_SUCCESS:
+      return { items: action.models }
+
+    case constants.GETMONTHLYLIST_FAILURE:
+      return { error: action.error }
+
     case constants.ADDMONTHLY_REQUEST:
       return { loading: true }
 

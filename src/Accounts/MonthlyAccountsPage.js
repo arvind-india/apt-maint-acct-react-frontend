@@ -32,6 +32,7 @@ export class MonthlyAccounts extends React.Component {
       forMonth: 4,
       forYear: 2018
     }
+    this.flatsToAccounts = []
   }
   componentDidMount() {
     const { forMonth, forYear } = this.state
@@ -39,42 +40,38 @@ export class MonthlyAccounts extends React.Component {
       month: forMonth,
       year: forYear
     }
-    this.props.getMonthlyAccountsFor(data)
+    this.props.getMonthlyListFor(data)
     this.props.getAllFlats()
+    this.flatsToAccts()
   }
   render() {
-    const { flats, accounts } = this.props
-    let flatsToAccts = {}
-    let acct = {}
-    let data = {}
-    flats && flats.items && flats.items.forEach((flat) => {
-      acct = accounts && accounts.items && accounts.items.find((each) => each.flat_number === flat.flat_number)
-      if(acct) {
-        flatsToAccts[flat.flat_number] = acct
-      } else {
-        data = {
-          flatNumber: flat.flat_number,
-          forMonth: this.state.forMonth,
-          forYear: this.state.forYear
-        }
-        flatsToAccts[flat.flat_number] = this.newAccount(data)
-      }
-    })
+    const { flats } = this.props
     return <div>
               <h3>Monthly Maintenance Fees Collection</h3>
-              { flats && flats.items && this.showList(flatsToAccts) }
+              { flats && flats.items && this.showList() }
            </div>
   }
-
-  newAccount(data) {
+  flatsToAccts() {
+    const { flats, accounts } = this.props
+    let result = {}
+    let acct = {}
+    let flatNum = null
+    flats && flats.items && flats.items.forEach((flat) => {
+      flatNum = flat.flat_number
+      acct = accounts && accounts.items && accounts.items.find((each) => each.flat_number === flatNum)
+      result[flatNum] = acct ? acct : this.newAccount(flatNum)
+    })
+    this.flatsToAccounts = result
+  }
+  newAccount(flatNumber) {
     return {
       id: 0,
       recorded_at: new Date().toISOString().substr(0,10),
       item: 'Monthly Maintenance Fee',
-      flat_number: data.flatNumber,
-      name: data.flatNumber+' Resident',
-      for_month: data.forMonth,
-      for_year: data.forYear,
+      flat_number: flatNumber,
+      name: flatNumber+' Resident',
+      for_month: this.state.forMonth,
+      for_year: this.state.forYear,
       crdr: 'cr',
       amount: '600',
       balance: '',
@@ -83,10 +80,10 @@ export class MonthlyAccounts extends React.Component {
     }
   }
 
-  showList(f2a){
+  showList(){
     const { flats } = this.props
     let models = flats
-    console.log('f2a: ', f2a)
+    console.log('flats: .............', flats)
     return <Table>
       <thead>{ this.headerRow() }</thead>
       <tbody>
@@ -99,31 +96,42 @@ export class MonthlyAccounts extends React.Component {
     return <tr>
       <th>#</th>
       <th>Flat#</th>
+      <th>Paid?</th>
+      <th>Paid-Date</th>
       <th>Actions</th>
     </tr>
   }
 
   bodyRow(model,index) {
+    let flatNum = model.flat_number
+    let acct = this.flatsToAccounts[flatNum]
     return <tr key={model.id}>
       <td>{index+1}</td>
       <td>{model.flat_number}</td>
-      {this.showActions(model)}
+      <td>{acct && acct.id > 0?'PAID':'x'}</td>
+      <td>{acct && acct.id > 0?acct.recorded_at:''}</td>
+      {acct && this.showActions(acct)}
     </tr>
   }
 
   showActions(model) {
     const { authzn } = this.props
+    let title = authzn && authzn.allowsAdd && model.id === 0 ? 'Add' :
+                  authzn && authzn.allowsEdit && model.id > 0 ? 'Edit' :
+                  'View'
+    let icon = authzn && authzn.allowsAdd && model.id === 0 ? <MdAdd/> :
+                  authzn && authzn.allowsEdit && model.id > 0 ? <MdEdit/> :
+                <MdVisibility/>
     return <td>
             <Link
               to={{ pathname: `${url}/${model.id}`, state:{model: model} }}
-              title={authzn && authzn.allowsEdit?"Edit":"View"}
-            >{authzn && authzn.allowsEdit?<MdEdit/>:<MdVisibility/>}</Link>
-            <Button
+              title={title}
+            >{icon}</Link>
+            {authzn && authzn.allowsDelete && model.id > 0 && <Button
               color="link"
-              title="Delete"
+              title="Revert Payment"
               onClick={() => this.handleDeleteModel(model.id)}
-              hidden={authzn && !authzn.allowsDelete}
-            ><MdDelete color="red"/></Button>
+            ><MdDelete color="red"/></Button>}
           </td>
   }
 
@@ -138,9 +146,10 @@ export class MonthlyAccounts extends React.Component {
 } // end of class MonthlyAccounts
 
 function mapStateToProps(state) {
-  const { alert, authorizations, flats, accounts } = state
+  const { alert, authorizations, flats, accountsMonthly } = state
   const authzn = authorizations[module]
   const trackHistory = true  // added for unit testing; snapshot to be precise
+  const accounts = accountsMonthly
   return {
     accounts,
     alert,
@@ -155,7 +164,7 @@ function mapDispatchToProps(dispatch) {
     getAllFlats: () => {
       dispatch(flatActions.getAll())
     },
-    getMonthlyAccountsFor: (data) => {
+    getMonthlyListFor: (data) => {
       dispatch(actions.getMonthlyListFor(data))
     },
     getActive: (key, date) => {
