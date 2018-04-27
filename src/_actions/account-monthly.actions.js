@@ -3,10 +3,33 @@ import { accountService as service } from '../_services'
 import { alertActions } from './'
 
 export const accountMonthlyActions = {
+  getMonthlyListFor,
   getMonthlyAccountsFor,
   delete: _delete,
   saveChanges
 }
+
+function getMonthlyListFor(data) {
+  return dispatch => {
+    dispatch(request())
+    service.getMonthlyListFor(data)
+      .then(
+        response => {
+          console.log('Response on getMonthlyListFor: ', response)
+          if(response.error) {
+            throw new Error('Failed to get Monthly List for data '+data.forMonth)
+          }
+          dispatch(success(response))
+        },
+        error => dispatch(failure(error+' getting account list for the given month and year'))
+      )
+  }
+  function request() { return { type: constants.GETMONTHLYLIST_REQUEST } }
+  function success(models) { return { type: constants.GETMONTHLYLIST_SUCCESS, models } }
+  function failure(error) { return { type: constants.GETMONTHLYLIST_FAILURE, error } }
+}
+
+
 
 function getMonthlyAccountsFor(data) {
   return dispatch => {
