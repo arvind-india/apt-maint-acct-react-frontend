@@ -30,9 +30,10 @@ export class MonthlyAccounts extends React.Component {
     super(props)
     this.state = {
       forMonth: 4,
-      forYear: 2018
+      forYear: 2018,
+      flatsToAccounts: []
     }
-    this.flatsToAccounts = []
+    //this.flatsToAccounts = []
   }
   componentDidMount() {
     const { forMonth, forYear } = this.state
@@ -61,7 +62,7 @@ export class MonthlyAccounts extends React.Component {
       acct = accounts && accounts.items && accounts.items.find((each) => each.flat_number === flatNum)
       result[flatNum] = acct ? acct : this.newAccount(flatNum)
     })
-    this.flatsToAccounts = result
+    this.setState({ flatsToAccounts: result })
   }
   newAccount(flatNumber) {
     return {
@@ -104,7 +105,7 @@ export class MonthlyAccounts extends React.Component {
 
   bodyRow(model,index) {
     let flatNum = model.flat_number
-    let acct = this.flatsToAccounts[flatNum]
+    let acct = this.state.flatsToAccounts[flatNum]
     return <tr key={model.id}>
       <td>{index+1}</td>
       <td>{model.flat_number}</td>
@@ -130,16 +131,14 @@ export class MonthlyAccounts extends React.Component {
             {authzn && authzn.allowsDelete && model.id > 0 && <Button
               color="link"
               title="Revert Payment"
-              onClick={() => this.handleDeleteModel(model.id)}
+              onClick={() => this.handleDeleteModel(model)}
             ><MdDelete color="red"/></Button>}
           </td>
   }
 
-  handleDeleteModel(id) {
-    const { fromDate, toDate } = this.state
-    if( window.confirm('Are you sure?') ) {
-      //this.props.delete(id)
-      //this.props.getListFor(fromDate, toDate)
+  handleDeleteModel(model) {
+    if( window.confirm('Are you sure to delete?') ) {
+      this.props.delete(model)
     }
   }
 
@@ -166,6 +165,9 @@ function mapDispatchToProps(dispatch) {
     },
     getMonthlyListFor: (data) => {
       dispatch(actions.getMonthlyListFor(data))
+    },
+    delete: (model) => {
+      dispatch(actions.delete(model))
     },
     getActive: (key, date) => {
       dispatch(durationActions.getActive(key, date))

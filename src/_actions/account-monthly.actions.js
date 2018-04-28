@@ -59,6 +59,10 @@ function _delete(model) {
   return dispatch => {
     dispatch(request(id))
     // console.log('delete request in progress...')
+    let data = {
+      month: model.for_month,
+      year: model.for_year
+    }
     service.delete(id)
       .then(
         response => {
@@ -67,6 +71,8 @@ function _delete(model) {
           if(response.error) {
             throw new Error('Failed to delete model id: '+id)
           }
+          console.log('Get Monthly List for data: ', data)
+          dispatch(this.getMonthlyListFor(data))
           dispatch(success(model))
         },
         error => dispatch(failure(id, error))

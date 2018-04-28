@@ -46,6 +46,7 @@ export function accountsMonthly(state = {}, action) {
 
     case constants.DELETEMONTHLY_SUCCESS:
       return {
+        deleted: true,
         model: {
           ...action.model,
           id: 0
