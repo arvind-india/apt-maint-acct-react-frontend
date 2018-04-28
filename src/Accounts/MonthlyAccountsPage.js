@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import { Table } from 'reactstrap'
 
 import { durationActions, flatActions, accountMonthlyActions as actions } from '../_actions'
-//import { default as MonthlyAccount } from './MonthlyAccount'
 
 import {
   MdAdd,
@@ -28,21 +27,15 @@ export class MonthlyAccounts extends React.Component {
 
   constructor(props) {
     super(props)
-    let accts = props.accounts && props.accounts.items ?props.accounts:{items:[]}
     this.state = {
       forMonth: 4,
-      forYear: 2018,
-      //accounts: accts
+      forYear: 2018
     }
   }
   componentDidMount() {
-    const { accounts } = this.props
     const { forMonth, forYear } = this.state
     this.props.getAllFlats()
     this.props.getMonthlyListFor({month: forMonth, year: forYear})
-    /*if(accounts && accounts.items) {
-      this.setState({ accounts: accounts })
-    }*/
   }
   render() {
     const { flats, accounts } = this.props
@@ -73,7 +66,6 @@ export class MonthlyAccounts extends React.Component {
   showList(){
     const { flats } = this.props
     let models = flats
-    console.log('flats: .............', flats)
     return <Table>
       <thead>{ this.headerRow() }</thead>
       <tbody>
@@ -98,21 +90,36 @@ export class MonthlyAccounts extends React.Component {
     return <tr key={model.id}>
       <td>{index+1}</td>
       <td>{model.flat_number}</td>
-      <td>{acct && acct.id > 0?'PAID':'x'}</td>
+      {acct && this.showPaidStatus(acct)}
       <td>{acct && acct.id > 0?acct.recorded_at:''}</td>
       {acct && this.showActions(acct)}
     </tr>
   }
   getAccountOn(flatNum) {
-    let acct = this.props.accounts.items.find((each) => each.flat_number === flatNum)
-    if(acct) return acct
-    return this.newAccount(flatNum)
+    const { accounts } = this.props
+    let acct = accounts.items.find((each) => each.flat_number === flatNum)
+    return acct ? acct : this.newAccount(flatNum)
   }
-/*  removeAccount(model){
-    const { accounts } = this.state
-    let result = accounts.filter(each => each.id !== model.id)
-    this.setState({accounts: result})
-  } */
+  showPaidStatus(account) {
+    return <td>
+        <Input
+          id="paidStatus"
+          className="paidStatus"
+          type="checkbox"
+          name="paidStatus"
+          //value={account.id}
+          checked={account && account.id > 0}
+          onChange={() => this.handlePaidStatus(account)}
+        /> {account && account.id > 0?'PAID':'UNPAID'}
+    </td>
+  }
+  handlePaidStatus(account) {
+    if(account.id > 0) {
+      this.handleDeleteModel(account)
+    } else {
+      this.handleAddModel(account)
+    }
+  }
   showActions(model) {
     const { authzn } = this.props
 /*    let title = authzn && authzn.allowsAdd && model.id === 0 ? 'Add' :
@@ -142,21 +149,13 @@ export class MonthlyAccounts extends React.Component {
 
   */
   handleAddModel(model) {
-    const { forMonth, forYear } = this.state
     if(window.confirm('Are you sure to add this payment?')) {
       this.props.saveChanges(model)
-      //this.props.getMonthlyListFor({month: forMonth, year: forYear})
-      //const { accounts } = this.props
-      //this.setState({accounts: accounts})
     }
   }
   handleDeleteModel(model) {
-    const { forMonth, forYear } = this.state
     if( window.confirm('Are you sure to remove this payment?') ) {
       this.props.delete(model)
-      //this.props.getMonthlyListFor({month: forMonth, year: forYear})
-      //const { accounts } = this.props
-      //this.setState({accounts: accounts})
     }
   }
 
