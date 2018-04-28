@@ -28,30 +28,44 @@ export class MonthlyAccounts extends React.Component {
 
   constructor(props) {
     super(props)
-    let accts = props.accounts && props.accounts.items ?props.accounts:{items:[]}
     this.state = {
       forMonth: 4,
       forYear: 2018,
-      accounts: accts
+      flatsToAccounts: []
     }
+    //this.flatsToAccounts = []
   }
   componentDidMount() {
-    const { accounts } = this.props
-    const { forMonth, forYear } = this.state
+    this.getMonthlyList()
     this.props.getAllFlats()
-    this.props.getMonthlyListFor({month: forMonth, year: forYear})
-    if(accounts && accounts.items) {
-      this.setState({ accounts: accounts })
+  }
+  getMonthlyList() {
+    const { forMonth, forYear } = this.state
+    let data = {
+      month: forMonth,
+      year: forYear
     }
+    this.props.getMonthlyListFor(data)
+    this.flatsToAccts()
   }
   render() {
-    const { flats, accounts } = this.props
+    const { flats } = this.props
     return <div>
               <h3>Monthly Maintenance Fees Collection</h3>
-              { flats && flats.loading && <div>loading flats...</div>}
-              { accounts && accounts.loading && <div>loading accounts...</div>}
-              { flats && flats.items && accounts && accounts.items && this.showList() }
+              { flats && flats.items && this.showList() }
            </div>
+  }
+  flatsToAccts() {
+    const { flats, accounts } = this.props
+    let result = {}
+    let acct = {}
+    let flatNum = null
+    flats && flats.items && flats.items.forEach((flat) => {
+      flatNum = flat.flat_number
+      acct = accounts && accounts.items && accounts.items.find((each) => each.flat_number === flatNum)
+      result[flatNum] = acct ? acct : this.newAccount(flatNum)
+    })
+    this.setState({ flatsToAccounts: result })
   }
   newAccount(flatNumber) {
     return {
@@ -94,7 +108,7 @@ export class MonthlyAccounts extends React.Component {
 
   bodyRow(model,index) {
     let flatNum = model.flat_number
-    let acct = this.getAccountOn(flatNum)
+    let acct = this.state.flatsToAccounts[flatNum]
     return <tr key={model.id}>
       <td>{index+1}</td>
       <td>{model.flat_number}</td>
@@ -103,16 +117,7 @@ export class MonthlyAccounts extends React.Component {
       {acct && this.showActions(acct)}
     </tr>
   }
-  getAccountOn(flatNum) {
-    let acct = this.state.accounts.items.find((each) => each.flat_number === flatNum)
-    if(acct) return acct
-    return this.newAccount(flatNum)
-  }
-/*  removeAccount(model){
-    const { accounts } = this.state
-    let result = accounts.filter(each => each.id !== model.id)
-    this.setState({accounts: result})
-  } */
+
   showActions(model) {
     const { authzn } = this.props
 /*    let title = authzn && authzn.allowsAdd && model.id === 0 ? 'Add' :
@@ -142,21 +147,15 @@ export class MonthlyAccounts extends React.Component {
 
   */
   handleAddModel(model) {
-    const { forMonth, forYear } = this.state
     if(window.confirm('Are you sure to add this payment?')) {
       this.props.saveChanges(model)
-      this.props.getMonthlyListFor({month: forMonth, year: forYear})
-      const { accounts } = this.props
-      this.setState({accounts: accounts})
+      this.getMonthlyList()
     }
   }
   handleDeleteModel(model) {
-    const { forMonth, forYear } = this.state
     if( window.confirm('Are you sure to remove this payment?') ) {
       this.props.delete(model)
-      this.props.getMonthlyListFor({month: forMonth, year: forYear})
-      const { accounts } = this.props
-      this.setState({accounts: accounts})
+      this.getMonthlyList()
     }
   }
 
