@@ -32,7 +32,7 @@ export class MonthlyAccounts extends React.Component {
     this.state = {
       forMonth: 4,
       forYear: 2018,
-      accounts: accts
+      //accounts: accts
     }
   }
   componentDidMount() {
@@ -40,9 +40,9 @@ export class MonthlyAccounts extends React.Component {
     const { forMonth, forYear } = this.state
     this.props.getAllFlats()
     this.props.getMonthlyListFor({month: forMonth, year: forYear})
-    if(accounts && accounts.items) {
+    /*if(accounts && accounts.items) {
       this.setState({ accounts: accounts })
-    }
+    }*/
   }
   render() {
     const { flats, accounts } = this.props
@@ -50,7 +50,7 @@ export class MonthlyAccounts extends React.Component {
               <h3>Monthly Maintenance Fees Collection</h3>
               { flats && flats.loading && <div>loading flats...</div>}
               { accounts && accounts.loading && <div>loading accounts...</div>}
-              { flats && flats.items && accounts && accounts.items && this.showList() }
+              { accounts && accounts.items && flats && flats.items && this.showList() }
            </div>
   }
   newAccount(flatNumber) {
@@ -104,7 +104,7 @@ export class MonthlyAccounts extends React.Component {
     </tr>
   }
   getAccountOn(flatNum) {
-    let acct = this.state.accounts.items.find((each) => each.flat_number === flatNum)
+    let acct = this.props.accounts.items.find((each) => each.flat_number === flatNum)
     if(acct) return acct
     return this.newAccount(flatNum)
   }
@@ -145,18 +145,18 @@ export class MonthlyAccounts extends React.Component {
     const { forMonth, forYear } = this.state
     if(window.confirm('Are you sure to add this payment?')) {
       this.props.saveChanges(model)
-      this.props.getMonthlyListFor({month: forMonth, year: forYear})
-      const { accounts } = this.props
-      this.setState({accounts: accounts})
+      //this.props.getMonthlyListFor({month: forMonth, year: forYear})
+      //const { accounts } = this.props
+      //this.setState({accounts: accounts})
     }
   }
   handleDeleteModel(model) {
     const { forMonth, forYear } = this.state
     if( window.confirm('Are you sure to remove this payment?') ) {
       this.props.delete(model)
-      this.props.getMonthlyListFor({month: forMonth, year: forYear})
-      const { accounts } = this.props
-      this.setState({accounts: accounts})
+      //this.props.getMonthlyListFor({month: forMonth, year: forYear})
+      //const { accounts } = this.props
+      //this.setState({accounts: accounts})
     }
   }
 

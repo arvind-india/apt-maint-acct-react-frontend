@@ -72,8 +72,8 @@ function _delete(model) {
             throw new Error('Failed to delete model id: '+id)
           }
           console.log('Get Monthly List for data: ', data)
-          dispatch(this.getMonthlyListFor(data))
           dispatch(success(model))
+          dispatch(accountMonthlyActions.getMonthlyListFor(data))
         },
         error => dispatch(failure(id, error))
       )
@@ -94,6 +94,10 @@ function saveChanges(model) {
   function update(model) {
     return dispatch => {
       dispatch(request(model))
+      let data = {
+        month: model.for_month,
+        year: model.for_year
+      }
       service.update(model)
         .then(
           res => {
@@ -104,6 +108,7 @@ function saveChanges(model) {
             }
             dispatch(success(res.data.model))
             dispatch(alertActions.success('Updated Successfully'))
+            dispatch(accountMonthlyActions.getMonthlyListFor(data))
           },
           error => {
             let data = error.response.data
@@ -127,6 +132,10 @@ function saveChanges(model) {
   function add(model) {
     return dispatch => {
       dispatch(request(model))
+      let data = {
+        month: model.for_month,
+        year: model.for_year
+      }
       service.add(model)
         .then(
           response => {
@@ -137,6 +146,7 @@ function saveChanges(model) {
             // dispatch(accountMonthlyActions.getLatest(data))
             dispatch(success(response.data.model))
             dispatch(alertActions.success('Added new Flat Details Successfully'))
+            dispatch(accountMonthlyActions.getMonthlyListFor(data))
           },
           error => {
             let data = error.response.data
