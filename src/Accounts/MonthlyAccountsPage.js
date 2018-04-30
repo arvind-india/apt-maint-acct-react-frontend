@@ -41,12 +41,19 @@ export class MonthlyAccounts extends React.Component {
     const { flats, accounts } = this.props
     return <div>
               <h3>Monthly Maintenance Fees Collection</h3>
+              { this.showCheckbox() }
               { flats.loading && <div>loading flats...</div>}
               { flats.error && <span className="text-danger">{flats.error}</span>}
               { accounts.loading && <div>loading accounts...</div>}
               { accounts.error && <span className="text-danger">{accounts.error}</span>}
               { accounts.items && flats.items && this.showList() }
            </div>
+  }
+  showCheckbox() {
+    return <div class="checkboxThree">
+      <input type="checkbox" value="1" id="checkboxThreeInput" name="" />
+      <label for="checkboxThreeInput"/>
+    </div>
   }
   newAccount(flatNumber) {
     return {
