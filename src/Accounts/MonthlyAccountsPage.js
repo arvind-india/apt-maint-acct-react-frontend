@@ -41,7 +41,6 @@ export class MonthlyAccounts extends React.Component {
     const { flats, accounts } = this.props
     return <div>
               <h3>Monthly Maintenance Fees Collection</h3>
-              { this.showCheckbox() }
               { flats.loading && <div>loading flats...</div>}
               { flats.error && <span className="text-danger">{flats.error}</span>}
               { accounts.loading && <div>loading accounts...</div>}
@@ -49,12 +48,7 @@ export class MonthlyAccounts extends React.Component {
               { accounts.items && flats.items && this.showList() }
            </div>
   }
-  showCheckbox() {
-    return <div class="checkboxThree">
-      <input type="checkbox" value="1" id="checkboxThreeInput" name="" />
-      <label for="checkboxThreeInput"/>
-    </div>
-  }
+
   newAccount(flatNumber) {
     return {
       id: 0,
@@ -88,20 +82,20 @@ export class MonthlyAccounts extends React.Component {
       <th>#</th>
       <th>Flat#</th>
       <th>Paid?</th>
-      <th>Paid-Date</th>
-      <th>Actions</th>
+      <th>Paid On</th>
     </tr>
   }
 
   bodyRow(model,index) {
     let flatNum = model.flat_number
     let acct = this.getAccountOn(flatNum)
+    let today = new Date().toISOString().substr(0,10)
+    // <td>{acct && acct.id > 0?acct.recorded_at:today}</td>
     return <tr key={model.id}>
       <td>{index+1}</td>
       <td>{model.flat_number}</td>
       {acct && this.showPaidStatus(acct)}
-      <td>{acct && acct.id > 0?acct.recorded_at:''}</td>
-      {acct && this.showActions(acct)}
+      {acct && this.showPaidDate(acct)}
     </tr>
   }
   getAccountOn(flatNum) {
@@ -109,17 +103,26 @@ export class MonthlyAccounts extends React.Component {
     let acct = accounts.items.find((each) => each.flat_number === flatNum)
     return acct ? acct : this.newAccount(flatNum)
   }
+  showCheckbox() {
+    return <div class="checkboxThree">
+      <input type="checkbox" value="1" id="checkboxThreeInput" name="" />
+      <label for="checkboxThreeInput"></label>
+    </div>
+  }
   showPaidStatus(account) {
+    let suffix = account.flat_number
+    let id="paidStatus"+suffix
     return <td>
+      <div class="paidStatus">
         <Input
-          id="paidStatus"
-          className="paidStatus"
+          id={id}
           type="checkbox"
-          name="paidStatus"
-          //value={account.id}
+          name=""
+          value={1}
           checked={account && account.id > 0}
           onChange={() => this.handlePaidStatus(account)}
-        /> {account && account.id > 0?'PAID':'UNPAID'}
+        /> <label for={id}></label>
+      </div>
     </td>
   }
   handlePaidStatus(account) {
@@ -129,34 +132,6 @@ export class MonthlyAccounts extends React.Component {
       this.handleAddModel(account)
     }
   }
-  showActions(model) {
-    const { authzn } = this.props
-/*    let title = authzn && authzn.allowsAdd && model.id === 0 ? 'Add' :
-                  authzn && authzn.allowsEdit && model.id > 0 ? 'Edit' :
-                  'View'
-    let icon = authzn && authzn.allowsAdd && model.id === 0 ? <MdAdd/> :
-                  authzn && authzn.allowsEdit && model.id > 0 ? <MdEdit/> :
-                <MdVisibility/> */
-    return <td>
-            {authzn && authzn.allowsAdd && model.id === 0 && <Button
-              color="link"
-              title="Add"
-              onClick={() => this.handleAddModel(model)}
-              ><MdAdd color="blue"/></Button>}
-            {authzn && authzn.allowsDelete && model.id > 0 && <Button
-              color="link"
-              title="Revert Payment"
-              onClick={() => this.handleDeleteModel(model)}
-            ><MdDelete color="red"/></Button>}
-          </td>
-  }
-  /*
-  <Link
-    to={{ pathname: `${url}/${model.id}`, state:{model: model} }}
-    title={title}
-  >{icon}</Link>
-
-  */
   handleAddModel(model) {
     if(window.confirm('Are you sure to add this payment?')) {
       this.props.saveChanges(model)
@@ -166,6 +141,64 @@ export class MonthlyAccounts extends React.Component {
     if( window.confirm('Are you sure to remove this payment?') ) {
       this.props.delete(model)
     }
+  }
+  showPaidDate(account) {
+    const { editDate } = this.state
+    return editDate ?
+      this.showDateInput(account) :
+      this.showDate(account)
+  }
+  showDate(account) {
+    return <div
+        className="paid-date"
+        role="button"
+        onClick={this.handleDateClick}
+        style={this.getStyle()}
+      >{account.recorded_at}</div>
+  }
+  getStyle() {
+    const { authzn } = this.props
+    return authzn && (authzn.allowsAdd || authzn.allowsEdit) ?
+      { cursor: "pointer" } :
+      { cursor: "default" }
+  }  
+  handleDateClick() {
+    const { authzn } = this.props
+    if(!authzn) return;
+    if(authzn.allowsAdd || authzn.allowsEdit) {
+      this.setState({editDate: true})
+    }
+  }
+  showDateInput(account) {
+    return <div className="paid-date">
+      <Input
+        id="recordedAt"
+        type="date"
+        name="recorded_at"
+        value={account.recorded_at}
+        onChange={(event) => this.handleDateChange(event, account)}
+      />
+      <Button
+        size="sm"
+        color="danger"
+        title="Cancel"
+        onClick={() => this.setState({editDate: false})}
+      >x</Button>
+    </div>
+  }
+  handleDateChange(event, account) {
+    const { name, value } = event.target
+    this.setState({
+      editDate: false
+    },
+    ()=>this.saveDateChange(account, value))
+  }
+  saveDateChange(account, newDate) {
+    if(acct.id === 0) return ;  // do nothing for new account
+    let acct = account
+    acct.recorded_at = newDate
+    console.log('saving account with new date: ', acct)
+    this.props.saveChanges(acct)
   }
 
 } // end of class MonthlyAccounts

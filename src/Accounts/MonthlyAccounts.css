@@ -14,3 +14,84 @@
 .moYr {
   display: flex;
 }
+
+
+/**
+ * Following check box style css code taken from
+ * https://paulund.co.uk/how-to-style-a-checkbox-with-css
+ */
+
+
+/**
+ * For styling check box, hide it first
+ */
+input[type=checkbox] {
+  visibility: hidden;
+}
+
+/*
+ * Paid Status Checkbox
+ */
+
+.paidStatus {
+  width: 120px;
+  height: 40px;
+  background: #333;
+  margin: 20px 60px;
+  border-radius: 50px;
+  position: relative;
+}
+
+/*
+ * Create the text for the On position
+ */
+
+.paidStatus:before {
+  content: 'Paid';
+  position: absolute;
+  top: 12px;
+  left: 13px;
+  height: 2px;
+  color: #26ca28;
+  font-size: 16px;
+}
+
+/*
+ * Create the label for the Off position
+ */
+.paidStatus:after {
+  content: 'X';
+  position: absolute;
+  top: 12px;
+  left: 84px;
+  height: 2px;
+  color: white;
+  font-size: 16px;
+}
+
+/**
+ * Create the pill to click
+ */
+ .paidStatus label {
+   display: block;
+   width: 52px;
+   height: 22px;
+   border-radius: 50px;
+
+   transition: all .5s ease;
+   cursor: pointer;
+   position: absolute;
+   top: 9px;
+   z-index: 1;
+   left: 12px;
+   background: #ddd;
+ }
+
+ /**
+  * Create the checkbox event for the label
+  */
+
+.paidStatus input[type=checkbox]:checked + label {
+  left: 60px;
+  background: #26ca28;
+}
