@@ -1,4 +1,4 @@
-.grid {
+.monthly-account {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   grid-auto-rows: minmax(180px, 1fr);
@@ -6,11 +6,42 @@
   grid-gap: 20px;
 }
 .box {
-  background-color: #444;
-  color: #fff;
+  display: grid;
+  grid-template-rows: 60px 60px 60px;
+  background-color: rgba(0, 95, 107, 0.2);
+  /*color: #fff; */
   border-radius: 5px;
   padding: 0;
 }
+.flat-number {
+  grid-row: 1;
+  justify-self: start;
+  align-self: start;
+  color: blue;
+  font-size: 90%;
+}
+/*
+.paid-status {
+  grid-row: 2;
+  justify-self: center;
+  align-self: center;
+} */
+.paid-date {
+  display: flex;
+  grid-row: 3;
+  /*justify-self: end;*/
+  align-self: end;
+  font-size: 90%;
+  width: 175px;
+  color: blue;
+}
+
+.flat-number:hover,
+.paid-status:hover,
+.paid-date:hover {
+  color: black;
+}
+
 .list-control {
   display: flex;
 }
@@ -19,11 +50,25 @@
   width: 100px;
   margin: 10px;
 }
-.list-view,
-.box-view {
+.list-view-select,
+.box-view-select {
   width: 100px;
   margin: 10px;
   padding-left: 10px;
+}
+
+.paid-status-header {
+  text-align: center;
+}
+
+.index-cell {
+  width: 50px;
+}
+.flat-number-cell {
+  width: 50px;
+}
+.paid-status-cell {
+  width: 60px;
 }
 
 
@@ -44,20 +89,24 @@ input[type=checkbox] {
  * Paid Status Checkbox
  */
 
-.paidStatus {
+.paid-status {
   width: 120px;
   height: 40px;
   background: #333;
   margin: 20px 60px;
   border-radius: 50px;
   position: relative;
+
+  grid-row: 2;
+  justify-self: center;
+  align-self: center;
 }
 
 /*
  * Create the text for the On position
  */
 
-.paidStatus:before {
+.paid-status:before {
   content: 'Paid';
   position: absolute;
   top: 12px;
@@ -70,7 +119,7 @@ input[type=checkbox] {
 /*
  * Create the label for the Off position
  */
-.paidStatus:after {
+.paid-status:after {
   content: 'X';
   position: absolute;
   top: 12px;
@@ -83,7 +132,7 @@ input[type=checkbox] {
 /**
  * Create the pill to click
  */
- .paidStatus label {
+ .paid-status label {
    display: block;
    width: 52px;
    height: 22px;
@@ -102,7 +151,7 @@ input[type=checkbox] {
   * Create the checkbox event for the label
   */
 
-.paidStatus input[type=checkbox]:checked + label {
+.paid-status input[type=checkbox]:checked + label {
   left: 60px;
   background: #26ca28;
 }

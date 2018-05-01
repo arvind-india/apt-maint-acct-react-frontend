@@ -118,7 +118,7 @@ export class MonthlyAccounts extends React.Component {
 
   showListSelect() {
     const { view } = this.state
-    return <div className="list-view">
+    return <div className="list-view-select">
       <Input
         type="radio"
         name="view"
@@ -130,7 +130,7 @@ export class MonthlyAccounts extends React.Component {
   }
   showBoxSelect() {
     const { view } = this.state
-    return <div className="box-view">
+    return <div className="box-view-select">
       <Input
         type="radio"
         name="view"
@@ -177,8 +177,8 @@ export class MonthlyAccounts extends React.Component {
     return <tr>
       <th>#</th>
       <th>Flat#</th>
-      <th>Paid?</th>
-      <th>Paying/Paid Date</th>
+      <th className="paid-status-header">Payment</th>
+      <th>Date of Payment</th>
     </tr>
   }
 
@@ -189,10 +189,10 @@ export class MonthlyAccounts extends React.Component {
     //let today = new Date().toISOString().substr(0,10)
     // <td>{model.flat_number}</td>
     return <tr key={model.id}>
-      <td>{index+1}</td>
-      <td>{acct && this.showFlatNumber(acct)}</td>
-      <td>{acct && this.showPaidStatus(acct)}</td>
-      <td>{acct && <PaidDate account={acct} authzn={authzn} save={this.saveDateChange}/>}</td>
+      <td className="index-cell">{index+1}</td>
+      <td className="flat-number-cell">{acct && this.showFlatNumber(acct)}</td>
+      <td className="paid-status-cell">{acct && this.showPaidStatus(acct)}</td>
+      <td className="paid-date-cell">{acct && <PaidDate account={acct} authzn={authzn} save={this.saveDateChange}/>}</td>
     </tr>
   }
   getAccountOn(flatNum) {
@@ -223,7 +223,7 @@ export class MonthlyAccounts extends React.Component {
   showPaidStatus(account) {
     let suffix = account.flat_number
     let id="paidStatus"+suffix
-    return <div className="paidStatus">
+    return <div className="paid-status">
         <Input
           id={id}
           type="checkbox"
@@ -258,7 +258,7 @@ export class MonthlyAccounts extends React.Component {
   showBoxes() {
     const { flats } = this.props
     let models = flats
-    return <ul className="grid">
+    return <ul className="monthly-account">
       { models.items.map((model, index) => this.showBox(model,index)) }
     </ul>
   }
@@ -268,7 +268,7 @@ export class MonthlyAccounts extends React.Component {
     let acct = this.getAccountOn(flatNum)
     //let today = new Date().toISOString().substr(0,10)
 
-    return <li key={model.id}>
+    return <li key={model.id} className="box">
       {acct && this.showFlatNumber(acct)}
       {acct && this.showPaidStatus(acct)}
       {acct && <PaidDate account={acct} authzn={authzn} save={this.saveDateChange}/>}

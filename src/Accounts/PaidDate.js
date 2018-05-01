@@ -6,15 +6,18 @@ import {
   Label
 } from 'reactstrap'
 
+let today = new Date().toISOString().substr(0,10)
+
 export class PaidDate extends React.Component {
   constructor(props) {
     super(props)
     let date = props.account ?
                 props.account.recorded_at :
-                new Date().toISOString().substr(0,10)
+                today
     this.state = {
       editDate: false,
-      date: date
+      date: date,
+      paid: props.account.id > 0
     }
     this.handleDateClick = this.handleDateClick.bind(this)
   }
@@ -27,13 +30,13 @@ export class PaidDate extends React.Component {
   }
 
   showDate() {
-    const { date } = this.state
+    const { date, paid } = this.state
     return <div
         className="paid-date"
         role="button"
         onClick={this.handleDateClick}
         style={this.getStyle()}
-      >{date}</div>
+      >{paid?date:'NA'}</div>
   }
   getStyle() {
     const { authzn } = this.props
