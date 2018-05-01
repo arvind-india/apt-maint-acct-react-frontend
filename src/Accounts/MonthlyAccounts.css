@@ -11,8 +11,19 @@
   border-radius: 5px;
   padding: 0;
 }
-.moYr {
+.list-control {
   display: flex;
+}
+.month,
+.year {
+  width: 100px;
+  margin: 10px;
+}
+.list-view,
+.box-view {
+  width: 100px;
+  margin: 10px;
+  padding-left: 10px;
 }
 
 

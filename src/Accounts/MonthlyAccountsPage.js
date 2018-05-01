@@ -2,39 +2,49 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { Table } from 'reactstrap'
-
-import { durationActions, flatActions, accountMonthlyActions as actions } from '../_actions'
-
+import Select from 'react-select';
 import {
   MdAdd,
   MdVisibility,
   MdEdit,
   MdDelete
 } from 'react-icons/lib/md' // material design icons
-
 import {
   Button,
   Input,
   Label
 } from 'reactstrap'
 
+import {
+  durationActions,
+  flatActions,
+  accountMonthlyActions as actions
+} from '../_actions'
+import { FlashMessage } from '../_components'
+import { MONTHS } from '../_constants'
 import { PaidDate } from './PaidDate'
 
 import './MonthlyAccounts.css'
 
 let url = '/accounts'
 let module = 'accounts'
+let defaultView = "box"
 
 export class MonthlyAccounts extends React.Component {
 
   constructor(props) {
     super(props)
+    this.today = new Date()
     this.state = {
-      forMonth: 4,
-      forYear: 2018
+      forMonth: this.today.getMonth(),
+      forYear: this.today.getFullYear(),
+      view: defaultView
     }
+    this.handleChange = this.handleChange.bind(this)
+    this.handleMonthChange = this.handleMonthChange.bind(this)
     this.saveDateChange = this.saveDateChange.bind(this)
     this.handlePaidStatus = this.handlePaidStatus.bind(this)
+    this.handleViewChange = this.handleViewChange.bind(this)
   }
   componentDidMount() {
     const { forMonth, forYear } = this.state
@@ -42,17 +52,99 @@ export class MonthlyAccounts extends React.Component {
     this.props.getMonthlyListFor({month: forMonth, year: forYear})
   }
   render() {
-    const { flats, accounts } = this.props
+    const { flats, alert, accounts } = this.props
+    const { view } = this.state
     return <div>
               <h3>Monthly Maintenance Fees Collection</h3>
+              { alert.message && <FlashMessage text={alert.message} color={alert.color} delay={2100}/> }
+              { this.showListControl() }
               { flats.loading && <div>loading flats...</div>}
               { flats.error && <span className="text-danger">{flats.error}</span>}
               { accounts.loading && <div>loading accounts...</div>}
               { accounts.error && <span className="text-danger">{accounts.error}</span>}
-              { accounts.items && flats.items && this.showList() }
+              { accounts.items && flats.items && view === "list" && this.showListView() }
+              { accounts.items && flats.items && view === "box" && this.showBoxes() }
            </div>
   }
+  showListControl() {
+    return <div className="list-control">
+      { this.showMonth() }
+      { this.showYear() }
+      { this.showListSelect() }
+      { this.showBoxSelect() }
+    </div>
+  }
+  showMonth() {
+    const { forMonth } = this.state
+    return <div className="month"><Select
+      id="forMonth"
+      name="forMonth"
+      value={forMonth}
+      multi={false}
+      joinValues={false}
+      simpleValue={true}
+      placeholder="Select a Month..."
+      onChange={(selectedMonth) => this.handleMonthChange(selectedMonth)}
+      valueKey="number"
+      labelKey="name"
+      options={MONTHS}
+    /></div>
+  }
+  handleMonthChange(selectedMonth) {
+    console.log('selectedMonth is: ....................', selectedMonth)
+    this.setState({forMonth: selectedMonth}, this.getMonthlyListFor)
+  }
+  showYear() {
+    const { forYear } = this.state
+    return <div className="year"><Input
+      id="forYear"
+      type="number"
+      name="forYear"
+      value={forYear}
+      placeholder="Year here"
+      min="2013"
+      max="2030"
+      onChange={(event) => this.handleChange(event)}
+    /></div>
+  }
+  handleChange(event) {
+    const { name, value } = event.target
+    this.setState( { [name]: value }, this.getMonthlyListFor )
+  }
+  getMonthlyListFor() {
+    const { forMonth, forYear } = this.state
+    this.props.getMonthlyListFor({month: forMonth, year: forYear})
+  }
 
+  showListSelect() {
+    const { view } = this.state
+    return <div className="list-view">
+      <Input
+        type="radio"
+        name="view"
+        value="list"
+        checked={view === "list"}
+        onChange={this.handleViewChange}
+      /> List View
+    </div>
+  }
+  showBoxSelect() {
+    const { view } = this.state
+    return <div className="box-view">
+      <Input
+        type="radio"
+        name="view"
+        value="box"
+        checked={view === "box"}
+        onChange={this.handleViewChange}
+      /> Box View
+    </div>
+  }
+  handleViewChange(event) {
+    const {name, value} = event.target
+    console.log('handle view change: ..........', event.target)
+    this.setState({[name]: value})
+  }
   newAccount(flatNumber) {
     return {
       id: 0,
@@ -70,7 +162,7 @@ export class MonthlyAccounts extends React.Component {
     }
   }
 
-  showList(){
+  showListView(){
     const { flats } = this.props
     let models = flats
     return <Table>
@@ -86,7 +178,7 @@ export class MonthlyAccounts extends React.Component {
       <th>#</th>
       <th>Flat#</th>
       <th>Paid?</th>
-      <th>Paid On</th>
+      <th>Paying/Paid Date</th>
     </tr>
   }
 
@@ -94,7 +186,7 @@ export class MonthlyAccounts extends React.Component {
     const { authzn } = this.props
     let flatNum = model.flat_number
     let acct = this.getAccountOn(flatNum)
-    let today = new Date().toISOString().substr(0,10)
+    //let today = new Date().toISOString().substr(0,10)
     // <td>{model.flat_number}</td>
     return <tr key={model.id}>
       <td>{index+1}</td>
@@ -110,8 +202,8 @@ export class MonthlyAccounts extends React.Component {
   }
   showFlatNumber(account) {
     const { authzn } = this.props
-    let title = authzn.allowsAdd && account.id === 0 ? 'Add' :
-      authzn.allowsEdit ? 'Edit' : 'View'
+    let title = authzn && authzn.allowsAdd && account.id === 0 ? 'Add' :
+                authzn && authzn.allowsEdit ? 'Edit' : 'View'
     let link = <Link
       to={{ pathname: `${url}/${account.id}`, state:{model: account} }}
       title={title}
@@ -119,7 +211,7 @@ export class MonthlyAccounts extends React.Component {
       className="flat-number"
       >{account.flat_number}</Link>
 
-    return authzn.allowsAdd || authzn.allowsEdit || authzn.allowsView ?
+    return authzn && (authzn.allowsAdd || authzn.allowsEdit || authzn.allowsView) ?
       link : <span>{account.flat_number}</span>
   }
   getStyle() {
@@ -161,6 +253,26 @@ export class MonthlyAccounts extends React.Component {
     acct.recorded_at = newDate
     console.log('saving account with new date: ', acct)
     this.props.saveChanges(acct)
+  }
+
+  showBoxes() {
+    const { flats } = this.props
+    let models = flats
+    return <ul className="grid">
+      { models.items.map((model, index) => this.showBox(model,index)) }
+    </ul>
+  }
+  showBox(model, index) {
+    const { authzn } = this.props
+    let flatNum = model.flat_number
+    let acct = this.getAccountOn(flatNum)
+    //let today = new Date().toISOString().substr(0,10)
+
+    return <li key={model.id}>
+      {acct && this.showFlatNumber(acct)}
+      {acct && this.showPaidStatus(acct)}
+      {acct && <PaidDate account={acct} authzn={authzn} save={this.saveDateChange}/>}
+    </li>
   }
 
 } // end of class MonthlyAccounts
