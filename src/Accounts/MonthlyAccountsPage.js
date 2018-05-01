@@ -18,6 +18,8 @@ import {
   Label
 } from 'reactstrap'
 
+import { PaidDate } from './PaidDate'
+
 import './MonthlyAccounts.css'
 
 let url = '/accounts'
@@ -31,6 +33,8 @@ export class MonthlyAccounts extends React.Component {
       forMonth: 4,
       forYear: 2018
     }
+    this.saveDateChange = this.saveDateChange.bind(this)
+    this.handlePaidStatus = this.handlePaidStatus.bind(this)
   }
   componentDidMount() {
     const { forMonth, forYear } = this.state
@@ -87,15 +91,16 @@ export class MonthlyAccounts extends React.Component {
   }
 
   bodyRow(model,index) {
+    const { authzn } = this.props
     let flatNum = model.flat_number
     let acct = this.getAccountOn(flatNum)
     let today = new Date().toISOString().substr(0,10)
-    // <td>{acct && acct.id > 0?acct.recorded_at:today}</td>
+    // <td>{model.flat_number}</td>
     return <tr key={model.id}>
       <td>{index+1}</td>
-      <td>{model.flat_number}</td>
-      {acct && this.showPaidStatus(acct)}
-      {acct && this.showPaidDate(acct)}
+      <td>{acct && this.showFlatNumber(acct)}</td>
+      <td>{acct && this.showPaidStatus(acct)}</td>
+      <td>{acct && <PaidDate account={acct} authzn={authzn} save={this.saveDateChange}/>}</td>
     </tr>
   }
   getAccountOn(flatNum) {
@@ -103,98 +108,55 @@ export class MonthlyAccounts extends React.Component {
     let acct = accounts.items.find((each) => each.flat_number === flatNum)
     return acct ? acct : this.newAccount(flatNum)
   }
-  showCheckbox() {
-    return <div class="checkboxThree">
-      <input type="checkbox" value="1" id="checkboxThreeInput" name="" />
-      <label for="checkboxThreeInput"></label>
-    </div>
-  }
-  showPaidStatus(account) {
-    let suffix = account.flat_number
-    let id="paidStatus"+suffix
-    return <td>
-      <div class="paidStatus">
-        <Input
-          id={id}
-          type="checkbox"
-          name=""
-          value={1}
-          checked={account && account.id > 0}
-          onChange={() => this.handlePaidStatus(account)}
-        /> <label for={id}></label>
-      </div>
-    </td>
-  }
-  handlePaidStatus(account) {
-    if(account.id > 0) {
-      this.handleDeleteModel(account)
-    } else {
-      this.handleAddModel(account)
-    }
-  }
-  handleAddModel(model) {
-    if(window.confirm('Are you sure to add this payment?')) {
-      this.props.saveChanges(model)
-    }
-  }
-  handleDeleteModel(model) {
-    if( window.confirm('Are you sure to remove this payment?') ) {
-      this.props.delete(model)
-    }
-  }
-  showPaidDate(account) {
-    const { editDate } = this.state
-    return editDate ?
-      this.showDateInput(account) :
-      this.showDate(account)
-  }
-  showDate(account) {
-    return <div
-        className="paid-date"
-        role="button"
-        onClick={this.handleDateClick}
-        style={this.getStyle()}
-      >{account.recorded_at}</div>
+  showFlatNumber(account) {
+    const { authzn } = this.props
+    let title = authzn.allowsAdd && account.id === 0 ? 'Add' :
+      authzn.allowsEdit ? 'Edit' : 'View'
+    let link = <Link
+      to={{ pathname: `${url}/${account.id}`, state:{model: account} }}
+      title={title}
+      style={this.getStyle()}
+      className="flat-number"
+      >{account.flat_number}</Link>
+
+    return authzn.allowsAdd || authzn.allowsEdit || authzn.allowsView ?
+      link : <span>{account.flat_number}</span>
   }
   getStyle() {
     const { authzn } = this.props
     return authzn && (authzn.allowsAdd || authzn.allowsEdit) ?
       { cursor: "pointer" } :
       { cursor: "default" }
-  }  
-  handleDateClick() {
-    const { authzn } = this.props
-    if(!authzn) return;
-    if(authzn.allowsAdd || authzn.allowsEdit) {
-      this.setState({editDate: true})
+  }
+  showPaidStatus(account) {
+    let suffix = account.flat_number
+    let id="paidStatus"+suffix
+    return <div className="paidStatus">
+        <Input
+          id={id}
+          type="checkbox"
+          name=""
+          value={1}
+          checked={account && account.id > 0}
+          onChange={(event) => this.handlePaidStatus(event, account)}
+        /> <Label for={id}></Label>
+      </div>
+  }
+  handlePaidStatus(event, account) {
+    console.log('handle paid status of: ', account)
+    if(account.id > 0 &&  window.confirm('Are you sure to remove this payment?') ) {
+        this.props.delete(account)
+    }
+    if(account.id === 0 && window.confirm('Are you sure to add this payment?')) {
+      this.props.saveChanges(account)
     }
   }
-  showDateInput(account) {
-    return <div className="paid-date">
-      <Input
-        id="recordedAt"
-        type="date"
-        name="recorded_at"
-        value={account.recorded_at}
-        onChange={(event) => this.handleDateChange(event, account)}
-      />
-      <Button
-        size="sm"
-        color="danger"
-        title="Cancel"
-        onClick={() => this.setState({editDate: false})}
-      >x</Button>
-    </div>
-  }
-  handleDateChange(event, account) {
-    const { name, value } = event.target
-    this.setState({
-      editDate: false
-    },
-    ()=>this.saveDateChange(account, value))
-  }
+
   saveDateChange(account, newDate) {
-    if(acct.id === 0) return ;  // do nothing for new account
+    if(account.id === 0) {
+      account.recorded_at = newDate
+      return ;  // do nothing for new account
+    }
     let acct = account
     acct.recorded_at = newDate
     console.log('saving account with new date: ', acct)
