@@ -254,7 +254,6 @@ class AppNavbar extends React.Component {
 
     let authzn = authorizations[module]
     if(!authzn) return false
-    console.log('authorizes.....', authzn)
     let result = authzn.allowsAdd ||
                  authzn.allowsView ||
                  authzn.allowsEdit ||
@@ -317,7 +316,7 @@ class AppNavbar extends React.Component {
     })
   }
   decode(user) {
-    if(user.id_token) console.log('JWT Token: ', jwtDecode(user.id_token))
+    //if(user.id_token) console.log('JWT Token: ', jwtDecode(user.id_token))
     return user.id_token
       ? jwtDecode(user.id_token)
       : {name: 'Guest!'}

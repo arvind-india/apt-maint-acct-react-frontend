@@ -10,9 +10,6 @@ function instance() {
   let host = process.env.NODE_ENV === 'production' ?
               window.location.origin :
               process.env.REACT_APP_API_URL
-
-  // console.log('window location origin: ', window.location.origin)
-  // console.log('host ', host)
   return axios.create({
     baseURL: host+'/api',
     timeout: 10000,

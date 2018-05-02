@@ -2,8 +2,7 @@ import React from 'react'
 
 import {
   Button,
-  Input,
-  Label
+  Input
 } from 'reactstrap'
 
 let today = new Date().toISOString().substr(0,10)
@@ -70,7 +69,7 @@ export class PaidDate extends React.Component {
     </div>
   }
   handleDateChange(event) {
-    const { name, value } = event.target
+    const { value } = event.target
     const { account } = this.props
     this.setState({
       editDate: false,

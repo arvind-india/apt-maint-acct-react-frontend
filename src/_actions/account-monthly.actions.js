@@ -15,7 +15,6 @@ function getMonthlyListFor(data) {
     service.getMonthlyListFor(data)
       .then(
         response => {
-          console.log('Response on getMonthlyListFor: ', response)
           if(response.error) {
             throw new Error('Failed to get Monthly List for data '+data.forMonth)
           }
@@ -29,15 +28,12 @@ function getMonthlyListFor(data) {
   function failure(error) { return { type: constants.GETMONTHLYLIST_FAILURE, error } }
 }
 
-
-
 function getMonthlyAccountsFor(data) {
   return dispatch => {
     dispatch(request())
     service.getMonthlyAccountsFor(data)
       .then(
         response => {
-          console.log('Response on getMonthlyAccountsFor: ', response)
           if(response.error) {
             throw new Error('Failed to get Monthly Account for data: '+data.flatNumber)
           }
@@ -51,14 +47,11 @@ function getMonthlyAccountsFor(data) {
   function failure(error) { return { type: constants.GETMONTHLYMODELS_FAILURE, error } }
 }
 
-
 // prefixed function name with underscore because delete is a reserved word in javascript
 function _delete(model) {
-  //let model = data.model
   let id = model.id
   return dispatch => {
     dispatch(request(id))
-    // console.log('delete request in progress...')
     let data = {
       month: model.for_month,
       year: model.for_year
@@ -66,12 +59,9 @@ function _delete(model) {
     service.delete(id)
       .then(
         response => {
-          //dispatch(accountMonthlyActions.getLatest(model))
-          console.log('Response after delete request: ', response)
           if(response.error) {
             throw new Error('Failed to delete model id: '+id)
           }
-          console.log('Get Monthly List for data: ', data)
           dispatch(success(model))
           dispatch(accountMonthlyActions.getMonthlyListFor(data))
         },
@@ -84,7 +74,6 @@ function _delete(model) {
 }
 
 function saveChanges(model) {
-  //let model = data.model
   if(model.id === 0) {
     return add(model)
   } else {
@@ -101,8 +90,6 @@ function saveChanges(model) {
       service.update(model)
         .then(
           res => {
-            //dispatch(accountMonthlyActions.getLatest(model))
-            console.log('Response after update request: ', res)
             if(res.error){
               throw new Error('Failed to update account id: '+model.id)
             }
@@ -139,19 +126,15 @@ function saveChanges(model) {
       service.add(model)
         .then(
           response => {
-            console.log('Response after add request: ', response)
             if(response.error) {
               throw new Error('Failed to add model for flat number: '+model.flat_number)
             }
-            // dispatch(accountMonthlyActions.getLatest(data))
             dispatch(success(response.data.model))
             dispatch(alertActions.success('Added new Flat Details Successfully'))
             dispatch(accountMonthlyActions.getMonthlyListFor(data))
           },
           error => {
             let data = error.response.data
-            // console.log('error response...')
-            // console.log(error.response.data)
             let appData;
             if(data.error) { // check if there is a application specific error data enclosed
               appData = data.data

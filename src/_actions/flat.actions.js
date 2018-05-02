@@ -30,7 +30,6 @@ function getAll() {
 function _delete(id) {
   return dispatch => {
     dispatch(request(id))
-    // console.log('delete request in progress...')
     service.delete(id)
       .then(
         model => dispatch(success(id)),
@@ -41,7 +40,6 @@ function _delete(id) {
   function success(id) { return { type: constants.DELETE_SUCCESS, id } }
   function failure(id, error) { return { type: constants.DELETE_FAILURE, id, error } }
 }
-
 
 function getById(id) {
   return dispatch => {
@@ -56,7 +54,6 @@ function getById(id) {
   function success(model) { return { type: constants.GETBYID_SUCCESS, model } }
   function failure(id, error) { return { type: constants.GETBYID_FAILURE, id, error } }
 }
-
 
 function getMyResidents(id) {
   return dispatch => {
@@ -108,8 +105,6 @@ function saveChanges(model) {
           },
           error => {
             let data = error.response.data
-            // console.log('error response...')
-            // console.log(error.response.data)
             let appData;
             if(data.error) { // check if there is a application specific error data enclosed
               appData = data.data
@@ -130,7 +125,6 @@ function saveChanges(model) {
   function add(model) {
     return dispatch => {
       dispatch(request(model))
-
       service.add(model)
         .then(
           model => {
@@ -140,8 +134,6 @@ function saveChanges(model) {
           },
           error => {
             let data = error.response.data
-            // console.log('error response...')
-            // console.log(error.response.data)
             let appData;
             if(data.error) { // check if there is a application specific error data enclosed
               appData = data.data

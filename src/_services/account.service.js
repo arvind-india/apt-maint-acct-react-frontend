@@ -21,7 +21,6 @@ function http() {
 }
 
 function getListFor(fromDate, toDate) {
-console.log('getListFor: '+fromDate+' to '+toDate)
   let urlParams = {
                     params: {
                       fromDate: fromDate.toString(),
@@ -35,7 +34,6 @@ console.log('getListFor: '+fromDate+' to '+toDate)
 }
 
 function getMonthlyListFor(data) {
-console.log('getMonthlyListFor month: '+data.month+' year: '+data.year)
   let urlParams = {
                     params: {
                       month: data.month,
@@ -49,7 +47,6 @@ console.log('getMonthlyListFor month: '+data.month+' year: '+data.year)
 }
 
 function getMonthlyAccountsFor(data) {
-  console.log('getMonthlyAccountsFor: ', data)
   let urlParams = {
                     params: {
                       flatNumber: data.flatNumber,
@@ -70,7 +67,6 @@ function getById(id) {
 }
 
 function getSummaryList() {
-  // console.log('account service >> getSummaryList()................')
   return http().get(url + '/summary/list')
     .then(handleResponse)
     .catch(handleError)
@@ -90,14 +86,12 @@ function add(model) {
 
 // prefixed function name with underscore because delete is a reserved word in javascript
 function _delete(id) {
-  console.log('Deleting account id: ', id)
   return http().delete(url + '/' + id)
     .then(handleResponse)
     .catch(handleError)
 }
 
 function handleResponse(response) {
-  console.log('account service >> handleResponse.......', response)
   if(!response.data) {
     return Promise.reject(response.statusText)
   }

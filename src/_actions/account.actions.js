@@ -28,11 +28,9 @@ function getListFor(fromDate, toDate) {
 function _delete(id) {
   return dispatch => {
     dispatch(request(id))
-    // console.log('delete request in progress...')
     service.delete(id)
       .then(
         response => {
-          console.log('Response on delete: ', response)
           if(response.error) {
             throw new Error('Failed to delete account: '+response.message)
           }
@@ -45,7 +43,6 @@ function _delete(id) {
   function success(id) { return { type: constants.DELETE_SUCCESS, id } }
   function failure(id, error) { return { type: constants.DELETE_FAILURE, id, error } }
 }
-
 
 function getById(id) {
   return dispatch => {
@@ -61,7 +58,6 @@ function getById(id) {
   function failure(id, error) { return { type: constants.GETBYID_FAILURE, id, error } }
 }
 
-
 function getSummaryList() {
   return dispatch => {
     dispatch(request())
@@ -75,7 +71,6 @@ function getSummaryList() {
   function success(summaries) { return { type: constants.GETSUMMARY_SUCCESS, summaries } }
   function failure(id, error) { return { type: constants.GETSUMMARY_FAILURE, id, error } }
 }
-
 
 function saveChanges(model) {
   if(model.id === 0) {
@@ -92,14 +87,10 @@ function saveChanges(model) {
         .then(
           res => {
             dispatch(success())
-            //history.push('/accounts', {prevPathname: '/accounts/'+model.id})
-            //history.goBack()
             dispatch(alertActions.success('Updated Successfully'))
           },
           error => {
             let data = error.response.data
-            // console.log('error response...')
-            // console.log(error.response.data)
             let appData;
             if(data.error) { // check if there is a application specific error data enclosed
               appData = data.data
@@ -124,7 +115,6 @@ function saveChanges(model) {
       service.add(model)
         .then(
           response => {
-            console.log('Response on getMonthlyAccountsFor: ', response)
             if(response.error) {
               throw new Error('Failed to add Monthly Account: '+response.message)
             }
@@ -133,8 +123,6 @@ function saveChanges(model) {
           },
           error => {
             let data = error.response.data
-            // console.log('error response...')
-            // console.log(error.response.data)
             let appData;
             if(data.error) { // check if there is a application specific error data enclosed
               appData = data.data

@@ -18,7 +18,7 @@ import { accountActions as actions,
 
 import { CATEGORIES, MONTHS } from '../_constants'
 import { FlashMessage } from '../_components'
-//import { history } from '../_helpers'
+
 
 let module = 'accounts' // module name
 

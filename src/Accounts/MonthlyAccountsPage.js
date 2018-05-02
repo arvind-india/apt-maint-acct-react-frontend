@@ -4,10 +4,8 @@ import { Link } from 'react-router-dom'
 import { Table } from 'reactstrap'
 import Select from 'react-select';
 import {
-  MdAdd,
-  MdVisibility,
-  MdEdit,
-  MdDelete
+  MdNavigateBefore,
+  MdNavigateNext
 } from 'react-icons/lib/md' // material design icons
 import {
   Button,
@@ -45,6 +43,8 @@ export class MonthlyAccounts extends React.Component {
     this.saveDateChange = this.saveDateChange.bind(this)
     this.handlePaidStatus = this.handlePaidStatus.bind(this)
     this.handleViewChange = this.handleViewChange.bind(this)
+    this.gotoNextMonth = this.gotoNextMonth.bind(this)
+    this.gotoPreviousMonth = this.gotoPreviousMonth.bind(this)
   }
   componentDidMount() {
     const { forMonth, forYear } = this.state
@@ -55,7 +55,7 @@ export class MonthlyAccounts extends React.Component {
     const { flats, alert, accounts } = this.props
     const { view } = this.state
     return <div>
-              <h3>Monthly Maintenance Fees Collection</h3>
+              <h3>Monthly Accounts (Collections)</h3>
               { alert.message && <FlashMessage text={alert.message} color={alert.color} delay={2100}/> }
               { this.showListControl() }
               { flats.loading && <div>loading flats...</div>}
@@ -68,11 +68,27 @@ export class MonthlyAccounts extends React.Component {
   }
   showListControl() {
     return <div className="list-control">
+      { this.showPreviousMonth() }
       { this.showMonth() }
       { this.showYear() }
+      { this.showNextMonth() }
       { this.showListSelect() }
       { this.showBoxSelect() }
     </div>
+  }
+  showPreviousMonth() {
+    return <Button
+      type="button"
+      color="link"
+      title="Goto Previous Month"
+      onClick={this.gotoPreviousMonth}
+      ><MdNavigateBefore/></Button>
+  }
+  gotoPreviousMonth() {
+    const { forMonth, forYear } = this.state
+    forMonth === 1 ?
+      this.setState({forMonth: 12, forYear: forYear-1}, this.getMonthlyListFor) :
+      this.setState({forMonth: forMonth-1}, this.getMonthlyListFor)
   }
   showMonth() {
     const { forMonth } = this.state
@@ -91,7 +107,6 @@ export class MonthlyAccounts extends React.Component {
     /></div>
   }
   handleMonthChange(selectedMonth) {
-    console.log('selectedMonth is: ....................', selectedMonth)
     this.setState({forMonth: selectedMonth}, this.getMonthlyListFor)
   }
   showYear() {
@@ -111,6 +126,21 @@ export class MonthlyAccounts extends React.Component {
     const { name, value } = event.target
     this.setState( { [name]: value }, this.getMonthlyListFor )
   }
+  showNextMonth() {
+    return <Button
+      type="button"
+      color="link"
+      title="Goto Next Month"
+      onClick={this.gotoNextMonth}
+      ><MdNavigateNext/></Button>
+  }
+  gotoNextMonth() {
+    const { forMonth, forYear } = this.state
+    forMonth === 12 ?
+      this.setState({forMonth: 1, forYear: forYear+1}, this.getMonthlyListFor) :
+      this.setState({forMonth: forMonth+1}, this.getMonthlyListFor)
+  }
+
   getMonthlyListFor() {
     const { forMonth, forYear } = this.state
     this.props.getMonthlyListFor({month: forMonth, year: forYear})
@@ -142,7 +172,6 @@ export class MonthlyAccounts extends React.Component {
   }
   handleViewChange(event) {
     const {name, value} = event.target
-    console.log('handle view change: ..........', event.target)
     this.setState({[name]: value})
   }
   newAccount(flatNumber) {
@@ -186,8 +215,6 @@ export class MonthlyAccounts extends React.Component {
     const { authzn } = this.props
     let flatNum = model.flat_number
     let acct = this.getAccountOn(flatNum)
-    //let today = new Date().toISOString().substr(0,10)
-    // <td>{model.flat_number}</td>
     return <tr key={model.id}>
       <td className="index-cell">{index+1}</td>
       <td className="flat-number-cell">{acct && this.showFlatNumber(acct)}</td>
@@ -221,21 +248,26 @@ export class MonthlyAccounts extends React.Component {
       { cursor: "default" }
   }
   showPaidStatus(account) {
-    let suffix = account.flat_number
-    let id="paidStatus"+suffix
+    const { authzn } = this.props
+    let fn = authzn && (authzn.allowsAdd || authzn.allowsEdit) ?
+      (event) => this.handlePaidStatus(event, account) : null
+    let id="paidStatus"+account.flat_number
     return <div className="paid-status">
         <Input
           id={id}
+          className="paid-status-input"
           type="checkbox"
           name=""
           value={1}
           checked={account && account.id > 0}
-          onChange={(event) => this.handlePaidStatus(event, account)}
-        /> <Label for={id}></Label>
+          onChange={fn}
+        /> <Label
+            for={id}
+            style={this.getStyle()}
+            ></Label>
       </div>
   }
   handlePaidStatus(event, account) {
-    console.log('handle paid status of: ', account)
     if(account.id > 0 &&  window.confirm('Are you sure to remove this payment?') ) {
         this.props.delete(account)
     }
@@ -251,7 +283,6 @@ export class MonthlyAccounts extends React.Component {
     }
     let acct = account
     acct.recorded_at = newDate
-    console.log('saving account with new date: ', acct)
     this.props.saveChanges(acct)
   }
 

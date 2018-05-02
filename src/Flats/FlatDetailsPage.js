@@ -64,7 +64,6 @@ export class FlatDetails extends React.Component {
     return props;
   }
   handleChange(event) {
-    //console.log('event target: ', event.target)
     const { name, value } = event.target
     const { model } = this.state
     this.setState({

@@ -1,5 +1,4 @@
 import { axiosClient } from './axios.instance'
-//import axios from 'axios'
 
 export const userService = {
   login,
@@ -26,7 +25,6 @@ function http() {
 
 function login(username, password) {
   let data = { email: username, password: password }
-  // console.log('Login: ', 'user service >> login...')
   return http().post('/login', data)
     .then(handleLoginResponse)
     .catch(handleError)
@@ -34,7 +32,6 @@ function login(username, password) {
 
 function socialLogin(network, token) {
   let data = { network: network, socialToken: token }
-  // console.log('Social Login with data: ', data)
   return http().post('/sociallogin', data)
     .then(handleLoginResponse)
     .catch(handleError)
@@ -42,7 +39,6 @@ function socialLogin(network, token) {
 
 function forgotPassword(email) {
   let data = { email: email }
-  // console.log('Forgot password: ', data)
   return http().post('/login/forgot-password', data)
     .then(handleResponse)
     .catch(handleError)
@@ -50,7 +46,6 @@ function forgotPassword(email) {
 
 function resetPassword(password, token) {
   let data = { resetpassword: password, token: token }
-  // console.log('Reset password: ', data)
   return http().post('/login/reset-password', data)
     .then(handleResponse)
     .catch(handleError)
@@ -82,12 +77,10 @@ function getMyRoles(id) {
 
 function updateMyRoles(id, attachedIds) {
   let data = { 'myrolesIds': attachedIds };
-  // console.log('user.service >> updateMyRoles: ', attachedIds)
   return http().put(url + '/myroles/' + id, data)
     .then(handleResponse)
     .catch(this.handleError);
 }
-
 
 function register(model) {
   return http().post(url, model)
@@ -102,7 +95,6 @@ function update(model) {
 }
 
 function add(model) {
-  // console.log('user service add model: ', model)
   return http().post(url, model)
     .then(handleResponse)
     .catch(handleError)
@@ -130,10 +122,8 @@ function handleAllPermissionsResponse(response) {
 
 function authorizationsByResource(models) {
   let result = {}
-  // console.log('user service >> authorizationsByResource(models)..........', models)
   models.forEach(model => {
     let existingPermission = result[model.resource]
-    //let currentPermission = extractPermission(model, existingPermission)
     let currentPermission = extractPermission(model)
     result[model.resource] = existingPermission ?
       mergePermissions(existingPermission, currentPermission) :
@@ -142,7 +132,7 @@ function authorizationsByResource(models) {
   sessionStorage.setItem('authorizations', JSON.stringify(result))
   return result;
 }
-//function extractPermission(model, existingPermission=null) {
+
 function extractPermission(model) {
   return {
     allowsAdd: model.operations.includes('C'),

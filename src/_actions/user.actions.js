@@ -21,10 +21,8 @@ export const userActions = {
 }
 
 function login(username, password) {
-  // console.log('User Actions: ', 'login process...for username: '+username+', password: '+password)
   return dispatch => {
     dispatch(request({ username }))
-
     service.login(username, password)
       .then(
         model => {
@@ -34,23 +32,19 @@ function login(username, password) {
           dispatch(authzn.getAll()) // get all authorizations/permissions for this logged user
         },
         error => {
-          // console.error(error.response)
           dispatch(failure(error.response))
           dispatch(alertActions.error(error.response.statusText))
         }
       )
   }
-
   function request(model) { return { type: constants.LOGIN_REQUEST, model } }
   function success(model) { return { type: constants.LOGIN_SUCCESS, model } }
   function failure(error) { return { type: constants.LOGIN_FAILURE, error } }
 }
 
 function socialLogin(network, token) {
-
   return dispatch => {
     dispatch(request({ network }))
-
     service.socialLogin(network, token)
       .then(
         model => {
@@ -65,17 +59,14 @@ function socialLogin(network, token) {
         }
       )
   }
-
   function request(model) { return { type: constants.SOCIALLOGIN_REQUEST, model } }
   function success(model) { return { type: constants.SOCIALLOGIN_SUCCESS, model } }
   function failure(error) { return { type: constants.SOCIALLOGIN_FAILURE, error } }
 }
 
 function forgotPassword(email) {
-
   return dispatch => {
     dispatch(request({ email }))
-
     service.forgotPassword(email)
       .then(
         model => {
@@ -89,17 +80,14 @@ function forgotPassword(email) {
         }
       )
   }
-
   function request(model) { return { type: constants.FORGOTPASSWORD_REQUEST, model } }
   function success(model) { return { type: constants.FORGOTPASSWORD_SUCCESS, model } }
   function failure(error) { return { type: constants.FORGOTPASSWORD_FAILURE, error } }
 }
 
 function resetPassword(password, token) {
-
   return dispatch => {
     dispatch(request({ password, token })) // not sure on request parameter, just set token: token as a placeholder
-
     service.resetPassword(password, token)
       .then(
         model => {
@@ -113,7 +101,6 @@ function resetPassword(password, token) {
         }
       )
   }
-
   function request(model) { return { type: constants.RESETPASSWORD_REQUEST, model } }
   function success(model) { return { type: constants.RESETPASSWORD_SUCCESS, model } }
   function failure(error) { return { type: constants.RESETPASSWORD_FAILURE, error } }
@@ -127,7 +114,6 @@ function logout() {
 function register(model) {
   return dispatch => {
     dispatch(request(model))
-
     service.register(model)
       .then(
         model => {
@@ -157,7 +143,6 @@ function register(model) {
 function getAll() {
   return dispatch => {
     dispatch(request())
-
     service.getAll()
       .then(
         models => dispatch(success(models)),
@@ -246,7 +231,6 @@ function updateMyRoles(id, attachedIds) {
   function failure(id, error) { return { type: constants.UPDATEMYROLES_FAILURE, id, error } }
 }
 
-
 function saveChanges(model) {
   if(model.id === 0) {
     return add(model)
@@ -257,7 +241,6 @@ function saveChanges(model) {
   function update(model) {
     return dispatch => {
       dispatch(request(model))
-
       service.update(model)
         .then(
           model => {
@@ -267,8 +250,6 @@ function saveChanges(model) {
           },
           error => {
             let data = error.response.data
-            // console.log('error response...')
-            // console.log(error.response.data)
             let appData;
             if(data.error) { // check if there is a application specific error data enclosed
               appData = data.data
@@ -289,7 +270,6 @@ function saveChanges(model) {
   function add(model) {
     return dispatch => {
       dispatch(request(model))
-
       service.add(model)
         .then(
           model => {
@@ -299,8 +279,6 @@ function saveChanges(model) {
           },
           error => {
             let data = error.response.data
-            // console.log('error response...')
-            // console.log(error.response.data)
             let appData;
             if(data.error) { // check if there is a application specific error data enclosed
               appData = data.data
@@ -323,7 +301,6 @@ function saveChanges(model) {
 function saveProfileChanges(model) {
   return dispatch => {
     dispatch(request(model))
-
     service.update(model)
       .then(
         model => {
@@ -333,8 +310,6 @@ function saveProfileChanges(model) {
         },
         error => {
           let data = error.response.data
-          // console.log('error response...')
-          // console.log(error.response.data)
           let appData;
           if(data.error) { // check if there is a application specific error data enclosed
             appData = data.data

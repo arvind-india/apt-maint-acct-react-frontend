@@ -39,12 +39,12 @@ export class Home extends React.Component {
     </div>
   }
   render() {
-    const { user, alert } = this.props
+    const { alert } = this.props
 
-    if(user) {
+/*    if(user) {
       let jwtDecodedToken = jwtDecode(user.id_token)
-      console.log('jwtDecodedToken: ', jwtDecodedToken)
-    }
+      //console.log('jwtDecodedToken: ', jwtDecodedToken)
+    } */
     return (
       <div>
         {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={2100}/>}
@@ -67,15 +67,6 @@ export class Home extends React.Component {
           </Container>
         </Jumbotron>
         <Container>
-          <Row>
-            <Col sm={{offset: 2, size: 8}}>
-              {user && this.showDecodedJWT(user.id_token)}
-              <p>
-                {user && this.isJWTExpired(user.id_token) && this.exitApp()}
-              </p>
-            </Col>
-          </Row>
-
           <Row>
             <Col sm={{offset: 3, size: 6}}>
               < DisqusThread

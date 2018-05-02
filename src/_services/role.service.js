@@ -53,7 +53,6 @@ function add(model) {
     .catch(handleError)
 }
 
-
 // prefixed function name with underscore because delete is a reserved word in javascript
 function _delete(id) {
   return http().delete(url + '/' + id)
@@ -67,6 +66,7 @@ function handleResponse(response) {
   }
   return response.data
 }
+
 function handleError(error) {
   return Promise.reject(error)
 }

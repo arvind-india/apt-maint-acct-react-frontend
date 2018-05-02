@@ -41,7 +41,6 @@ function _delete(id) {
   function failure(id, error) { return { type: constants.DELETE_FAILURE, id, error } }
 }
 
-
 function getById(id) {
   return dispatch => {
     dispatch(request(id))
@@ -96,7 +95,6 @@ function saveChanges(model) {
   function update(model) {
     return dispatch => {
       dispatch(request(model))
-
       service.update(model)
         .then(
           model => {
@@ -126,7 +124,6 @@ function saveChanges(model) {
   function add(model) {
     return dispatch => {
       dispatch(request(model))
-
       service.add(model)
         .then(
           model => {
