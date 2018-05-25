@@ -1,5 +1,5 @@
 # apt-maint-acct-react-frontend  
-Exploring React & Redux libraries by re-implementing a tiny application on Apartment Maintenance Account  written in Angular a while ago.  
+Exploring React & Redux libraries by re-implementing an application on Apartment Maintenance Account written in Angular a while ago.  
 
 Features:  
 1. JWT for Authentication (Json Web Token),  
