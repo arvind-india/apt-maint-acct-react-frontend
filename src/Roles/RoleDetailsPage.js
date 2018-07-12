@@ -186,7 +186,7 @@ export class RoleDetails extends React.Component {
   canBeSaved() { // check for changes in model, if changes present, it can save
     const { model } = this.state
     for(const prop in model) {
-      if( prop === 'id') continue // skip 'id' from checking null or empty value
+      if( prop === 'id'|| prop === 'inherits') continue // skip 'id' from checking null or empty value
       if( !model[prop] ) {
         return false
       }

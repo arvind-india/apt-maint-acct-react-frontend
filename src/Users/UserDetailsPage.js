@@ -62,6 +62,7 @@ export class UserDetails extends React.Component {
 
     let modelDB = location.state.model
     let infosDB = location.state.model.infos
+
     let props = []
     // check for changes in model
     for(const prop in model) {
@@ -71,7 +72,11 @@ export class UserDetails extends React.Component {
     }
     // check for changes in infos
     for (const prop in infos) {
-      if(infosDB[prop] && infosDB[prop] !== infos[prop]) {
+      let infoDB = infosDB.filter(each => each.key === prop)
+      let optionExist = infoDB.length > 0
+      if( (!optionExist && infos[prop]) || // option added now
+          (optionExist && infoDB[0].value !== infos[prop])  // option modified
+      ) {
         props.push(prop)
       }
     }
@@ -81,7 +86,7 @@ export class UserDetails extends React.Component {
   canBeSaved() { // check for changes in model, if changes present, it can save
     const { model } = this.state
     for(const prop in model) {
-      if( prop === 'id') continue // skip 'id' from checking null or empty value
+      if( prop === 'id' ) continue // skip 'id' from checking null or empty value
       if( !model[prop] ) {
         return false
       }
@@ -158,13 +163,13 @@ export class UserDetails extends React.Component {
 
   render() {
     const { model, infos, title } = this.state
-    const { alert } = this.props
+    const { alert, authzn } = this.props
     return (
       <div>
         <h2>{title}</h2>
         {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={2100}/>}
         {this.validateForm()}
-        {this.show(model, infos)}
+        {authzn && this.show(model, infos)}
       </div>
     )
   }

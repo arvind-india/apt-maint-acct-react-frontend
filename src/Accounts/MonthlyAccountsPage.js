@@ -123,7 +123,7 @@ export class MonthlyAccounts extends React.Component {
     /></div>
   }
   handleYearChange(event) {
-    const { name, value } = event.target
+    const { value } = event.target
     this.setState( { forYear: parseInt(value) }, this.getMonthlyListFor )
   }
   showNextMonth() {
