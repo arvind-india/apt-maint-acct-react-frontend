@@ -54,5 +54,7 @@ export const MONTHS = [
 ]
 
 export const DEFAULTS = {
-  AccountsInMonths: 2
+  AccountsInMonths: 2,
+  AccountsMinYear: 2010,
+  AccountsMaxYear: 2030
 }

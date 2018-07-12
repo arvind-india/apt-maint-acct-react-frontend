@@ -97,13 +97,14 @@ export class Register extends React.Component {
     const { submitted, user } = this.state
     return <FormGroup row>
       <Col sm={{size: 4, offset: 4}}>
-        <Label for="userName" size="sm">User name</Label>
+        { user.name && <Label for="userName" size="sm" className="formLabel">User name</Label>}
         <Input
           size="sm"
           id="userName"
           type="text"
           name="name"
           title="User name here"
+          placeholder="User name"
           onChange={this.handleChange}
         />
         {submitted && !user.name && <FormText color="danger">UserName is required</FormText>}
@@ -114,25 +115,27 @@ export class Register extends React.Component {
     const { submitted, user } = this.state
     return <FormGroup row>
       <Col sm={{size: 2, offset: 4}}>
-        <Label for="firstName" size="sm">First name</Label>
+        { (user.first_name || user.last_name) && <Label for="firstName" size="sm" className="formLabel">First name</Label>}
         <Input
           size="sm"
           id="firstName"
           type="text"
           name="first_name"
           title="First name here"
+          placeholder={ (user.first_name || user.last_name) ? "": "First name"}
           onChange={this.handleChange}
         />
         {submitted && !user.first_name && <FormText color="danger">First Name is required</FormText>}
       </Col>
       <Col sm={{size: 2}}>
-        <Label for="lastName" size="sm">Last name</Label>
+        {(user.last_name || user.first_name) && <Label for="lastName" size="sm" className="formLabel">Last name</Label>}
         <Input
           size="sm"
           id="lastName"
           type="text"
           name="last_name"
           title="Last name here"
+          placeholder={ (user.first_name || user.last_name) ? "": "Last name" }
           onChange={this.handleChange}
         />
         {submitted && !user.last_name && <FormText color="danger">Last Name is required</FormText>}
@@ -144,13 +147,14 @@ export class Register extends React.Component {
     const { submitted, user } = this.state
     return <FormGroup row>
       <Col sm={{size: 4, offset: 4}}>
-        <Label for="email" size="sm">Email id</Label>
+        {user.email && <Label for="email" size="sm" className="formLabel">Email id</Label>}
         <Input
           size="sm"
           id="email"
           type="email"
           name="email"
           title="email id here"
+          placeholder="Email id"
           onChange={this.handleChange}
         />
         {submitted && !user.email && <FormText color="danger">Email-id is required</FormText>}
@@ -161,25 +165,27 @@ export class Register extends React.Component {
     const { submitted, user, confirmPassword } = this.state
     return <FormGroup row>
       <Col sm={{size: 2, offset: 4}}>
-        <Label for="password" size="sm">Password</Label>
+        {(user.password || confirmPassword) && <Label for="password" size="sm" className="formLabel">Password</Label>}
         <Input
           size="sm"
           id="password"
           type="password"
           name="password"
           title="password here"
+          placeholder={(user.password || confirmPassword) ? "" : "Password"}
           onChange={this.handleChange}
         />
         {submitted && !user.password && <FormText color="danger">Password is required</FormText>}
       </Col>
       <Col sm={{size: 2}}>
-        <Label for="confirmPassword" size="sm">Repeat password</Label>
+        {(confirmPassword || user.password) && <Label for="confirmPassword" size="sm" className="formLabel">Repeat password</Label>}
         <Input
           size="sm"
           id="confirmPassword"
           type="password"
           name="confirmPassword"
           title="Repeat password here"
+          placeholder={(user.password || confirmPassword) ? "" : "Repeat password"}
           onChange={this.handleConfirmPasswordChange}
         />
         {submitted && !confirmPassword && <FormText color="danger">Repeat Password is required</FormText>}

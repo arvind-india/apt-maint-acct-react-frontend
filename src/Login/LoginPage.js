@@ -34,6 +34,8 @@ export class Login extends React.Component { // exports unconnected component; u
   }
   handleSubmit(e) {
     const { email, password } = this.state
+    const { alert } = this.props
+    alert.message = '' // reset any existing alert message
     e.preventDefault()
     this.setState({ submitted: true })
     this.props.login(email, password)
@@ -73,13 +75,14 @@ export class Login extends React.Component { // exports unconnected component; u
     const { email, submitted } = this.state
     return <FormGroup>
       <Col sm={{size: 4, offset: 4}}>
-        <Label for="email" size="sm">Email id</Label>
+        { email && <Label for="email" size="sm" className="formLabel">email id</Label> }
         <Input
           size="sm"
           id="email"
           type="email"
           name="email"
           title="email id here"
+          placeholder="email id"
           defaultValue={email}
           onChange={this.handleChange.bind(this)}
         />
@@ -92,13 +95,14 @@ export class Login extends React.Component { // exports unconnected component; u
     const { password, submitted } = this.state
     return <FormGroup>
       <Col sm={{size: 4, offset: 4}}>
-        <Label for="password" size="sm">Password</Label>
+        { password && <Label for="password" size="sm" className="formLabel">Password</Label>}
         <Input
           size="sm"
           id="password"
           type="password"
           name="password"
           title="password here"
+          placeholder="password"
           defaultValue={password}
           onChange={this.handleChange.bind(this)}
         />

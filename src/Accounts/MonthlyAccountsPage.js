@@ -19,7 +19,7 @@ import {
   accountMonthlyActions as actions
 } from '../_actions'
 import { FlashMessage } from '../_components'
-import { MONTHS } from '../_constants'
+import { MONTHS, DEFAULTS } from '../_constants'
 import { PaidDate } from './PaidDate'
 
 import './MonthlyAccounts.css'
@@ -38,8 +38,8 @@ export class MonthlyAccounts extends React.Component {
       forYear: this.today.getFullYear(),
       view: defaultView
     }
-    this.handleChange = this.handleChange.bind(this)
     this.handleMonthChange = this.handleMonthChange.bind(this)
+    this.handleYearChange = this.handleYearChange.bind(this)
     this.saveDateChange = this.saveDateChange.bind(this)
     this.handlePaidStatus = this.handlePaidStatus.bind(this)
     this.handleViewChange = this.handleViewChange.bind(this)
@@ -117,14 +117,14 @@ export class MonthlyAccounts extends React.Component {
       name="forYear"
       value={forYear}
       placeholder="Year here"
-      min="2013"
-      max="2030"
-      onChange={(event) => this.handleChange(event)}
+      min={DEFAULTS.AccountsMinYear}
+      max={DEFAULTS.AccountsMaxYear}
+      onChange={(event) => this.handleYearChange(event)}
     /></div>
   }
-  handleChange(event) {
+  handleYearChange(event) {
     const { name, value } = event.target
-    this.setState( { [name]: value }, this.getMonthlyListFor )
+    this.setState( { forYear: parseInt(value) }, this.getMonthlyListFor )
   }
   showNextMonth() {
     return <Button

@@ -32,6 +32,8 @@ export class ForgotPassword extends React.Component {
     this.setState({ [name]: value })
   }
   handleSubmit(e) {
+    const { alert } = this.props
+    alert.message = '' // reset any existing alert message    
     e.preventDefault()
     this.setState({ submitted: true })
     const { email } = this.state
