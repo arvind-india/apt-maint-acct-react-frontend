@@ -11,6 +11,7 @@ export const userService = {
   getById,
   update,
   add,
+  updateProfile,
   delete: _delete,
   getAllPermissions,
   getMyRoles,
@@ -100,6 +101,14 @@ function add(model) {
     .catch(handleError)
 }
 
+function updateProfile(model) {
+  let profileUrl = 'userprofile'
+  return http().put(profileUrl+'/'+model.id, model)
+    .then(handleResponse)
+    .catch(handleError)
+}
+
+
 // prefixed function name with underscore because delete is a reserved word in javascript
 function _delete(id) {
   return http().delete(url+'/'+id)
@@ -154,6 +163,7 @@ function mergePermissions(existing, current) {
   }
 }
 function handleLoginResponse(response) {
+  console.log('user.service >> handleLoginResponse(response) ', response)
   // login successful if there's a jwt token in the response
   if(response.data && response.data.id_token) {
     // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -163,11 +173,13 @@ function handleLoginResponse(response) {
 }
 
 function handleResponse(response) {
+  console.log('user.service >> handleResponse(response) ', response)
   if(!response.data) {
     return Promise.reject(response.statusText)
   }
   return response.data
 }
 function handleError(error) {
+  console.log('user.service >> handleError(error) ', error)
   return Promise.reject(error)
 }

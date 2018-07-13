@@ -32,7 +32,8 @@ export class UserProfile extends React.Component {
         model: userProfile.data,
         title: 'User Profile',
         module: 'user-profile'
-      }
+      },
+      saveProfileChanges: this.props.saveProfileChanges
     }
   }
 
@@ -54,6 +55,9 @@ function mapDispatchToProps(dispatch) {
   return {
     getProfile: (id) => {
       dispatch(actions.getProfile(id))
+    },
+    saveProfileChanges: (model) => {
+      dispatch(actions.saveProfileChanges(model))
     }
   }
 }

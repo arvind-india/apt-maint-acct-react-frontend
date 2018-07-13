@@ -24,6 +24,8 @@ export class UserDetails extends React.Component {
     const { location } = props
     let model = location.state.model // model supplied from list page
     if(location.state.module) { module = location.state.module } // override if module is available, ex: user-profile
+    this.saveChanges = this.props.saveChanges
+    if(location.saveProfileChanges) { this.saveChanges = location.saveProfileChanges}
     let initializeModel = {
       id: model.id,
       name: model.name,
@@ -100,7 +102,8 @@ export class UserDetails extends React.Component {
     const { model, infos } = this.state
     let infosArray = objToArr(infos)
     if(infosArray.length > 0) model.infos = infosArray
-    this.props.saveChanges(model)
+    //this.props.saveChanges(model)
+    this.saveChanges(model)
   }
 
   handlePasswordChange(event) {
