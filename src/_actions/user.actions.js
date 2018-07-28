@@ -246,7 +246,7 @@ function saveChanges(model) {
           model => {
             dispatch(success())
             history.push('/users')
-            dispatch(alertActions.success('Changes in User Details Saved Successfully'))
+            dispatch(alertActions.success('Details Saved Successfully'))
           },
           error => {
             let data = error.response.data
@@ -306,7 +306,7 @@ function saveProfileChanges(model) {
         model => {
           dispatch(success())
           history.push('/home')
-          dispatch(alertActions.success('Changes in User Profile Saved Successfully'))
+          dispatch(alertActions.success('Profile Saved Successfully'))
         },
         error => {
           let data = error.response.data

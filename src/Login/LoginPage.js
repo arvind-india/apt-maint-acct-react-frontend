@@ -62,7 +62,7 @@ export class Login extends React.Component { // exports unconnected component; u
     const { email, password } = this.state
 
     if(email && password) {
-        this.validationMsg = 'Save Changes'
+        this.validationMsg = 'Submit Credentials'
         this.formValid = true
         return null
       }
