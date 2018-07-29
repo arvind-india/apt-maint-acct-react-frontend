@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import jwtDecode from 'jwt-decode'
 
-import { userActions as actions } from '../_actions'
+import { userActions as actions, alertActions } from '../_actions'
 import { UserDetailsPage } from './'
 import { FlashMessage } from '../_components'
 
@@ -58,6 +58,9 @@ function mapDispatchToProps(dispatch) {
     },
     saveProfileChanges: (model) => {
       dispatch(actions.saveProfileChanges(model))
+    },
+    error: (msg) => {
+      dispatch(alertActions.error(msg))
     }
   }
 }

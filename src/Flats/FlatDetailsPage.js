@@ -24,7 +24,9 @@ export class FlatDetails extends React.Component {
     let initializeModel = {
       id: model.id,
       block_number: model.block_number,
-      flat_number: model.flat_number
+      flat_number: model.flat_number,
+      max_owners: model.max_owners,
+      max_tenants: model.max_tenants
     }
     this.state = {
       model: initializeModel,           // model to edit
@@ -107,8 +109,12 @@ export class FlatDetails extends React.Component {
       <fieldset>
   			<legend>{title}</legend>
         <div data-row-span="2">
-          {this.showBlockNumber()}
-          {this.showFlatNumber()}
+          { this.showBlockNumber() }
+          { this.showFlatNumber() }
+        </div>
+        <div data-row-span="2">
+          { this.showMaxOwners() }
+          { this.showMaxTenants() }
         </div>
       </fieldset>
       <br/>
@@ -162,6 +168,40 @@ export class FlatDetails extends React.Component {
         {submitted && !model.flat_number
           && <FormText color="danger">Flat Number is required</FormText>}
 			</div>
+  }
+  showMaxOwners() {
+    const { model } = this.state
+    return <div data-field-span="1">
+      <Label>Max.Owners</Label>
+      <Input
+        id="maxOwners"
+        type="number"
+        name="max_owners"
+        value={model.max_owners}
+        placeholder="Max.no.of owners of this flat need online access"
+        className="inputField"
+        min="0"
+        max="4"
+        onChange={this.handleChange}
+      />
+    </div>
+  }
+  showMaxTenants() {
+    const { model } = this.state
+    return <div data-field-span="1">
+      <Label>Max.Tenants</Label>
+      <Input
+        id="maxTenants"
+        type="number"
+        name="max_tenants"
+        value={model.max_tenants}
+        placeholder="Max.no.of tenants of this flat need online access"
+        className="inputField"
+        min="0"
+        max="4"
+        onChange={this.handleChange}
+      />
+    </div>
   }
 }
 

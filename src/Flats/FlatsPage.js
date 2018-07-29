@@ -46,18 +46,24 @@ export class Flats extends React.Component {
       model: {
         id: 0,
         block_number:'',
-        flat_number: ''
+        flat_number: '',
+        max_owners: 1,
+        max_tenants: 0
       }
     }
     let addLink = authzn.allowsAdd ?
       <Link to={{ pathname: `${url}/0`, state: newModel }} title="Add"><MdAdd/></Link> :
       ''
+    let ownerStr = "Max. no. of owners of this flat need online access";
+    let tenantStr = "Max. no. of tenants of this flat need online access";
     return <Table>
       <thead>
         <tr>
           <th>#</th>
           <th>Block Number</th>
           <th>Flat Number</th>
+          <th title={ownerStr}>Max. Owners</th>
+          <th title={tenantStr}>Max. Tenants</th>
           <th>Actions {addLink}</th>
         </tr>
       </thead>
@@ -67,6 +73,8 @@ export class Flats extends React.Component {
             <th scope="row">{index+1}</th>
             <td>{model.block_number}</td>
             <td>{model.flat_number}</td>
+            <td>{model.max_owners}</td>
+            <td>{model.max_tenants}</td>
             <td>
               <Link
                 to={{ pathname: `${url}/${model.id}`, state:{model: model} }}
