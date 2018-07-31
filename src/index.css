@@ -1,6 +1,46 @@
+.site {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+.site-content {
+  flex: 1;
+  background-color: rgba(255, 255, 150, 0.5);
+}
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  color: rgba(255, 255, 150, 0.5);
+  background-color: rgba(0, 0, 0, 0.75);
+}
+.footer span {
+  margin-right: 5px;
+}
 .inputField::placeholder, textarea::placeholder {
   opacity: 0.3;
 }
+.home-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: auto;
+}
+.dropdown-menu {
+  background-color: rgba(130, 30, 30, 0.9);
+}
+.dropdown-item:hover {
+  background-color: rgba(255, 255, 150, 0.5);
+}
+.navbar {
+  background-color: rgba(130, 30, 30, 1) !important;
+}
+.formLabel {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
 /*
 label {
 	font-weight: bold;
@@ -48,7 +88,7 @@ label {
 	grid-column: 3 / 4;
 	grid-row: 1 / 2;
   font-weight: bold;
-	text-align: center;  
+	text-align: center;
 }
 .dselect {
 	grid-column: 3 / 4;

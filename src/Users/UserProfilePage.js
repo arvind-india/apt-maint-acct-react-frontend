@@ -12,14 +12,12 @@ export class UserProfile extends React.Component {
   componentDidMount() {
     this.props.getProfile(this.props.user.id)
   }
-
   render() {
     const { alert, userProfile } = this.props
     return (
       <div>
-        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={4000}/>}
+        { alert.message && <FlashMessage text={alert.message} color={alert.color} delay={4000}/> }
         { userProfile.loading && <em>User Profile is loading ....</em> }
-        { userProfile.error && <span className="text-danger">ERROR: {userProfile.error}</span> }
         { userProfile.data && <UserDetailsPage location={this.location()} />}
       </div>
     )

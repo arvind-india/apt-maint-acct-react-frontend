@@ -10,7 +10,7 @@ import {
     Label
 } from 'reactstrap'
 
-import { userActions as actions, alertActions } from '../_actions'
+import { userActions as actions, alertActions, flatActions } from '../_actions'
 import { arrToObj, objToArr } from '../_helpers'
 import { FlashMessage } from '../_components'
 
@@ -45,10 +45,12 @@ export class UserDetails extends React.Component {
       submitted: false,
       touched: false,
       adding: model.id===0,
-      title: location.state.title
+      title: location.state.title,
+      maxLimitExceeds: false
     }
     this.handleChange = this.handleChange.bind(this)
     this.handleInfosChange = this.handleInfosChange.bind(this)
+    this.handleFlatResidents = this.handleFlatResidents.bind(this)
     this.handlePasswordChange = this.handlePasswordChange.bind(this)
     this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this)
     this.handlePasswordMatch = this.handlePasswordMatch.bind(this)
@@ -57,6 +59,7 @@ export class UserDetails extends React.Component {
   }
   componentDidMount() {
     this.props.getById(this.props.location.state.model.id)
+    this.props.getAllFlats()
   }
   changedProps() {
     const { model, infos } = this.state
@@ -143,6 +146,93 @@ export class UserDetails extends React.Component {
       passwordMatches: value && value === password
     })
   }
+  isFlatNumberValid(name, value) {
+    //const { infos } = this.state
+    const { flats } = this.props
+    if( !value || value === 'NA' ) {
+      return false
+    }
+    let parts = value.split(' ')
+    let aFlat = null;
+    if(parts.length === 1) {
+      aFlat = flats.items.find(each => each.flat_number === parts[0])
+    } else if(parts.length === 2){
+      aFlat = flats.items.find(each => each.block_number === parts[0] &&
+                                each.flat_number === parts[1])
+    }
+    return aFlat !== null
+  }
+  handleFlatResidents(event) {
+    const { name, value } = event.target
+    //const { infos } = this.state
+
+    console.log(`User Details Page >> handleFlatResidents() name: ${name}, value: ${value}`)
+
+    if( !(['flatNumber', 'residentType'].includes(name)) ) {
+      return ;
+    }
+    if(name === 'flatNumber') {
+      if( !value || value === 'NA' ) {
+        this.setState({ maxLimitExceeds: false });
+        return ;
+      }
+      if( !this.isFlatNumberValid(name, value) ) {
+        this.setState({ maxLimitExceeds: false });
+        return ;
+      }
+    }
+    this.setState({
+      maxLimitExceeds: this.isMaxLimitExceeded(name, value)
+    })
+  }
+
+  isMaxLimitExceeded(name, value) {
+    const { infos } = this.state
+    const { flats } = this.props
+    console.log('validating flat number for resident type')
+    if(name === 'flatNumber' && !value) return false;
+    if(name === 'residentType' && (!value || value === 'NA')) return false;
+/*    if(!infos.flatNumber ||
+        !infos.residentType ||
+        infos.residentType === 'NA'
+    ) {
+          return false;
+    } */
+    console.log('retrieved flats are: ', flats)
+    let fNum = name === 'flatNumber' ? value : infos.flatNumber;
+    console.log('Selected Flat number: ', fNum)
+    let parts = fNum.split(' ')
+    let aFlat = null;
+    if(parts.length === 1) {
+      aFlat = flats.items.find(each => each.flat_number === parts[0])
+    } else {
+      aFlat = flats.items.find(each => each.block_number === parts[0] && each.flat_number === parts[1])
+    }
+    if(!aFlat) return false;
+    console.log('aFlat is: ', aFlat);
+    console.log('flatResidents are: ', aFlat.residents);
+    let resType = name === 'residentType' ? value : infos.residentType;
+    console.log('Selected residentType: ', resType)
+    let maxResidentsCount = resType === 'owner' ?
+                aFlat.max_owners :
+                  resType === 'tenant' ?
+                    aFlat.max_tenants :
+                    0;
+    let currentResidentsCount = 0;
+    if(['owner', 'tenant'].includes(resType)) {
+      currentResidentsCount = this.getResidentsCount(aFlat.residents, resType);
+    }
+    console.log(`Current Residents count ${currentResidentsCount} >= max Residents Count ${maxResidentsCount}`)
+    return currentResidentsCount >= maxResidentsCount
+  }
+  getResidentsCount(residents, type) { // all residents of the type exclude self from counting
+    const { model } = this.state
+    console.log('model is: ', model)
+    let anArray = residents.filter(resident => resident.is_a === type &&
+                                      (resident.first_name !== model.first_name ||
+                                      resident.last_name !== model.last_name))
+    return anArray.length
+  }
   handleChange(event) {
     const { name, value } = event.target
     const { model } = this.state
@@ -161,7 +251,7 @@ export class UserDetails extends React.Component {
         ...infos,
         [name]: value ? value : null
       }
-    })
+    });
   }
 
   render() {
@@ -178,7 +268,7 @@ export class UserDetails extends React.Component {
   }
 
   validateForm() {
-    const { password, confirmPassword } = this.state
+    const { password, confirmPassword, maxLimitExceeds } = this.state
 
     if ( this.changedProps().length === 0 ) {
       this.validationMsg = 'No changes to save'
@@ -187,6 +277,11 @@ export class UserDetails extends React.Component {
     }
     if (password !== confirmPassword) {
       this.validationMsg = 'Password do not match'
+      this.formValid = false
+      return null
+    }
+    if ( maxLimitExceeds ) {
+      this.validationMsg = 'Flat number exceeds max. residents for online access'
       this.formValid = false
       return null
     }
@@ -204,16 +299,20 @@ export class UserDetails extends React.Component {
     const { adding } = this.state
     const { authzn } = this.props
     let title = adding?'Add':authzn.allowsEdit?'Edit':'View'
+    // On adding new user, flatNumber and ResidentType is not shown
+    // it is made available on editing; this is to make it in-line with
+    // registration and there after profile change by user; during profile
+    // change user gets the options of editing flat number and resident type change.
     return <Form id="userDetailsForm" onSubmit={this.handleSubmit} className="grid-form">
       <fieldset>
   			<legend>{title}</legend>
         <div data-row-span="1">
           {this.showUsername(model)}
         </div>
-        <div data-row-span="2">
+        { !adding && <div data-row-span="2">
           {this.showFlatNumber(infos)}
           {this.showResidentType(infos)}
-        </div>
+        </div>}
         <div data-row-span="2">
           {this.showFirstName(model)}
           {this.showLastName(model)}
@@ -271,6 +370,7 @@ export class UserDetails extends React.Component {
 			</div>
   }
   showFlatNumber(infos) {
+    const { maxLimitExceeds } = this.state
     let value = infos && infos.flatNumber?infos.flatNumber:''
     return <div data-field-span="1">
         <Label>Flat/Apartment Number</Label>
@@ -282,10 +382,15 @@ export class UserDetails extends React.Component {
           placeholder="Enter Flat Number if applicablee"
           className="inputField"
           onChange={this.handleInfosChange}
+          onClick={this.handleFlatResidents}
         />
+        { maxLimitExceeds &&
+          <FormText color="danger">Exceeds permitted online access</FormText>
+        }
       </div>
   }
   showResidentType(infos) {
+    const { maxLimitExceeds } = this.state
     let rtype = infos && infos.residentType?infos.residentType:''
 
     return <div data-field-span="1">
@@ -299,6 +404,7 @@ export class UserDetails extends React.Component {
               value="owner"
               checked={rtype === "owner"}
               onChange={this.handleInfosChange}
+              onClick={this.handleFlatResidents}
             /> Owner
           </Label>
         </FormGroup>
@@ -311,6 +417,7 @@ export class UserDetails extends React.Component {
               value="tenant"
               checked={rtype === "tenant"}
               onChange={this.handleInfosChange}
+              onClick={this.handleFlatResidents}
             /> Tenant
           </Label>
         </FormGroup>
@@ -323,9 +430,13 @@ export class UserDetails extends React.Component {
               value="NA"
               checked={rtype === "NA"}
               onChange={this.handleInfosChange}
+              onClick={this.handleFlatResidents}
             /> Not Applicable
           </Label>
         </FormGroup>
+        { maxLimitExceeds &&
+          <FormText color="danger">Exceeds permitted residents</FormText>
+        }
       </div>
   }
   showFirstName(model) {
@@ -503,11 +614,12 @@ export class UserDetails extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { alert, authorizations } = state
+  const { alert, authorizations, flats } = state
   const authzn = authorizations[module]
   return {
     alert,
-    authzn
+    authzn,
+    flats
   }
 }
 
@@ -521,6 +633,9 @@ function mapDispatchToProps(dispatch) {
     },
     error: (msg) => {
       dispatch(alertActions.error(msg))
+    },
+    getAllFlats: () => {
+      dispatch(flatActions.getAll())
     }
   }
 }

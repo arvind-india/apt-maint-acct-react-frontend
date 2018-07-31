@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Jumbotron, Container, Row, Col } from 'reactstrap'
 import jwtDecode from 'jwt-decode'
 import moment from 'moment'
 
 import { userActions, alertActions } from '../_actions'
-import { FlashMessage, DisqusThread } from '../_components'
+import { FlashMessage } from '../_components'
+import { texts } from '../_constants'
 
 export class Home extends React.Component {
 
@@ -40,43 +40,25 @@ export class Home extends React.Component {
   }
   render() {
     const { alert } = this.props
-
-/*    if(user) {
-      let jwtDecodedToken = jwtDecode(user.id_token)
-      //console.log('jwtDecodedToken: ', jwtDecodedToken)
-    } */
     return (
       <div>
-        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={2100}/>}
-        <Jumbotron fluid>
-          <Container fluid>
-            <Col sm={{offset: 2, size: 8}}>
-            <h1 className="display-5 text-center">Welcome</h1>
-            <h1 className="display-6 text-center">to</h1>
-            <h1 className="display-5 text-center">Apartment Maintenance Account</h1>
-            <hr/>
-            <p className="lead text-center">A demo application developed in React, Redux, ...</p>
-            <hr/>
-            <h5>It is intended</h5>
+        <div>
+          {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={2100}/>}
+        </div>
+        <div className="home-page">
+            <br/>
+            <h1>{texts.welcomeHead1}</h1>
+            <h1>{texts.welcomeHead2}</h1>
+            <h1>{texts.welcomeHead3}</h1>
+            <br/><br/>
+            <h4>{texts.welcomeDesc0}</h4>
             <ul>
-              <li>To track the collections and expenses towards maintenance of flats in the Apartment<br/></li>
-              <li>To ensure any-time-access to transactions in the maintenance account<br/></li>
-              <li>To enable transparency<br/></li>
+              <li>{texts.welcomeDesc1}</li>
+              <li>{texts.welcomeDesc2}</li>
+              <li>{texts.welcomeDesc3}</li>
+              <li>{texts.welcomeDesc4}</li>
             </ul>
-          </Col>
-          </Container>
-        </Jumbotron>
-        <Container>
-          <Row>
-            <Col sm={{offset: 3, size: 6}}>
-              < DisqusThread
-                id="12345-12335-123123-1231312-1"
-                title="React Demo"
-                path="/blog/123-disquss-integration"
-              />
-            </Col>
-          </Row>
-        </Container>
+        </div>
       </div>
     )
   }
