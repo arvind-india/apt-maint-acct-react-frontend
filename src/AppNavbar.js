@@ -16,7 +16,6 @@ import {
   DropdownItem
 } from 'reactstrap'
 import {
-  FaBuildingO,
   FaSignIn,
   FaSignOut,
   FaBook,
@@ -42,6 +41,7 @@ import {
 
 import { userActions } from './_actions'
 import { history } from './_helpers'
+import { texts } from './_constants'
 
 class AppNavbar extends React.Component {
   constructor(props) {
@@ -60,16 +60,17 @@ class AppNavbar extends React.Component {
                         className="navbar-brand"
                         tag={NavLinkRRD}
                         to="/"
-                        ><FaBuildingO/> Apartment Maintenance</NavLink>
+                        ><img src='rag.png' height="36" width="36" alt="RGN logo"/> {texts.brand}</NavLink>
+// <Navbar color="light" light expand="md">
+// <Navbar color="dark" className="navbar-dark navbar-expand-sm">
     return (
       <div>
-        <Navbar color="light" light expand="md">
+        <Navbar color="dark" dark expand="md">
           <NavbarBrand tag={baz}/>
           <NavbarToggler onClick={this.toggle}/>
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               { this.showHome() }
-              { this.showAbout() }
               {user && this.showAccounts()}
               {user && this.showSettings()}
               {user
@@ -101,8 +102,10 @@ class AppNavbar extends React.Component {
         ><MdInfoOutline/> About </NavLink>
     </NavItem>
   }
-
+  // Accounts Menu
   showAccounts() {
+    let modules = ['accounts', 'account-summary']
+    if( !this.authorizesAnyOf(modules) ) return ''
     return  <UncontrolledDropdown nav>
               <DropdownToggle nav caret>
                 <FaBook/> Accounts
@@ -114,10 +117,10 @@ class AppNavbar extends React.Component {
               </DropdownMenu>
             </UncontrolledDropdown>
   }
-
+  // Accounts -> All Records
   accountsLink() {
     if( !this.authorizes('accounts') ) return ''
-    return <DropdownItem>
+    return <DropdownItem className="menuItem">
       <NavLink
         tag={NavLinkRRD}
         to="/accounts"
@@ -125,7 +128,7 @@ class AppNavbar extends React.Component {
         ><MdList/> All Records</NavLink>
     </DropdownItem>
   }
-
+  // Accounts -> Monthly Accounts
   monthlyAccountsLink() {
     if( !this.authorizes('accounts') ) return ''
     return <DropdownItem>
@@ -135,7 +138,7 @@ class AppNavbar extends React.Component {
         title="Monthly Account"><FaInr/>Monthly Accounts</NavLink>
     </DropdownItem>
   }
-
+  // Accounts -> Summary
   accountSummaryLink() {
     if( !this.authorizes('account-summary') ) return ''
     return <DropdownItem>
@@ -147,7 +150,18 @@ class AppNavbar extends React.Component {
     </DropdownItem>
   }
 
+  // Settings Menu
   showSettings() {
+    let flatLinks = ['residents', 'flats', 'flats-resident']
+    let durationLinks = ['durations']
+    let hasDurationLinks = this.authorizesAnyOf(durationLinks)
+    let roleLinks = ['roles', 'permissions', 'roles-permissions']
+    let hasRoleLinks = this.authorizesAnyOf(roleLinks)
+    let userLinks = ['users', 'users-roles']
+    let hasUserLinks = this.authorizesAnyOf(userLinks);
+    let modules = flatLinks.concat(durationLinks).concat(roleLinks).concat(userLinks)
+    if ( !this.authorizesAnyOf(modules) ) return ''
+
     return  <UncontrolledDropdown nav>
         <DropdownToggle nav caret>
           <MdSettingsApplications/> Settings
@@ -156,18 +170,19 @@ class AppNavbar extends React.Component {
           { this.residentsLink() }
           { this.flatsLink() }
           { this.flatsToResidentsLink() }
-          <DropdownItem divider />
+          { hasDurationLinks && <DropdownItem divider /> }
           { this.durationsLink() }
-          <DropdownItem divider />
+          { hasRoleLinks && <DropdownItem divider /> }
           { this.rolesLink() }
           { this.permissionsLink() }
           { this.rolesToPermissionsLink() }
-          <DropdownItem divider />
+          { hasUserLinks && <DropdownItem divider /> }
           { this.usersLink() }
           { this.usersToRolesLink() }
         </DropdownMenu>
       </UncontrolledDropdown>
   }
+  // Settings -> Residents
   residentsLink() {
     if( !this.authorizes('residents') ) return ''
     return <DropdownItem>
@@ -177,6 +192,7 @@ class AppNavbar extends React.Component {
         ><MdAccountCircle/> Residents</NavLink>
     </DropdownItem>
   }
+  // Settings -> Flats
   flatsLink() {
     if( !this.authorizes('flats') ) return ''
     return <DropdownItem>
@@ -186,6 +202,7 @@ class AppNavbar extends React.Component {
         ><MdLocationCity/> Flats</NavLink>
     </DropdownItem>
   }
+  // Settings -> Flats-Residents
   flatsToResidentsLink() {
     if( !this.authorizes('flats-residents') ) return ''
     return <DropdownItem>
@@ -195,6 +212,7 @@ class AppNavbar extends React.Component {
         ><MdAttachment/> Flats-Residents</NavLink>
     </DropdownItem>
   }
+  // Settings -> Durations
   durationsLink() {
     if( !this.authorizes('durations') ) return ''
     return <DropdownItem>
@@ -204,6 +222,7 @@ class AppNavbar extends React.Component {
         ><FaArrowsH/> Durations</NavLink>
     </DropdownItem>
   }
+  // Settings -> Roles
   rolesLink() {
     if( !this.authorizes('roles') ) return ''
     return <DropdownItem>
@@ -213,6 +232,7 @@ class AppNavbar extends React.Component {
         ><MdVpnKey/> Roles</NavLink>
     </DropdownItem>
   }
+  // Settings -> Permissions
   permissionsLink() {
     if( !this.authorizes('permissions') ) return ''
     return <DropdownItem>
@@ -222,6 +242,7 @@ class AppNavbar extends React.Component {
         ><MdLock/> Permissions</NavLink>
     </DropdownItem>
   }
+  // Settings -> Roles-Permissions
   rolesToPermissionsLink() {
     if( !this.authorizes('roles-permissions') ) return ''
     return <DropdownItem>
@@ -231,6 +252,7 @@ class AppNavbar extends React.Component {
         ><MdAttachment/> Roles-Permissions</NavLink>
     </DropdownItem>
   }
+  // Settings -> Users
   usersLink() {
     if( !this.authorizes('users') ) return ''
     return <DropdownItem>
@@ -240,6 +262,7 @@ class AppNavbar extends React.Component {
         ><MdGroup /> Users</NavLink>
     </DropdownItem>
   }
+  // Settings -> users-roles
   usersToRolesLink() {
     if( !this.authorizes('users-roles') ) return ''
     return <DropdownItem>
@@ -260,7 +283,13 @@ class AppNavbar extends React.Component {
                  authzn.allowsDelete
     return result
   }
-
+  // Check whether any of the modules in the array is authorized
+  authorizesAnyOf(modules=[]) {
+    let results = modules.filter( each => this.authorizes(each) );
+    console.log('Modules are: ', modules)
+    console.log('Authorization results: ',results)
+    return results.length > 0
+  }
   showLogin() {
     return <NavItem>
               <NavLink

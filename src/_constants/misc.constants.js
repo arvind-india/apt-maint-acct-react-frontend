@@ -1,6 +1,7 @@
 // Modules or Resource names as array
 export const MODULES = [
   { label: 'ACCOUNT', name: 'accounts', isAdmin: false }, // isAdmin indicates whether it is visible only to Admin user
+  { label: 'MY_ACCOUNT', name: 'my-accounts', isAdmin: false },
   { label: 'ACCOUNT_SUMMARY', name: 'account-summary', isAdmin: false },
   { label: 'USER', name: 'users', isAdmin: true },
   { label: 'FLAT', name: 'flats', isAdmin: true },
@@ -19,9 +20,7 @@ export const MODULES = [
 export const RESIDENT_TYPES = [
   { label: 'Owner', name: 'owner' },
   { label: 'Tenant', name: 'tenant' },
-  { label: 'Relative', name: 'relative' },
-  { label: 'Friend', name: 'friend' },
-  { label: 'Guest', name: 'guest' }
+  { label: 'Not Applicable', name: 'NA'}
 ]
 
 export const CATEGORIES = [
