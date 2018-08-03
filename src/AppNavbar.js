@@ -104,7 +104,7 @@ class AppNavbar extends React.Component {
   }
   // Accounts Menu
   showAccounts() {
-    let modules = ['accounts', 'account-summary']
+    let modules = ['accounts', 'account-summary', 'my-accounts']
     if( !this.authorizesAnyOf(modules) ) return ''
     return  <UncontrolledDropdown nav>
               <DropdownToggle nav caret>
@@ -112,6 +112,7 @@ class AppNavbar extends React.Component {
               </DropdownToggle>
               <DropdownMenu>
                 { this.accountsLink() }
+                { this.myAccountsLink() }
                 { this.monthlyAccountsLink() }
                 { this.accountSummaryLink() }
               </DropdownMenu>
@@ -147,6 +148,17 @@ class AppNavbar extends React.Component {
         to="/accounts-summary"
         title="Show Accounts Summary"
         ><MdViewHeadline/> Summary</NavLink>
+    </DropdownItem>
+  }
+  // Accounts -> My-Accounts
+  myAccountsLink() {
+    if( !this.authorizes('my-accounts') ) return ''
+    return <DropdownItem>
+      <NavLink
+        tag={NavLinkRRD}
+        to="/my-accounts"
+        title="Show My Accounts"
+        ><MdViewHeadline/> My Accounts</NavLink>
     </DropdownItem>
   }
 

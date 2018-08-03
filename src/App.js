@@ -12,7 +12,8 @@ import {
   AccountsPage,
   AccountDetailsPage,
   SummaryPage,
-  MonthlyAccountsPage
+  MonthlyAccountsPage,
+  MyAccountsPage
 } from './Accounts'
 import { ResidentsPage, ResidentDetailsPage } from './Residents'
 import { FlatsPage, FlatDetailsPage } from './Flats'
@@ -55,6 +56,7 @@ class App extends Component {
                 <PrivateRoute path="/accounts" component={AccountsPage} />
               </Switch>
                 <PrivateRoute path="/monthly-accounts" component={MonthlyAccountsPage}/>
+                <PrivateRoute path="/my-accounts" component={MyAccountsPage} />
               <Switch>
                 <PrivateRoute path="/residents/:id" component={ResidentDetailsPage} />
                 <PrivateRoute path="/residents" component={ResidentsPage} />

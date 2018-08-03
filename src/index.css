@@ -98,3 +98,7 @@ label {
 	grid-column: 3 / 4;
 	grid-row: 3 / 4;
 }
+
+.missingMessage {
+  color: red;
+}
