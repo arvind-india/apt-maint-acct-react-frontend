@@ -7,6 +7,7 @@ export const accountService = {
   getById,
   getMonthlyAccountsFor,
   getSummaryList,
+  getMyAccounts,
   update,
   add,
   delete: _delete
@@ -68,6 +69,12 @@ function getById(id) {
 
 function getSummaryList() {
   return http().get(url + '/summary/list')
+    .then(handleResponse)
+    .catch(handleError)
+}
+
+function getMyAccounts() {
+  return http().get(url + '/my/accounts')
     .then(handleResponse)
     .catch(handleError)
 }

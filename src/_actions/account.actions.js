@@ -7,6 +7,7 @@ export const accountActions = {
   delete: _delete,
   getById,
   getSummaryList,
+  getMyAccounts,
   saveChanges
 }
 
@@ -71,6 +72,21 @@ function getSummaryList() {
   function success(summaries) { return { type: constants.GETSUMMARY_SUCCESS, summaries } }
   function failure(id, error) { return { type: constants.GETSUMMARY_FAILURE, id, error } }
 }
+
+function getMyAccounts() {
+  return dispatch => {
+    dispatch(request())
+    service.getMyAccounts()
+      .then(
+        myaccounts => dispatch(success(myaccounts)),
+        error => dispatch(failure(error+' in getting my accounts'))
+      )
+  }
+  function request() { return { type: constants.GETMYACCOUNTS_REQUEST } }
+  function success(myaccounts) { return { type: constants.GETMYACCOUNTS_SUCCESS, myaccounts } }
+  function failure(id, error) { return { type: constants.GETMYACCOUNTS_FAILURE, id, error } }
+}
+
 
 function saveChanges(model) {
   if(model.id === 0) {

@@ -6,6 +6,10 @@ export function accounts(state = {}, action) {
     case constants.GETSUMMARY_SUCCESS: return { items: action.summaries }
     case constants.GETSUMMARY_FAILURE: return { error: action.error }
 
+    case constants.GETMYACCOUNTS_REQUEST: return { loading: true }
+    case constants.GETMYACCOUNTS_SUCCESS: return { items: action.myaccounts }
+    case constants.GETMYACCOUNTS_FAILURE: return { error: action.error }
+
     case constants.GETRANGE_REQUEST: return { loading: true }
     case constants.GETRANGE_SUCCESS: return { items: action.models }
     case constants.GETRANGE_FAILURE: return { error: action.error }
