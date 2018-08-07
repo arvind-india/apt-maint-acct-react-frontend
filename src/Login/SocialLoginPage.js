@@ -37,6 +37,7 @@ export class SocialLogin extends React.Component {
   googleButton() {
     return <Button
       color="link"
+      className="google-button"
       onClick={()=>this.socialLogin('google')}
       title="Google login"
     ><FaGoogle/></Button>
@@ -45,6 +46,7 @@ export class SocialLogin extends React.Component {
   fbButton() {
     return <Button
       color="link"
+      className="facebook-button"
       onClick={()=>this.socialLogin('facebook')}
       title="Facebook login"
     ><FaFacebook/></Button>

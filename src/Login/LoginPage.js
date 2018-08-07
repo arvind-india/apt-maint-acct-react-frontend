@@ -140,14 +140,14 @@ export class Login extends React.Component { // exports unconnected component; u
           id="newUser"
           color="link"
           title="Go to Registration"
-          className="float-right"
-          ><Link to="/register" className="text-success">New User?</Link>
+          className="float-right new-user-button"
+          ><Link to="/register" className="text-success new-user-link">New User?</Link>
         </Button>
         <Button
           id="forgotPassword"
           color="link"
           title="Forgot Password"
-          className="float-left"
+          className="float-left forgot-password-button"
           ><Link
             to="/login/forgot-password"
             className="text-info"

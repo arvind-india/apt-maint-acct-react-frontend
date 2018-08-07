@@ -60,7 +60,7 @@ class AppNavbar extends React.Component {
                         className="navbar-brand"
                         tag={NavLinkRRD}
                         to="/"
-                        ><img src='rag.png' height="36" width="36" alt="RGN logo"/> {texts.brand}</NavLink>
+                        ><img src={require('./rag.png')} height="36" width="36" alt="RGN"/> {texts.brand}</NavLink>
 // <Navbar color="light" light expand="md">
 // <Navbar color="dark" className="navbar-dark navbar-expand-sm">
     return (

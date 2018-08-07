@@ -102,3 +102,19 @@ label {
 .missingMessage {
   color: red;
 }
+
+.new-user-button,
+.forgot-password-button {
+  padding: 0;
+}
+
+.google-button {
+  padding-right: 0;
+}
+
+/*
+.new-user-link {
+  margin: 0;
+  background-color: green;
+}
+*/

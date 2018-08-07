@@ -33,7 +33,7 @@ export class ForgotPassword extends React.Component {
   }
   handleSubmit(e) {
     const { alert } = this.props
-    alert.message = '' // reset any existing alert message    
+    alert.message = '' // reset any existing alert message
     e.preventDefault()
     this.setState({ submitted: true })
     const { email } = this.state
@@ -57,14 +57,14 @@ export class ForgotPassword extends React.Component {
 
   emailId() {
     const { email, submitted } = this.state
-    return <FormGroup row>
-      <Label for="email" sm={3}>Email_Id</Label>
-      <Col sm={9}>
+    return <FormGroup>
+      <Col sm={{size: 4, offset: 4}}>
+        { email && <Label for="email" size="sm" className="formLabel">email id</Label> }
         <Input
           id="email"
           type="email"
           name="email"
-          placeholder="email id here"
+          placeholder="email id"
           defaultValue={email}
           onChange={this.handleChange.bind(this)}
         />
@@ -74,9 +74,8 @@ export class ForgotPassword extends React.Component {
   }
 
   buttons() {
-    return <FormGroup row>
-      <Label sm={3}></Label>
-      <Col smoffset={3} sm={9}>
+    return <FormGroup>
+      <Col sm={{size: 4, offset: 4}}>
         <Button type="submit" color="primary" bssize="large" title="Go to App">Submit</Button>
         <Button color="link" title="Go to home">
           <Link to="/home" className="text-danger" >Cancel</Link>
