@@ -46,7 +46,7 @@ export class Login extends React.Component { // exports unconnected component; u
     return (
       <div>
         <h2 align="center">Login</h2>
-        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={2100}/>}
+        {alert.message && <FlashMessage text={alert.message} color={alert.color} delay={4100}/>}
         { this.validateForm() }
         <Form id="loginForm" onSubmit={this.handleSubmit}>
           { this.emailId() }

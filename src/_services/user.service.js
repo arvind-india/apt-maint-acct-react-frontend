@@ -7,6 +7,7 @@ export const userService = {
   resetPassword,
   logout,
   register,
+  registrationConfirm,
   getAll,
   getById,
   update,
@@ -85,6 +86,12 @@ function updateMyRoles(id, attachedIds) {
 
 function register(model) {
   return http().post(url, model)
+    .then(handleResponse)
+    .catch(handleError)
+}
+
+function registrationConfirm(code) {
+  return http().put('/signup/' + code, {})
     .then(handleResponse)
     .catch(handleError)
 }

@@ -7,7 +7,7 @@ import { alertActions } from './_actions'
 import { PrivateRoute } from './_components'
 import { HomePage } from './Home'
 import { LoginPage, ForgotPasswordPage, ResetPasswordPage } from './Login'
-import { RegisterPage } from './Register'
+import { RegisterPage, RegistrationConfirmPage } from './Register'
 import {
   AccountsPage,
   AccountDetailsPage,
@@ -50,6 +50,7 @@ class App extends Component {
                 <Route path="/login" component={LoginPage} />
               </Switch>
               <Route path="/register" component={RegisterPage} />
+              <Route path="/registration-confirm/:code" component={RegistrationConfirmPage} />
               <PrivateRoute path="/accounts-summary" component={SummaryPage} />
               <Switch>
                 <PrivateRoute path="/accounts/:id" component={AccountDetailsPage} />

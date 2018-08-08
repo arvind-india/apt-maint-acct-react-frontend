@@ -10,6 +10,7 @@ export const userActions = {
   resetPassword,
   logout,
   register,
+  registrationConfirm,
   getAll,
   delete: _delete,
   getById,
@@ -119,7 +120,8 @@ function register(model) {
         model => {
           dispatch(success())
           history.push('/login')
-          dispatch(alertActions.success('Registration successful'))
+          let msg = 'Thanks for Registration! Please refer an email sent in this regard!'
+          dispatch(alertActions.success(msg))
         },
         error => {
           let data = error.response.data
@@ -138,6 +140,34 @@ function register(model) {
   function request(model) { return { type: constants.REGISTER_REQUEST, model } }
   function success(model) { return { type: constants.REGISTER_SUCCESS, model } }
   function failure(error) { return { type: constants.REGISTER_FAILURE, error } }
+}
+
+function registrationConfirm(code) {
+  return dispatch => {
+    dispatch(request(code))
+    service.registrationConfirm(code)
+      .then(
+        resp => {
+          dispatch(success(resp.data))
+          dispatch(alertActions.success(resp.data.message))
+        },
+        error => {
+          let data = error.response.data
+          let appData;
+          if(data.error) { // check if there is a application specific error data enclosed
+            appData = data.data
+            dispatch(failure(appData.message))
+            dispatch(alertActions.error(appData.message))
+          } else {
+            dispatch(failure(error.response))
+            dispatch(alertActions.error(error.response.statusText))
+          }
+        }
+      )
+  }
+  function request(code) { return { type: constants.REGISTRATIONCONFIRM_REQUEST, code } }
+  function success(data) { return { type: constants.REGISTRATIONCONFIRM_SUCCESS, data } }
+  function failure(error) { return { type: constants.REGISTRATIONCONFIRM_FAILURE, error } }
 }
 
 function getAll() {
