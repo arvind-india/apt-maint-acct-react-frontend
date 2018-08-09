@@ -121,7 +121,7 @@ export class Login extends React.Component { // exports unconnected component; u
           bssize="large"
           disabled={!this.formValid}
           title={this.validationMsg}
-          >Login</Button>
+          >Submit</Button>
         <Button color="link" title="Go to home">
           <Link
             to="/home"

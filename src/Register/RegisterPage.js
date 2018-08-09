@@ -202,7 +202,7 @@ export class Register extends React.Component {
           color="primary"
           disabled={!this.formValid}
           title={this.validationMsg}
-          >Register</Button>
+          >Submit</Button>
         <Button color="link">
           <Link
             to="/login"

@@ -62,14 +62,14 @@ export class ResetPassword extends React.Component {
   }
   password() {
     const { submitted, password } = this.state
-    return <FormGroup row>
-      <Label sm={3}>Password</Label>
-      <Col sm={9}>
+    return <FormGroup>
+      <Col sm={{size: 4, offset: 4}}>
+        {password && <Label for="password" size="sm" className="formLabel">New password</Label>}
         <Input
           id="password"
           type="password"
           name="password"
-          placeholder="password here"
+          placeholder="New password"
           onChange={this.handleChange}
         />
         {submitted && !password && <FormText color="danger">Password is required</FormText>}
@@ -78,14 +78,14 @@ export class ResetPassword extends React.Component {
   }
   repeatPassword() {
     const { submitted, password, confirmPassword } = this.state
-    return <FormGroup row>
-      <Label sm={3}>Repeat_Password</Label>
-      <Col sm={9}>
+    return <FormGroup>
+      <Col sm={{size: 4, offset: 4}}>
+        { confirmPassword && <Label for="confirmPassword" size="sm" className="formLabel">Repeat new password</Label>}
         <Input
           id="confirmPassword"
           type="password"
           name="confirmPassword"
-          placeholder="Confirm password here"
+          placeholder="Repeat new password"
           onChange={this.handleChange}
         />
         {submitted && !confirmPassword && <FormText color="danger">Repeat Password is required</FormText>}
@@ -95,10 +95,9 @@ export class ResetPassword extends React.Component {
   }
 
   buttons() {
-    return <FormGroup row>
-      <Label sm={3}></Label>
-      <Col smoffset={3} sm={9}>
-        <Button type="submit" color="primary" title="Reset Password">Reset</Button>
+    return <FormGroup>
+      <Col sm={{size: 4, offset: 4}}>
+        <Button type="submit" color="primary" title="Reset Password">Submit</Button>
         <Button color="link">
           <Link to="/login" className="text-danger" title="Go to home">Cancel</Link>
         </Button>
