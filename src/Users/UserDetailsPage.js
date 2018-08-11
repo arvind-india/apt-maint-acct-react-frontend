@@ -15,6 +15,8 @@ import { arrToObj, objToArr } from '../_helpers'
 import { FlashMessage } from '../_components'
 
 let module = 'users' // module name
+let backPage = '/users'
+let backPageTitle = 'Go to Users'
 
 
 export class UserDetails extends React.Component {
@@ -23,7 +25,11 @@ export class UserDetails extends React.Component {
     super(props)
     const { location } = props
     let model = location.state.model // model supplied from list page
-    if(location.state.module) { module = location.state.module } // override if module is available, ex: user-profile
+    if(location.state.module) { // override if module is available, ex: user-profile
+      module = location.state.module
+      backPage = '/home'
+      backPageTitle = 'Go to home'
+    }
     this.saveChanges = this.props.saveChanges
     if(location.saveProfileChanges) { this.saveChanges = location.saveProfileChanges}
     let initializeModel = {
@@ -344,9 +350,9 @@ export class UserDetails extends React.Component {
       <Button
         color="link"
         ><Link
-          to="/users"
+          to={backPage}
           className="text-danger"
-          title="Go to Users"
+          title={backPageTitle}
           >Cancel</Link>
         </Button><br/>
     </Form>

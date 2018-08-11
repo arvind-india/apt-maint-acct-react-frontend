@@ -95,7 +95,7 @@ export class Register extends React.Component {
 
   userName() {
     const { submitted, user } = this.state
-    return <FormGroup row>
+    return <FormGroup>
       <Col sm={{size: 4, offset: 4}}>
         { user.name && <Label for="userName" size="sm" className="formLabel">User name</Label>}
         <Input
@@ -145,7 +145,7 @@ export class Register extends React.Component {
 
   email() {
     const { submitted, user } = this.state
-    return <FormGroup row>
+    return <FormGroup>
       <Col sm={{size: 4, offset: 4}}>
         {user.email && <Label for="email" size="sm" className="formLabel">Email id</Label>}
         <Input
@@ -195,7 +195,7 @@ export class Register extends React.Component {
   }
 
   buttons() {
-    return <FormGroup row>
+    return <FormGroup>
       <Col sm={{size: 4, offset: 4}}>
         <Button
           type="submit"

@@ -38,8 +38,12 @@ export class UserProfile extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { alert, authentication, authorizations, userProfile } = state
-  const user = jwtDecode(authentication.user.id_token) // logged user
+  const { alert, authentication, authenticationSocial, authorizations, userProfile } = state
+  let id_token = authentication && authentication.user ?
+                    authentication.user.id_token :
+                    authenticationSocial.user.id_token
+  //const user = jwtDecode(authentication.user.id_token) // logged user
+  const user = jwtDecode(id_token) // logged user
   const authzn = authorizations[module]
   return {
     user,

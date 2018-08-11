@@ -144,8 +144,12 @@ export class Users extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { users, alert, authorizations, authentication } = state
-  const user = jwtDecode(authentication.user.id_token) // logged user
+  const { users, alert, authorizations, authentication, authenticationSocial } = state
+  let id_token = authentication && authentication.user ?
+                    authentication.user.id_token :
+                    authenticationSocial.user.id_token
+  //const user = jwtDecode(authentication.user.id_token) // logged user
+  const user = jwtDecode(id_token) // logged user
   const authzn = authorizations[module]
   const trackHistory = true  // added for unit testing; snapshot to be precise
   return {
