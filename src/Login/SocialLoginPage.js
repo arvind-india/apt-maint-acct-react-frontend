@@ -25,6 +25,7 @@ export class SocialLogin extends React.Component {
   constructor(props) {
     super(props)
     // reset login status
+    console.log(`Social Login >> constructor()....logging out existing user, if any`)
     this.props.logout()
   }
 
@@ -61,7 +62,7 @@ export class SocialLogin extends React.Component {
   }
 
   socialLogin(network){
-
+    console.log(`SocialLoginPage >> socialLogin(${network})`)
     let hello = require('hellojs/dist/hello.all.js')
 
     hello.init({
@@ -72,21 +73,20 @@ export class SocialLogin extends React.Component {
         scope: 'email'
       }
     )
-
+    let props = this.props
     hello(network).login().then(socialResponse, error)
 
     function socialResponse() {
       let authResponse = hello(network).getAuthResponse();
       let token = authResponse.access_token;
-      this.props.socialLogin(network, token)
+      console.log(`Social Login Page: Network is: ${network}, token is: ${token}`)
+      props.socialLogin(network, token)
     }
     function error(err) {
       console.error('Social Login Error: ', err)
     }
   }
-
 }
-
 
 function mapStateToProps(state) {
   const { alert } = state

@@ -44,6 +44,7 @@ function login(username, password) {
 }
 
 function socialLogin(network, token) {
+  console.log('user.action >> socialLogin(...)', network)
   return dispatch => {
     dispatch(request({ network }))
     service.socialLogin(network, token)

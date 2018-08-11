@@ -34,6 +34,7 @@ function login(username, password) {
 
 function socialLogin(network, token) {
   let data = { network: network, socialToken: token }
+  console.log(`Social login into network: ${network} with token: ${token}`)
   return http().post('/sociallogin', data)
     .then(handleLoginResponse)
     .catch(handleError)
