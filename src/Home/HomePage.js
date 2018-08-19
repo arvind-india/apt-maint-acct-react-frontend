@@ -48,8 +48,9 @@ export class Home extends React.Component {
         <div className="home-page">
             <br/>
             <h1>{texts.welcomeHead1}</h1>
-            <h1>{texts.welcomeHead2}</h1>
-            <h1>{texts.welcomeHead3}</h1>
+            <h4>{texts.welcomeHead2}</h4>
+            <h3>{texts.welcomeHead3}</h3>
+            <h3>{texts.welcomeHead4}</h3>
             <br/><br/>
             <h4>{texts.welcomeDesc0}</h4>
             <ul>

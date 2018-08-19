@@ -1,6 +1,9 @@
 {
-  "short_name": "Raj-n-Gothai",
-  "name": "Raj-n-Gothai Nivas Maintenance Account",
+  "short_name": "Apt Maint Acct",
+  "name": "Apartment Maintenance Account",
+  "description": "A website on flat maintenance account",
+  "background_color": "#000000",
+  "theme_color": "#0f4a73",
   "icons": [
     {
       "src": "favicon.ico",

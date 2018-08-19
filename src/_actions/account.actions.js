@@ -1,6 +1,7 @@
 import { accountConstants as constants } from '../_constants'
 import { accountService as service } from '../_services'
 import { alertActions } from './'
+import { history } from '../_helpers'
 
 export const accountActions = {
   getListFor,
@@ -103,6 +104,7 @@ function saveChanges(model) {
         .then(
           res => {
             dispatch(success())
+            history.push('/accounts')
             dispatch(alertActions.success('Updated Successfully'))
           },
           error => {
@@ -135,6 +137,7 @@ function saveChanges(model) {
               throw new Error('Failed to add Monthly Account: '+response.message)
             }
             dispatch(success(response))
+            history.push('/accounts')
             dispatch(alertActions.success('Added new Flat Details Successfully'))
           },
           error => {
@@ -152,7 +155,7 @@ function saveChanges(model) {
         )
     }
     function request(model) { return { type: constants.ADD_REQUEST, model } }
-    function success(model) { return { type: constants.ADD_SUCCESS, model } }
+    function success(response) { return { type: constants.ADD_SUCCESS, response } }
     function failure(error) { return { type: constants.ADD_FAILURE, error } }
   }
 

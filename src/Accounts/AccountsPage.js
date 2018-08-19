@@ -38,7 +38,7 @@ export class Accounts extends React.Component {
     this.handleDeleteModel = this.handleDeleteModel.bind(this)
   }
   fromDate() {
-    let date = this.props.getSessionStorage('fromDate')
+    let date = sessionStorage.getItem('fromDate')
     if(!date) {
       date = this.date(DEFAULTS.AccountsInMonths)
     }
@@ -46,7 +46,7 @@ export class Accounts extends React.Component {
   }
 
   toDate() {
-    let date = this.props.getSessionStorage('toDate')
+    let date = sessionStorage.getItem('toDate')
     if(!date) {
       date = this.date()
     }
@@ -118,8 +118,10 @@ export class Accounts extends React.Component {
   }
   getAccounts() {
     const { fromDate, toDate } = this.state
-    this.props.setSessionStorage('fromDate', fromDate)
-    this.props.setSessionStorage('toDate', toDate)
+    //this.props.setSessionStorage('fromDate', fromDate)
+    //this.props.setSessionStorage('toDate', toDate)
+    sessionStorage.setItem('fromDate', fromDate)
+    sessionStorage.setItem('toDate', toDate)
     this.props.getListFor(fromDate, toDate)
   }
   showList(){
@@ -238,12 +240,6 @@ function mapDispatchToProps(dispatch) {
     },
     delete: (id) => {
       dispatch(actions.delete(id))
-    },
-    setSessionStorage: (key, value) => {
-      sessionStorage.setItem(key, value)
-    },
-    getSessionStorage: (key) => {
-      sessionStorage.getItem(key)
     }
   }
 }

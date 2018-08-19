@@ -16,7 +16,7 @@ import { accountActions as actions,
          flatActions
 } from '../_actions'
 
-import { CATEGORIES, MONTHS } from '../_constants'
+import { CATEGORIES, MONTHS, DEFAULTS } from '../_constants'
 import { FlashMessage } from '../_components'
 
 
@@ -341,8 +341,8 @@ export class AccountDetails extends React.Component {
           value={model.for_year}
           placeholder="Year here"
           className="inputField"
-          min="2013"
-          max="2030"
+          min={DEFAULTS.AccountsMinYear}
+          max={DEFAULTS.AccountsMaxYear}
           onChange={this.handleChange}
         />
         {submitted && !model.for_year
@@ -371,7 +371,7 @@ export class AccountDetails extends React.Component {
 
   showCrdr() {
     const { model } = this.state
-    let rtype = model && model.crdr?model.crdr:''
+    let rtype = model && model.crdr?model.crdr.toLowerCase():''
 
     return <div data-field-span="1">
         <Label>Collection/Expenditure</Label>
@@ -423,13 +423,14 @@ export class AccountDetails extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const { alert, authorizations, users, flats } = state
+  const { alert, authorizations, users, flats, accountDetails } = state
   const authzn = authorizations[module]
   return {
     alert,
     authzn,
     users,
-    flats
+    flats,
+    accountDetails
   }
 }
 
