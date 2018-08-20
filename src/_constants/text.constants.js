@@ -1,12 +1,12 @@
 export const texts = {
   brand: 'Raj and Gothai Nivas',
-  welcomeHead1: 'Welcome',
+  welcomeHead1: 'W E L C O M E',
   welcomeHead2: 'to',
-  welcomeHead3: 'Maintenance',
-  welcomeHead4: 'Account',
-  welcomeDesc0: 'it enables features such as...',
-  welcomeDesc1: 'online tracking!',
-  welcomeDesc2: 'transparency',
-  welcomeDesc3: 'easy transitioning to next in-charge',
-  welcomeDesc4: 'view on mobile'
+  welcomeHead3: 'MAINTENANCE',
+  welcomeHead4: 'ACCOUNT',
+  welcomeDesc0: 'it enables ...',
+  welcomeDesc1: 'Online Tracking!',
+  welcomeDesc2: 'Transparency',
+  welcomeDesc3: 'Easy Transitioning to Next In-charge',
+  welcomeDesc4: 'View on Mobile Devices'
 }

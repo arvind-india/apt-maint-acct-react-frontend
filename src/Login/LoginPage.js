@@ -21,8 +21,8 @@ export class Login extends React.Component { // exports unconnected component; u
     // reset login status
     this.props.logout()
     this.state = {
-      email: 'guest@eastgate.in',
-      password: 'password123',
+      email: '',
+      password: '',
       submitted: false
     }
     this.handleChange = this.handleChange.bind(this)
